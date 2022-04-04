@@ -2,6 +2,7 @@ const multer = require("multer");
 const fs = require("fs");
 const xml2js = require("xml2js");
 const jsonQuery = require("json-query");
+const path = require("path");
 //---------------------------------------------------------------------------------
 /**
  * Models
@@ -141,20 +142,23 @@ const uploadFile = (destination) => {
 
 //---------------------------------------------------------------------------------
 // Deleting the file
-const deleteFile = async (path) => {
-  fs.access(path, fs.F_OK, async (err, ac) => {
-    if (err) {
-      return "Error occurred";
-    } else {
-      await fs.unlink(path, (ferr, fc) => {
-        if (ferr) {
-          return "Error Occurred On File Deletion!";
-        } else {
-          return "File deleted successfully!";
-        }
-      });
-    }
-  });
+const deleteFile = async (link) => {
+  setTimeout(() => {
+    link = path.resolve(__dirname + "/../../" + link);
+    fs.access(link, fs.F_OK, async (err, ac) => {
+      if (err) {
+        return "Error occurred while deleting...";
+      } else {
+        await fs.unlink(link, (ferr, fc) => {
+          if (ferr) {
+            return "Error Occurred On File Deletion!";
+          } else {
+            return "File deleted successfully!";
+          }
+        });
+      }
+    });
+  }, 5000);
 };
 
 const uploadLicense = (filePath, licenseName) => {

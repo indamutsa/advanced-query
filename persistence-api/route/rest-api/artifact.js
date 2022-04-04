@@ -149,7 +149,7 @@ router.post(
   upload("metamodels").single("file"),
   async (req, res) => {
     let folder = req.originalUrl.split("/").pop();
-    req.folder = folder;
+    req.folder = folder + "s";
 
     try {
       const p_id = req.data ? req.data.project : req.body.project;
@@ -705,18 +705,18 @@ router.delete("/metamodel/:id", async (req, res) => {
  */
 router.post("/model", upload("models").single("file"), async (req, res) => {
   let folder = req.originalUrl.split("/").pop();
-  req.folder = folder;
+  req.folder = folder + "s";
 
   try {
     const p_id = req.body.project;
 
     if (!p_id) {
-      logger.error("Project metamodel id");
+      logger.error("Project project id");
 
       await deleteFile(
         `./localStorage/artifacts/${req.folder}/` + req.file.filename
       );
-      return { code: 500, message: "Missing metamodel id" };
+      return { code: 500, message: "Missing project id" };
     }
 
     const data = await uploadModel(req);
@@ -769,7 +769,7 @@ const uploadModel = async (req, res) => {
         }
 
         await deleteFile(
-          `./localStorage/artifacts/${req.folder}/` + req.file.filename
+          `/localStorage/artifacts/${req.folder}/` + req.file.filename
         );
 
         return {
@@ -806,7 +806,7 @@ const uploadModel = async (req, res) => {
       const model = {
         name: req.file.originalname,
         unique_name: req.file.filename,
-        metamodel: metamodel ? metamodel?._id : "orphan",
+        metamodel: metamodel?._id,
         project: req.body.project,
         ext: fileExt,
         // artifact: savedArtifact._id,
@@ -868,10 +868,6 @@ const uploadModel = async (req, res) => {
 
       logger.info("Model uploaded successfully!");
 
-      await deleteFile(
-        `./localStorage/artifacts/${req.folder}/` + req.file.filename
-      );
-
       return {
         code: 200,
         message: "Model uploaded successfully!",
@@ -897,6 +893,10 @@ const uploadModel = async (req, res) => {
     }
   } catch (err) {
     logger.error(err.toString());
+    console.log(
+      "dsjdlksjdkjs ================",
+      `./localStorage/artifacts/${req.folder}/` + req.file.filename
+    );
 
     await deleteFile(
       `./localStorage/artifacts/${req.folder}/` + req.file.filename
@@ -1311,7 +1311,7 @@ router.post("/script", upload("scripts").single("file"), async (req, res) => {
   //   return { code: 500, message: "Missing project id" };
   // }
   let folder = req.originalUrl.split("/").pop();
-  req.folder = folder;
+  req.folder = folder + "s";
 
   try {
     const p_id = req.data ? req.data.project : req.body.project;

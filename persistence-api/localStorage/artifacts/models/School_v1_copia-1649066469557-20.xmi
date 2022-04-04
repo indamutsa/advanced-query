@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oopl:Program
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:oopl="http://SimpleOOPL/1.0"
+    xsi:schemaLocation="http://SimpleOOPL/1.0 SimpleOOP.ecore"
+    pName="School">
+  <classes name="School">
+    <attributes
+        attrName="name"
+        attrType="EString"/>
+    <attributes
+        attrName="address"
+        attrType="EString"/>
+  </classes>
+  <classes name="Professor">
+    <attributes
+        attrName="id"
+        attrType="EString"/>
+    <attributes
+        attrName="name"
+        attrType="EString"/>
+    <attributes
+        attrName="last_name"
+        attrType="EString"/>
+    <methods
+        name="addTeacher"
+        returnType="EInt"/>
+    <methods
+        name="updateTeacherInformation"
+        returnType="EInt"/>
+  </classes>
+  <classes name="Year">
+    <attributes
+        attrName="starting_date"
+        attrType="EInt"/>
+  </classes>
+  <classes name="Class">
+    <attributes
+        attrName="subject"
+        attrType="EString"/>
+    <attributes
+        attrName="weight"
+        attrType="EInt"/>
+    <attributes
+        attrName="credit"
+        attrType="EInt"/>
+    <methods
+        name="deleteClass"
+        returnType="Eint"/>
+    <methods
+        name="assignProfessor"
+        returnType="Eint"/>
+  </classes>
+  <classes name="Student">
+    <attributes
+        attrName="id"
+        attrType="EInt"/>
+    <attributes
+        attrName="name"
+        attrType="EString"/>
+  </classes>
+</oopl:Program>
