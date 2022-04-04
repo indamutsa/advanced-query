@@ -1,0 +1,4 @@
+{
+  "password": "app_password",
+  "jwtPrivateKey": "app_jwt_private_key"
+}

@@ -1,0 +1,14 @@
+/mongo-bundle/replica/mongo-rs0-1/data
+/mongo-bundle/replica/mongo-rs0-2/data
+/mongo-bundle/replica/mongo-rs0-3/data
+/persistence-api/logs/server.log
+persistence-api/logs/server.log
+/mongo-bundle/sharded/mongo_cluster/data1
+/mongo-bundle/sharded/mongo_cluster/data2
+/mongo-bundle/sharded/mongo_cluster/data3
+/mongo-bundle/sharded/mongo_cluster/data4
+/mongo-bundle/sharded/mongo_cluster/data5
+/mongo-bundle/sharded/mongo_cluster/data6
+/mongo-bundle/sharded/mongo_cluster/config1
+/mongo-bundle/sharded/mongo_cluster/config2
+/mongo-bundle/sharded/mongo_cluster/config3

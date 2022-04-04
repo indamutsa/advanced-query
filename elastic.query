@@ -1,0 +1,2264 @@
+PUT employees/_mapping
+{
+  "properties": {
+    "date_of_birth": {
+      "type": "date",
+      "format": "dd/MM/yyyy"
+    }
+  }
+}
+
+
+POST _bulk
+{ "index" : { "_index" : "employees", "_id" : "1" } }
+{"id":1,"name":"Huntlee Dargavel","email":"hdargavel0@japanpost.jp","gender":"male","ip_address":"58.11.89.193","date_of_birth":"11/09/1990","company":"Talane","position":"Research Associate","experience":7,"country":"China","phrase":"Multi-channelled coherent leverage","salary":180025}
+{ "index" : { "_index" : "employees", "_id" : "2" } }
+{"id":2,"name":"Othilia Cathel","email":"ocathel1@senate.gov","gender":"female","ip_address":"3.164.153.228","date_of_birth":"22/07/1987","company":"Edgepulse","position":"Structural Engineer","experience":11,"country":"China","phrase":"Grass-roots heuristic help-desk","salary":193530}
+{ "index" : { "_index" : "employees", "_id" : "3" } }
+{"id":3,"name":"Winston Waren","email":"wwaren2@4shared.com","gender":"male","ip_address":"202.37.210.94","date_of_birth":"10/11/1985","company":"Yozio","position":"Human Resources Manager","experience":12,"country":"China","phrase":"Versatile object-oriented emulation","salary":50616}
+{ "index" : { "_index" : "employees", "_id" : "4" } }
+{"id" : 4,"name" : "Alan Thomas","email" : "athomas2@example.com","gender" : "male","ip_address" : "200.47.210.95","date_of_birth" : "11/12/1985","company" : "Yamaha","position" : "Resources Manager","experience" : 12,"country" : "China","phrase" : "Emulation of roots heuristic coherent systems","salary" : 300000}
+
+
+
+# 1. Match Query
+# -----------------------
+# Let us search for the word “heuristic” contained in the field called “phrase” in the documents we ingested earlier.
+POST employees/_search
+{
+  "query": {
+    "match": {
+      "phrase": {
+        "query" : "heuristic"
+      }
+    }
+  }
+}
+
+# What happens if we want to search for more than one word? Using the same query we just performed, 
+# let’s search for “heuristic roots help”:
+
+# This returns the same document as before because by default, Elasticsearch treats each word 
+# in the search query with an OR operator. 
+# In our case, the query will match any document which contains “heuristic” OR “roots” OR “help”
+POST employees/_search
+{
+  "query": {
+    "match": {
+      "phrase": {
+        "query" : "heuristic roots help"
+      }
+    }
+  }
+}
+
+
+# The default behavior of the OR operator being applied to multi-word searches can be changed using 
+# the “operator” parameter passed along with the “match” query.
+# We can specify the operator parameter with “OR” or “AND” values.
+# Let’s see what happens when we provide the operator parameter “AND” in the same query we performed earlier.
+
+# Now the results will return only one document (document id=2) since that is the only document 
+# containing all three search keywords in the “phrase” field.
+POST employees/_search
+{
+  "query": {
+    "match": {
+      "phrase": {
+        "query" : "heuristic roots help",
+        "operator" : "AND"
+      }
+    }
+  }
+}
+
+
+# minimum_should_match
+# ----------------------------
+# Taking things a bit further, we can set a threshold for a minimum amount of matching words that the document must contain. For example, 
+# if we set this parameter to 1, the query will check for any documents with a minimum of 1 matching word.
+# Now if we set the “minium_should_match” parameter to 3, then all three words must appear in the document in order to be classified as a match.
+# In our case, the following query would return only 1 document (with id=2) as that is the only one matching our criteria
+
+POST employees/_search
+{
+  "query": {
+    "match": {
+      "phrase": {
+        "query" : "heuristic roots help",
+        "minimum_should_match": 3
+      }
+    }
+  }
+}
+
+
+# 1.1 Multi-Match Query
+# So far we’ve been dealing with matches on a single field – that is we searched for 
+# the keywords inside a single field named “phrase”.
+# But what if we needed to search keywords across multiple fields in a document? 
+# This is where the multi-match query comes into play.
+# Let’s try an example search for the keyword “research help” in the “position” and “phrase” fields contained in the documents.
+
+
+POST employees/_search
+{
+  "query": {
+    "multi_match": {
+        "query" : "research help"
+        , "fields": ["position","phrase"]
+    }
+  }
+}
+
+# 1.2 Match Phrase
+# -----------------------
+# Match_phrase is another commonly used query which, like its name indicates, matches phrases in a field.
+# If we needed to search for the phrase “roots heuristic coherent” in the “phrase” field in the employee index, 
+# we can use the “match_phrase” query:
+
+GET employees/_search
+{
+  "query": {
+    "match_phrase": {
+      "phrase": {
+        "query": "roots heuristic coherent"
+      }
+    }
+  }
+}
+
+# Slop Parameter
+# ------------------------
+# A useful feature we can make use of in the match_phrase query is the “slop” parameter which allows us 
+# to create more flexible searches.
+# Suppose we searched for “roots coherent” with the match_phrase query. 
+# We wouldn’t receive any documents returned from the employee index. 
+# This is because for match_phrase to match, the terms need to be in the exact order.
+# Now, let’s use the slop parameter and see what happens:
+
+GET employees/_search
+{
+  "query": {
+    "match_phrase": {
+      "phrase": {
+        "query": "roots coherent",
+        "slop": 1
+      }
+    }
+  }
+}
+
+# 1.3 Match Phrase Prefix
+# ------------------------
+# The match_phrase_prefix query is similar to the match_phrase query, but here the last term of the search keyword 
+# is considered as a prefix and is used to match any term starting with that prefix term.
+# First, let’s insert a document into our index to better understand the match_phrase_prefix query:
+PUT employees/_doc/5
+{
+  "id": 4,
+  "name": "Jennifer Lawrence",
+  "email": "jlaw@example.com",
+  "gender": "female",
+  "ip_address": "100.37.110.59",
+  "date_of_birth": "17/05/1995",
+  "company": "Monsnto",
+  "position": "Resources Manager",
+  "experience": 10,
+  "country": "Germany",
+  "phrase": "Emulation of roots heuristic complete systems",
+  "salary": 300000
+}
+
+# Now let’s apply the match_phrase_prefix:
+GET employees/_search
+{
+"_source": [ "phrase", "name" ],
+  "query": {
+    "match_phrase_prefix": {
+      "phrase": {
+        "query": "roots heuristic co"
+      }
+    }
+  }
+}
+
+# In the results below, we can see that the documents with coherent and complete matched the query. 
+# We can also use the slop parameter in the “match_phrase” query.
+
+
+
+# 2. Term Level Queries
+# Term level queries are used to query structured data, which would usually be the exact values.
+
+# This is the simplest of the term level queries. 
+# This query searches for the exact match of the search keyword against the field in the documents.
+
+# For example, if we search for the word “Male” using the term query against the field “gender”, 
+# it will search exactly as the word is, even with the casing.
+# This can be demonstrated by the below two queries:
+
+POST employees/_search
+{
+  "query": {
+    "term": {
+      "position": {
+        "value": "resources"
+      }
+    }
+  }
+}
+
+# We can also pass multiple terms to be searched on the same field, by using the terms query. 
+# Let us search for “female” and “male” in the gender field. For that, we can use the terms query as below:
+POST employees/_search
+{
+  "query": {
+    "terms": {
+      "gender": [
+        "female",
+        "male"
+      ]
+    }
+  }
+}
+
+
+# 2.2 Exists Queries
+# ------------------------
+# Sometimes it happens that there is no indexed value for a field, or the field does not exist in the document. 
+# In such cases, it helps in identifying such documents and analyzing the impact.
+# For example, let us index a document like below to the “employees” index
+PUT employees/_doc/6
+{
+  "id": 6,
+  "name": "Michael Bordon",
+  "email": "mbordon@example.com",
+  "gender": "male",
+  "ip_address": "10.47.210.65",
+  "date_of_birth": "12/12/1995",
+  "position": "Resources Manager",
+  "experience": 12,
+  "country": null,
+  "phrase": "Emulation of roots heuristic coherent systems",
+  "salary": 300000
+}
+
+# This document has no field named “company” and the value of the “country” field is null
+# Now if we want to find the documents with the field “company”, we can use the exist query as below:
+GET employees/_search
+{
+    "query": {
+        "exists": {
+            "field": "company"
+        }
+    }
+}
+
+# Perhaps a more useful solution would be to list all the documents without the “company” field. 
+# This can also be achieved by using the exist query as below
+GET employees/_search
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "exists": {
+            "field": "company"
+          }
+        }
+      ]
+    }
+  }
+}
+
+# 2.3 Range Queries
+# Another most commonly used query in the Elasticsearch world is the range query. 
+# The range query allows us to get the documents that contain the terms within the specified range. 
+# Range query is a term level query (means using to query structured data) and can be used against numerical fields, date fields, etc.
+
+# Range query on numeric fields
+POST employees/_search
+{
+    "query": {
+        "range" : {
+            "experience" : {
+                "gte" : 5,
+                "lte" : 10
+            }
+        }
+    }
+}
+
+# Range query on date fields
+GET employees/_search
+{
+    "query": {
+        "range" : {
+            "date_of_birth" : {
+                "gte" : "01/01/1986"
+            }
+        }
+    }
+}
+# This will fetch us the documents which have the date_of_birth fields only after the year 1986
+
+# 2.4 Ids Queries
+# The ids query is a relatively less used query but is one of the most useful ones and hence qualifies to be in this lis.
+# There are occasions when we need to retrieve documents based on their IDs. This can be achieved using a single get request as below:
+# In the below example we are fetching documents with ids 1 and 4 from the employee index with a single request.
+POST employees/_search
+{
+    "query": {
+        "ids" : {
+            "values" : ["1", "4"]
+        }
+    }
+}
+
+# 2.5 Prefix Queries
+# The prefix query is used to fetch documents that contain the given search string as the prefix in the specified field.
+# Suppose we need to fetch all documents which contain “al” as the prefix in the field “name”, then we can use the prefix query as below:
+GET employees/_search
+{
+  "query": {
+    "prefix": {
+      "name": "al"
+    }
+  }
+}
+
+# Since the prefix query is a term query, it will pass the search string as it is. 
+# That is searching for “al” and “Al” is different. If in the above example, we search for “Al”, 
+# we will get 0 results as there is no token starting with “Al” in the inverted index of the field “name”. 
+GET employees/_search
+{
+  "query": {
+    "prefix": {
+      "name.keyword": "Al"
+    }
+  }
+}
+
+# 2.6 Wildcard Queries
+# Will fetch the documents that have terms that match the given wildcard pattern.
+# For example, let us search for “c*a” using the wildcard query on the field “country” like below:
+GET employees/_search
+{
+    "query": {
+        "wildcard": {
+            "country": {
+                "value": "c*a"
+            }
+        }
+    }
+}
+# The above query will fetch all the documents with the “country” name starting with “c” and ending with “a”
+
+
+# 2.7 Regexp
+# This is similar to the “wildcard” query we saw above but will accept regular expressions as 
+# input and fetch documents matching those.
+GET employees/_search
+{
+  "query": {
+    "regexp": {
+      "position": "res[a-z]*"
+    }
+  }
+}
+# The above query will get us the documents matching the words that match the regular expression res[a-z]*
+
+# 2.8 Fuzzy
+# The Fuzzy query can be used to return documents containing terms similar to that of the search term. 
+# This is especially good when dealing with spelling mistakes.
+# We can get results even if we search for “Chnia” instead of “China”, using the fuzzy query.
+# Let us have a look at an example
+GET employees/_search
+{
+  "query": {
+    "fuzzy": {
+      "country": {
+        "value": "Chnia",
+        "fuzziness": "2"
+      }
+    }
+  }
+}
+
+# Fuzzy queries can also come in with the “match” query types. 
+# The following example shows the fuzziness being used in a multi_match query
+POST employees/_search
+{
+    "query": {
+        "multi_match" : {
+            "query" : "heursitic reserch",
+            "fields": ["phrase","position"],
+            "fuzziness": 2
+        }
+    },
+    "size": 10
+}
+# The above query will return the documents matching either “heuristic” or “research” 
+# despite the spelling mistakes in the query.
+
+
+# 3. Boosting
+# While querying, it is often helpful to get the more favored results first. 
+# The simplest way of doing this is called boosting in Elasticsearch. 
+# And this comes in handy when we query multiple fields. For example, consider the following query:
+POST employees/_search
+{
+    "query": {
+        "multi_match" : {
+            "query" : "versatile Engineer",
+            "fields": ["position^3", "phrase"]
+        }
+    }
+}
+
+POST employees/_search
+{
+    "query": {
+        "multi_match" : {
+            "query" : "versatile Engineer",
+            "fields": ["position", "phrase"]
+        }
+    }
+}
+
+# This will return the response with the documents matching the “position” field to be in the top 
+# rather than with that of the field “phrase”.
+
+# 4. Sorting
+
+# 4.1 Default Sorting
+
+# When there is no sort parameter specified in the search request, Elasticsearch returns the document based 
+# on the descending values of the “_score” field. This “_score” is computed by how well the query has matched using 
+# the default scoring methodologies of Elasticsearch. In all the examples we have discussed above you can see the 
+# same behavior in the results. It is only when we use the “filter” context there is no scoring computed, 
+# so as to make the return of the results faster.
+
+GET /_search
+{
+  "_source": ["country"],
+  "query": {
+    "match": {
+      "country": "china"
+    }
+  }
+}
+
+
+GET /_search
+{
+  "_source": ["country"],
+  "query": {
+    "bool": {
+      "filter": {
+        "match": {
+          "country": "China"
+        }
+      }
+    }
+  }
+}
+
+# 4.2 How to Sort by a Field
+# Elasticsearch gives us the option to sort on the basis of a field. Say, let us need to sort the employees 
+# based on their descending order of experience. We can use the below query with the sort option enabled to achieve that:
+GET employees/_search
+{
+   "_source": ["name","experience","salary"], 
+  "sort": [
+    {
+      "experience": {
+        "order": "desc"
+      }
+    }
+  ]
+}
+
+# As you can see from the above response, the results are ordered based on the descending values of the employee experience.
+# Also, there are two employees, with the same experience level as 12.
+
+
+
+# 4.3 How to Sort by Multiple Fields
+# In the above example, we saw that there are two employees with the same experience level of 12, but we need to sort again based on the descending order of the salary. We can provide multiple fields for sorting too, as shown in the query demonstrated below:
+
+GET employees/_search
+{
+  "_source": [
+    "name",
+    "experience",
+    "salary"
+  ],
+  "sort": [
+    {
+      "experience": {
+        "order": "desc"
+      }
+    },
+    {
+      "salary": {
+        "order": "desc"
+      }
+    }
+  ]
+}
+
+
+# 5. Compound Queries
+# So far, in the tutorial, we have seen that we fired single queries, like finding a text match or finding the age ranges, etc. But more often in the real world, we need multiple conditions to be checked and documents to be returned based on that. 
+
+# 5.1. The Bool Query
+# Bool query provides a way to combine multiple queries in a boolean manner. That is for example if we want to retrieve all the documents with the keyword “researcher” in the field “position” and those who have more than 12 years of experience we need to use the combination of the match query and that of the range query. This kind of query can be formulated using the bool query. The bool query has mainly 4 types of occurrences defined:
+
+# must The conditions or queries in this must occur in the documents to consider them a match. Also, this contributes to the score value.  
+# should The conditions/queries should match.   Result = query A OR query B
+# filter Same a the must clause, but the score will be ignored
+# must_not The conditions/queries specified must not occur in the documents. Scoring is ignored and kept as 0 as the results are ignored.
+
+POST _search
+{
+  "query": {
+    "bool" : {
+      "must" : [],
+      "filter": [],
+      "must_not" : [],
+      "should" : []
+    }
+  }
+}
+
+# Bool Query Example 1 – Must
+# In our example, let us say, we need to find all employees who have 12 years’ experience or more AND are also having “manager” word in the “position” field. We can do that with the following bool query
+POST employees/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "position": "manager"
+          }
+        },
+        {
+          "range": {
+            "experience": {
+              "gte": 12
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# Bool Query Example 2 – Filter
+# The previous example demonstrated the “must” parameter in the bool query. You can see in the results of the previous example that the results had values in the “_score” field. Now let us use the same query, but this time let us replace the “must” with “filter” and see what happens:
+
+POST employees/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "match": {
+            "position": "manager"
+          }
+        },
+        {
+          "range": {
+            "experience": {
+              "gte": 12
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# Bool Query Example 3 – Should
+# Now, let us see the effect of the “should” section in the bool query. Let us add a should clause in the above example’s query. This “should” condition is to match documents that contain the text “versatile” in the “phrase” fields of the documents. The query for this would look like below:
+
+POST employees/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "position": "manager"
+          }
+        },
+        {
+          "range": {
+            "experience": {
+              "gte": 12
+            }
+          }
+        }
+      ],
+    "should": [
+      {
+        "match": {
+          "phrase": "versatile"
+        }
+      }
+    ]
+    }
+  }
+}
+
+# Bool Query Example 4 – Multiple Conditions
+# A real-world example of a bool query might be more complex than the above simple ones. What if users want to get employees who might be from the companies “Yamaha” or “Telane”, and are of the title “manager” or “associate”, with a salary greater than 100,000.
+
+# (company = Yamaha OR company = Yozio ) AND (position = manager OR position = associate ) AND (salary>=100000)
+
+POST employees/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "bool": {
+            "should": [
+              {
+                "match": {
+                  "company": "Talane"
+                }
+              },
+              {
+                "match": {
+                  "company": "Yamaha"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "bool": {
+            "should": [
+              {
+                "match": {
+                  "position": "manager"
+                }
+              },
+              {
+                "match": {
+                  "position": "Associate"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "bool": {
+            "must": [
+              {
+                "range": {
+                  "salary": {
+                    "gte": 100000
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+# 5.2. Boosting Queries
+# Sometimes, there are requirements in the search criteria where we need to demote certain search results but do not want to omit them from the search results altogether. In such cases, boosting the query would become handy. Let us go through a simple example to demonstrate this.
+
+POST  employees/_search
+{
+    "query": {
+        "boosting" : {
+            "positive" : {
+                "match": {
+                  "country": "china"
+                }
+            },
+            "negative" : {
+                 "match": {
+                  "company": "Talane"
+                }
+            },
+            "negative_boost" : 0.5
+        }
+    }
+}
+
+# We can apply any query to the “positive” and “negative” sections of the boosting query. This is good when we need to apply multiple conditions with a bool query. An example of such a query is given below:
+
+GET employees/_search
+{
+  "query": {
+    "boosting": {
+      "positive": {
+        "bool": {
+          "should": [
+            {
+              "match": {
+                "country": {
+                  "query": "china"
+                }
+              }
+            },
+            {
+              "range": {
+                "experience": {
+                  "gte": 10
+                }
+              }
+            }
+          ]
+        }
+      },
+      "negative": {
+        "match": {
+          "gender": "female"
+        }
+      },
+      "negative_boost": 0.5
+    }
+  }
+}
+
+
+# 5.3 Function Score Queries
+# The function_score query enables us to change the score of the documents that are returned by a query. The function_score query requires a query and one or more functions to compute the score. If no functions are mentioned, the query is executed as normal.
+
+GET employees/_search
+{
+  "_source": ["position"],
+  "query": {
+    "match": {
+      "position": "manager"
+    }
+  }
+}
+
+GET employees/_search
+{
+  "_source": [
+    "position"
+  ],
+  "query": {
+    "function_score": {
+      "query": {
+        "match": {
+          "position": "manager"
+        }
+      },
+      "boost": 5,
+      "boost_mode": "multiply"
+      
+    }
+  }
+}
+
+# 5.3.1 function_score: weight 
+# The weight score allows you to multiply the score by the provided weight. The weight can be defined per function in the functions array (example above) and is multiplied with the score computed by the respective function
+GET employees/_search
+{
+"_source": ["position","phrase"], 
+  "query": {
+    "function_score": {
+      "query": {
+        "match": {
+          "position": "manager"
+        }
+      },
+      "functions": [
+        {
+          "filter": {
+            "match": {
+              "phrase": "coherent"
+            }
+          },
+          "weight": 2
+        },
+        {
+          "filter": {
+            "match": {
+              "phrase": "emulation"
+            }
+          },
+          "weight": 10
+        }
+      ],
+      "score_mode": "multiply", 
+      "boost": "5",
+      "boost_mode": "multiply"
+    }
+  }
+}
+
+
+# 5.3.2  function_score: script_score
+# It often occurs that we need to compute the score based on one or more fields/fields and for that the default scoring mechanism is not sufficient. Elasticsearch provides us with the “script_score” score function to compute the score based on custom requirements. Here we can provide a script, which will return the score for each document based on the custom logic on the fields.
+
+GET employees/_search
+{
+  "_source": [
+    "name",
+    "experience",
+    "salary"
+  ],
+  "query": {
+    "function_score": {
+      "query": {
+        "match_all": {}
+      },
+      "functions": [
+        {
+          "script_score": {
+            "script": {
+              "source": "(doc['salary'].value/doc['experience'].value)/1000"
+            }
+          }
+        }
+      ],
+      "boost_mode": "replace"
+    }
+  }
+}
+
+# 5.3.3 function_score: field_value_factor
+# We can make use of a field from the document to influence the score by using the “field_value_factor” function. This is in some ways a simple alternative to “script_score”. In our example, let us make use of the “experience” field value to influence our score as below
+GET employees/_search
+{
+  "_source": ["name","experience"], 
+    "query": {
+        "function_score": {
+            "field_value_factor": {
+                "field": "experience",      
+                 "factor": 0.5,
+                "modifier": "square",
+                "missing": 1
+            }
+        }
+    }
+}
+
+# 5.3.4 function_score: Decay Functions
+# --------------------------------------------
+# Consider the use case of searching for hotels near a location. For this use case, the nearer the hotel is, the more relevant the search results are, but when it is farther, the search becomes insignificant. Or to refine it further, if the hotel is farther than, say a walkable distance of 1km from the location, the search results should show a rapid decline in the score. Whereas the ones inside the 1km radius should be scored higher.
+# For this kind of use case, a decaying mode of scoring is the best choice, ie the score will start to decay from the point of interest. We have score functions in Elasticsearch for this purpose and they are called the decay functions. There are three types of decay functions, namely “gauss”, “linear” and “exponential” or “exp”.
+
+GET employees/_search
+{
+  "_source": [
+    "name",
+    "salary"
+  ],
+  "query": {
+    "function_score": {
+      "query": {
+        "match_all": {}
+      },
+      "functions": [
+       {
+         "gauss": {
+           "salary": {
+             "origin": 200000,
+             "scale": 30000
+           }
+         }
+       }
+      ],
+      "boost_mode": "replace"
+    }
+  }
+}
+
+
+# 8.1 The query_string Query
+# The “query_string” query is a special multi-purpose query, which can club the usage of several other queries like “match”,”multi-match”, “wildcard”, regexp” etc. The “query_string” query follows a strict format and the violation of it would output error messages. Hence, even with its capabilities, it is seldom used for the implementation of user-facing search boxes.
+# Let us see a sample query in action:
+
+POST employees/_search
+{
+  "query": {
+    "query_string": {
+      "query": "(roots heuristic systems) OR (enigneer~) OR (salary:(>=10000 AND <=52000)) ",
+      "fields": [
+        "position",
+        "phrase^3"
+      ]
+    }
+  }
+}
+# The above query will search for the words “roots” OR “heuristic” OR “systems” OR “engineer” (the usage of ~ in the query indicates the usage of a fuzzy query) in the fields “position” and “phrase” and return the results. “phrase^3” indicates the matches found on the field “phrase” should be boosted by a factor of 3. The salary:(>10000 AND <=52000), indicates to fetch the documents which have the value of the field “salary”, falling between 10000 and 52000
+
+# 8.2 The simple_query_string query
+# The “simple_query_string” query is a simplified form of the query_string_query with two major differences
+# It is more fault-tolerant, which means, it does not return errors if the syntax is wrong. Rather it ignores the faulty part of the query. This makes it more friendly for user interface search boxes.
+# The operators AND/OR/NOT etc are replaced with +/|/-
+
+POST employees/_search
+{
+  "query": {
+    "simple_query_string": {
+      "query": "(roots) | (resources manager) + (male) ",
+      "fields": [
+        "gender",
+        "position",
+        "phrase^3"
+      ]
+    }
+  }
+}
+
+# 8.3 Named Queries
+# Named queries as the name suggests, are all about the naming of queries. There are scenarios when it helps us to identify which part/parts of the query matched the document. Elasticsearch provides us that exact feature by allowing us to name the query or parts of the query so as to see these names with the matching documents.
+
+POST employees/_search
+{
+  "query": {
+    "match": {
+      "phrase": {
+        "query": "roots",
+        "_name": "phrase_query_field"
+      }
+    }
+  }
+}
+
+
+POST employees/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "match": {
+            "phrase": {
+              "query": "roots",
+              "_name": "phrase query"
+            }
+          }
+        },
+        {
+          "match": {
+            "gender": {
+              "query": "female",
+              "_name": "gender query"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+POST employees/_search
+{
+  "query": {
+    "query_string": {
+      "query": "(company:'Yamaha' OR company:'Yozio' ) AND (position:'manager' OR position:'associate')"
+    }
+  }
+}
+
+
+# ------------------------------------------------------ ########################## ------------------------
+GET mdeforge.*/_search
+{
+  "query": {
+    "query_string": {
+      "query": "this AND and"
+    }
+  }
+}
+
+GET mdeforge.metamodels/_search
+{
+  "_source": ["name"], 
+  "query": {
+    "match": {
+      "name": "SimpleOOP.ecore"
+    }
+  }
+}
+
+
+GET mdeforge.transformations/_search
+
+GET mdeforge.metamodels/_search
+{
+  "query": {
+    "match_phrase": {
+      "_id": "62340739a98e0b0014e9d1e8"
+    }
+  }
+}
+
+GET mdeforge.workspaces/_search
+
+GET mdeforge.projects/_search
+
+GET mdeforge.metamodels/_search
+{
+  "query": {
+    "query_string": {
+      "default_field": "content", 
+      "query": "(upperBound=\"-1\" eType=\"#//command/IAdvise\") AND mounted AND name"
+    }
+  }
+}
+
+GET _cat/indices
+
+#{
+#  "query": {
+#    "match_phrase": {
+#      "_id": "6231c37c185f1e00140ece30"
+#    }
+#  }
+#}
+
+GET mdeforge.models/_search
+{
+  "size": -1
+}
+
+GET mdeforge.dsls/_search
+
+# =======================================================================
+GET mdeforge.*/_search
+{
+  "size": -1,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "ext": "ECORE"
+          }
+        },
+        {
+          "match": {
+            "content": {
+              "query": "HTMLElement instanceTypeName", 
+              "minimum_should_match": 1
+            }
+          }
+        }
+      ]
+    }
+  }
+} 
+
+GET mdeforge.metamodels/_search
+
+
+# =======================================================================
+
+GET mdeforge.users/_search
+{
+  "query": {
+    "match_phrase": {
+      "_id": "62276d532420ff001363643f"
+    }
+  }
+}
+
+GET mdeforge.workspaces/_search
+{
+  "query": {
+    "match_phrase": {
+      "owner": "62276d532420ff001363643f"
+    }
+  }
+}
+
+GET mdeforge.metamodels/_search
+{
+  "query": {
+    "match": {
+      "content": "<eStructuralFeatures xsi:type=\"ecore:EReference\" name=\"elements\" upperBound=\"-1\" eType=\""
+    }
+  }
+}
+
+GET mdeforge.models/_search
+{
+  "query": {
+    "match": {
+      "content": "MaxWaitingTime"
+    }
+  }
+}
+
+
+GET mdeforge.*/_search
+{
+  "query": {
+    "match": {
+        "content": "xmi"
+    }
+  }
+}
+
+GET mdeforge.models/_search
+
+
+GET mdeforge.workspaces/_search
+
+GET mdeforge.projects/_search
+
+
+
+
+GET mdeforge.metamodels/_search
+{
+  "query": {
+    "match": {
+        "name": "SimpleOOP.ecore"
+    }
+  }
+}
+
+GET mdeforge.transformations/_search
+
+GET mdeforge.artifacts/_search
+{
+  "query": {
+    "match": {
+      "_id": "62163188274bb50013cc3aa0"
+    }
+  }
+}
+
+DELETE car
+GET car/_search
+{
+  "query": {
+    "bool": {
+      "must": {
+        "match_all": {}
+      },
+      "filter": {
+        "range": {
+          "Year": {
+            "gte": "1970-01-01",
+            "lte": "1971-01-01"
+          }
+        }
+      }
+    }
+  }
+}
+
+GET mdeforge.metamodels/_search
+{
+  "query": {
+    "match": {
+      "type": {
+        "query": "ECORE"
+      }
+    }
+  }
+}
+
+GET mdeforge.artifacts/_search
+{
+  "query": {
+    "match": {
+      "_id": "621534db9bce65001393d400"
+    }
+  }
+}
+
+
+GET mdeforge.models/_search
+{
+  "from": 5,
+  "size": 3
+}
+
+# The filter clause
+GET car/_search
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "range": {
+          "date": {
+            "gte": "1971-01-01",
+            "lte": "1977-01-01"
+          }
+        }
+      }
+    }
+  }
+}
+
+# ************************************************************
+
+GET _cat/indices
+
+GET car/_search
+
+
+################################################################################################
+
+# Get info about cluster health
+GET _cluster/health
+
+# Get info about nodes in a cluster
+GET _nodes/stats
+
+# Example post
+# 1. Use POST when you want Elasticsearch to autogenerate an id for your document.
+
+POST favorite_candy/_doc
+{
+  "first_name": "Lisa",
+  "candy": "Sour Skittles",
+  "date": "2015-06-20"
+}
+
+# 2. Use PUT when you want to assign a specific id to your document
+PUT favorite_candy/_doc/1
+{
+  "first_name": "John",
+  "candy": "Starburst",
+   "date": "2018-09-22"
+}
+
+# Read a document
+GET favorite_candy/_doc/1
+
+
+# Retrieve information about documents in an index
+GET favorite_candy/_search?q=John
+
+# Delete all documents
+DELETE favorite_candy
+
+# Delete a document
+DELETE favorite_candy/_doc/1
+
+# return all documents from the favorite_candy index
+GET favorite_candy/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+# Get the exact total number of hits
+#To improve the response speed on large datasets, Elasticsearch limits the total count to 10,000 by default. 
+# If you want the exact total number of hits, use the following query.
+GET favorite_candy/_search
+{
+  "track_total_hits": true
+}
+
+# Search for data within a specific time range
+GET favorite_candy/_search
+{
+  "query": {
+    "range": {
+      "date": {
+        "gte": "2015-06-20",
+        "lte": "2019-09-22"
+      }
+    }
+  }
+}
+
+# Aggregations
+# An aggregation summarizes your data as metrics, statistics, and other analytics.
+
+GET favorite_candy/_search
+{
+  "query": {
+    "match": {
+      "first_name": "John"
+    }
+  }
+}
+
+# --------------------------------------------------------------------------------------------
+# Insert data in elastic
+POST news_headlines/_doc 
+{
+  "date": "3/6/2021",
+  "short_description": "Twin preg, unsp num plcnta & amnio sacs, first trimester",
+  "link": "https://storify.com/at/feugiat/non.js",
+  "category": "Support",
+  "headline": "Remov cholecystost tube",
+  "authors": "Aonyx capensis"
+}
+
+# Get the exact total number of hits
+GET news_headlines/_search
+{
+  "track_total_hits": true
+}
+
+GET news_headline/_search
+
+
+# DELETE news_headline
+
+
+# Search for data within a specific time range
+GET news_headlines/_search
+{
+  "query": {
+    "range": {
+      "date": {
+        "gte": "5/27/2021",
+        "lte": "7/29/2021"
+      }
+    }
+  }
+}
+
+
+# Aggregations
+# Analyze the data to show the categories of news headlines in our dataset
+GET news_headlines/_search
+{
+  "query": {
+    "match": {
+      "category": "Product Management"
+    }
+  },
+  "aggregations": {
+    "popular_in_entertainment": {
+      "significant_text": {
+        "field": "headline"
+      }
+    }
+  }
+}
+
+# minimum_should_match
+# This parameter allows you to specify the minimum number of terms a document should have to be included in the search results.
+GET news_headlines/_search
+{
+  "query": {
+    "match": {
+      "headline": {
+        "query": "Stapes mobilization",
+        "minimum_should_match": 1
+      }
+    }
+  }
+}
+
+# Precision and Recall
+GET news_headlines/_search
+{
+  "query": {
+    "match": {
+      "headline": {
+        "query": "Stapes"
+      }
+    }
+  }
+}
+
+# We can increase precision by adding an "and" operator to the query.
+# "AND" operator will result in getting more precise matches, thereby increasing precision. 
+# However, it will reduce the number of hits returned, resulting in lower recall.
+GET news_headlines/_search
+{
+  "query": {
+    "match": {
+      "headline": {
+        "query": "stapes",
+        "operator": "and"
+      }
+    }
+  }
+}
+
+# Get information about documents in an index
+GET news_headlines/_search
+
+# Searching for a phrase
+GET news_headlines/_search
+{
+  "query": {
+    "match": {
+      "headline": {
+        "query": "Cl"
+      }
+    }
+  }
+}
+
+# Searching for phrases using the match_phrase query
+GET news_headlines/_search
+{
+  "query": {
+    "match_phrase": {
+      "headline": {
+        "query": "reduc"
+      }
+    }
+  }
+}
+
+# Running a match query against multiple fields
+GET news_headlines/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "fx",
+      "fields": [
+        "headline",
+        "short_description",
+        "authors"
+      ]
+    }
+  }
+}
+
+# Improving precision with phrase type match
+GET news_headlines/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "fx",
+      "fields": [
+        "headline^2",
+        "short_description"
+      ],
+      "type": "phrase"
+    }
+  }
+}
+
+# Aggregation
+GET news_headlines/_search
+{
+  "aggregations": {
+    "by_category": {
+      "terms": {
+        "field": "category.keyword",
+        "size": 100
+      }
+    }
+  }
+}
+
+# Bool Query
+# The bool query retrieves documents matching boolean combinations of other queries.
+# There are four clauses to choose from:
+#    must
+#    must_not
+#    should
+#    filter
+GET news_headline/_search
+{
+  "query": {
+    "match_phrase": {
+      "category": "Marketing"
+    }
+  },
+  "aggregations": {
+    "category_mentions": {
+      "terms": {
+        "field": "category.keyword",
+        "size": 100
+      }
+    }
+  }
+}
+
+# The must clause
+GET news_headlines/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+        "match_phrase": {
+          "headline": "fix"
+         }
+        },
+        {
+          "match": {
+            "category.keyword": "Sales"
+          }
+        }
+      ]
+    }
+  }
+}
+
+# The must_not clause
+GET news_headlines/_search
+{
+  "query": {
+    "bool": {
+      "must": {
+        "match_phrase": {
+          "headline": "site"
+         }
+        },
+       "must_not":[
+         {
+          "match": {
+            "category": "Business Development"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+# The should clause
+# if a document contains the phrase "site" in the field category, this document should be given 
+# a higher score and should be placed higher in the search results.
+# all hits MUST contain "site" in the field headline.
+
+GET news_headlines/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+        "match_phrase": {
+          "headline": "site"
+          }
+         }
+        ],
+       "should":[
+         {
+          "match_phrase": {
+            "category": "Business Development"
+          }
+        }
+      ]
+    }
+  }
+}
+
+# The filter clause
+GET news_headlines/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "headline": "site"
+          }
+        }
+      ],
+      "filter": {
+        "range": {
+          "date": {
+            "gte": "5/27/2021",
+            "lte": "7/29/2021"
+          }
+        }
+      }
+    }
+  }
+}
+
+
+# Adding multiple queries under the should clause
+GET news_headlines/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "headline": "site"
+          }
+        }
+      ],
+      "should": [
+        {
+          "match": {
+            "headline": "site"
+          }
+        },
+        {
+          "match": {
+            "short_description": "ship"
+          }
+        },
+        {
+          "match": {
+            "headline": "site"
+          }
+        }
+      ]
+    }
+  }
+}
+
+# #####################################################################################################
+GET ecommerce_data/_search
+
+DELETE ecommerce_data
+
+# STEP 1: Create a new index(ecommerce_data) with the following mapping.
+PUT ecommerce_data
+{
+  "mappings": {
+    "properties": {
+      "Country": {
+        "type": "keyword"
+      },
+      "CustomerID": {
+        "type": "long"
+      },
+      "Description": {
+        "type": "text"
+      },
+      "InvoiceDate": {
+        "type": "date"
+      },
+      "InvoiceNo": {
+        "type": "keyword"
+      },
+      "Quantity": {
+        "type": "long"
+      },
+      "StockCode": {
+        "type": "keyword"
+      },
+      "UnitPrice": {
+        "type": "double"
+      }
+    }
+  }
+}
+
+# STEP 2: Reindex the data from the original index(source) to the one you just created(destination).
+POST _reindex
+{
+  "source": {
+    "index": "ecommerce_dat"
+  },
+  "dest": {
+    "index": "ecommerce_data"
+  }
+}
+
+# STEP 3: Remove the negative values from the field "UnitPrice".
+POST ecommerce_data/_delete_by_query
+{
+  "query": {
+    "range": {
+      "UnitPrice": {
+        "lte": 0
+      }
+    }
+  }
+}
+
+# STEP 4: Remove values greater than 500 from the field "UnitPrice".
+POST ecommerce_data/_delete_by_query
+{
+  "query": {
+    "range": {
+      "UnitPrice": {
+        "gte": 500
+      }
+    }
+  }
+}
+
+# Aggregations: summarizes your data as metrics, statistics and other analytics
+# Get me the summary of monthly revenue generated from Germany
+GET ecommerce_data/_search
+
+
+# Metric Aggregations
+GET ecommerce_data/_search
+{
+  "aggs": {
+    "sum_unit_price": {
+      "sum": {
+        "field": "UnitPrice"
+      }
+    }
+  }
+}
+
+
+# Using a size parameter
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "sum_unit_price": {
+      "sum": {
+        "field": "UnitPrice"
+      }
+    }
+  }
+}
+
+# Compute the lowest(min) or max unit price of an item
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "lowest_unit_price": {
+      "min": {
+        "field": "UnitPrice"
+      }
+    }
+  }
+}
+
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "lowest_unit_price": {
+      "max": {
+        "field": "UnitPrice"
+      }
+    }
+  }
+}
+
+# Average
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "average_unit_price": {
+      "avg": {
+        "field": "UnitPrice"
+      }
+    }
+  }
+}
+
+# Aggregation: Compute the count, min, max, avg, sum in one go
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "all_stats_unit_price": {
+      "stats": {
+        "field": "UnitPrice"
+      }
+    }
+  }
+}
+
+# Cardinality Aggregation, there are 1000 unique number of customers in our index.
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "number_unique_customers": {
+      "cardinality": {
+        "field": "CustomerID"
+      }
+    }
+  }
+}
+
+# Limiting the scope of an aggregation
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "query": {
+    "match": {
+      "country": "Germany"
+    }
+  },
+  "aggs": {
+    "germany_average_unit_price": {
+      "avg": {
+        "field": "UnitPrice"
+      }
+    }
+  }
+}
+
+# Fixed_interval With the fixed_interval, the interval is always constant.
+# Example: Create a bucket for every 8 hour interval.
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "transactions_by_8_hrs": {
+      "date_histogram": {
+        "field": "InvoiceDate",
+        "fixed_interval": "8h"
+      }
+    }
+  }
+}
+
+# Calendar_interval With the calendar_interval, the interval may vary.
+# Ex. Split data into monthly buckets.
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "transactions_by_month": {
+      "date_histogram": {
+        "field": "InvoiceDate",
+        "calendar_interval": "1M"
+      }
+    }
+  }
+}
+
+# Bucket sorting for date histogram aggregation
+# By default, the date_histogram aggregation sorts buckets based on the "key" values in ascending order.
+
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "transactions_by_month": {
+      "date_histogram": {
+        "field": "InvoiceDate",
+        "calendar_interval": "1M",
+        "order": {
+          "_key": "desc"
+        }
+      }
+    }
+  }
+}
+
+# Ex. Create a buckets based on price interval that increases in increments of 10.
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "transactions_per_price_interval": {
+      "histogram": {
+        "field": "UnitPrice",
+        "interval": 10
+      }
+    }
+  }
+}
+
+# Bucket sorting for histogram aggregation
+# By default, the histogram aggregation sorts buckets based on the _key values in ascending order. 
+# To reverse this order, you can add an order parameter to the aggregation. 
+# Then, specify that you want to sort buckets based on the _key values in descending(desc) order!
+
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "transactions_per_price_interval": {
+      "histogram": {
+        "field": "UnitPrice",
+        "interval": 10,
+        "order": {
+          "_key": "desc"
+        }
+      }
+    }
+  }
+}
+
+# Range Aggregation
+# For example, what if you wanted to know the number of transactions for items from varying price ranges(between 0 and $50, between $50-$200, and between $200 and up)?
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "transactions_per_custom_price_ranges": {
+      "range": {
+        "field": "UnitPrice",
+        "ranges": [
+          {
+            "to": 50
+          },
+          {
+            "from": 50,
+            "to": 200
+          },
+          {
+            "from": 200
+          }
+        ]
+      }
+    }
+  }
+}
+
+
+# For example, let's say you want to identify 5 customers with the highest number of transactions(documents).
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "top_5_customers": {
+      "terms": {
+        "field": "CustomerID",
+        "size": 5
+      }
+    }
+  }
+}
+
+
+# For example, let's say you wanted to calculate the daily revenue and the number of unique customers per day in one go. To do this, you can add multiple metric aggregations per bucket as shown below!
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "transactions_per_day": {
+      "date_histogram": {
+        "field": "InvoiceDate",
+        "calendar_interval": "day"
+      },
+      "aggs": {
+        "daily_revenue": {
+          "sum": {
+            "script": {
+              "source": "doc['UnitPrice'].value * doc['Quantity'].value"
+            }
+          }
+        },
+        "number_of_unique_customers_per_day": {
+          "cardinality": {
+            "field": "CustomerID"
+          }
+        }
+      }
+    }
+  }
+}
+
+
+# Sorting by metric value of a sub-aggregation
+# You do not always need to sort by time interval, numerical interval, or by doc_count! You can also sort by metric value of sub-aggregations.
+# Let's take a look at the request below. Within the sub-aggregation, metric values "daily_revenue" and "number_of_unique_customers_per_day" are calculated.
+# Let's say you wanted to find which day had the highest daily revenue to date!
+# All you need to do is to add the "order" parameter( and sort buckets based on the metric value of "daily_revenue" in descending("desc") order!
+
+
+GET ecommerce_data/_search
+{
+  "size": 0,
+  "aggs": {
+    "transactions_per_day": {
+      "date_histogram": {
+        "field": "InvoiceDate",
+        "calendar_interval": "day",
+        "order": {
+          "daily_revenue": "desc"
+        }
+      },
+      "aggs": {
+        "daily_revenue": {
+          "sum": {
+            "script": {
+              "source": "doc['UnitPrice'].value * doc['Quantity'].value"
+            }
+          }
+        },
+        "number_of_unique_customers_per_day": {
+          "cardinality": {
+            "field": "CustomerID"
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+GET news_headlines/_search?q=Accounting
+
+
+
+
+
+######################################################################################################
+POST ecommerce_data/_delete_by_query
+{
+  "query": {
+    "range": {
+      "UnitPrice": {
+        "gte": 500
+      }
+    }
+  }
+}
+
+
+
+
+
+# -----------------------------------------------------
+
+# Mapping
+
+POST userdata/_create/1 
+{
+  "name":"arsene",
+  "dob": "1990-12-05",
+  "place": "Rwanda",
+  "job_desc": "President of Indamutsa Holdings limited"
+}
+
+PUT userdata
+{
+  "mappings": {
+    "properties": {
+      "dob": {
+        "type": "date"
+      },
+      "job_desc": {
+        "type": "text",
+        "index": true
+      }
+    }
+  }
+}
+
+GET userdata/_search?q=president
+
+
+DELETE userdata
+
+
+
+
+
+
+# -------------------------------------
+
+GET mdeforge.users/_search
+
+GET /_cat/health
+
+GET mdeforge.metamodels/_search
+
+GET mdeforge.server_logs/_search
+
+GET testdb.kittens/_search
+{
+  "size": 1000
+}
+
+
+GET mdeforge.artifacts/_mapping
+
+# ---------------------------------------------------------
+
+# To get all indices
+GET /_cat/indices
+
+
+#TO get data from a given indices
+GET /netflix/_search
+
+#To get a single doc
+GET /netflix/_doc/2sK0BH0B_98CjIUDAnO2
+
+
+GET /netflix/_search/?q="seasons"
+
+GET /test.kittens/_search
+
+# This is our scaffold generator
+# must is like AND op
+# must_not is like NOT op
+# should is like OR op
+# filter is filter
+
+
+GET /netflix/_search
+{
+  "_source": [],
+  "size": 10,
+  "min_score": 0.5,
+  "query": {
+    "bool": {
+      "must": [],
+      "filter": [],
+      "should": [],
+      "must_not": []
+    }
+  }
+}
+
+
+# To get only title
+# source is the properies, you want, they are listed as text in source
+# size: the number of document to return
+# min score of a document to be returned
+# For instancem we search for the world killer in field title
+# When u add more query, it means AND operator
+GET /netflix/_search
+{
+  "_source": [
+    "title"
+  ],
+  "size": 10,
+  "min_score": 0.5,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "title": "Most"
+          }
+        },
+            {
+          "match": {
+            "title": "Violent"
+          }
+        }
+      ],
+      "filter": [],
+      "should": [],
+      "must_not": []
+    }
+  }
+}
+
+# THe or operator in should
+# Look for words titles that have the word most and violent but should not have must
+GET /netflix/_search
+{
+  "_source": [
+    "title"
+  ],
+  "size": 10,
+  "min_score": 0.5,
+  "query": {
+    "bool": {
+      "must": [],
+      "filter": [],
+      "should": [
+        {
+          "match": {
+            "title": "Most"
+          }
+        },
+        {
+          "match": {
+            "title": "Violent"
+          }
+        }
+      ],
+      "must_not": [
+                {
+          "match": {
+            "title": "wanted"
+          }
+        }]
+    }
+  }
+}
+
+# MATCH AND MATCH PHRASE
+
+#Here we searching the world below in the field called duration
+GET /netflix/_search
+{
+  "query": {
+    "match": {
+      "duration": "54 min"
+    }
+  }
+}
+
+#Here we searching the world below in the field called title
+GET /netflix/_search
+{
+  "query": {
+    "match_phrase": {
+      "title": "Most Violent"
+    }
+  }
+}
+
+
+
+#Autocompletion query
+GET netflix/_search
+{
+  "_source": [],
+  "size": 10,
+  "min_score": 0.5,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "wildcard": {
+            "title": {
+              "value": "*"
+            }
+          }
+        }
+      ],
+      "filter": [],
+      "should": [],
+      "must_not": []
+    }
+  },
+  "aggs": {
+    "auto_complete": {
+      "terms": {
+        "field": "title.keyword",
+        "order": {
+          "_count": "asc"
+        },
+        "size": 20
+      }
+    }
+  }
+}
+
+GET netflix/_mapping

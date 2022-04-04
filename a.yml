@@ -1,0 +1,120 @@
+# In this cluster of microservices, we define elastastic as engine and its logging and visualization supporting tools (logstash, kibana and filebeat)
+# In the second part, we synchronize our search engine with the persistence api
+
+# The next thing is to define a crawler that go through files asynchronsously and extracts keywords and index it as well (save it db)
+# Then build the complete search api
+
+version: "3.4"
+
+services:
+  # Mongo cluster  -- Sharded cluster
+  #################################################
+
+  # ----------------------------router ---------------------------------
+  mongodb-sharded-0:
+    container_name: router
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-sharded-0
+      - MONGODB_SHARDING_MODE=mongos
+      - MONGODB_CFG_PRIMARY_HOST=mongodb-cfg0
+      - MONGODB_CFG_REPLICA_SET_NAME=cfgreplicaset
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_ROOT_PASSWORD=password123
+    ports:
+      - "27010:27017"
+
+  # ----------------------------------Shards ---------------------------------------------------
+  mongodb-shard0:
+    container_name: shard1
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard0
+      - MONGODB_SHARDING_MODE=shardsvr
+      - MONGODB_MONGOS_HOST=mongodb-sharded-0
+      - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=shard0
+    volumes:
+      - "shard0_data:/bitnami"
+
+  mongodb-shard1:
+    container_name: shard2
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard1
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-shard0
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_SHARDING_MODE=shardsvr
+      - MONGODB_MONGOS_HOST=mongodb-sharded-0
+      # - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=shard0
+    volumes:
+      - "shard1_data:/bitnami"
+
+  mongodb-shard2:
+    container_name: shard3
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard2
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-shard0
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_SHARDING_MODE=shardsvr
+      - MONGODB_MONGOS_HOST=mongodb-sharded-0
+      # - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=shard0
+    volumes:
+      - "shard2_data:/bitnami"
+  # ----------------------------- config--------------------------------------
+  mongodb-cfg0:
+    container_name: configsvr0
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-cfg0
+      - MONGODB_SHARDING_MODE=configsvr
+      - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=cfgreplicaset
+    volumes:
+      - "cfg_data:/bitnami"
+
+  mongodb-cfg2:
+    container_name: configsvr2
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-cfg2
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-cfg0
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_SHARDING_MODE=configsvr
+      # - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=cfgreplicaset
+    volumes:
+      - "cfg_data:/bitnami"
+
+# Defining the network
+######################################################
+networks:
+  search-engine:
+    external: false
+
+# networks:
+#   elk:
+#     driver: bridge
+
+volumes:
+  shard0_data:
+    driver: local
+  shard1_data:
+    driver: local
+  shard2_data:
+    driver: local
+  cfg_data:
+    driver: local

@@ -1,0 +1,21 @@
+{
+  "name": "query-engine",
+  "version": "1.0.0",
+  "description": "Advanced query mechanisms",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Arsene Indamutsa",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-core": "^3.6.4",
+    "apollo-server-express": "^3.6.4",
+    "dotenv": "^16.0.0",
+    "elastic-builder": "^2.16.0",
+    "elasticsearch": "^16.7.3",
+    "express": "^4.17.3",
+    "graphql": "^16.3.0",
+    "mongoose": "^6.2.9"
+  }
+}

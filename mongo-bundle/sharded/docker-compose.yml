@@ -1,0 +1,165 @@
+version: "3.4"
+services:
+  # Shard 1
+  mongors1n1:
+    container_name: mongors1n1
+    image: mongo:4.2
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017
+    ports:
+      - 27018:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - ./mongo_cluster/data1:/data/db
+  mongors1n2:
+    container_name: mongors1n2
+    image: mongo:4.2
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017
+    ports:
+      - 27027:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - ./mongo_cluster/data2:/data/db
+  mongors1n3:
+    container_name: mongors1n3
+    image: mongo:4.2
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017
+    ports:
+      - 27037:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - ./mongo_cluster/data3:/data/db
+  # Shard 2
+  mongors2n1:
+    container_name: mongors2n1
+    image: mongo:4.2
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017
+    ports:
+      - 27047:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - ./mongo_cluster/data4:/data/db
+  mongors2n2:
+    container_name: mongors2n2
+    image: mongo:4.2
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017
+    ports:
+      - 27057:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - ./mongo_cluster/data5:/data/db
+  mongors2n3:
+    container_name: mongors2n3
+    image: mongo:4.2
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017
+    ports:
+      - 27067:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - ./mongo_cluster/data6:/data/db
+
+  # Configuration server
+  mongocfg1:
+    container_name: mongocfg1
+    image: mongo:4.2
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27017
+    environment:
+      TERM: xterm
+    expose:
+      - "27017"
+    volumes:
+      - ./mongo_cluster/config1:/data/db
+  mongocfg2:
+    container_name: mongocfg2
+    image: mongo:4.2
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27017
+    environment:
+      TERM: xterm
+    expose:
+      - "27017"
+    volumes:
+      - ./mongo_cluster/config2:/data/db
+  mongocfg3:
+    container_name: mongocfg3
+    image: mongo:4.2
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27017
+    environment:
+      TERM: xterm
+    expose:
+      - "27017"
+    volumes:
+      - ./mongo_cluster/config3:/data/db
+
+  # The router
+  mongos1:
+    container_name: mongos1
+    image: mongo:4.2
+    depends_on:
+      - mongocfg1
+      - mongocfg2
+    command: mongos --configdb mongors1conf/mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017 --bind_ip_all
+    ports:
+      - 27019:27017
+    expose:
+      - "27017"
+    volumes:
+      - ./addShards.js:/home/app/addShards.js
+
+  mongos2:
+    container_name: mongos2
+    image: mongo:4.2
+    depends_on:
+      - mongocfg1
+      - mongocfg2
+    command: mongos --configdb mongors1conf/mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017 --bind_ip_all
+    ports:
+      - 27020:27017
+    expose:
+      - "27017"
+
+  # A shortlived container for starting the cluster
+  setup-rs:
+    container_name: setup-rs
+    build: .
+    depends_on:
+      - "mongos1"
+
+  adminmongo:
+    container_name: adminmongo
+    image: mrvautin/adminmongo
+    ports:
+      - 9990:1234
+    environment:
+      - HOST=0.0.0.0
+    depends_on:
+      - mongos1
+  web:
+    container_name: web
+    build:
+      context: ./web-app
+    command: bash -c "sleep 120 && node index.js"
+    ports:
+      - "3110:3000"
+    restart: always
+    volumes:
+      - ./web-app:/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - setup-rs

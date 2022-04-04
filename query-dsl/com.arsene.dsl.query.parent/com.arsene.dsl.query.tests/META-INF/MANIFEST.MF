@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: com.arsene.dsl.query.tests
+Bundle-ManifestVersion: 2
+Bundle-Name: com.arsene.dsl.query.tests
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: com.arsene.dsl.query.tests; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: com.arsene.dsl.query,
+ org.junit.jupiter.api;bundle-version="[5.1.0,6.0.0)",
+ org.eclipse.xtext.testing,
+ org.eclipse.xtext.xbase.testing,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: com.arsene.dsl.query.tests;x-internal=true

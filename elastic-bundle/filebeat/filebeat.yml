@@ -1,0 +1,48 @@
+# filebeat.inputs:
+#   - type: log
+#     enabled: true
+#     paths:
+#       - /logs/*.log
+
+# setup.kibana:
+#   host: http://kibana:5601
+#   username: "elastic"
+#   password: "changeme"
+
+# output.logstash:
+#   hosts: ["localhost:5000"]
+
+# # output.elasticsearch:
+# #   hosts: ["http://elasticsearch:9200"]
+# #   username: "elastic"
+# #   password: "changeme"
+
+# logging.level: info
+
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /logs/*.log
+    containers:
+      ids:
+        - "*"
+
+processors:
+  - add_docker_metadata:
+      host: "unix:///var/run/docker.sock"
+
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+output.logstash:
+  hosts: ["logstash:5044"]
+
+# # output.elasticsearch:
+# #   hosts: ["http://elasticsearch:9200"]
+# #   username: "elastic"
+# #   password: "changeme"
+
+setup.kibana:
+  host: "http://kibana:5601"

@@ -1,0 +1,380 @@
+# In this cluster of microservices, we define elastastic as engine and its logging and visualization supporting tools (logstash, kibana and filebeat)
+# In the second part, we synchronize our search engine with the persistence api
+
+# The next thing is to define a crawler that go through files asynchronsously and extracts keywords and index it as well (save it db)
+# Then build the complete search api
+
+version: "3.4"
+
+services:
+  # ELASTIC SEARCH STACK: ELASTICSEARCH / LOGSTASH/ FILEBEAT/ KIBANA
+  ################################################################################
+  elasticsearch:
+    container_name: elasticsearch
+    image: indamutsa/elasticsearch:v1.0
+    volumes:
+      - type: bind
+        source: ./elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        read_only: true
+      - type: volume
+        source: elasticsearch
+        target: /usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTIC_PASSWORD: changeme
+      # Use single node discovery in order to disable production mode and avoid bootstrap checks.
+      # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
+      discovery.type: single-node
+    networks:
+      - search-engine
+
+  logstash:
+    container_name: logstash
+    image: indamutsa/logstash:v1.0
+    links:
+      - elasticsearch:elasticsearch
+    volumes:
+      - type: bind
+        source: ./logstash/config/logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+        read_only: true
+      - type: bind
+        source: ./logstash/pipeline
+        target: /usr/share/logstash/pipeline
+        read_only: true
+    ports:
+      - "5044:5044"
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - search-engine
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    container_name: kibana
+    image: indamutsa/kibana:v1.0
+    links:
+      - elasticsearch:elasticsearch
+    volumes:
+      - type: bind
+        source: ./kibana/config/kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+        read_only: true
+    ports:
+      - "5601:5601"
+    networks:
+      - search-engine
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    container_name: filebeat
+    image: indamutsa/filebeat:v1.0
+    volumes:
+      - "$HOME/Project/school-projects/mdeforge/search-engine/test-filebeat:/logs"
+      - "$HOME/Project/school-projects/mdeforge/search-engine/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
+      - "/var/lib/docker/containers:/usr/share/filebeat/dockerlogs:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+    command: filebeat -e --strict.perms=false
+    links:
+      - elasticsearch
+      - kibana
+    networks:
+      - search-engine
+
+  # MONGO DB CLUSTER AND EXAMPLE APP
+  #####################################################
+  persistence-api:
+    container_name: persistence
+    build:
+      context: ./persistence-api
+    image: indamutsa/persistence-api:v1.0
+    command: node index.js
+    ports:
+      - "3200:3200"
+    volumes:
+      - ./persistence-api:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - "setup-rs"
+    networks:
+      - search-engine
+
+  # mongo-rs0-1:
+  #   container_name: mongo-rs0-1
+  #   image: indamutsa/mongo-start:v1.0
+  #   ports:
+  #     - "30000:27017"
+  #   volumes:
+  #     - ./mongo-rs0-1/data:/data/db
+  #   depends_on:
+  #     - "mongo-rs0-2"
+  #     - "mongo-rs0-3"
+  #   networks:
+  #     - search-engine
+
+  # mongo-rs0-2:
+  #   container_name: mongo-rs0-2
+  #   image: "mongo:4.0"
+  #   command: --replSet rs0 --smallfiles --oplogSize 128
+  #   ports:
+  #     - "30001:27017"
+  #   volumes:
+  #     - ./mongo-rs0-2/data:/data/db
+  #   networks:
+  #     - search-engine
+
+  # mongo-rs0-3:
+  #   container_name: mongo-rs0-3
+  #   image: "mongo:4.0"
+  #   command: --replSet rs0 --smallfiles --oplogSize 128
+  #   ports:
+  #     - "30002:27017"
+  #   volumes:
+  #     - ./mongo-rs0-3/data:/data/db
+  #   networks:
+  #     - search-engine
+
+  # # A shortlived container for starting the cluster
+  # setup-rs:
+  #   container_name: setup-rs
+  #   image: indamutsa/setup-rs:v1.0
+  #   depends_on:
+  #     - "mongo-rs0-1"
+  #   networks:
+  #     - search-engine
+
+  adminmongo:
+    container_name: adminmongo
+    image: mrvautin/adminmongo
+    ports:
+      - 9990:1234
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - search-engine
+
+  # Synchronizing the elasticsearch and mongo cluster using MONSTACHE
+  ###################################################################
+  monstache:
+    image: indamutsa/monstache:v1.0 # After building the image i pushed it
+    container_name: monstache
+    working_dir: /app
+    command: -f monstache.config.toml
+    # build:
+    #   context: ./monstache
+    #   dockerfile: ./Dockerfile
+    volumes:
+      - "$HOME/Project/school-projects/mdeforge/search-engine/monstache/monstache.config.toml:/app/monstache.config.toml"
+    depends_on:
+      - mongo-rs0-1
+      - elasticsearch
+    ports:
+      - "8080:8080"
+    networks:
+      - search-engine
+    healthcheck:
+      test: "wget -q -O - http://localhost:8080/healthz"
+      interval: 1s
+      timeout: 30s
+      retries: 300
+    restart: unless-stopped
+
+  # Mongo cluster  -- Sharded cluster
+  #################################################
+
+  # Shard 1
+  mongors1n1:
+    container_name: mongors1n1
+    image: mongo:5.0.6
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017
+    ports:
+      - 27018:27017
+    expose:
+      - "27017"
+    networks:
+      - search-engine
+    environment:
+      TERM: xterm
+    volumes:
+      - /mongo_cluster/data1:/data/db
+
+  mongors1n2:
+    container_name: mongors1n2
+    image: mongo:5.0.6
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017
+    ports:
+      - 27027:27017
+    networks:
+      - search-engine
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - /mongo_cluster/data2:/data/db
+
+  mongors1n3:
+    container_name: mongors1n3
+    image: mongo:5.0.6
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017
+    ports:
+      - 27037:27017
+    networks:
+      - search-engine
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - /mongo_cluster/data3:/data/db
+
+  # Shard 2
+  mongors2n1:
+    container_name: mongors2n1
+    image: mongo:5.0.6
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017
+    ports:
+      - 27047:27017
+    networks:
+      - search-engine
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - /mongo_cluster/data4:/data/db
+
+  mongors2n2:
+    container_name: mongors2n2
+    image: mongo:5.0.6
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017
+    ports:
+      - 27057:27017
+    networks:
+      - search-engine
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - /mongo_cluster/data5:/data/db
+
+  mongors2n3:
+    container_name: mongors2n3
+    image: mongo:5.0.6
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017
+    ports:
+      - 27067:27017
+    networks:
+      - search-engine
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - /mongo_cluster/data6:/data/db
+
+  # Configuration server
+  mongocfg1:
+    container_name: mongocfg1
+    image: mongo:5.0.6
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27017
+    environment:
+      TERM: xterm
+    expose:
+      - "27017"
+    networks:
+      - search-engine
+    volumes:
+      - /mongo_cluster/config1:/data/db
+
+  mongocfg2:
+    container_name: mongocfg2
+    image: mongo:5.0.6
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27017
+    environment:
+      TERM: xterm
+    expose:
+      - "27017"
+    networks:
+      - search-engine
+    volumes:
+      - /mongo_cluster/config2:/data/db
+
+  mongocfg3:
+    container_name: mongocfg3
+    image: mongo:5.0.6
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27017
+    environment:
+      TERM: xterm
+    expose:
+      - "27017"
+    networks:
+      - search-engine
+    volumes:
+      - /mongo_cluster/config3:/data/db
+
+  # The router
+  mongos1:
+    container_name: mongos1
+    image: mongo:5.0.6
+    depends_on:
+      - mongocfg1
+      - mongocfg2
+    command: mongos --configdb mongors1conf/mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017
+    ports:
+      - 27019:27017
+    networks:
+      - search-engine
+    expose:
+      - "27017"
+    volumes:
+      - ./addShards.js:/home/app/addShards.js
+
+  mongos2:
+    container_name: mongos2
+    image: mongo:5.0.6
+    depends_on:
+      - mongocfg1
+      - mongocfg2
+    command: mongos --configdb mongors1conf/mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017
+    ports:
+      - 27020:27017
+    networks:
+      - search-engine
+    expose:
+      - "27017"
+
+  # A shortlived container for starting the cluster
+  setup-rs1:
+    container_name: setup-rs
+    build:
+      context: ./sharded
+    depends_on:
+      - "mongos1"
+    networks:
+      - search-engine
+
+# Defining the network
+######################################################
+networks:
+  search-engine:
+    external: false
+
+# networks:
+#   elk:
+#     driver: bridge
+
+volumes:
+  elasticsearch:
+  # Configuration server
