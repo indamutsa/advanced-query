@@ -35,7 +35,7 @@ const runMetricsInInterval = async () => {
 
   var config = {
     method: "post",
-    url: "http://34.67.33.7:8186/mms/transform/metrics",
+    url: process.env.BASE_URL + ":8186/mms/transform/metrics",
     headers: {
       ...data.getHeaders(),
     },

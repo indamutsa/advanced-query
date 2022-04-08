@@ -112,7 +112,7 @@ services:
   # QUERY ENGINE
   #####################################################
   query_engine:
-    container_name: query_container
+    container_name: query-engine
     build:
       context: ./query-engine
     depends_on:
@@ -122,7 +122,7 @@ services:
       - "3300:3300"
     restart: always
     volumes:
-      - ./persistence-api:/app
+      - ./query-engine:/app
       - /app/node_modules
     networks:
       - search-engine
@@ -365,7 +365,7 @@ services:
 
   metrics-calculator:
     container_name: metrics-calculator
-    image: indamutsa/metricscalculator:v1.3
+    image: indamutsa/metricscalculator:v1.4
     ports:
       - 8186:8186
     environment:

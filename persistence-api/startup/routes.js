@@ -38,6 +38,10 @@ const options = {
         url: "http://34.67.33.7:3200",
         description: "Cloud server",
       },
+      {
+        url: "http://178.238.238.209:3200",
+        description: "Cloud server",
+      },
     ],
   },
   apis: ["./route/rest-api/*.js"],

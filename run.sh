@@ -12,7 +12,7 @@
 echo '####################################################'
 echo 'Removing data...'
 echo '####################################################'
-#  Remove data
+# remove all images
 sudo rm -rf mongo-bundle/sharded/mongo_cluster/data1/*
 sudo rm -rf mongo-bundle/sharded/mongo_cluster/data2/*
 sudo rm -rf mongo-bundle/sharded/mongo_cluster/data3/*
@@ -49,17 +49,6 @@ echo '####################################################'
 docker volume rm $(docker volume ls -q)
 
 
-
-# remove all images
-# echo '####################################################'
-# echo 'Removing persisted mongo replica data ...'
-# echo '####################################################'
-
-# sudo rm -rf mongo-rs0-1/data/*
-# sudo rm -rf mongo-rs0-2/data/*
-# sudo rm -rf mongo-rs0-3/data/*
-
-
 # remove all images
 echo '####################################################'
 echo 'Spinning the cluster ...'
@@ -69,7 +58,3 @@ docker-compose down -v --remove-orphans
 docker-compose up -d --build --force-recreate
 # sleep 45 | echo sleeping --- Connecting the shards to the mongos router ---------
 # docker exec -it mongos1 bash -c "cat /home/app/addShards.js  | mongo "
-
-
-
-
