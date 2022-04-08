@@ -169,7 +169,7 @@ router.post(
 
       return res
         .status(data.code)
-        .json({ message: data.message, data: data.metamodelData });
+        .json({ message: data.message, data: data.returnedData });
     } catch (err) {
       logger.error(err.message);
       await deleteFile(
@@ -193,6 +193,8 @@ const uploadMetamodel = async (req) => {
     const project = await Project.findById(
       req.data ? req.data.project : req.body.project
     );
+
+    console.log(project, valid);
 
     if (valid && project) {
       let data = await readFile("metamodel", req.file.path);
@@ -223,10 +225,13 @@ const uploadMetamodel = async (req) => {
           `./localStorage/artifacts/${req.folder}/` + req.file.filename
         );
 
+        metamodelData = JSON.parse(JSON.stringify(metamodelData));
+        let { content, ...returnedData } = metamodelData;
+
         return {
           code: 409,
           message: "Metamodel already exists!",
-          metamodelData,
+          returnedData,
         };
       }
 
@@ -312,18 +317,24 @@ const uploadMetamodel = async (req) => {
       //   `./localStorage/artifacts/${req.folder}/` + req.file.filename
       // );
 
+      metamodelData = JSON.parse(JSON.stringify(metamodelData));
+      let { content, ...returnedData } = metamodelData;
+
       logger.info("Metamodel uploaded successfully!");
 
       return {
         code: 200,
         message: "Metamodel uploaded successfully!",
-        metamodelData,
+        returnedData,
       };
     } else {
       logger.warn("Metamodel extension not supported or no project found!");
+      console.log(req.body.project, fileExt, valid);
+
       await deleteFile(
         `./localStorage/artifacts/${req.folder}/` + req.file.filename
       );
+
       return {
         code: 404,
         message: "Metamodel extension not supported or no project found!",
@@ -723,7 +734,7 @@ router.post("/model", upload("models").single("file"), async (req, res) => {
 
     return res
       .status(data.code)
-      .json({ message: data.message, data: data.dataModel });
+      .json({ message: data.message, data: data.returnedData });
   } catch (err) {
     logger.error(err.message);
     await deleteFile(
@@ -772,10 +783,13 @@ const uploadModel = async (req, res) => {
           `/localStorage/artifacts/${req.folder}/` + req.file.filename
         );
 
+        modelData = JSON.parse(JSON.stringify(modelData));
+        let { content, ...returnedData } = modelData;
+
         return {
           code: 409,
           message: "Metamodel already exists!",
-          modelData,
+          returnedData,
         };
       }
 
@@ -855,10 +869,13 @@ const uploadModel = async (req, res) => {
           }
         );
 
-      const dataModel = await Model.findOne({
+      let dataModel = await Model.findOne({
         _id: savedModel._id,
       });
       //.populate("artifact");
+
+      dataModel = JSON.parse(JSON.stringify(dataModel));
+      let { content, ...returnedData } = dataModel;
 
       // We are deleting data because after processing it
       // we dont persist it locally, we save it on the cloud!
@@ -871,7 +888,7 @@ const uploadModel = async (req, res) => {
       return {
         code: 200,
         message: "Model uploaded successfully!",
-        dataModel,
+        returnedData,
       };
       // return res
       //   .status(200)
@@ -1279,10 +1296,10 @@ router.delete("/model/:id", async (req, res) => {
  *                          type: object
  *                          example:
  *                              "message": "Dsl was uploaded successfully!"
- *                              "dslData":
+ *                              "returnedData":
  *                                  "_id": "618cc6e0a0fb8184fa45967f"
  *                                  "name": "Demo-1636636781627.eol"
- *                                  "project": "6172ab789ece0da287693c17"
+ *                                  "project": ["6172ab789ece0da287693c17"]
  *                                  "type": "EOL"
  *                                  "artifact":
  *                                      "accessControl": "PUBLIC"
@@ -1329,7 +1346,7 @@ router.post("/script", upload("scripts").single("file"), async (req, res) => {
 
     return res
       .status(data.code)
-      .json({ message: data.message, data: data.dataDsl });
+      .json({ message: data.message, data: data.returnedData });
   } catch (err) {
     logger.error(err.message);
     await deleteFile(
@@ -1343,7 +1360,7 @@ const uploadScript = async (req, res) => {
   let fileExt = req.file.filename.split(".")[1].toUpperCase();
 
   const url = await uploadOnCloud(
-    "dsls",
+    "scripts",
     req
     // req.file.path,
     // req.file.filename
@@ -1379,6 +1396,9 @@ const uploadScript = async (req, res) => {
           );
         }
 
+        dslData = JSON.parse(JSON.stringify(dslData));
+        let { content, ...returnedData } = dslData;
+
         await deleteFile(
           `./localStorage/artifacts/${req.folder}/` + req.file.filename
         );
@@ -1386,7 +1406,7 @@ const uploadScript = async (req, res) => {
         return {
           code: 409,
           message: "Dsl already exists!",
-          dslData,
+          returnedData,
         };
       }
 
@@ -1443,10 +1463,13 @@ const uploadScript = async (req, res) => {
           }
         );
 
-      const dataDsl = await Dsl.findOne({
+      let dataDsl = await Dsl.findOne({
         _id: savedDsl._id,
       });
       // .populate("artifact");
+
+      dataDsl = JSON.parse(JSON.stringify(dataDsl));
+      let { content, ...returnedData } = dataDsl;
 
       // await deleteFile(
       //   `./localStorage/artifacts/${req.folder}/` + req.file.filename
@@ -1457,7 +1480,7 @@ const uploadScript = async (req, res) => {
       return {
         code: 200,
         message: "Dsl was uploaded successfully!",
-        dataDsl,
+        returnedData,
       };
 
       // return res
