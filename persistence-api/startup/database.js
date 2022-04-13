@@ -8,7 +8,7 @@ const connectDb = async () => {
 
   try {
     await mongoose
-      .connect(process.env.MONGO_local, {
+      .connect(process.env.MONGO_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
