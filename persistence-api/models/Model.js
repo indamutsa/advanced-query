@@ -75,7 +75,6 @@ const modelSchema = new mongoose.Schema(
     // },
     content: {
       type: String,
-      unique: true,
     },
   },
   { timestamps: true }

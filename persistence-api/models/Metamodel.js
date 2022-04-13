@@ -94,7 +94,6 @@ const metamodelSchema = new Schema(
     ],
     content: {
       type: String,
-      unique: true,
     },
 
     ePackage: {

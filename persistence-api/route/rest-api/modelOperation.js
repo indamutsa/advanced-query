@@ -19,7 +19,7 @@ const {
 } = require("../rest-api/artifact");
 
 // const { uploadModel } = require("../rest-api/artifact");
-const { uploadFile } = require("../utilities");
+const { uploadFile, uploadOperation } = require("../utilities");
 // ------------------------------------
 
 const upload = (dest) => {
@@ -125,9 +125,9 @@ const upload = (dest) => {
  *          500:
  *              description: An error occurred on the server, check the logs!
  */
-router.post("/", upload("operation").array("file", 4), async (req, res) => {
-  let folder = req.originalUrl.split("/").pop();
-  req.folder = "operations";
+router.post("/", uploadOperation, async (req, res) => {
+  // let folder = req.originalUrl.split("/").pop();
+  // req.folder = "operations";
 
   const ModelOperation = operationFactory(req.body.type);
   let transformationName = "transformation" + "-" + Date.now();
@@ -158,16 +158,16 @@ router.post("/", upload("operation").array("file", 4), async (req, res) => {
 
     // Uploading the model
     let mReq = request(req, "model");
-    mReq.data.metamodel = data.metamodelData._id;
+    mReq.data.metamodel = data.returnedData?._id;
     const mData = await uploadModel(mReq);
 
     // res.send("worked!");
     const transformationData = {
       name: transformationName,
-      sourceModel: mData.modelData.name,
-      sourceMetamodel: data.metamodelData.name,
-      targetMetamodel: tmData.metamodelData.name,
-      script: sData.dslData.name,
+      sourceModel: mData.returnedData?.name,
+      sourceMetamodel: data.returnedData?.name,
+      targetMetamodel: tmData.returnedData?.name,
+      script: sData.returnedData?.name,
     };
 
     const operation = await ModelOperation(transformationData);
@@ -179,6 +179,7 @@ router.post("/", upload("operation").array("file", 4), async (req, res) => {
     });
   } catch (err) {
     logger.error(err.toString());
+    console.log(err);
     res.status(500).json(err.toString());
   }
 });
@@ -186,16 +187,16 @@ router.post("/", upload("operation").array("file", 4), async (req, res) => {
 const request = (req, type) => {
   switch (type) {
     case "model":
-      req.file = req.files[0];
+      req.file = req.files.sourceM[0];
       break;
     case "sourceMM":
-      req.file = req.files[1];
+      req.file = req.files.sourceMM[0];
       break;
     case "targetMM":
-      req.file = req.files[2];
+      req.file = req.files.targetMM[0];
       break;
     case "script":
-      req.file = req.files[3];
+      req.file = req.files.script[0];
       break;
 
     default:

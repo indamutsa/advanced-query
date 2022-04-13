@@ -114,24 +114,13 @@ const minify = (xmlText) => {
 // Save ARTIFACT
 const uploadFile = (destination) => {
   // Uploading files to the disk rather into the database
+
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, "./localStorage/artifacts/" + destination);
     },
     filename: (req, file, cb) => {
-      let datafile = file.originalname.match(/(.*)\.(.*)/);
-      let fileName = datafile[1];
-      let ext = datafile[2];
-      cb(
-        null,
-        fileName +
-          "-" +
-          Date.now() +
-          "-" +
-          Math.round(Math.random() * 100).toString() +
-          "." +
-          ext
-      );
+      writeFileName(file, cb);
     },
   });
 
@@ -139,6 +128,69 @@ const uploadFile = (destination) => {
   // var upload = multer({ storage: storage }).single("file");
   // return upload;
 };
+
+const writeFileName = (file, cb) => {
+  let datafile = file.originalname.match(/(.*)\.(.*)/);
+  let fileName = datafile[1];
+  let ext = datafile[2];
+  cb(
+    null,
+    fileName +
+      "-" +
+      Date.now() +
+      "-" +
+      Math.round(Math.random() * 100).toString() +
+      "." +
+      ext
+  );
+};
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // console.log(file);
+    if (file.fieldname === "sourceM") {
+      cb(null, "./localStorage/artifacts/models");
+    } else if (file.fieldname === "sourceMM") {
+      cb(null, "./localStorage/artifacts/metamodels");
+    } else if (file.fieldname === "targetMM") {
+      cb(null, "./localStorage/artifacts/metamodels");
+    } else if (file.fieldname === "script") {
+      cb(null, "./localStorage/artifacts/scripts");
+    }
+  },
+  filename: (req, file, cb) => {
+    if (file.fieldname === "sourceM") {
+      writeFileName(file, cb);
+    } else if (file.fieldname === "sourceMM") {
+      writeFileName(file, cb);
+    } else if (file.fieldname === "targetMM") {
+      writeFileName(file, cb);
+    } else if (file.fieldname === "script") {
+      writeFileName(file, cb);
+    }
+  },
+});
+
+const uploadOperation = multer({
+  storage: storage,
+}).fields([
+  {
+    name: "sourceM",
+    maxCount: 1,
+  },
+  {
+    name: "sourceMM",
+    maxCount: 1,
+  },
+  {
+    name: "targetMM",
+    maxCount: 1,
+  },
+  {
+    name: "script",
+    maxCount: 1,
+  },
+]);
 
 //---------------------------------------------------------------------------------
 // Deleting the file
@@ -216,4 +268,5 @@ module.exports = {
   deleteFile,
   readFile,
   uploadLicense,
+  uploadOperation,
 };

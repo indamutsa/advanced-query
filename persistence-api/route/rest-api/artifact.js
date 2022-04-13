@@ -201,36 +201,36 @@ const uploadMetamodel = async (req) => {
       metamodelData = await Metamodel.findOne({ content: data.content });
 
       if (metamodelData) {
-        if (
-          !metamodelData.project.includes(
-            req.data ? req.data.project : req.body.project
-          )
-        ) {
-          metamodelData = await Metamodel.findByIdAndUpdate(
-            metamodelData._id,
-            {
-              $push: {
-                project: req.data ? req.data.project : req.body.project,
-              },
-            },
-            {
-              new: true, //To return the updated value
-            }
-          );
-        }
+        // if (
+        //   !metamodelData.project.includes(
+        //     req.data ? req.data.project : req.body.project
+        //   )
+        // ) {
+        //   metamodelData = await Metamodel.findByIdAndUpdate(
+        //     metamodelData._id,
+        //     {
+        //       $push: {
+        //         project: req.data ? req.data.project : req.body.project,
+        //       },
+        //     },
+        //     {
+        //       new: true, //To return the updated value
+        //     }
+        //   );
+        // }
 
         await deleteFile(
-          `./localStorage/artifacts/${req.folder}/` + req.file.filename
+          `./localStorage/artifacts/metamodels/` + req.file.filename
         );
 
-        metamodelData = JSON.parse(JSON.stringify(metamodelData));
-        let { content, ...returnedData } = metamodelData;
+        // metamodelData = JSON.parse(JSON.stringify(metamodelData));
+        // let { content, ...returnedData } = metamodelData;
 
-        return {
-          code: 409,
-          message: "Metamodel already exists!",
-          returnedData,
-        };
+        // return {
+        //   code: 409,
+        //   message: "Metamodel already exists!",
+        //   returnedData,
+        // };
       }
 
       const url = await uploadOnCloud(
@@ -248,7 +248,7 @@ const uploadMetamodel = async (req) => {
         // project: req.data ? req.data.project : req.body.project,
         ext: fileExt,
         // type: "METAMODEL",
-        storageUrl: req.publicUrl,
+        storageUrl: metamodelData ? metamodelData.storageUrl : req.publicUrl,
         size: req.file.size,
         description: req.data ? req.data.description : req.body.description,
         accessControl: req.body?.accessControl,
@@ -329,7 +329,7 @@ const uploadMetamodel = async (req) => {
       logger.warn("Metamodel extension not supported or no project found!");
 
       await deleteFile(
-        `./localStorage/artifacts/${req.folder}/` + req.file.filename
+        `./localStorage/artifacts/metamodels/` + req.file.filename
       );
 
       return {
@@ -340,7 +340,7 @@ const uploadMetamodel = async (req) => {
   } catch (err) {
     logger.error(err.toString());
     await deleteFile(
-      `./localStorage/artifacts/${req.folder}/` + req.file.filename
+      `./localStorage/artifacts/metamodels/` + req.file.filename
     );
     return { code: 500, message: err.message };
   }
@@ -748,10 +748,13 @@ const uploadModel = async (req, res) => {
     let modelExts = ["XMI", "XML", "MODEL", "UML"];
     let valid = modelExts.includes(fileExt);
     let metamodel_id = null;
+
     if (req.data) metamodel_id = req.data?.metamodel;
     else metamodel_id = req.body?.metamodel;
 
-    if (valid && req.body.project) {
+    const project = req.data ? req.data.project : req.body.project;
+
+    if (valid && project) {
       let metamodel = null;
       if (metamodel_id) metamodel = await Metamodel.findById(metamodel_id);
 
@@ -760,36 +763,34 @@ const uploadModel = async (req, res) => {
       let modelData = await Model.findOne({ content: data.content });
 
       if (modelData) {
-        if (
-          !modelData.project.includes(
-            req.data ? req.data.project : req.body.project
-          )
-        ) {
-          modelData = await Model.findByIdAndUpdate(
-            modelData._id,
-            {
-              $push: {
-                project: req.data ? req.data.project : req.body.project,
-              },
-            },
-            {
-              new: true, //To return the updated value
-            }
-          );
-        }
+        // if (
+        //   !modelData.project.includes(
+        //     req.data ? req.data.project : req.body.project
+        //   )
+        // ) {
+        //   modelData = await Model.findByIdAndUpdate(
+        //     modelData._id,
+        //     {
+        //       $push: {
+        //         project: req.data ? req.data.project : req.body.project,
+        //       },
+        //     },
+        //     {
+        //       new: true, //To return the updated value
+        //     }
+        //   );
+        // }
 
-        await deleteFile(
-          `/localStorage/artifacts/${req.folder}/` + req.file.filename
-        );
+        await deleteFile(`/localStorage/artifacts/models/` + req.file.filename);
 
-        modelData = JSON.parse(JSON.stringify(modelData));
-        let { content, ...returnedData } = modelData;
+        // modelData = JSON.parse(JSON.stringify(modelData));
+        // let { content, ...returnedData } = modelData;
 
-        return {
-          code: 409,
-          message: "Metamodel already exists!",
-          returnedData,
-        };
+        // return {
+        //   code: 409,
+        //   message: "Metamodel already exists!",
+        //   returnedData,
+        // };
       }
 
       // let artifact = {
@@ -824,7 +825,7 @@ const uploadModel = async (req, res) => {
         ext: fileExt,
         // artifact: savedArtifact._id,
         // type: "MODEL",
-        storageUrl: req.publicUrl,
+        storageUrl: modelData ? modelData.storageUrl : req.publicUrl,
         // `http://${req.headers.host}/` + "files/model/" + req.file.filename,
         size: req.file.size,
         description: req.data ? req.data.description : req.body.description,
@@ -835,11 +836,6 @@ const uploadModel = async (req, res) => {
 
       const newModel = await Model(model);
       const savedModel = await newModel.save();
-
-      // if (!savedModel) {
-      //   await savedArtifact.delete();
-      //   return;
-      // }
 
       // We also update the metamodel the model conforms to
       if (metamodel)
@@ -895,9 +891,7 @@ const uploadModel = async (req, res) => {
     } else {
       logger.warn("Model extension not supported or metamodel not found!");
 
-      await deleteFile(
-        `./localStorage/artifacts/${req.folder}/` + req.file.filename
-      );
+      await deleteFile(`./localStorage/artifacts/models/` + req.file.filename);
 
       return {
         code: 404,
@@ -911,9 +905,7 @@ const uploadModel = async (req, res) => {
     logger.error(err.toString());
     console.log(err);
 
-    await deleteFile(
-      `./localStorage/artifacts/${req.folder}/` + req.file.filename
-    );
+    await deleteFile(`./localStorage/artifacts/models/` + req.file.filename);
 
     return { code: 500, message: err.message };
     // return res.status(500).json(err.toString());
@@ -1331,9 +1323,7 @@ router.post("/script", upload("scripts").single("file"), async (req, res) => {
 
     if (!p_id) {
       logger.error("Missing project id");
-      await deleteFile(
-        `./localStorage/artifacts/${req.folder}/` + req.file.filename
-      );
+      await deleteFile(`./localStorage/artifacts/scripts/` + req.file.filename);
 
       return { code: 500, message: "Missing project id" };
     }
@@ -1345,9 +1335,7 @@ router.post("/script", upload("scripts").single("file"), async (req, res) => {
       .json({ message: data.message, data: data.returnedData });
   } catch (err) {
     logger.error(err.message);
-    await deleteFile(
-      `./localStorage/artifacts/${req.folder}/` + req.file.filename
-    );
+    await deleteFile(`./localStorage/artifacts/scripts/` + req.file.filename);
     return { code: 500, message: err.message };
   }
 });
@@ -1374,36 +1362,36 @@ const uploadScript = async (req, res) => {
       let dslData = await Dsl.findOne({ content: data.content });
 
       if (dslData) {
-        if (
-          !dslData.project.includes(
-            req.data ? req.data.project : req.body.project
-          )
-        ) {
-          dslData = await Dsl.findByIdAndUpdate(
-            dslData._id,
-            {
-              $push: {
-                project: req.data ? req.data.project : req.body.project,
-              },
-            },
-            {
-              new: true, //To return the updated value
-            }
-          );
-        }
+        // if (
+        //   !dslData.project.includes(
+        //     req.data ? req.data.project : req.body.project
+        //   )
+        // ) {
+        //   dslData = await Dsl.findByIdAndUpdate(
+        //     dslData._id,
+        //     {
+        //       $push: {
+        //         project: req.data ? req.data.project : req.body.project,
+        //       },
+        //     },
+        //     {
+        //       new: true, //To return the updated value
+        //     }
+        //   );
+        // }
 
-        dslData = JSON.parse(JSON.stringify(dslData));
-        let { content, ...returnedData } = dslData;
+        // dslData = JSON.parse(JSON.stringify(dslData));
+        // let { content, ...returnedData } = dslData;
 
         await deleteFile(
-          `./localStorage/artifacts/${req.folder}/` + req.file.filename
+          `./localStorage/artifacts/scripts/` + req.file.filename
         );
 
-        return {
-          code: 409,
-          message: "Dsl already exists!",
-          returnedData,
-        };
+        // return {
+        //   code: 409,
+        //   message: "Dsl already exists!",
+        //   returnedData,
+        // };
       }
 
       // let artifact = {
@@ -1429,7 +1417,7 @@ const uploadScript = async (req, res) => {
         ext: fileExt,
         // artifact: savedArtifact._id,
         // type: "DSL",
-        storageUrl: req.publicUrl,
+        storageUrl: dslData ? dslData.storageUrl : req.publicUrl,
         // `http://${req.headers.host}/` + "files/script/" + req.file.filename,
         size: req.file.size,
         description: req.data ? req.data.description : req.body.description,
@@ -1468,7 +1456,7 @@ const uploadScript = async (req, res) => {
       let { content, ...returnedData } = dataDsl;
 
       // await deleteFile(
-      //   `./localStorage/artifacts/${req.folder}/` + req.file.filename
+      //   `./localStorage/artifacts/scripts/` + req.file.filename
       // );
 
       logger.info("Dsl was uploaded successfully!");
@@ -1485,9 +1473,7 @@ const uploadScript = async (req, res) => {
     } else {
       logger.warn("Dsl extension not supported!");
       // return res.status(404).json("Dsl extension not supported!");
-      await deleteFile(
-        `./localStorage/artifacts/${req.folder}/` + req.file.filename
-      );
+      await deleteFile(`./localStorage/artifacts/scripts/` + req.file.filename);
 
       return {
         code: 404,
@@ -1497,9 +1483,7 @@ const uploadScript = async (req, res) => {
   } catch (err) {
     logger.error(err.toString());
     // return res.status(500).json(err.toString());
-    await deleteFile(
-      `./localStorage/artifacts/${req.folder}/` + req.file.filename
-    );
+    await deleteFile(`./localStorage/artifacts/scripts/` + req.file.filename);
 
     return { code: 500, message: err.message };
   }
