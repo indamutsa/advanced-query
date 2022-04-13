@@ -194,8 +194,6 @@ const uploadMetamodel = async (req) => {
       req.data ? req.data.project : req.body.project
     );
 
-    console.log(project, valid);
-
     if (valid && project) {
       let data = await readFile("metamodel", req.file.path);
       let metamodelData = null;
@@ -329,7 +327,6 @@ const uploadMetamodel = async (req) => {
       };
     } else {
       logger.warn("Metamodel extension not supported or no project found!");
-      console.log(req.body.project, fileExt, valid);
 
       await deleteFile(
         `./localStorage/artifacts/${req.folder}/` + req.file.filename
@@ -755,7 +752,9 @@ const uploadModel = async (req, res) => {
     else metamodel_id = req.body?.metamodel;
 
     if (valid && req.body.project) {
-      let metamodel = await Metamodel.findById(metamodel_id);
+      let metamodel = null;
+      if (metamodel_id) metamodel = await Metamodel.findById(metamodel_id);
+
       let data = await readFile("model", req.file.path);
 
       let modelData = await Model.findOne({ content: data.content });
@@ -820,7 +819,7 @@ const uploadModel = async (req, res) => {
       const model = {
         name: req.file.originalname,
         unique_name: req.file.filename,
-        metamodel: metamodel?._id,
+        metamodel: metamodel ? metamodel.id : null,
         project: req.body.project,
         ext: fileExt,
         // artifact: savedArtifact._id,
@@ -910,10 +909,7 @@ const uploadModel = async (req, res) => {
     }
   } catch (err) {
     logger.error(err.toString());
-    console.log(
-      "dsjdlksjdkjs ================",
-      `./localStorage/artifacts/${req.folder}/` + req.file.filename
-    );
+    console.log(err);
 
     await deleteFile(
       `./localStorage/artifacts/${req.folder}/` + req.file.filename
