@@ -394,10 +394,13 @@ router.get("/project", async (req, res) => {
     try {
       const metamodels = await Metamodel.find({ project: project._id });
 
+      let dataMM = JSON.parse(JSON.stringify(metamodels));
+      let { content, ...returnedData } = dataMM;
+
       logger.info("Metamodels retrieved successfully!");
       res
         .status(200)
-        .json({ message: "Metamodels retrieved successfully!", metamodels });
+        .json({ message: "Metamodels retrieved successfully!", returnedData });
     } catch (err) {
       logger.error(err.toString());
       res.status(500).json(err);
@@ -448,10 +451,14 @@ router.get("/project", async (req, res) => {
 router.get("/metamodel/:id", async (req, res) => {
   try {
     const metamodels = await Metamodel.findById(req.params.id);
+
+    let dataMM = JSON.parse(JSON.stringify(metamodels));
+    let { content, ...returnedData } = dataMM;
+
     logger.info("Metamodel retrieved successfully!");
     res
       .status(200)
-      .json({ message: "Metamodel retrieved successfully!", metamodels });
+      .json({ message: "Metamodel retrieved successfully!", returnedData });
   } catch (err) {
     logger.error(err.toString());
     res.status(500).json(err);
@@ -952,10 +959,14 @@ router.get("/model", async (req, res) => {
   if (project) {
     try {
       const models = await Model.find({ project: project._id });
+
+      let dataModel = JSON.parse(JSON.stringify(models));
+      let { content, ...returnedData } = dataModel;
+
       logger.info("Models retrieved successfully!");
       res
         .status(200)
-        .json({ message: "Models retrieved successfully!", models });
+        .json({ message: "Models retrieved successfully!", returnedData });
     } catch (err) {
       logger.error(err.toString());
       res.status(500).json(err);
@@ -1001,8 +1012,14 @@ router.get("/model", async (req, res) => {
 router.get("/model/:id", async (req, res) => {
   try {
     const models = await Model.findById(req.params.id);
+
+    let dataModel = JSON.parse(JSON.stringify(models));
+    let { content, ...returnedData } = dataModel;
+
     logger.info("Model retrieved successfully!");
-    res.status(200).json({ message: "Model retrieved successfully!", models });
+    res
+      .status(200)
+      .json({ message: "Model retrieved successfully!", returnedData });
   } catch (err) {
     logger.error(err.toString());
     res.status(500).json(err);
@@ -1528,8 +1545,14 @@ router.get("/script", async (req, res) => {
   if (project) {
     try {
       const dsls = await Dsl.find({ project: project._id });
+
+      let dataDsls = JSON.parse(JSON.stringify(dsls));
+      let { content, ...returnedData } = dataDsls;
+
       logger.info("Dsls retrieved successfully!");
-      res.status(200).json({ message: "Dsls retrieved successfully!", dsls });
+      res
+        .status(200)
+        .json({ message: "Dsls retrieved successfully!", returnedData });
     } catch (err) {
       logger.error(err.toString());
       res.status(500).json(err);
@@ -1579,12 +1602,19 @@ router.get("/script", async (req, res) => {
 router.get("/script/:id", async (req, res) => {
   try {
     const dsls = await Dsl.findById(req.params.id);
-    if (dsls) {
+    let dataDsls = JSON.parse(JSON.stringify(dsls));
+    let { content, ...returnedData } = dataDsls;
+
+    if (returnedData) {
       logger.info("Dsl retrieved successfully!");
-      res.status(200).json({ message: "Dsl retrieved successfully!", dsls });
+      res
+        .status(200)
+        .json({ message: "Dsl retrieved successfully!", returnedData });
     } else {
       logger.info("Dsl specified not found!");
-      res.status(200).json({ message: "Dsl specified not found!", dsls });
+      res
+        .status(200)
+        .json({ message: "Dsl specified not found!", returnedData });
     }
   } catch (err) {
     logger.error(err.toString());

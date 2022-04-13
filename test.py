@@ -3,14 +3,13 @@ import os
 import sys
 import pdb
 
+main = '/home/arsene/Project/school-projects/mdeforge/data/models-metamodels/'
 
-paths = ['/home/arsene/Project/school-projects/mdeforge/data/models-metamodels/ecore_memorec/', '/home/arsene/Project/school-projects/mdeforge/data/models-metamodels/ZooATLAndMar/', '/home/arsene/Project/school-projects/mdeforge/data/models-metamodels/instances_xmi_ecore/', '/home/arsene/Project/school-projects/mdeforge/data/models-metamodels/dataUML_good_ALL/']
+def fun(folder):
+    return main + folder +'/'
 
-# path = paths[int(sys.argv[2])]
-# path = '/home/arsene/Project/school-projects/mdeforge/data/models-metamodels/ZooATLAndMar/'
-# path = '/home/arsene/Project/school-projects/mdeforge/data/models-metamodels/ecore_memorec/'
-# path = "/home/arsene/Project/school-projects/mdeforge/data/models-metamodels/instances_xmi_ecore/"
-# url = "http://localhost:3200/store/" #"http://34.67.33.7:3200/store/" 
+paths = list(map(fun, os.listdir(main)))
+
 urls = ["http://localhost:3200/store/", "http://178.238.238.209:3200/store/","http://34.67.33.7:3200/store/"]
 url = urls[int( sys.argv[1])]
 
@@ -47,8 +46,10 @@ def iloveLissette(filename, path):
     # Uploading the metamodel
     uri = url + "artifact/model"
     # uri = url + "artifact/metamodel"
+        # uri = url + "artifact/metamodel"
+    
 
-    payload={'description': 'We are trying to save the model using the api','metamodel': '6256800a43e8710013ce5325', 'project': project_id}
+    payload={'description': 'We are trying to save the model using the api','metamodel': '6256e2883ad56b0013b1663d', 'project': project_id}
     # payload={'description': 'We are trying to save the metamodel using the api','project': project_id}
 
     files=[('file',(filename,open(path + filename,'rb'),'application/octet-stream'))]
