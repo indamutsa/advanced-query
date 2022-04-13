@@ -48,7 +48,7 @@ def iloveLissette(filename, path):
     uri = url + "artifact/model"
     # uri = url + "artifact/metamodel"
 
-    payload={'description': 'We are trying to save the model using the api','metamodel': '', 'project': project_id}
+    payload={'description': 'We are trying to save the model using the api','metamodel': '6256800a43e8710013ce5325', 'project': project_id}
     # payload={'description': 'We are trying to save the metamodel using the api','project': project_id}
 
     files=[('file',(filename,open(path + filename,'rb'),'application/octet-stream'))]
