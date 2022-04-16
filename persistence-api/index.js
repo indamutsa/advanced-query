@@ -9,7 +9,11 @@
 // // Requiring core modules
 const express = require("express");
 const app = express();
-const dotenv = require("dotenv");
+
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+
 const { loadInitData } = require("./startup/loadInitData");
 const { runMetricsInInterval } = require("./startup/batchExecution");
 const { ApolloServer, gql } = require("apollo-server-express");
@@ -35,9 +39,6 @@ async function runServer() {
 
   // We define the port
   const PORT = process.env.PORT || 3200;
-
-  // Expose Env variables
-  dotenv.config();
 
   /**
    * Bootstrapping the application

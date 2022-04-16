@@ -201,37 +201,37 @@ const uploadMetamodel = async (req) => {
       metamodelData = await Metamodel.findOne({ content: data.content });
 
       if (metamodelData) {
-        // if (
-        //   !metamodelData.project.includes(
-        //     req.data ? req.data.project : req.body.project
-        //   )
-        // ) {
-        //   metamodelData = await Metamodel.findByIdAndUpdate(
-        //     metamodelData._id,
-        //     {
-        //       $push: {
-        //         project: req.data ? req.data.project : req.body.project,
-        //       },
-        //     },
-        //     {
-        //       new: true, //To return the updated value
-        //     }
-        //   );
-        // }
-
         await deleteFile(
           `./localStorage/artifacts/metamodels/` + req.file.filename
         );
-
-        // metamodelData = JSON.parse(JSON.stringify(metamodelData));
-        // let { content, ...returnedData } = metamodelData;
-
-        // return {
-        //   code: 409,
-        //   message: "Metamodel already exists!",
-        //   returnedData,
-        // };
       }
+      // if (
+      //   !metamodelData.project.includes(
+      //     req.data ? req.data.project : req.body.project
+      //   )
+      // ) {
+      //   metamodelData = await Metamodel.findByIdAndUpdate(
+      //     metamodelData._id,
+      //     {
+      //       $push: {
+      //         project: req.data ? req.data.project : req.body.project,
+      //       },
+      //     },
+      //     {
+      //       new: true, //To return the updated value
+      //     }
+      //   );
+      // }
+
+      // metamodelData = JSON.parse(JSON.stringify(metamodelData));
+      // let { content, ...returnedData } = metamodelData;
+
+      // return {
+      //   code: 409,
+      //   message: "Metamodel already exists!",
+      //   returnedData,
+      // };
+      // }
 
       const url = await uploadOnCloud(
         "metamodels",
