@@ -1,0 +1,262 @@
+info: Apr-17-2022 09:03:30: 	File uploaded successfully!
+info: Apr-17-2022 09:04:04: 	Server started successfully!
+info: Apr-17-2022 09:04:29: 	Server started successfully!
+info: Apr-17-2022 09:05:15: 	Server started successfully!
+info: Apr-17-2022 09:06:13: 	Server started successfully!
+info: Apr-17-2022 09:06:27: 	Server started successfully!
+info: Apr-17-2022 09:11:17: 	Server started successfully!
+info: Apr-17-2022 09:11:22: 	Server started successfully!
+info: Apr-17-2022 09:11:32: 	Server started successfully!
+info: Apr-17-2022 09:34:35: 	Server started successfully!
+info: Apr-17-2022 09:35:13: 	Server started successfully!
+info: Apr-17-2022 09:37:08: 	Server started successfully!
+info: Apr-17-2022 09:40:58: 	Server started successfully!
+info: Apr-17-2022 09:42:21: 	Server started successfully!
+info: Apr-17-2022 09:43:39: 	Server started successfully!
+info: Apr-17-2022 09:44:30: 	Server started successfully!
+info: Apr-17-2022 09:44:53: 	Server started successfully!
+info: Apr-17-2022 09:48:37: 	Server started successfully!
+info: Apr-17-2022 09:50:18: 	Server started successfully!
+info: Apr-17-2022 09:56:15: 	Server started successfully!
+info: Apr-17-2022 09:56:28: 	Server started successfully!
+info: Apr-17-2022 09:58:26: 	Server started successfully!
+info: Apr-17-2022 09:58:51: 	Server started successfully!
+info: Apr-17-2022 10:00:18: 	Server started successfully!
+info: Apr-17-2022 10:03:38: 	Server started successfully!
+info: Apr-17-2022 10:12:29: 	Server started successfully!
+info: Apr-17-2022 10:12:50: 	Server started successfully!
+info: Apr-17-2022 10:13:55: 	Server started successfully!
+info: Apr-17-2022 10:15:54: 	Server started successfully!
+info: Apr-17-2022 10:16:40: 	Server started successfully!
+info: Apr-17-2022 10:17:33: 	Server started successfully!
+info: Apr-17-2022 10:17:58: 	Server started successfully!
+info: Apr-17-2022 10:19:52: 	Server started successfully!
+info: Apr-17-2022 10:20:09: 	Server started successfully!
+info: Apr-17-2022 10:20:54: 	Server started successfully!
+info: Apr-17-2022 10:22:14: 	Server started successfully!
+info: Apr-17-2022 10:22:16: 	Server started successfully!
+info: Apr-17-2022 10:29:10: 	Server started successfully!
+info: Apr-17-2022 10:29:35: 	Server started successfully!
+info: Apr-17-2022 10:36:41: 	Server started successfully!
+info: Apr-17-2022 11:10:29: 	Server started successfully!
+info: Apr-17-2022 11:11:59: 	Server started successfully!
+info: Apr-17-2022 11:24:48: 	An error occurred while uploading the file: 
+info: Apr-17-2022 11:55:35: 	Server started successfully!
+info: Apr-17-2022 11:56:04: 	Server started successfully!
+info: Apr-17-2022 12:01:48: 	Server started successfully!
+info: Apr-17-2022 12:02:34: 	Server started successfully!
+info: Apr-17-2022 12:03:38: 	Server started successfully!
+info: Apr-17-2022 12:03:43: 	File Uploaded Successfully!
+error: Apr-17-2022 12:03:43: 	Cannot read property 'fieldname' of undefined
+info: Apr-17-2022 12:04:01: 	Server started successfully!
+info: Apr-17-2022 12:04:07: 	File Uploaded Successfully!
+error: Apr-17-2022 12:04:07: 	Cannot read property 'fieldname' of undefined
+info: Apr-17-2022 12:04:42: 	Server started successfully!
+info: Apr-17-2022 12:04:44: 	File Uploaded Successfully!
+error: Apr-17-2022 12:04:44: 	Cannot read property 'fieldname' of undefined
+info: Apr-17-2022 12:05:01: 	Server started successfully!
+info: Apr-17-2022 12:05:03: 	File Uploaded Successfully!
+error: Apr-17-2022 12:05:03: 	Cannot read property 'fieldname' of undefined
+info: Apr-17-2022 12:08:31: 	Server started successfully!
+info: Apr-17-2022 12:09:30: 	Server started successfully!
+info: Apr-17-2022 12:10:06: 	Server started successfully!
+info: Apr-17-2022 12:10:40: 	Server started successfully!
+info: Apr-17-2022 12:10:57: 	Server started successfully!
+info: Apr-17-2022 12:11:14: 	File Uploaded Successfully!
+error: Apr-17-2022 12:11:14: 	Cannot read property 'fieldname' of undefined
+info: Apr-17-2022 12:11:40: 	Server started successfully!
+info: Apr-17-2022 12:11:43: 	File Uploaded Successfully!
+error: Apr-17-2022 12:11:43: 	Cannot read property 'fieldname' of undefined
+info: Apr-17-2022 12:12:11: 	Server started successfully!
+info: Apr-17-2022 12:12:16: 	File Uploaded Successfully!
+error: Apr-17-2022 12:12:16: 	Cannot read property 'fieldname' of undefined
+info: Apr-17-2022 12:13:02: 	Server started successfully!
+info: Apr-17-2022 12:13:03: 	Server started successfully!
+info: Apr-17-2022 12:14:10: 	Server started successfully!
+info: Apr-17-2022 12:14:18: 	File Uploaded Successfully!
+error: Apr-17-2022 12:14:18: 	Cannot read property 'fieldname' of undefined
+info: Apr-17-2022 12:14:42: 	Server started successfully!
+info: Apr-17-2022 12:14:47: 	File Uploaded Successfully!
+error: Apr-17-2022 12:14:47: 	Cannot read property 'fieldname' of undefined
+info: Apr-17-2022 12:16:01: 	Server started successfully!
+info: Apr-17-2022 12:21:08: 	Server started successfully!
+info: Apr-17-2022 12:22:50: 	Server started successfully!
+info: Apr-17-2022 12:24:07: 	Server started successfully!
+error: Apr-17-2022 12:25:43: 	Please provide the folder
+info: Apr-17-2022 12:26:35: 	Server started successfully!
+error: Apr-17-2022 12:26:54: 	Please provide the folder
+info: Apr-17-2022 12:28:57: 	Server started successfully!
+info: Apr-17-2022 12:31:42: 	Server started successfully!
+info: Apr-17-2022 12:31:49: 	Server started successfully!
+error: Apr-17-2022 12:33:03: 	Please provide the folder
+error: Apr-17-2022 12:33:19: 	Please provide the folder
+error: Apr-17-2022 12:33:43: 	Please provide the folder
+info: Apr-17-2022 12:35:01: 	Server started successfully!
+error: Apr-17-2022 12:37:35: 	Please provide the folder
+info: Apr-17-2022 12:41:13: 	Server started successfully!
+info: Apr-17-2022 12:41:23: 	Server started successfully!
+info: Apr-17-2022 12:41:35: 	Server started successfully!
+error: Apr-17-2022 12:42:03: 	Please provide the folder
+info: Apr-17-2022 12:43:07: 	Server started successfully!
+info: Apr-17-2022 12:43:09: 	Server started successfully!
+error: Apr-17-2022 12:44:22: 	Please provide the folder
+info: Apr-17-2022 12:51:01: 	Server started successfully!
+info: Apr-17-2022 12:51:56: 	Server started successfully!
+info: Apr-17-2022 12:52:09: 	Server started successfully!
+error: Apr-17-2022 12:52:40: 	Please provide the folder
+info: Apr-17-2022 12:53:56: 	Server started successfully!
+error: Apr-17-2022 12:55:13: 	Please provide the folder
+info: Apr-17-2022 12:57:30: 	Server started successfully!
+info: Apr-17-2022 12:58:20: 	Server started successfully!
+info: Apr-17-2022 12:58:42: 	Server started successfully!
+info: Apr-17-2022 13:04:09: 	Server started successfully!
+info: Apr-17-2022 13:05:35: 	Server started successfully!
+info: Apr-17-2022 13:06:27: 	Server started successfully!
+info: Apr-17-2022 13:10:35: 	Server started successfully!
+info: Apr-17-2022 13:10:47: 	Server started successfully!
+info: Apr-17-2022 13:12:49: 	Server started successfully!
+info: Apr-17-2022 13:12:53: 	Server started successfully!
+info: Apr-17-2022 13:18:02: 	Server started successfully!
+info: Apr-17-2022 13:18:34: 	Server started successfully!
+info: Apr-17-2022 13:19:57: 	Server started successfully!
+info: Apr-17-2022 13:20:33: 	Server started successfully!
+info: Apr-17-2022 13:20:55: 	Server started successfully!
+info: Apr-17-2022 13:21:10: 	Server started successfully!
+error: Apr-17-2022 13:21:18: 	Please provide the folder
+info: Apr-17-2022 13:21:39: 	Server started successfully!
+error: Apr-17-2022 13:21:44: 	Please provide the folder
+info: Apr-17-2022 13:22:08: 	Server started successfully!
+error: Apr-17-2022 13:22:11: 	Assignment to constant variable.
+info: Apr-17-2022 13:22:35: 	Server started successfully!
+error: Apr-17-2022 13:22:39: 	Assignment to constant variable.
+info: Apr-17-2022 13:23:15: 	Server started successfully!
+error: Apr-17-2022 13:23:19: 	Assignment to constant variable.
+info: Apr-17-2022 13:24:29: 	Server started successfully!
+error: Apr-17-2022 13:24:39: 	Assignment to constant variable.
+info: Apr-17-2022 13:25:07: 	Server started successfully!
+error: Apr-17-2022 13:25:10: 	uploadFile(...).single is not a function
+info: Apr-17-2022 13:27:24: 	Server started successfully!
+error: Apr-17-2022 13:27:34: 	Assignment to constant variable.
+info: Apr-17-2022 13:33:04: 	Server started successfully!
+info: Apr-17-2022 13:35:40: 	Server started successfully!
+info: Apr-17-2022 13:37:21: 	Server started successfully!
+info: Apr-17-2022 13:37:40: 	Server started successfully!
+info: Apr-17-2022 13:37:46: 	Server started successfully!
+info: Apr-17-2022 13:37:55: 	Server started successfully!
+info: Apr-17-2022 13:38:09: 	Server started successfully!
+info: Apr-17-2022 13:38:33: 	Server started successfully!
+info: Apr-17-2022 13:39:31: 	Server started successfully!
+info: Apr-17-2022 13:40:33: 	Server started successfully!
+info: Apr-17-2022 13:41:26: 	Server started successfully!
+info: Apr-17-2022 13:41:32: 	Server started successfully!
+info: Apr-17-2022 13:43:38: 	Server started successfully!
+info: Apr-17-2022 13:44:36: 	Server started successfully!
+info: Apr-17-2022 13:44:48: 	Server started successfully!
+info: Apr-17-2022 13:45:30: 	Server started successfully!
+info: Apr-17-2022 13:45:43: 	Server started successfully!
+info: Apr-17-2022 13:46:49: 	Server started successfully!
+info: Apr-17-2022 13:46:55: 	Server started successfully!
+info: Apr-17-2022 13:47:31: 	Server started successfully!
+info: Apr-17-2022 13:47:39: 	Server started successfully!
+info: Apr-17-2022 13:50:15: 	Server started successfully!
+info: Apr-17-2022 13:50:33: 	Server started successfully!
+info: Apr-17-2022 13:55:01: 	Server started successfully!
+info: Apr-17-2022 13:55:34: 	Server started successfully!
+info: Apr-17-2022 13:56:07: 	Server started successfully!
+info: Apr-17-2022 13:56:24: 	Server started successfully!
+info: Apr-17-2022 13:56:27: 	Server started successfully!
+info: Apr-17-2022 13:56:32: 	Server started successfully!
+info: Apr-17-2022 14:03:23: 	Server started successfully!
+info: Apr-17-2022 14:04:07: 	Server started successfully!
+info: Apr-17-2022 14:04:34: 	Server started successfully!
+info: Apr-17-2022 14:06:25: 	Server started successfully!
+info: Apr-17-2022 14:06:41: 	Server started successfully!
+info: Apr-17-2022 14:07:08: 	Server started successfully!
+info: Apr-17-2022 14:08:19: 	Server started successfully!
+info: Apr-17-2022 14:09:05: 	Server started successfully!
+info: Apr-17-2022 14:17:03: 	Server started successfully!
+info: Apr-17-2022 14:19:40: 	Server started successfully!
+info: Apr-17-2022 14:19:50: 	Server started successfully!
+info: Apr-17-2022 14:20:01: 	Server started successfully!
+info: Apr-17-2022 14:20:53: 	Server started successfully!
+info: Apr-17-2022 14:21:15: 	Server started successfully!
+info: Apr-17-2022 14:23:11: 	Server started successfully!
+info: Apr-17-2022 14:24:24: 	Server started successfully!
+info: Apr-17-2022 14:24:49: 	Server started successfully!
+info: Apr-17-2022 14:25:30: 	Server started successfully!
+info: Apr-17-2022 14:25:54: 	Server started successfully!
+info: Apr-17-2022 14:27:36: 	Server started successfully!
+info: Apr-17-2022 14:27:45: 	Server started successfully!
+info: Apr-17-2022 14:29:26: 	Server started successfully!
+info: Apr-17-2022 14:30:19: 	Server started successfully!
+info: Apr-17-2022 14:31:09: 	Server started successfully!
+info: Apr-17-2022 14:33:39: 	Server started successfully!
+info: Apr-17-2022 14:44:42: 	Server started successfully!
+info: Apr-17-2022 14:45:53: 	Server started successfully!
+info: Apr-17-2022 14:46:18: 	Server started successfully!
+info: Apr-17-2022 14:47:17: 	Server started successfully!
+info: Apr-17-2022 14:47:29: 	Server started successfully!
+info: Apr-17-2022 14:48:00: 	Server started successfully!
+info: Apr-17-2022 14:48:19: 	Server started successfully!
+info: Apr-17-2022 14:48:34: 	Server started successfully!
+info: Apr-17-2022 14:48:56: 	Server started successfully!
+info: Apr-17-2022 14:58:06: 	Server started successfully!
+info: Apr-17-2022 14:58:42: 	Server started successfully!
+info: Apr-17-2022 14:58:53: 	Server started successfully!
+info: Apr-17-2022 15:03:23: 	Server started successfully!
+info: Apr-17-2022 15:04:48: 	Server started successfully!
+info: Apr-17-2022 15:05:52: 	Server started successfully!
+info: Apr-17-2022 15:06:21: 	Server started successfully!
+info: Apr-17-2022 15:07:41: 	Server started successfully!
+info: Apr-17-2022 15:08:00: 	Server started successfully!
+info: Apr-17-2022 15:09:02: 	Server started successfully!
+info: Apr-17-2022 15:09:28: 	Server started successfully!
+info: Apr-17-2022 15:19:09: 	Server started successfully!
+info: Apr-17-2022 15:19:35: 	Server started successfully!
+info: Apr-17-2022 15:20:08: 	Server started successfully!
+info: Apr-17-2022 15:21:37: 	Server started successfully!
+info: Apr-17-2022 15:21:48: 	Server started successfully!
+info: Apr-17-2022 15:21:55: 	Server started successfully!
+info: Apr-17-2022 15:22:13: 	Server started successfully!
+info: Apr-17-2022 15:22:52: 	Server started successfully!
+info: Apr-17-2022 15:23:14: 	Server started successfully!
+info: Apr-17-2022 15:23:34: 	Server started successfully!
+info: Apr-17-2022 15:24:40: 	Server started successfully!
+info: Apr-17-2022 15:25:20: 	Server started successfully!
+info: Apr-17-2022 15:26:19: 	Server started successfully!
+info: Apr-17-2022 15:26:39: 	Server started successfully!
+info: Apr-17-2022 15:27:02: 	Server started successfully!
+info: Apr-17-2022 15:27:28: 	Server started successfully!
+info: Apr-17-2022 15:27:50: 	Server started successfully!
+info: Apr-17-2022 15:29:24: 	Server started successfully!
+info: Apr-17-2022 15:29:36: 	Server started successfully!
+info: Apr-17-2022 15:30:21: 	Server started successfully!
+info: Apr-17-2022 15:30:39: 	Server started successfully!
+info: Apr-17-2022 15:34:25: 	Server started successfully!
+info: Apr-17-2022 15:34:43: 	Server started successfully!
+info: Apr-17-2022 15:34:56: 	Server started successfully!
+info: Apr-17-2022 15:35:37: 	Server started successfully!
+info: Apr-17-2022 15:36:31: 	Server started successfully!
+info: Apr-17-2022 15:36:47: 	Server started successfully!
+info: Apr-17-2022 15:37:27: 	Server started successfully!
+info: Apr-17-2022 15:38:33: 	Server started successfully!
+info: Apr-17-2022 15:38:34: 	Server started successfully!
+info: Apr-17-2022 15:38:40: 	Server started successfully!
+info: Apr-17-2022 15:40:33: 	Server started successfully!
+info: Apr-17-2022 15:41:27: 	Server started successfully!
+info: Apr-17-2022 15:42:35: 	Server started successfully!
+info: Apr-17-2022 15:44:14: 	Server started successfully!
+info: Apr-17-2022 15:44:22: 	Server started successfully!
+info: Apr-17-2022 15:44:41: 	Server started successfully!
+info: Apr-17-2022 15:46:04: 	Server started successfully!
+info: Apr-17-2022 15:46:35: 	Server started successfully!
+info: Apr-17-2022 15:47:46: 	Server started successfully!
+info: Apr-17-2022 15:49:02: 	Server started successfully!
+info: Apr-17-2022 15:49:09: 	Server started successfully!
+info: Apr-17-2022 15:50:19: 	Server started successfully!
+info: Apr-17-2022 15:51:08: 	Server started successfully!
+info: Apr-17-2022 15:51:17: 	Server started successfully!
+info: Apr-17-2022 15:51:49: 	Server started successfully!
+info: Apr-17-2022 15:53:11: 	Server started successfully!
+info: Apr-17-2022 15:55:29: 	Server started successfully!
+info: Apr-17-2022 18:42:28: 	Server started successfully!
