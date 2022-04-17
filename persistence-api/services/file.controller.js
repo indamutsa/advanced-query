@@ -95,7 +95,7 @@ const serverUpload = async (type, req) => {
         data.append("file", fs.createReadStream(filepath));
         var config = {
           method: "post",
-          url: "http://localhost:3201/api/upload/",
+          url: "http://178.238.238.209:3201/api/upload/",
           headers: {
             ...data.getHeaders(),
           },
@@ -104,7 +104,7 @@ const serverUpload = async (type, req) => {
 
         axios(config)
           .then(function (response) {
-            publicUrl = `http://localhost:3201/file/${folder}/${filename}`;
+            publicUrl = `http://178.238.238.209:3201/file/${folder}/${filename}`;
             console.log("url", publicUrl);
             logger.info("Uploaded the file successfully");
           })
