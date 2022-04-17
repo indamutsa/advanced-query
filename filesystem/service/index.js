@@ -2,7 +2,7 @@ const logger = require("../middleware/logger");
 const path = require("path");
 
 const fileHandler = async (req, res, next) => {
-  console.log("UPloasdddd");
+  // console.log("UPloasdddd");
   try {
     if (req.file == undefined) {
       return res.status(400).send({ message: "Please upload a file!" });

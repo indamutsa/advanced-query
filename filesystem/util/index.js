@@ -11,7 +11,7 @@ const uploadFile = () => {
     destination: (req, file, cb) => {
       // var total = req.baseUrl.match(/[^\\]*\/(\w+)$/);
       // var extension = total[1];
-      console.log(req.body);
+      // console.log(req.body);
       let folder = req.body.folder;
 
       const modelExts = ["models", "metamodels", "scripts"];

@@ -45,8 +45,8 @@ project_d = response.json()
 def iloveLissette(filename, path):
     # Uploading the metamodel
     # uri = url + "artifact/model"
-    # uri = url + "artifact/metamodel"
-    uri = url + "artifact/script"
+    uri = url + "artifact/metamodel"
+    # uri = url + "artifact/script"
     
 
     # payload={'description': 'We are trying to save the model using the api','metamodel': '', 'project': project_id}
