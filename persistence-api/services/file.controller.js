@@ -37,7 +37,7 @@ const serverUpload = async (type, req) => {
         data.append("folder", folder);
         data.append("file", fs.createReadStream(filepath));
         var config = {
-          method: "post",
+          method: "POST",
           url: "http://178.238.238.209:3201/api/upload/",
           headers: {
             ...data.getHeaders(),
@@ -45,32 +45,29 @@ const serverUpload = async (type, req) => {
           data: data,
         };
 
-        const response = await axios(config);
-        if (response) {
-          publicUrl = `http://178.238.238.209:3201/file/${folder}/${filename}`;
-          console.log("url", publicUrl);
-          logger.info("Uploaded the file successfully");
-          return publicUrl;
-        } else {
-          throw new Error(
-            "Error occured while uploading the file" + response.status
-          );
-        }
-
-        // .then(function (resp) {
-
-        // })
-        // .catch(function (error) {
-        //   console.log("dfdsdsdssd", error.message);
-
-        //   logger.error(
-        //     "Error occured while uploading the file, ",
-        //     error.message
-        //   );
-        // });
-
-        console.log(publicUrl, "-----------------''----------");
-        return publicUrl;
+        const response = await axios(config)
+          .then((resp) => {
+            publicUrl = `http://178.238.238.209:3201/file/${folder}/${filename}`;
+            console.log("url", publicUrl);
+            logger.info("Uploaded the file successfully");
+            return publicUrl;
+          })
+          .catch((err) => {
+            throw new Error(
+              "Error occured while uploading the file" + err.message
+            );
+          });
+        console.log(response);
+      // if (response) {
+      //   publicUrl = `http://178.238.238.209:3201/file/${folder}/${filename}`;
+      //   console.log("url", publicUrl);
+      //   logger.info("Uploaded the file successfully");
+      //   return publicUrl;
+      // } else {
+      //   throw new Error(
+      //     "Error occured while uploading the file" + response.status
+      //   );
+      // }
 
       case "cloud":
         var options = {

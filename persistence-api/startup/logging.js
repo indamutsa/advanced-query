@@ -9,13 +9,13 @@ const dbDebugger = require("debug")("app:db");
 
 module.exports = function () {
   // Catching the exception raised anywhere in the application
-  process.on("uncaughtException", (exception) => {
+  process.once("uncaughtException", (exception) => {
     logger.error("We got an an uncaught exception");
     logger.error(exception.message, exception);
     process.exit(1);
   });
   // Catching unhandledRejection
-  process.on("unhandledRejection", (rejection) => {
+  process.once("unhandledRejection", (rejection) => {
     console.log(rejection);
     logger.error("We got an unhandled rejection");
     logger.error(exception.message);
