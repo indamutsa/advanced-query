@@ -11,7 +11,7 @@ const express = require("express");
 const app = express();
 
 require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`,
+  path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : ".env",
 });
 
 const { loadInitData } = require("./startup/loadInitData");
@@ -24,7 +24,8 @@ const {
 
 // Setting up the api route and storage folder
 app.use("/static", express.static(__dirname + "/public"));
-app.use("/files", express.static(__dirname + "/localStorage/artifacts"));
+app.use("/files", express.static(process.env.STORAGE));
+// app.use("/files", express.static(__dirname + "/localStorage/artifacts"));
 
 async function runServer() {
   // Requiring auxiliary operations

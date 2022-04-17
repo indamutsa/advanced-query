@@ -1,9 +1,15 @@
+var axios = require("axios");
+var FormData = require("form-data");
+var fs = require("fs");
 const processFile = require("../middleware/upload");
 const { format } = require("util");
 const { Storage } = require("@google-cloud/storage");
+const { deleteFile } = require("../route/utilities");
+const logger = require("../middleware/logger");
 
 const storage = new Storage({ keyFilename: "lowcomote-storage.json" });
 const bucket = storage.bucket("model-artifacts-storage");
+let data = new FormData();
 
 const upload = async (req, res) => {
   try {
@@ -63,29 +69,84 @@ const upload = async (req, res) => {
 };
 
 const uploadOnCloud = async (folder, req) => {
-  const filename = req.file.filename;
-  const filepath = req.file.path;
+  console.log(req.file);
+  req.file.folder = folder;
+  const publicUrl = await serverUpload("private", req);
+  await deleteFile(`../localStorage/artifacts/${folder}/` + req.file.filename);
 
-  const path = `${folder}/${filename}`;
-  const publicUrl = `http://${req.get("host")}/files/${path}`;
+  return publicUrl;
+};
 
-  // var options = {
-  //   destination: path,
-  //   gzip: true,
-  //   resumable: true,
-  // };
+const serverUpload = async (type, req) => {
+  let filename = req.file.filename;
+  let filepath = req.file.path;
+  let folder = req.file.folder;
+  let publicUrl = "";
 
-  // await bucket.upload("./" + filepath, options);
+  try {
+    switch (type) {
+      case "local":
+        let path = `${folder}/${filename}`;
+        publicUrl = `http://${req.get("host")}/files/${path}`;
+        return publicUrl;
 
-  // // `mediaLink` is the URL for the raw contents of the file.
-  // // const url = res[0].metadata.mediaLink;
+      case "private":
+        data.append("folder", folder);
+        data.append("file", fs.createReadStream(filepath));
+        var config = {
+          method: "post",
+          url: "http://localhost:3201/api/upload/",
+          headers: {
+            ...data.getHeaders(),
+          },
+          data: data,
+        };
 
-  // // Need to make the file public before you can access it.
-  // await bucket.file(folder + "/" + filename).makePublic();
+        axios(config)
+          .then(function (response) {
+            publicUrl = `http://localhost:3201/file/${folder}/${filename}`;
+            console.log("url", publicUrl);
+            logger.info("Uploaded the file successfully");
+          })
+          .catch(function (error) {
+            console.log("dfdsdsdssd", error.message);
 
-  // const publicUrl = format(
-  //   `https://storage.googleapis.com/${bucket.name}/${path}`
-  // );
+            logger.error(
+              "Error occured while uploading the file, ",
+              error.message
+            );
+          });
+
+        return publicUrl;
+
+      case "cloud":
+        var options = {
+          destination: path,
+          gzip: true,
+          resumable: true,
+        };
+
+        await bucket.upload("./" + filepath, options);
+
+        // `mediaLink` is the URL for the raw contents of the file.
+        // const url = res[0].metadata.mediaLink;
+
+        // Need to make the file public before you can access it.
+        await bucket.file(folder + "/" + filename).makePublic();
+
+        publicUrl = format(
+          `https://storage.googleapis.com/${bucket.name}/${path}`
+        );
+
+        return publicUrl;
+
+      default:
+        break;
+    }
+  } catch (err) {
+    console.log(err);
+    logger.error(err.message);
+  }
 
   return publicUrl;
 };

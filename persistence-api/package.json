@@ -4,7 +4,7 @@
   "description": "MDEForge artefacts' persistence API",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "server": "NODE_ENV=development node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@google-cloud/storage": "^5.18.2",
+    "FormData": "^0.10.1",
     "apollo-server-core": "^3.6.1",
     "apollo-server-express": "^3.6.1",
     "axios": "^0.26.1",

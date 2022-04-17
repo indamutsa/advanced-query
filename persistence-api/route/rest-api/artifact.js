@@ -181,8 +181,6 @@ router.post(
 );
 
 const uploadMetamodel = async (req) => {
-  // extF = req.file.filename.match(/(.*)\.(.*)/)[2];
-
   extF = req.file.originalname.match(/(.*)\.(.*)/)[2];
 
   let fileExt = extF.toUpperCase();
@@ -205,40 +203,9 @@ const uploadMetamodel = async (req) => {
           `./localStorage/artifacts/metamodels/` + req.file.filename
         );
       }
-      // if (
-      //   !metamodelData.project.includes(
-      //     req.data ? req.data.project : req.body.project
-      //   )
-      // ) {
-      //   metamodelData = await Metamodel.findByIdAndUpdate(
-      //     metamodelData._id,
-      //     {
-      //       $push: {
-      //         project: req.data ? req.data.project : req.body.project,
-      //       },
-      //     },
-      //     {
-      //       new: true, //To return the updated value
-      //     }
-      //   );
-      // }
 
-      // metamodelData = JSON.parse(JSON.stringify(metamodelData));
-      // let { content, ...returnedData } = metamodelData;
+      const url = await uploadOnCloud("metamodels", req);
 
-      // return {
-      //   code: 409,
-      //   message: "Metamodel already exists!",
-      //   returnedData,
-      // };
-      // }
-
-      const url = await uploadOnCloud(
-        "metamodels",
-        req
-        // req.file.path,
-        // req.file.filename
-      );
       req.publicUrl = url;
 
       // Save metamodel
