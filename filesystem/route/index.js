@@ -8,8 +8,10 @@ module.exports = function (app) {
   // Setting up the api route and storage folder
   app.use("/file", express.static("public"));
   app.use(cors());
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true })); // for form data
+  // app.use(bodyParser.json());
+  // app.use(bodyParser.urlencoded({ extended: true })); // for form data
+  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
 
   // Route
   app.use("/api/upload", router);

@@ -25,6 +25,7 @@ const uploadFile = () => {
           cb(null, "./public/scripts");
         }
       } else {
+        console.log(folder);
         console.log("Folder not valid!");
       }
     },

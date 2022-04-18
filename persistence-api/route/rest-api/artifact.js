@@ -195,16 +195,16 @@ const uploadMetamodel = async (req) => {
     if (valid && project) {
       let data = await readFile("metamodel", req.file.path);
       let metamodelData = null;
-
+      let url = "";
       metamodelData = await Metamodel.findOne({ content: data.content });
 
       if (metamodelData) {
         await deleteFile(
           `./localStorage/artifacts/metamodels/` + req.file.filename
         );
+      } else {
+        url = await uploadOnCloud("metamodels", req);
       }
-
-      const url = await uploadOnCloud("metamodels", req);
 
       req.publicUrl = url;
 
@@ -216,17 +216,19 @@ const uploadMetamodel = async (req) => {
         ext: fileExt,
         // type: "METAMODEL",
         storageUrl: metamodelData ? metamodelData.storageUrl : req.publicUrl,
-        size: req.file.size,
+        size: metamodelData ? metamodelData.size : req.file.size,
         description: req.data ? req.data.description : req.body.description,
         accessControl: req.body?.accessControl,
         comment: req.body?.comment,
-        content: data?.content,
-        ePackage: {
-          name: data?.ePackage?.name,
-          nsURI: data?.ePackage?.nsURI,
-          nsPrefix: data?.ePackage?.nsPrefix,
-          eSubpackages: data?.ePackage?.eSubpackages,
-        },
+        content: metamodelData ? metamodelData.content : data?.content,
+        ePackage: metamodelData
+          ? metamodelData.ePackage
+          : {
+              name: data?.ePackage?.name,
+              nsURI: data?.ePackage?.nsURI,
+              nsPrefix: data?.ePackage?.nsPrefix,
+              eSubpackages: data?.ePackage?.eSubpackages,
+            },
       };
       const newMetamodel = await Metamodel(metamodel);
       const savedMetaModel = await newMetamodel.save();

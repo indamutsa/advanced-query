@@ -29,20 +29,20 @@ module.exports = createLogger({
     }),
 
     // MongoDB transport
-    new transports.MongoDB({
-      level: "info",
-      //mongo database connection link
-      db: process.env.MONGO_URL,
-      options: {
-        useUnifiedTopology: true,
-      },
-      // A collection to save json formatted logs
-      collection: "server_logs",
-      format: format.combine(
-        format.timestamp(),
-        // Convert logs to a json format
-        format.json()
-      ),
-    }),
+    // new transports.MongoDB({
+    //   level: "info",
+    //   //mongo database connection link
+    //   db: process.env.MONGO_URL,
+    //   options: {
+    //     useUnifiedTopology: true,
+    //   },
+    //   // A collection to save json formatted logs
+    //   collection: "server_logs",
+    //   format: format.combine(
+    //     format.timestamp(),
+    //     // Convert logs to a json format
+    //     format.json()
+    //   ),
+    // }),
   ],
 });

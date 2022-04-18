@@ -3,12 +3,13 @@ import os
 import sys
 import pdb
 
-main = '/home/arsene/Project/school-projects/mdeforge/data/apur/' #models-metamodels/'
+main = '/home/arsene/Project/school-projects/mdeforge/data/models-metamodels/'
+# main = '/home/arsene/Project/school-projects/mdeforge/data/apur/'
 
 def fun(folder):
     return main + folder +'/'
 
-paths = list(map(fun, os.listdir(main)))
+paths = list(map(fun, os.listdir(main))) # ['/home/arsene/Project/school-projects/mdeforge/data/models-metamodels/ZooATLAndMar/']
 
 urls = ["http://localhost:3200/store/", "http://178.238.238.209:3200/store/","http://34.67.33.7:3200/store/"]
 url = urls[int( sys.argv[1])]
@@ -86,20 +87,22 @@ for path in paths:
             data = iloveLissette(f, path)
             
             # print(data.status_code)
-            if data.status_code != 200 and data.status_code != 409:
-                failed_entry.append(f)
-                total_fail = total_fail + 1
+            if data.status_code == 200:
+                total_success = total_success + 1
             elif data.status_code == 409:
                 already_exist = already_exist + 1
                 already_entry.append(f)
             else:
-                total_success = total_success + 1
+                failed_entry.append(f)
+                total_fail = total_fail + 1                
+
         
             print("Execution...:", total_execution)
         
-        # i = i + 1
-        # if i == 1:
-        #     break
+        i = i + 1
+        if i == 1:
+            break
+   
             
         # call read text file function
         # read_text_file(file_path)
@@ -125,7 +128,7 @@ for path in paths:
             print("- ", n)
 
     print("==================================--=======================================")
-    
+    # break
 ##############################################################################
 
 

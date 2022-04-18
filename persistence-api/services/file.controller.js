@@ -1,4 +1,6 @@
 var axios = require("axios");
+var http = require("http");
+
 var FormData = require("form-data");
 var fs = require("fs");
 const processFile = require("../middleware/upload");
@@ -15,7 +17,8 @@ const uploadOnCloud = async (folder, req) => {
   // console.log(req.file);
   req.file.folder = folder;
   const publicUrl = await serverUpload("private", req);
-  await deleteFile(`../localStorage/artifacts/${folder}/` + req.file.filename);
+  // console.log("Inside the upload on cloud", publicUrl);
+  await deleteFile(req.file.path);
 
   return publicUrl;
 };
@@ -24,53 +27,35 @@ const serverUpload = async (type, req) => {
   let filename = req.file.filename;
   let filepath = req.file.path;
   let folder = req.file.folder;
+  let path = `${folder}/${filename}`;
   let publicUrl = "";
 
   try {
     switch (type) {
       case "local":
-        let path = `${folder}/${filename}`;
         publicUrl = `http://${req.get("host")}/files/${path}`;
-        return publicUrl;
+        break;
 
       case "private":
-        data.append("folder", folder);
-        data.append("file", fs.createReadStream(filepath));
-        var config = {
-          method: "POST",
-          url: "http://178.238.238.209:3201/api/upload/",
-          headers: {
-            ...data.getHeaders(),
-          },
-          data: data,
-        };
+        // data.append("folder", folder);
+        // data.append("file", fs.createReadStream(filepath));
 
-        const response = await axios(config)
-          .then((resp) => {
-            publicUrl = `http://178.238.238.209:3201/file/${folder}/${filename}`;
-            console.log("url", publicUrl);
-            logger.info("Uploaded the file successfully");
-            return publicUrl;
-          })
-          .catch((err) => {
-            throw new Error(
-              "Error occured while uploading the file" + err.message
-            );
+        // console.log(filepath);
+        var unirest = require("unirest");
+        var req = await unirest("POST", process.env.UPLOAD_URL)
+          .field("folder", folder)
+          .attach("file", filepath)
+          .end(function (res) {
+            if (res.error) console.log(res);
+            console.log(res.raw_body);
           });
-        console.log(response);
-      // if (response) {
-      //   publicUrl = `http://178.238.238.209:3201/file/${folder}/${filename}`;
-      //   console.log("url", publicUrl);
-      //   logger.info("Uploaded the file successfully");
-      //   return publicUrl;
-      // } else {
-      //   throw new Error(
-      //     "Error occured while uploading the file" + response.status
-      //   );
-      // }
+
+        // console.log("Inside the function", req.method);
+
+        break;
 
       case "cloud":
-        var options = {
+        let options = {
           destination: path,
           gzip: true,
           resumable: true,
@@ -88,16 +73,16 @@ const serverUpload = async (type, req) => {
           `https://storage.googleapis.com/${bucket.name}/${path}`
         );
 
-        return publicUrl;
+        break;
 
       default:
         break;
     }
   } catch (err) {
     console.log(err);
-    logger.error(err.message);
+    // logger.error(err.message);
   }
-
+  publicUrl = `http://localhost:3201/file/${folder}/${filename}`;
   return publicUrl;
 };
 
@@ -197,3 +182,81 @@ module.exports = {
   getListFiles,
   download,
 };
+
+// let config = {
+//   method: "POST",
+//   path: "/api/upload/",
+//   host: "localhost",
+//   port: 3201,
+//   headers: {
+//     ...data.getHeaders(),
+//   },
+// };
+
+// const send = (id) =>
+//   new Promise((resolve, reject) => {
+//     const req = http.request(config, (res) => {
+//       console.log(id + " " + res.statusCode);
+//       resolve();
+//     });
+//     req.on("data", () => {
+//       publicUrl = `http://localhost:3201/file/${folder}/${filename}`;
+//       data.pipe(req);
+//       resolve();
+//       console.log("*************");
+//       return publicUrl;
+//     });
+
+//     req.on("error", (error) => {
+//       console.warn(error);
+//       reject();
+//     });
+
+//     req.end();
+//   });
+
+// await send(1);
+// await send(2);
+
+// var config = {
+//   method: "POST",
+//   url: localUrl,
+//   headers: {
+//     ...data.getHeaders(),
+//   },
+//   data: data,
+// };
+
+// const response = await axios.post(localUrl, data, {
+//   headers: {
+//     ...data.getHeaders(),
+//   },
+// });
+// console.log(response.status);
+
+// (
+//   config
+// )
+// .then((resp) => {
+//   publicUrl = `http://178.238.238.209:3201/file/${folder}/${filename}`;
+//   console.log("url", publicUrl);
+//   logger.info("Uploaded the file successfully");
+//   return publicUrl;
+// })
+// .catch((err) => {
+//   throw new Error(
+//     "Error occured while uploading the file" + err.message
+//   );
+// });
+
+// if (response) {
+//   publicUrl = `http://178.238.238.209:3201/file/${folder}/${filename}`;
+//   console.log("url", publicUrl);
+//   logger.info("Uploaded the file successfully");
+//   return publicUrl;
+// } else {
+//   throw new Error(
+//     "Error occured while uploading the file" + response.status
+//   );
+// }
+// return publicUrl;
