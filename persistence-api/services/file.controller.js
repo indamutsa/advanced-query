@@ -1,8 +1,7 @@
-var axios = require("axios");
-var http = require("http");
+const unirest = require("unirest");
 
-var FormData = require("form-data");
-var fs = require("fs");
+const FormData = require("form-data");
+const fs = require("fs");
 const processFile = require("../middleware/upload");
 const { format } = require("util");
 const { Storage } = require("@google-cloud/storage");
@@ -37,11 +36,6 @@ const serverUpload = async (type, req) => {
         break;
 
       case "private":
-        // data.append("folder", folder);
-        // data.append("file", fs.createReadStream(filepath));
-
-        // console.log(filepath);
-        var unirest = require("unirest");
         var req = await unirest("POST", process.env.UPLOAD_URL)
           .field("folder", folder)
           .attach("file", filepath)
@@ -82,7 +76,7 @@ const serverUpload = async (type, req) => {
     console.log(err);
     // logger.error(err.message);
   }
-  publicUrl = `http://localhost:3201/file/${folder}/${filename}`;
+  publicUrl = `${process.env.BASE_URL}:3201/file/${folder}/${filename}`;
   return publicUrl;
 };
 
@@ -182,6 +176,11 @@ module.exports = {
   getListFiles,
   download,
 };
+
+// data.append("folder", folder);
+// data.append("file", fs.createReadStream(filepath));
+
+// console.log(filepath);
 
 // let config = {
 //   method: "POST",
