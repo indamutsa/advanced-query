@@ -204,9 +204,8 @@ const uploadMetamodel = async (req) => {
         );
       } else {
         url = await uploadOnCloud("metamodels", req);
+        req.publicUrl = url;
       }
-
-      req.publicUrl = url;
 
       // Save metamodel
       const metamodel = {
@@ -732,6 +731,8 @@ const uploadModel = async (req, res) => {
 
     if (valid && project) {
       let metamodel = null;
+      let url = "";
+
       if (metamodel_id) metamodel = await Metamodel.findById(metamodel_id);
 
       let data = await readFile("model", req.file.path);
@@ -739,58 +740,11 @@ const uploadModel = async (req, res) => {
       let modelData = await Model.findOne({ content: data.content });
 
       if (modelData) {
-        // if (
-        //   !modelData.project.includes(
-        //     req.data ? req.data.project : req.body.project
-        //   )
-        // ) {
-        //   modelData = await Model.findByIdAndUpdate(
-        //     modelData._id,
-        //     {
-        //       $push: {
-        //         project: req.data ? req.data.project : req.body.project,
-        //       },
-        //     },
-        //     {
-        //       new: true, //To return the updated value
-        //     }
-        //   );
-        // }
-
         await deleteFile(`/localStorage/artifacts/models/` + req.file.filename);
-
-        // modelData = JSON.parse(JSON.stringify(modelData));
-        // let { content, ...returnedData } = modelData;
-
-        // return {
-        //   code: 409,
-        //   message: "Metamodel already exists!",
-        //   returnedData,
-        // };
+      } else {
+        url = await uploadOnCloud("models", req);
+        req.publicUrl = url;
       }
-
-      // let artifact = {
-      //   type: "MODEL",
-      //   storageUrl: req.publicUrl,
-      //   // `http://${req.headers.host}/` + "files/model/" + req.file.filename,
-      //   size: req.file.size,
-      //   description: req.data ? req.data.description : req.body.description,
-      //   accessControl: req.body?.accessControl,
-      //   comment: req.body?.comment,
-      //   content: data.content,
-      // };
-
-      // // Save the artifact
-      // const newArtifact = await Artifact(artifact);
-      // const savedArtifact = await newArtifact.save();
-
-      const url = await uploadOnCloud(
-        "models",
-        req
-        // req.file.path,
-        // req.file.filename
-      );
-      req.publicUrl = url;
 
       // Save the model
       const model = {
@@ -803,11 +757,11 @@ const uploadModel = async (req, res) => {
         // type: "MODEL",
         storageUrl: modelData ? modelData.storageUrl : req.publicUrl,
         // `http://${req.headers.host}/` + "files/model/" + req.file.filename,
-        size: req.file.size,
+        size: modelData ? modelData.size : req.file.size,
         description: req.data ? req.data.description : req.body.description,
         accessControl: req.body?.accessControl,
         comment: req.body?.comment,
-        content: data.content,
+        content: modelData ? modelData.content : data.content,
       };
 
       const newModel = await Model(model);
@@ -1329,14 +1283,14 @@ router.post("/script", upload("scripts").single("file"), async (req, res) => {
 const uploadScript = async (req, res) => {
   let fileExt = req.file.filename.split(".")[1].toUpperCase();
 
-  const url = await uploadOnCloud(
-    "scripts",
-    req
-    // req.file.path,
-    // req.file.filename
-  );
+  // const url = await uploadOnCloud(
+  //   "scripts",
+  //   req
+  //   // req.file.path,
+  //   // req.file.filename
+  // );
 
-  req.publicUrl = url;
+  // req.publicUrl = url;
 
   try {
     const dslExts = ["ETL", "EOL", "EML", "ECL", "EVL", "ATL"];
@@ -1346,54 +1300,16 @@ const uploadScript = async (req, res) => {
       let data = await readFile("dsl", req.file.path);
 
       let dslData = await Dsl.findOne({ content: data.content });
+      let url = "";
 
       if (dslData) {
-        // if (
-        //   !dslData.project.includes(
-        //     req.data ? req.data.project : req.body.project
-        //   )
-        // ) {
-        //   dslData = await Dsl.findByIdAndUpdate(
-        //     dslData._id,
-        //     {
-        //       $push: {
-        //         project: req.data ? req.data.project : req.body.project,
-        //       },
-        //     },
-        //     {
-        //       new: true, //To return the updated value
-        //     }
-        //   );
-        // }
-
-        // dslData = JSON.parse(JSON.stringify(dslData));
-        // let { content, ...returnedData } = dslData;
-
         await deleteFile(
           `./localStorage/artifacts/scripts/` + req.file.filename
         );
-
-        // return {
-        //   code: 409,
-        //   message: "Dsl already exists!",
-        //   returnedData,
-        // };
+      } else {
+        url = await uploadOnCloud("scripts", req);
+        req.publicUrl = url;
       }
-
-      // let artifact = {
-      //   type: "DSL",
-      //   storageUrl: req.publicUrl,
-      //   // `http://${req.headers.host}/` + "files/script/" + req.file.filename,
-      //   size: req.file.size,
-      //   description: req.data ? req.data.description : req.body.description,
-      //   accessControl: req.body?.accessControl,
-      //   comment: req.body?.comment,
-      //   content: data.content,
-      // };
-
-      // Save the artifact
-      // const newArtifact = await Artifact(artifact);
-      // const savedArtifact = await newArtifact.save();
 
       // Save dsl
       const dsl = {
@@ -1405,11 +1321,11 @@ const uploadScript = async (req, res) => {
         // type: "DSL",
         storageUrl: dslData ? dslData.storageUrl : req.publicUrl,
         // `http://${req.headers.host}/` + "files/script/" + req.file.filename,
-        size: req.file.size,
+        size: dslData ? dslData.size : req.file.size,
         description: req.data ? req.data.description : req.body.description,
         accessControl: req.body?.accessControl,
         comment: req.body?.comment,
-        content: data.content,
+        content: dslData ? dslData?.content : data?.content,
       };
 
       const newDsl = await Dsl(dsl);
