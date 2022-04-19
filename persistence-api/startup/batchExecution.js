@@ -1,10 +1,9 @@
-var axios = require("axios");
+var unirest = require("unirest");
 const download = require("download");
 var FormData = require("form-data");
 var fs = require("fs");
 const { Metamodel } = require("../models/Metamodel");
 const { deleteFile } = require("../route/utilities");
-var data = new FormData();
 
 const runMetricsInInterval = async () => {
   // Get all metamodels from the cloud cluster
@@ -15,60 +14,43 @@ const runMetricsInInterval = async () => {
   //      Delete the downloaded artifact
   const filePath = `/home/arsene/Project/school-projects/mdeforge/advanced-query-mechanisms/persistence-api/localStorage/files`;
 
-  const metamodel = await Metamodel.findById("62340739a98e0b0014e9d1e8");
-  console.log(metamodel);
-  // metamodels.forEach(async (metamodel) => {
-  // const url = metamodel.storageUrl;
-  // const completed = await download(url, filePath);
-  // setTimeout(() => {
-  //   console.log("Waiting before calculating the metrics");
-  // }, 3000);
+  const metamodels = await Metamodel.find();
 
-  // if (completed) {
-  console.log("Download Completed");
-  data.append(
-    "atlScript",
-    fs.createReadStream(
-      `/home/arsene/Project/school-projects/mdeforge/advanced-query-mechanisms/persistence-api/localStorage/files/345_007_063_PNML_simplified--195555209-1647576888606-30.ecore`
-    )
-  );
+  metamodels.forEach(async (metamodel) => {
+    const url = metamodel.storageUrl;
+    const completed = await download(url, filePath);
 
-  var config = {
-    method: "post",
-    url: process.env.BASE_URL + ":8186/mms/transform/metrics",
-    headers: {
-      ...data.getHeaders(),
-    },
-    data: data,
-  };
+    console.log("Download Completed");
 
-  let metrics = await axios(config);
-  metrics = metrics.data;
+    var response = await unirest("POST", "http://localhost:8186/mms/metrics/")
+      .attach(
+        "ecoreMetamodel",
+        `/home/arsene/Project/school-projects/mdeforge/advanced-query-mechanisms/persistence-api/localStorage/files/${metamodel.unique_name}`
+      )
+      .end(function (res) {
+        if (res.error) console.log(res);
+        console.log(res.raw_body);
+      });
 
-  let i = 0;
-  metrics.forEach((metric) => {
-    metric.id = i;
-    metric.value = parseInt(metric.value);
-    i++;
+    let metrics = response.data;
+    console.log(metrics);
+
+    // metrics.forEach(async (metric) => {
+    //   await Metamodel.findByIdAndUpdate(
+    //     metamodel._id,
+    //     {
+    //       $push: {
+    //         metrics: metric,
+    //       },
+    //     },
+    //     {
+    //       new: true, //To return the updated value
+    //     }
+    //   );
+    // });
+
+    // deleteFile(`${filePath}/${metamodel.unique_name}`);
   });
-
-  metrics.forEach(async (metric) => {
-    await Metamodel.findByIdAndUpdate(
-      metamodel._id,
-      {
-        $push: {
-          metrics: metric,
-        },
-      },
-      {
-        new: true, //To return the updated value
-      }
-    );
-  });
-
-  // deleteFile(`${filePath}/${metamodel.unique_name}`);
-  // }
-  // });
 };
 
 module.exports = { runMetricsInInterval };

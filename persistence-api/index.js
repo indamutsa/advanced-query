@@ -67,7 +67,7 @@ async function runServer() {
   init_app(app);
   validate();
   loadInitData();
-  // runMetricsInInterval();
+  runMetricsInInterval();
 
   await server.start();
   server.applyMiddleware({ app });

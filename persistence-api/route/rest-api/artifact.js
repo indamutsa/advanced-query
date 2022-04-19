@@ -10,8 +10,6 @@ const { Dsl } = require("../../models/Dsl");
 const { Project } = require("../../models/Project");
 const logger = require("../../middleware/logger");
 const { deleteFile, uploadFile, readFile } = require("../utilities");
-const processFile = require("../../middleware/upload");
-// var fs = require("fs");
 
 router.get("/test", async (req, res) => {
   // let data = await readFile("metamodel");
@@ -317,7 +315,7 @@ const uploadMetamodel = async (req) => {
 // 2. Get all metamodel by the project
 /**
  * @swagger
- * /store/artifact/project:
+ * /store/artifact/metamodel:
  *  get:
  *      summary: Returns the list of metamodels owned by the project
  *      tags: [Metamodel]
@@ -355,7 +353,7 @@ const uploadMetamodel = async (req) => {
  *          500:
  *              description: An error occurred on the server, check the logs
  */
-router.get("/project", async (req, res) => {
+router.get("/metamodel", async (req, res) => {
   const project = await Project.findById(req.query.projectId);
 
   if (project) {

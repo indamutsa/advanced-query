@@ -365,7 +365,7 @@ services:
 
   metrics-calculator:
     container_name: metrics-calculator
-    image: indamutsa/metricscalculator:v1.4
+    image: indamutsa/metricscalculator:v1.6
     ports:
       - 8186:8186
     environment:
