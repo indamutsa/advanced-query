@@ -36,14 +36,14 @@ const computeMetrics = async (id) => {
   };
 
   axios(config)
-    .then(function (response) {
+    .then(async function (response) {
       let metrics = response.data.metrics;
       let maintainability = {
         name: response.data.qualityAttributes[0].name,
         value: response.data.qualityAttributes[0].value,
       };
 
-      metrics.push(maintainability);
+      await metrics.push(maintainability);
 
       metamodel.metrics = [];
 
@@ -62,6 +62,9 @@ const computeMetrics = async (id) => {
       });
 
       deleteFile(`${filePath}${metamodel.unique_name}`);
+      await setTimeout(() => {
+        console.log("Waiting for metrics to take effect...");
+      }, 5000);
     })
     .catch(function (error) {
       console.log(error.message);
