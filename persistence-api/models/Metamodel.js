@@ -82,7 +82,7 @@ const metamodelSchema = new Schema(
     metrics: [
       {
         name: {
-          type: Number,
+          type: String,
         },
         code: {
           type: String,
