@@ -13,7 +13,10 @@ const connectDb = async () => {
 
   try {
     await mongoose
-      .connect(uri, {})
+      .connect(uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      })
       .then(async (client) => {
         // const collection = await client.model("Listing");
         // const pipeline = [
@@ -226,22 +229,12 @@ async function main() {
     // }
 
     const metamodels = await Metamodel.find({ metrics: [] });
-    var count = metamodels.length;
-    var i = 0;
-    var counter = setInterval(timer, 1000);
-
-    async function timer() {
-      try {
-        let m = metamodels[i];
-        i++;
-
-        await computeMetrics(m._id);
-        console.log(m._id, i, count);
-        if (i == 12) process.exit(0);
-      } catch (e) {
-        console.log(e);
-      }
-    }
+    metamodels.forEach(async (metamodel) => {
+      const res = await metamodel.updateOne({
+        $set: { description: "updated the metrics --- " },
+      });
+      console.log(res);
+    });
 
     // app.post("/post", async (req, res) => {
     //   try {
