@@ -29,6 +29,10 @@ const computeMetrics = async (id) => {
   var config = {
     method: "post",
     url: `${process.env.BASE_URL}:8186/mms/metrics/qualities_and_metrics`,
+    enctype: "multipart/form-data",
+    processData: false,
+    contentType: false,
+    mimeType: "multipart/form-data",
     headers: {
       ...data.getHeaders(),
     },
