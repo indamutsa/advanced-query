@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="DEF" nsURI="http://def" nsPrefix="def">
+  <eClassifiers xsi:type="ecore:EClass" name="D">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="d">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="es" upperBound="-1" eType="//E"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fs" upperBound="-1" eType="//E"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="E">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="e">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="F">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="f">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Root">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ds" upperBound="-1" eType="//D" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="es" upperBound="-1" eType="//E" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fs" upperBound="-1" eType="//F" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

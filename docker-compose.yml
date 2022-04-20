@@ -111,7 +111,7 @@ services:
 
   # QUERY ENGINE
   #####################################################
-  query_engine:
+  query-engine:
     container_name: query-engine
     build:
       context: ./query-engine
@@ -365,7 +365,7 @@ services:
 
   metrics-calculator:
     container_name: metrics-calculator
-    image: indamutsa/metricscalculator:v1.67
+    image: indamutsa/metricscalculator:v1.8
     ports:
       - 8186:8186
     environment:
