@@ -43,8 +43,8 @@ const computeMetrics = async (id) => {
     .then(async function (response) {
       let metrics = response.data.metrics;
       let maintainability = {
-        name: response.data.qualityAttributes[0].name,
-        value: response.data.qualityAttributes[0].value,
+        name: response?.data?.qualityAttributes[0]?.name,
+        value: response?.data?.qualityAttributes[0]?.value,
       };
 
       await metrics.push(maintainability);

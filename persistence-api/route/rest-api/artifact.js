@@ -416,9 +416,9 @@ router.get("/metamodel", async (req, res) => {
  */
 router.get("/metamodel/:id", async (req, res) => {
   try {
-    const metamodels = await Metamodel.findById(req.params.id);
+    const metamodel = await Metamodel.findById(req.params.id);
 
-    let dataMM = JSON.parse(JSON.stringify(metamodels));
+    let dataMM = JSON.parse(JSON.stringify(metamodel));
     let { content, ...returnedData } = dataMM;
 
     logger.info("Metamodel retrieved successfully!");

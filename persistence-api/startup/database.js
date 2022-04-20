@@ -29,13 +29,13 @@ const connectDb = async () => {
         console.log(`Connected to database --> `);
 
         changeStream.on("change", async (object) => {
-          if (
-            object.operationType == "update" &&
-            object.updateDescription.metrics?.length > 0
-          ) {
+          if (object.operationType == "update") {
+            console.log("Please work");
             await computeMetrics(object.documentKey._id);
+            changeStream.close();
           } else if (object.operationType == "insert") {
             await computeMetrics(object.fullDocument._id);
+            changeStream.close();
           }
         });
       })
