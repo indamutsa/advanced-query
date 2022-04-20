@@ -62,9 +62,6 @@ const computeMetrics = async (id) => {
       });
 
       deleteFile(`${filePath}${metamodel.unique_name}`);
-      await setTimeout(() => {
-        console.log("Waiting for metrics to take effect...");
-      }, 5000);
     })
     .catch(function (error) {
       console.log(error.message);

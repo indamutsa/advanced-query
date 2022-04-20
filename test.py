@@ -3,8 +3,8 @@ import os
 import sys
 import pdb
 
-# main = '/home/arsene/Project/school-projects/mdeforge/data/models-metamodels/'
-main = '/home/arsene/Project/school-projects/mdeforge/data/apur/'
+main = '/home/arsene/Project/school-projects/mdeforge/data/models-metamodels/'
+# main = '/home/arsene/Project/school-projects/mdeforge/data/apur/'
 
 def fun(folder):
     return main + folder +'/'
