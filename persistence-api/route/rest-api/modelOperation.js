@@ -126,6 +126,7 @@ const upload = (dest) => {
  *              description: An error occurred on the server, check the logs!
  */
 router.post("/", uploadOperation, async (req, res) => {
+  console.log("Hello world");
   // let folder = req.originalUrl.split("/").pop();
   // req.folder = "operations";
 

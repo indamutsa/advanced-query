@@ -76,6 +76,7 @@ const createFile = async (filename, content) => {
 
     console.log("File created successfully!");
   });
+  await sleep(1000);
   return filename;
 };
 
