@@ -17,25 +17,36 @@ const connectDb = async () => {
       })
       .then(async (client) => {
         const collection = await client.model("Metamodel");
+
         const pipeline = [
           {
             $match: {
-              operationType: { $in: ["update", "insert"] },
+              $or: [
+                {
+                  "updateDescription.updatedFields.content": {
+                    $exists: true,
+                  },
+                  operationType: "update",
+                },
+                {
+                  "fullDocument.content": { $exists: true },
+                  operationType: "insert",
+                },
+              ],
             },
           },
         ];
 
-        const changeStream = collection.watch(pipeline);
+        let changeStream = collection.watch(pipeline);
         console.log(`Connected to database --> `);
 
         changeStream.on("change", async (object) => {
           if (object.operationType == "update") {
-            console.log("Please work");
+            console.log("Update event!!", object);
             await computeMetrics(object.documentKey._id);
-            changeStream.close();
           } else if (object.operationType == "insert") {
+            console.log("Insert event!!", object);
             await computeMetrics(object.fullDocument._id);
-            changeStream.close();
           }
         });
       })

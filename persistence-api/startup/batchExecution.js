@@ -17,14 +17,15 @@ const computeMetrics = async (id) => {
   const metamodel = await Metamodel.findById(id);
 
   var data = new FormData();
-
-  const url = metamodel.storageUrl;
-  const completed = await download(url, filePath);
-
-  data.append(
-    "metamodel",
-    fs.createReadStream(`${filePath}${metamodel.unique_name}`)
+  const path = await createFile(
+    filePath + metamodel.unique_name,
+    metamodel.content
   );
+
+  // const url = metamodel.storageUrl;
+  // const completed = await download(url, filePath);
+
+  data.append("metamodel", fs.createReadStream(`${path}`));
 
   var config = {
     method: "post",
@@ -65,11 +66,24 @@ const computeMetrics = async (id) => {
         );
       });
 
-      deleteFile(`${filePath}${metamodel.unique_name}`);
+      deleteFile(`${path}`);
     })
     .catch(function (error) {
       console.log(error.message);
     });
+};
+
+const createFile = async (filename, content) => {
+  await fs.writeFile(filename, content, (err) => {
+    if (err) throw err;
+
+    console.log("File created successfully!");
+  });
+  return filename;
+};
+
+const sleep = async (milliseconds) => {
+  await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
 module.exports = { computeMetrics };
