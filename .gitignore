@@ -12,3 +12,10 @@ persistence-api/logs/server.log
 /mongo-bundle/sharded/mongo_cluster/config1
 /mongo-bundle/sharded/mongo_cluster/config2
 /mongo-bundle/sharded/mongo_cluster/config3
+test
+filesystem/logs/serverLog.log
+filesystem/node_modules
+persistence-api/node_modules
+query-engine/node_modules
+query-dsl/dsl_frontend/node_modules
+query-dsl/dsl_backend/node_modules
