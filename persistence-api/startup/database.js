@@ -42,10 +42,10 @@ const connectDb = async () => {
 
         changeStream.on("change", async (object) => {
           if (object.operationType == "update") {
-            console.log("Update event!!", object);
+            console.log("Update event!!");
             await computeMetrics(object.documentKey._id);
           } else if (object.operationType == "insert") {
-            console.log("Insert event!!", object);
+            console.log("Insert event!!");
             await computeMetrics(object.fullDocument._id);
           }
         });
