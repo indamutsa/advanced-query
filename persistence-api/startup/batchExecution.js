@@ -13,7 +13,7 @@ const computeMetrics = async (id) => {
   //      Calculate the metrics
   //      append the metrics to the metamodel
   //      Delete the downloaded artifact
-  const filePath = `/home/arsene/Project/school-projects/mdeforge/advanced-query-mechanisms/persistence-api/localStorage/files/`;
+  const filePath = __dirname + "/../localStorage/files/";
   const metamodel = await Metamodel.findById(id);
 
   var data = new FormData();
@@ -21,9 +21,6 @@ const computeMetrics = async (id) => {
     filePath + metamodel.unique_name,
     metamodel.content
   );
-
-  // const url = metamodel.storageUrl;
-  // const completed = await download(url, filePath);
 
   data.append("metamodel", fs.createReadStream(`${path}`));
 
