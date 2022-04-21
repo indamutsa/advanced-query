@@ -13,7 +13,7 @@ const computeMetrics = async (id) => {
   //      Calculate the metrics
   //      append the metrics to the metamodel
   //      Delete the downloaded artifact
-  const filePath = __dirname + "/../localStorage/files/";
+  const filePath = "../localStorage/files/";
   const metamodel = await Metamodel.findById(id);
 
   var data = new FormData();
