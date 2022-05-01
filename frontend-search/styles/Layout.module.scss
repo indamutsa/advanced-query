@@ -1,0 +1,9 @@
+.layout {
+  margin-left: 7.56em;
+}
+
+.footerFix {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 5em);
+}

@@ -1,0 +1,26 @@
+.container {
+  width: 100%;
+  span {
+    color: $black;
+    // font-family: $roboto_mono;
+    font-size: 0.9em;
+    font-weight: 300;
+  }
+
+  .editor {
+    background-color: #c4c4c430;
+    box-shadow: 0px 3.7px 3.7px #00000040;
+    height: 29em;
+    min-width: 29em;
+    padding: 1.5em 1.5em;
+    // background-color: red;
+    width: 90%;
+    min-width: 90%;
+  }
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 1em;
+  }
+}

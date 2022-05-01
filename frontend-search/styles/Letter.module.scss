@@ -1,0 +1,21 @@
+.letters {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  box-shadow: 2px 3.58px 3.58px #00000040;
+  //   padding: 0.5em;
+  margin-top: 0.5em;
+
+  .letter {
+    cursor: pointer;
+    padding-top: 0.2em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 0.2em;
+  }
+
+  .letter:hover {
+    background-color: rgba(148, 145, 145, 0.4);
+    transition: all 0.2s ease-out;
+  }
+}

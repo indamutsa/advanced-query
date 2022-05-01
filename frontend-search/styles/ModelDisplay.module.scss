@@ -1,0 +1,56 @@
+@mixin flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin button {
+  margin-right: 1em;
+  padding: 0.2em 0.3em 0.2em 0.3em;
+  // background-color: rgba(43, 90, 105, 1);
+  color: white;
+  box-shadow: 2px 6px 6px #00000040;
+}
+
+.container {
+  span {
+    color: $black;
+    font-family: $roboto;
+    font-size: 0.9em;
+    font-weight: 300;
+  }
+
+  .hrCenter {
+    @include flex;
+
+    hr {
+      width: 70%;
+    }
+  }
+  .centerDisplay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modelDisp {
+      margin-top: 2em;
+      height: 22em;
+      width: 80%;
+      // background-color: red;
+    }
+  }
+  .editContent {
+    @include flex;
+    // background-color: red;
+    width: 50%;
+
+    .edit {
+      background-color: rgba(43, 90, 105, 1);
+      justify-content: flex-start;
+      margin-left: 8em;
+      @include button;
+      padding: 0.7em 1.2em 0.7em 1.2em;
+      cursor: pointer;
+    }
+  }
+}
