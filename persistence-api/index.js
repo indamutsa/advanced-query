@@ -15,7 +15,7 @@ require("dotenv").config({
 });
 
 const { loadInitData } = require("./startup/loadInitData");
-const { runMetricsInInterval } = require("./startup/batchExecution");
+const { updateMany } = require("./startup/batchExecution");
 const { ApolloServer, gql } = require("apollo-server-express");
 const {
   ApolloServerPluginLandingPageGraphQLPlayground,

@@ -73,6 +73,17 @@ const computeMetrics = async (id) => {
     });
 };
 
+const updateMany = async () => {
+  const metamodels = await Metamodel.find();
+
+  metamodels.forEach(async (metamodel) => {
+    let metrics = metamodel.metrics.slice(23, -1);
+    await Metamodel.updateOne({ _id: metamodel._id }, { metrics: metrics });
+  });
+
+  return metamodels.length;
+};
+
 const createFile = async (filename, content) => {
   await fs.writeFile(filename, content, (err) => {
     if (err) throw err;
@@ -87,4 +98,4 @@ const sleep = async (milliseconds) => {
   await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-module.exports = { computeMetrics };
+module.exports = { computeMetrics, updateMany };

@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 const fs = require("fs");
 const multer = require("multer");
 const { schema } = require("../route/graphql-legacy/Schema");
+const { updateMany } = require("../startup/batchExecution");
 
 // openapi packages
 const swaggerUI = require("swagger-ui-express");
@@ -133,4 +134,10 @@ module.exports = function (app) {
   //   console.log("I run on every request!");
   //   next();
   // });
+
+  app.get("/hello-world", async (req, res) => {
+    console.log("changing the metrics");
+    let n = await updateMany();
+    res.send("Updating the metrics" + n);
+  });
 };
