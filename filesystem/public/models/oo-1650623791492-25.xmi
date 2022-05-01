@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="OO" xsi:schemaLocation="OO ../metamodels/oo.ecore">
+  <Datatype name="String"/>
+  <Datatype name="Boolean"/>
+  <Datatype name="Real"/>
+  <Class name="User" extendedBy="/4 /7 /10">
+    <features xsi:type="Attribute" name="name" type="/0"/>
+  </Class>
+  <Class name="Customer1" extends="/3">
+    <features xsi:type="Attribute" name="fullname" type="/0"/>
+    <features xsi:type="Attribute" name="active" type="/1"/>
+  </Class>
+  <Class name="Account1">
+    <features xsi:type="Attribute" name="number" type="/0"/>
+    <features xsi:type="Attribute" name="balance" type="/2"/>
+    <features xsi:type="Reference" name="owner" type="/4"/>
+  </Class>
+  <Class name="Employee1">
+    <features xsi:type="Attribute" name="number" type="/0"/>
+    <features xsi:type="Attribute" name="balance" type="/2"/>
+    <features xsi:type="Reference" name="has" type="/5"/>
+  </Class>
+  <Class name="Customer2" extends="/3">
+    <features xsi:type="Attribute" name="fullname" type="/0"/>
+    <features xsi:type="Attribute" name="active" type="/1"/>
+  </Class>
+  <Class name="Account2">
+    <features xsi:type="Attribute" name="number" type="/0"/>
+    <features xsi:type="Attribute" name="balance" type="/2"/>
+    <features xsi:type="Reference" name="owner" type="/7"/>
+  </Class>
+  <Class name="Employee2">
+    <features xsi:type="Attribute" name="number" type="/0"/>
+    <features xsi:type="Attribute" name="balance" type="/2"/>
+    <features xsi:type="Reference" name="has" type="/8"/>
+  </Class>
+  <Class name="Customer3" extends="/3">
+    <features xsi:type="Attribute" name="fullname" type="/0"/>
+    <features xsi:type="Attribute" name="active" type="/1"/>
+  </Class>
+  <Class name="Account3">
+    <features xsi:type="Attribute" name="number" type="/0"/>
+    <features xsi:type="Attribute" name="balance" type="/2"/>
+    <features xsi:type="Reference" name="owner" type="/10"/>
+  </Class>
+  <Class name="Employee3">
+    <features xsi:type="Attribute" name="number" type="/0"/>
+    <features xsi:type="Attribute" name="balance" type="/2"/>
+    <features xsi:type="Reference" name="has" type="/11"/>
+  </Class>
+</xmi:XMI>
