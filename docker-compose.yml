@@ -165,8 +165,8 @@ services:
     #   dockerfile: ./Dockerfile
     volumes:
       - "./mongo-bundle/monstache/monstache.config.toml:/app/monstache.config.toml"
-      - mongo-rs0-1
-      - elasticsearch
+      # - mongo-rs0-1
+      # - elasticsearch
     ports:
       - "8080:8080"
     networks:
