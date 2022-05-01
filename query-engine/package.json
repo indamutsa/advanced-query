@@ -4,7 +4,8 @@
   "description": "Advanced query mechanisms",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js",
+    "debug": "node --inspect server.js"
   },
   "author": "Arsene Indamutsa",
   "license": "ISC",
