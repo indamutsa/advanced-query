@@ -16,7 +16,7 @@
       "request": "launch",
       "name": "Launch Program",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/query-engine/server.js"
+      "program": "${workspaceFolder}/persistence-api/index.js"
     }
   ]
 }
