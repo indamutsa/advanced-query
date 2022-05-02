@@ -37,22 +37,28 @@ const computeMetrics = async (id) => {
     data: data,
   };
 
-  axios(config)
+  await axios(config)
     .then(async function (response) {
       let metricsData = response.data?.metrics;
       metricsData.forEach((metric) => {
         metric.value = parseFloat(metric.value);
       });
 
+      console.log("Inside the metrics data ---------------------");
       let maintainability = {
         name: response?.data?.qualityAttributes[0]?.name,
         value: parseFloat(response?.data?.qualityAttributes[0]?.value),
       };
-      metamodel.metrics = [];
 
+      await Metamodel.updateOne({ _id: metamodel._id }, { metrics: [] });
       await metricsData.push(maintainability);
 
       metricsData.forEach(async (metric) => {
+        if (!metric.value) metric.value = -1;
+        if (!metric.name)
+          metric.name =
+            "Metric not retrieved, update the content to trigger compute metrics!";
+
         await Metamodel.findByIdAndUpdate(
           metamodel._id,
           {
