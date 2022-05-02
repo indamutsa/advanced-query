@@ -23,13 +23,13 @@ const connectDb = async () => {
             $match: {
               $or: [
                 {
-                  "updateDescription.updatedFields.description": {
+                  "updateDescription.updatedFields.content": {
                     $exists: true,
                   },
                   operationType: "update",
                 },
                 {
-                  "fullDocument.description": { $exists: true },
+                  "fullDocument.content": { $exists: true },
                   operationType: "insert",
                 },
               ],
