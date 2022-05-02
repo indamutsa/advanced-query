@@ -165,8 +165,8 @@ services:
     #   dockerfile: ./Dockerfile
     volumes:
       - "./mongo-bundle/monstache/monstache.config.toml:/app/monstache.config.toml"
-      - mongo-rs0-1
-      - elasticsearch
+      # - mongo-rs0-1
+      # - elasticsearch
     ports:
       - "8080:8080"
     networks:
@@ -365,7 +365,7 @@ services:
 
   metrics-calculator:
     container_name: metrics-calculator
-    image: indamutsa/metrics-calculator:v1.0
+    image: indamutsa/metrics-calculator:v1.2
     ports:
       - 8186:8186
     environment:

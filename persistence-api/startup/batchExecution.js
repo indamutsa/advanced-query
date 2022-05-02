@@ -50,7 +50,7 @@ const computeMetrics = async (id) => {
       };
       metamodel.metrics = [];
 
-      await metrics.push(maintainability);
+      await metricsData.push(maintainability);
 
       metrics.forEach(async (metric) => {
         await Metamodel.findByIdAndUpdate(
