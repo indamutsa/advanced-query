@@ -39,17 +39,17 @@ const computeMetrics = async (id) => {
 
   axios(config)
     .then(async function (response) {
-      let metrics = response.data.metrics;
+      let metricsData = response.data.metrics;
       let maintainability = {
         name: response?.data?.qualityAttributes[0]?.name,
         value: response?.data?.qualityAttributes[0]?.value,
       };
 
-      await metrics.push(maintainability);
+      await metricsData.push(maintainability);
 
       metamodel.metrics = [];
-
-      metrics.forEach(async (metric) => {
+ 
+      metricsData.forEach(async (metric) => {
         await Metamodel.findByIdAndUpdate(
           metamodel._id,
           {
