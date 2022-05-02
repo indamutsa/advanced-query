@@ -40,6 +40,7 @@ const computeMetrics = async (id) => {
   axios(config)
     .then(async function (response) {
       let metrics = response.data?.metrics;
+
       metrics.forEach((metric) => {
         metric.value = parseFloat(metric.value);
       });
