@@ -39,20 +39,20 @@ const computeMetrics = async (id) => {
 
   axios(config)
     .then(async function (response) {
-      let metrics = response.data.metrics;
+      let metrics = response.data?.metrics;
+      metrics.forEach((metric) => {
+        metric.value = parseFloat(metric.value);
+      });
 
       let maintainability = {
         name: response?.data?.qualityAttributes[0]?.name,
         value: parseFloat(response?.data?.qualityAttributes[0]?.value),
       };
+      metamodel.metrics = [];
 
       await metrics.push(maintainability);
 
-      metamodel.metrics = [];
-
       metrics.forEach(async (metric) => {
-        metric.value = parseFloat(metric.value);
-
         await Metamodel.findByIdAndUpdate(
           metamodel._id,
           {
@@ -77,8 +77,11 @@ const updateMany = async () => {
   const metamodels = await Metamodel.find();
 
   metamodels.forEach(async (metamodel) => {
-    let metrics = metamodel.metrics.slice(23, -1);
-    await Metamodel.updateOne({ _id: metamodel._id }, { metrics: metrics });
+    let metrics = [];
+    await Metamodel.updateOne(
+      { _id: metamodel._id },
+      { description: "Hello world" }
+    );
   });
 
   return metamodels.length;

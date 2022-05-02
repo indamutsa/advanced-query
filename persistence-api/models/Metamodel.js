@@ -89,6 +89,7 @@ const metamodelSchema = new Schema(
         },
         value: {
           type: Number,
+          default: -1,
         },
       },
     ],
