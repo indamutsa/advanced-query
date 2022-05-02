@@ -39,15 +39,19 @@ const computeMetrics = async (id) => {
 
   axios(config)
     .then(async function (response) {
-      let metrics = response.data.metrics;
+      let metrics = response.data?.metrics;
+
+      metrics.forEach((metric) => {
+        metric.value = parseFloat(metric.value);
+      });
+
       let maintainability = {
         name: response?.data?.qualityAttributes[0]?.name,
-        value: response?.data?.qualityAttributes[0]?.value,
+        value: parseFloat(response?.data?.qualityAttributes[0]?.value),
       };
-
-      await metrics.push(maintainability);
-
       metamodel.metrics = [];
+
+      await metricsData.push(maintainability);
 
       metrics.forEach(async (metric) => {
         await Metamodel.findByIdAndUpdate(
@@ -70,6 +74,20 @@ const computeMetrics = async (id) => {
     });
 };
 
+const updateMany = async () => {
+  const metamodels = await Metamodel.find();
+
+  metamodels.forEach(async (metamodel) => {
+    let metrics = [];
+    await Metamodel.updateOne(
+      { _id: metamodel._id },
+      { description: "Hello world" }
+    );
+  });
+
+  return metamodels.length;
+};
+
 const createFile = async (filename, content) => {
   await fs.writeFile(filename, content, (err) => {
     if (err) throw err;
@@ -84,4 +102,4 @@ const sleep = async (milliseconds) => {
   await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-module.exports = { computeMetrics };
+module.exports = { computeMetrics, updateMany };
