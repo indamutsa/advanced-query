@@ -93,6 +93,8 @@ const metamodelSchema = new Schema(
         },
       },
     ],
+    modelMetric: {},
+
     content: {
       type: String,
     },

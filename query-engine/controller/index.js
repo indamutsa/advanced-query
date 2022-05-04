@@ -6,28 +6,44 @@ module.exports = {
     res.json({ hello: "Hello, world! " });
   },
 
+  // Here we need to return this data:
+  /**
+   * ext
+   * last
+   * from
+   * to
+   * quality metrics
+   *    Key: AIC
+   *    operator: gte
+   *    value
+   * microsyntax
+   * size
+   */
   async getArtifactsDroid(req, res) {
     try {
-      const { ext, keyword, size } = req.body;
-      console.log(req.body);
+      // const { ext, keyword, size } = req.body;
+      const { ext, last, from, to, microsyntax, size } = req.body;
+      const { key, operator, value } = req.body.quality;
 
-      let result = await Services.getDroidData(size, ext, keyword);
+      let result = await Services.getDroidData(size, ext);
 
-      // const result = await Services.search();
-      const data = result.hits.hits.map((car) => {
+      const data = result.hits.hits.map((response) => {
         return {
-          id: car._id,
-          data: car._source,
+          id: response._id,
+          data: response._source,
         };
       });
-      res.json({
-        status_code: 200,
-        success: true,
-        data: data,
-        total_hits: result.hits.total.value,
-        message: "Data successfully fetched!",
-      });
+      console.log(data);
+      res.json(data);
+      // res.json({
+      //   status_code: 200,
+      //   success: true,
+      //   data: data,
+      //   total_hits: result.hits.total.value,
+      //   message: "Data successfully fetched!",
+      // });
     } catch (err) {
+      console.log(err);
       res.json({ status_code: 500, success: false, data: [], message: err });
     }
   },

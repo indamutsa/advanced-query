@@ -5,6 +5,12 @@ const { deleteFile } = require("../route/utilities");
 var axios = require("axios");
 var FormData = require("form-data");
 var fs = require("fs");
+const {
+  createFile,
+  updateMany,
+  transformArrayToObj,
+  sleep,
+} = require("../ad-hoc");
 
 const computeMetrics = async (id) => {
   // Get all metamodels from the cloud cluster
@@ -50,61 +56,39 @@ const computeMetrics = async (id) => {
         value: parseFloat(response?.data?.qualityAttributes[0]?.value),
       };
 
-      await Metamodel.updateOne({ _id: metamodel._id }, { metrics: [] });
+      await Metamodel.updateOne({ _id: metamodel._id }, { metric: {} });
       await metricsData.push(maintainability);
 
-      metricsData.forEach(async (metric) => {
-        if (!metric.value) metric.value = -1;
-        if (!metric.name)
-          metric.name =
-            "Metric not retrieved, update the content to trigger compute metrics!";
+      let metric = await transformArrayToObj(metamodel.metrics);
+      await Metamodel.updateOne(
+        { _id: metamodel._id },
+        { modelMetric: metric }
+      );
 
-        await Metamodel.findByIdAndUpdate(
-          metamodel._id,
-          {
-            $push: {
-              metrics: metric,
-            },
-          },
-          {
-            new: true, //To return the updated value
-          }
-        );
-      });
+      // metricsData.forEach(async (metric) => {
+      //   if (!metric.value) metric.value = -1;
+      //   if (!metric.name)
+      //     metric.name =
+      //       "Metric not retrieved, update the content to trigger compute metrics!";
+
+      //   await Metamodel.findByIdAndUpdate(
+      //     metamodel._id,
+      //     {
+      //       $push: {
+      //         metrics: metric,
+      //       },
+      //     },
+      //     {
+      //       new: true, //To return the updated value
+      //     }
+      //   );
+      // });
 
       deleteFile(`${path}`);
     })
     .catch(function (error) {
       console.log(error.message);
     });
-};
-
-const updateMany = async () => {
-  const metamodels = await Metamodel.find();
-
-  metamodels.forEach(async (metamodel) => {
-    let metrics = [];
-    await Metamodel.updateOne(
-      { _id: metamodel._id },
-      { description: "Hello world" }
-    );
-  });
-
-  return metamodels.length;
-};
-
-const createFile = async (filename, content) => {
-  await fs.writeFile(filename, content, (err) => {
-    if (err) throw err;
-
-    console.log("File created successfully!");
-  });
-  await sleep(1000);
-  return filename;
-};
-
-const sleep = async (milliseconds) => {
-  await new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
 module.exports = { computeMetrics, updateMany };

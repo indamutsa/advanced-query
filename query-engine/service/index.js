@@ -127,8 +127,8 @@ module.exports = {
   },
 
   // Get artifacts with the size, the type and the keywords
-  async getDroidData(size, ext, keywords) {
-    let requestBody = null;
+  async getDroidData(size, extension) {
+    // let requestBody = null;
     if (!size) size = -1;
 
     // requestBody = esb
@@ -144,31 +144,42 @@ module.exports = {
     //   )
     //   .size(size);
 
-    const data = await client.search({
-      index: index + "*",
+    const requestBody = {
+      index: `mdeforge.dsls,mdeforge.metamodels,mdeforge.models`,
       body: {
         size: size,
-        query: {
-          bool: {
-            must: [
-              {
-                match_phrase: {
-                  ext: ext,
-                },
-              },
-              {
-                match: {
-                  content: {
-                    query: keywords,
-                    minimum_should_match: 1,
-                  },
-                },
-              },
-            ],
-          },
-        },
+        ext: extension,
       },
-    });
+    };
+
+    const data = await client.search(requestBody);
+
+    console.log(data);
+    // const data = await client.search({
+    //   index: `mdeforge.dsls,mdeforge.metamodels,mdeforge.models`,
+    //   body: {
+    //     size: size,
+    //     query: {
+    //       bool: {
+    //         must: [
+    //           {
+    //             match_phrase: {
+    //               ext: ext,
+    //             },
+    //           },
+    //           {
+    //             match: {
+    //               content: {
+    //                 query: keywords,
+    //                 minimum_should_match: 1,
+    //               },
+    //             },
+    //           },
+    //         ],
+    //       },
+    //     },
+    //   },
+    // });
 
     return data;
   },
