@@ -1,6 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-require("dotenv").config();
+
+require("dotenv").config({
+  path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : ".env",
+});
+
 // require("./utility").resetIndex(); // To reindex data, uncomment this
 const app = express();
 
