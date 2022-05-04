@@ -3,8 +3,8 @@ import os
 import sys
 import pdb
 
-main = '/home/arsene/Project/school-projects/mdeforge/data/models-metamodels/'
-# main = '/home/arsene/Project/school-projects/mdeforge/data/apur/'
+# main = '/home/arsene/Project/school-projects/mdeforge/data/models-metamodels/'
+main = '/home/arsene/Project/school-projects/mdeforge/data/apur/'
 
 def fun(folder):
     return main + folder +'/'
@@ -45,9 +45,9 @@ project_d = response.json()
 
 def iloveLissette(filename, path):
     # Uploading the metamodel
-    uri = url + "artifact/model"
+    # uri = url + "artifact/model"
     # uri = url + "artifact/metamodel"
-    # uri = url + "artifact/script"
+    uri = url + "artifact/script"
     
 
     payload={'description': 'We are trying to save the model using the api','metamodel': '', 'project': project_id}
