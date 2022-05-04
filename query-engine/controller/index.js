@@ -32,7 +32,7 @@ module.exports = {
     }
   },
 
-  // Examples can be run here
+  // Examples can be run here because you can export them from here
 };
 
 // Examples:
