@@ -7,9 +7,7 @@ var FormData = require("form-data");
 var fs = require("fs");
 const {
   createFile,
-  updateMany,
   transformArrayToObj,
-  sleep,
 } = require("../ad-hoc");
 
 const computeMetrics = async (id) => {
@@ -45,12 +43,14 @@ const computeMetrics = async (id) => {
 
   await axios(config)
     .then(async function (response) {
+
       let metricsData = response.data?.metrics;
       metricsData.forEach((metric) => {
         metric.value = parseFloat(metric.value);
       });
 
       console.log("Inside the metrics data ---------------------");
+
       let maintainability = {
         name: response?.data?.qualityAttributes[0]?.name,
         value: parseFloat(response?.data?.qualityAttributes[0]?.value),
@@ -91,4 +91,4 @@ const computeMetrics = async (id) => {
     });
 };
 
-module.exports = { computeMetrics, updateMany };
+module.exports = { computeMetrics };
