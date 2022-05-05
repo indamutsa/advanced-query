@@ -10,8 +10,6 @@ module.exports = {
   app_port: process.env.APP_PORT,
 };
 
-console.log(process.env.ELASTICSEARCH_HOST, process.env.ELASTICSEARCH_PASSWORD);
-
 if (result.error) {
   console.log(result.error, "[Error Parsing env variables!]");
   throw result.error;

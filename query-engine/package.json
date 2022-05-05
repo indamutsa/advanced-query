@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "NODE_ENV=development node server.js",
+    "server": "NODE_ENV=development nodemon server.js",
     "debug": "node --inspect server.js"
   },
   "author": "Arsene Indamutsa",
