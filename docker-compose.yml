@@ -363,6 +363,18 @@ services:
     networks:
       - search-engine
 
+  frontend-search:
+    container_name: frontend-search
+    image: indamutsa/frontend-search:v1.0
+    ports:
+      - 3500:3500
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - search-engine
+
+      
+
   metrics-calculator:
     container_name: metrics-calculator
     image: indamutsa/metrics-calculator:v1.0
