@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Home from "../components/Home";
 
+// This is the main entry but wrapped in the Layout container
 export default function Index() {
   return (
     <div>
