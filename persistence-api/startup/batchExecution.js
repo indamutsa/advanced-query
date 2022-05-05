@@ -46,6 +46,7 @@ const computeMetrics = async (id) => {
       });
 
       console.log("Inside the metrics data ---------------------");
+
       let maintainability = {
         name: response?.data?.qualityAttributes[0]?.name,
         value: parseFloat(response?.data?.qualityAttributes[0]?.value),
