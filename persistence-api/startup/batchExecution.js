@@ -5,12 +5,7 @@ const { deleteFile } = require("../route/utilities");
 var axios = require("axios");
 var FormData = require("form-data");
 var fs = require("fs");
-const {
-  createFile,
-  updateMany,
-  transformArrayToObj,
-  sleep,
-} = require("../ad-hoc");
+const { createFile, transformArrayToObj } = require("../ad-hoc");
 
 const computeMetrics = async (id) => {
   // Get all metamodels from the cloud cluster
@@ -91,4 +86,4 @@ const computeMetrics = async (id) => {
     });
 };
 
-module.exports = { computeMetrics, updateMany };
+module.exports = { computeMetrics };
