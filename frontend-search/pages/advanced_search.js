@@ -43,7 +43,10 @@ const Qass = {
 const Advanced = () => {
   const [startDate, setStartDate] = useState(new Date());
 
-  const handleClick = () => {};
+  const handleClick = () => {
+    e.preventDefault();
+    router.push(`/result`);
+  };
 
   return (
     <div className={styles.container}>
