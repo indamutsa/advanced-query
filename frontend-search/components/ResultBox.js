@@ -1,11 +1,18 @@
 import styles from "../styles/ResultBox.module.scss";
+import Link from "next/link";
+
 const ResultBox = () => {
   return (
     <div className={styles.container}>
       <div className={styles.upperDiv}>
-        <div className={styles.url}>
-          http://178.238.238.209:3200/files/metamodels/SimpleOOP-1649864593972-32.ecore
-        </div>
+        <Link
+          target="_blank"
+          href="http://178.238.238.209:3201/file/metamodels/SimpleOOP-1651518206305-59.ecore"
+        >
+          <a target="_blank" className={styles.url}>
+            http://178.238.238.209:3201/file/metamodels/SimpleOOP-1651518206305-59.ecore
+          </a>
+        </Link>
         <div className={styles.name}>
           <p> Name:</p> <span>SimpleOOP.ecore</span>
         </div>
@@ -22,7 +29,9 @@ const ResultBox = () => {
             artifacts
           </span>
         </div>
-        <div className={styles.viewDownload}>View / Download</div>
+        <Link href="artifact-display">
+          <div className={styles.viewDownload}>View / Download</div>
+        </Link>
       </div>
     </div>
   );

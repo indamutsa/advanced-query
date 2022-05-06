@@ -17,7 +17,7 @@ const nextConfig = {
         destination: "/ModelDisplay",
       },
       {
-        source: "/edit-model",
+        source: "/edit-artifact",
         destination: "/ModelEdit",
       },
     ];

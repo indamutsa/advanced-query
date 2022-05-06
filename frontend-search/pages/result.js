@@ -1,6 +1,7 @@
 import styles from "../styles/Result.module.scss";
 import Image from "next/image";
 import ResultBox from "../components/ResultBox";
+import Link from "next/link";
 
 const result = () => {
   return (
@@ -16,17 +17,21 @@ const result = () => {
               type="text"
               required=""
             />
-            <Image
-              className={styles.magnify}
-              src="/image/magnify-glass.svg"
-              alt="magnify"
-              height="32px"
-              width="32px"
-            />
+            <Link href="/advanced-search">
+              <Image
+                className={styles.magnify}
+                src="/image/magnify-glass.svg"
+                alt="magnify"
+                height="32px"
+                width="32px"
+              />
+            </Link>
           </div>
           <div className={styles.metaResults}>
             <div className={styles.total}>Total: 556</div>
-            <div className={styles.advanced}>Advanced Search</div>
+            <Link href="/advanced-search">
+              <div className={styles.advanced}>Advanced Search</div>
+            </Link>
           </div>
         </div>
         <div className={styles.result}>

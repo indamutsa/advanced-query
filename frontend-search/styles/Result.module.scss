@@ -37,6 +37,7 @@
           font-family: $opensans;
           border: 0;
           font-size: 1em;
+          margin-left: 0.8em;
         }
       }
 
@@ -56,6 +57,14 @@
           font-size: large;
           font-family: $opensans;
           font-weight: 700;
+          font-family: $montserrat;
+          // padding-top: 20px;
+          // padding-right: 1px;
+          text-align: right;
+          cursor: pointer;
+        }
+        .advanced:hover {
+          color: $primary-color;
         }
       }
     }

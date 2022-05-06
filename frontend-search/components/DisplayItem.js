@@ -5,7 +5,7 @@ import styles from "../styles/DisplayItem.module.scss";
 
 const DisplayItem = ({ data }) => {
   const { key, value } = data;
-  console.log(key, value);
+
   return (
     <div className={styles.dispItem}>
       <div className={styles.fieldItem}>
