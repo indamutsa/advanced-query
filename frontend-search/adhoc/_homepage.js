@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "../styles/Home.module.scss";
 
 const Homepage = () => {
@@ -27,7 +28,11 @@ const Homepage = () => {
           />
         </div>
 
-        <div className={styles.advanced}>Advanced Search</div>
+        <Link href="/advanced-search">
+          <div onClick={() => console.log("Hello")} className={styles.advanced}>
+            Advanced Search
+          </div>
+        </Link>
       </div>
       <div className={styles.description}>
         <p>

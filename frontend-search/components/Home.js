@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "../styles/Home.module.scss";
 
 const Home = () => {
@@ -19,15 +20,18 @@ const Home = () => {
             type="text"
             required=""
           />
-          <Image
-            src="/image/magnify-glass.svg"
-            alt=""
-            width="40px"
-            height="40px"
-          />
+          <Link href="/result">
+            <Image
+              src="/image/magnify-glass.svg"
+              alt=""
+              width="40px"
+              height="40px"
+            />
+          </Link>
         </div>
-
-        <div className={styles.advanced}>Advanced Search</div>
+        <Link href="/advanced-search">
+          <div className={styles.advanced}>Advanced Search</div>
+        </Link>
       </div>
       <div className={styles.description}>
         <p>

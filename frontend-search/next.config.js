@@ -30,10 +30,6 @@ const nextConfig = {
     // ssr and displayName are configured by default
     styledComponents: true,
   },
-  watchOptions: {
-    poll: 1000,
-    aggregateTimeout: 300,
-  },
 };
 
 module.exports = nextConfig;

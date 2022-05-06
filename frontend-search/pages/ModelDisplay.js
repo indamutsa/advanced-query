@@ -33,7 +33,7 @@ const ModelDisplay = () => {
             let value = values[i];
             let obj = { key: item, value: value };
 
-            return <DisplayItem key={i} data={obj} />;
+            return <DisplayItem data={obj} />;
           })}
         </div>
       </div>
