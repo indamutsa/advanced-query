@@ -6,7 +6,7 @@ const ResultBox = () => {
     <div className={styles.container}>
       <div className={styles.upperDiv}>
         <Link
-          target="_blank"
+          passHref
           href="http://178.238.238.209:3201/file/metamodels/SimpleOOP-1651518206305-59.ecore"
         >
           <a target="_blank" className={styles.url}>
@@ -29,7 +29,7 @@ const ResultBox = () => {
             artifacts
           </span>
         </div>
-        <Link href="artifact-display">
+        <Link href="artifact-display" passHref>
           <div className={styles.viewDownload}>View / Download</div>
         </Link>
       </div>

@@ -28,7 +28,7 @@ const ModelEdit = () => {
         <Button style={{ marginRight: "20px", padding: "5px 25px" }}>
           Reset
         </Button>
-        <Link href="/artifact-display">
+        <Link href="/artifact-display" passHref>
           <Button style={{ padding: "5px 25px" }} search>
             Update
           </Button>

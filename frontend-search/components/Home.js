@@ -39,7 +39,7 @@ const Home = () => {
             onClick={handleSubmit}
           />
         </div>
-        <Link href="/advanced-search">
+        <Link href="/advanced-search" passHref>
           <div className={styles.advanced}>Advanced Search</div>
         </Link>
       </div>

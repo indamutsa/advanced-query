@@ -39,7 +39,7 @@ const ModelDisplay = () => {
         </div>
       </div>
       <div className={styles.editContent}>
-        <Link href="edit-artifact">
+        <Link href="edit-artifact" passHref>
           <div className={styles.edit}>Edit content</div>
         </Link>
       </div>

@@ -20,6 +20,10 @@ const nextConfig = {
         source: "/edit-artifact",
         destination: "/ModelEdit",
       },
+      {
+        source: "/result",
+        destination: "/Result",
+      },
     ];
   },
   sassOptions: {

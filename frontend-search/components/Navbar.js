@@ -5,7 +5,7 @@ const Navbar = () => {
   const showLogo = true;
   return (
     <div className={styles.container}>
-      <Link href="/">
+      <Link href="/" passHref>
         <div className={styles.logo}>
           <p>MDEFORGE</p>
           <div className={styles.logoImg}>
@@ -22,10 +22,10 @@ const Navbar = () => {
 
       <div className={styles.navbar}>
         <ul className={styles.list}>
-          <Link href="/browse">
+          <Link href="/browse" passHref>
             <li className={styles.listItem}>Browse</li>
           </Link>
-          <Link href="/model-service">
+          <Link href="/model-service" passHref>
             <li className={styles.listItem}>Services</li>
           </Link>
           <li className={styles.listItem}>Log In</li>

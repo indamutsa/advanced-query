@@ -4,7 +4,7 @@ import ResultBox from "../components/ResultBox";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const result = () => {
+const Result = () => {
   const router = useRouter();
 
   const handleSubmit = (e) => {
@@ -39,7 +39,7 @@ const result = () => {
           </div>
           <div className={styles.metaResults}>
             <div className={styles.total}>Total: 556</div>
-            <Link href="/advanced-search">
+            <Link href="/advanced-search" passHref>
               <div className={styles.advanced}>Advanced Search</div>
             </Link>
           </div>
@@ -59,4 +59,4 @@ const result = () => {
   );
 };
 
-export default result;
+export default Result;

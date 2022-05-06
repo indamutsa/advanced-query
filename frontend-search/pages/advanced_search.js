@@ -4,7 +4,6 @@ import SearchRect from "../components/common/SearchRect";
 import PossibleTransformation from "../components/PossibleTransformation";
 import Button from "../components/common/Button";
 import { useState } from "react";
-import { useRouter } from "next/router";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -43,12 +42,8 @@ const Qass = {
 
 const Advanced = () => {
   const [startDate, setStartDate] = useState(new Date());
-  const router = useRouter();
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    router.push("/result");
-  };
+  const handleClick = () => {};
 
   return (
     <div className={styles.container}>
