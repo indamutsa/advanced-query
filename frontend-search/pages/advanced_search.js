@@ -4,6 +4,7 @@ import SearchRect from "../components/common/SearchRect";
 import PossibleTransformation from "../components/PossibleTransformation";
 import Button from "../components/common/Button";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -42,6 +43,13 @@ const Qass = {
 
 const Advanced = () => {
   const [startDate, setStartDate] = useState(new Date());
+  const router = useRouter();
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    router.push("/result");
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -136,7 +144,10 @@ const Advanced = () => {
           </div>
           <div className={styles.buttons}>
             <Button style={{ marginRight: "20px" }}>Reset</Button>
-            <Button search>Search</Button>
+
+            <Button onClick={handleClick} search>
+              Search
+            </Button>
           </div>
         </div>
       </div>
