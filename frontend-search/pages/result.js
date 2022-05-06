@@ -2,30 +2,40 @@ import styles from "../styles/Result.module.scss";
 import Image from "next/image";
 import ResultBox from "../components/ResultBox";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const result = () => {
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    router.push(`/result`);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.upperView}>
           <div className={styles.title}>Search results</div>
           <div className={styles.searchBar}>
-            <input
-              className={styles.search}
-              name="searchartifacts"
-              placeholder="Search artifacts..."
-              type="text"
-              required=""
-            />
-            <Link href="/advanced-search">
-              <Image
-                className={styles.magnify}
-                src="/image/magnify-glass.svg"
-                alt="magnify"
-                height="32px"
-                width="32px"
+            <form onSubmit={handleSubmit}>
+              <input
+                className={styles.search}
+                name="searchartifacts"
+                placeholder="Search artifacts..."
+                type="text"
+                required=""
               />
-            </Link>
+            </form>
+
+            <Image
+              className={styles.magnify}
+              src="/image/magnify-glass.svg"
+              alt="magnify"
+              height="32px"
+              width="32px"
+              onClick={handleSubmit}
+            />
           </div>
           <div className={styles.metaResults}>
             <div className={styles.total}>Total: 556</div>

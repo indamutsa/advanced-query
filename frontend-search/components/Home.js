@@ -1,8 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/Home.module.scss";
+import { useRouter } from "next/router";
 
 const Home = () => {
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    router.push(`/result`);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.title}>
@@ -13,21 +21,23 @@ const Home = () => {
       </div>
       <div className={styles.searchBar}>
         <div className={styles.bar}>
-          <input
-            className={styles.searchArtifacts}
-            name="searchartifacts"
-            placeholder="Search artifacts..."
-            type="text"
-            required=""
-          />
-          <Link href="/result">
-            <Image
-              src="/image/magnify-glass.svg"
-              alt=""
-              width="40px"
-              height="40px"
+          <form onSubmit={handleSubmit}>
+            <input
+              className={styles.searchArtifacts}
+              name="searchartifacts"
+              placeholder="Search artifacts..."
+              type="text"
+              required=""
             />
-          </Link>
+          </form>
+
+          <Image
+            src="/image/magnify-glass.svg"
+            alt=""
+            width="40px"
+            height="40px"
+            onClick={handleSubmit}
+          />
         </div>
         <Link href="/advanced-search">
           <div className={styles.advanced}>Advanced Search</div>
