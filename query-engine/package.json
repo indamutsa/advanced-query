@@ -4,7 +4,7 @@
   "description": "Advanced query mechanisms",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "server": "NODE_ENV=development node server.js",
     "debug": "node --inspect server.js"
   },
