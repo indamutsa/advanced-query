@@ -5,6 +5,35 @@
 // console.log(newStr);
 // "Java-Script"
 
+/**
+ *
+ * The first case:
+ *  keyword1 keyword2 keyword3 keyword4
+ *
+ * The second case:
+ *  keyword1 AND keyword2 OR keyword3 NOT keyword4
+ *
+ * The third case:
+ *  (keyword1 AND keyword2) NOT keyword3 AND keyword4
+ *
+ * The fourth case:
+ *  keyword1 keyword2 keyword3 keyword4 AND CMC == 4
+ *
+ * The fifth case:
+ *  keyword1 keyword2 keyword3 keyword4 AND CMC >= 5 AND CMC <=6
+ *
+ * The sixth case:
+ *  keyword1 keyword2 keyword3 keyword4 AND CMC =< 7 AND size < 8000
+ *
+ * The seventh:
+ *  keyword1 keyword2 keyword3 keyword4 name="name" hasAttribute="name" hasClassName="" isTransformable="metamodel_id" conformsTo="metamodel_id"
+ *
+ * The fourth case:
+ *  keyword1 keyword2 keyword3 keyword4 AND CMC (>= 4, <=5)
+ *
+ *
+ */
+
 const newSentence =
   "name : 'SimpleOOP.ecore' modelMetric.metrics.CMC.value: >5";
 const str = "name = ['SimpleOOP.ecore'] modelMetric.metrics.CMC.value: >5";
