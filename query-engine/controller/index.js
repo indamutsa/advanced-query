@@ -2,7 +2,7 @@ const Services = require("../service");
 
 module.exports = {
   async test(req, res) {
-    console.log(req.body);
+    // console.log(req.body);
     res.json({ hello: "Hello, world! " });
   },
 
@@ -26,7 +26,7 @@ module.exports = {
       const data = result.hits.hits.map((response) => {
         let dataRes = JSON.parse(JSON.stringify(response._source));
         let { content, ...censoredData } = dataRes;
-        console.log(censoredData);
+        // console.log(censoredData);
         return {
           id: response._id,
           data: censoredData,
@@ -41,7 +41,7 @@ module.exports = {
         message: "Data successfully fetched!",
       });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       res.json({ status_code: 500, success: false, data: [], message: err });
     }
   },
