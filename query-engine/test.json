@@ -1,100 +1,99 @@
-    {{
-    "code" : "ACFMC",
-    "name" : "Number of abstract Completely Featureless MetaClass"
-    },
-    {
-    "code" : "AIFLMC",
-    "name" : "Number of abstract immediate Featureless MetaClass",
-    },
-    {
-    "code" : "AMC",
-    "name" : "Number of abstract MetaClass",
-    },
-   	{
-    "code" : "ATTR",
-    "name" : "Number of Total Attribute",
-    },
-    {
-    "code" : "ATTRH",
-    "name" : "Number of Total Attribute with inherited",
-    },
-    {
-    "code" : "AVGATTR",
-    "name" : "Average Attribute in a class",
-    },
-    {
-    "code" : "AVGREF",
-    "name" : "Average Reference in a (class (avg fan out)",
-    },
-    {
-    "code" : "CCFMC",
-    "name" : "Number of concrete Completely Featureless MetaClass",
-    },
-    {
-    "code" : "CFLMC",
-    "name" : "Number of Completely Featureless MetaClass"
-    },
-    {
-    "code" : "CIFLMC",
-    "name" : "Number of concrete immediate Featureless MetaClass",
-    },
-    {
-    "code" : "CMC",
-    "name" : "Number of concrete MetaClass",
+{
+"code" : "ACFMC",
+"name" : "Number of abstract Completely Featureless MetaClass"
+},
+{
+"code" : "AIFLMC",
+"name" : "Number of abstract immediate Featureless MetaClass",
+},
+{
+"code" : "AMC",
+"name" : "Number of abstract MetaClass",
+},
+{
+"code" : "ATTR",
+"name" : "Number of Total Attribute",
+},
+{
+"code" : "ATTRH",
+"name" : "Number of Total Attribute with inherited",
+},
+{
+"code" : "AVGATTR",
+"name" : "Average Attribute in a class",
+},
+{
+"code" : "AVGREF",
+"name" : "Average Reference in a (class (avg fan out)",
+},
+{
+"code" : "CCFMC",
+"name" : "Number of concrete Completely Featureless MetaClass",
+},
+{
+"code" : "CFLMC",
+"name" : "Number of Completely Featureless MetaClass"
+},
+{
+"code" : "CIFLMC",
+"name" : "Number of concrete immediate Featureless MetaClass",
+},
+{
+"code" : "CMC",
+"name" : "Number of concrete MetaClass",
 
-    },
-    {
-    "code" : "IFLMC",
-    "name" : "Number of immediate Featureless MetaClass",
+},
+{
+"code" : "IFLMC",
+"name" : "Number of immediate Featureless MetaClass",
 
-    },
-    {
-    "code" : "LMC",
-    "name" : "Number of lonely classes",
-    },
-    {
-    "code" : "MAXHL",
-    "name" : "Max generalizzation hierarchical level",
-    },
-    {
-    "code" : "MAXHS",
-    "name" : "Max Hierarchy Sibiling",
-    },
-    {
-    "code" : "MC",
-    "name" : "Number of MetaClass",
-    },
-    {
-    "code" : "MCWSP",
-    "name" : "Number of class with a super type",
-    },
-    {
-    "code" : "MTNB",
-    "name" : "maintainability"
-    },
-    {
-    "code" : "REC_CONT",
-    "name" : "Number of TotalReference containment",
-    },
-    {
-    "code" : "REF",
-    "name" : "Number of TotalReference",
-    },
-    {
-    "code" : "REFCC",
-    "name" : "Max chain of containment",
-    },
-    {
-    "code" : "REFEOP",
-    "name" : "Number of Opposite Reference ",
-    },
-    {
-    "code" : "SF",
-    "name" : "Number of Total eStructuralFeature",
-    },
-    {
-    "code" : "SFH",
-    "name" : "Number of Total structural feature with inherited",
-    }
-
+},
+{
+"code" : "LMC",
+"name" : "Number of lonely classes",
+},
+{
+"code" : "MAXHL",
+"name" : "Max generalizzation hierarchical level",
+},
+{
+"code" : "MAXHS",
+"name" : "Max Hierarchy Sibiling",
+},
+{
+"code" : "MC",
+"name" : "Number of MetaClass",
+},
+{
+"code" : "MCWSP",
+"name" : "Number of class with a super type",
+},
+{
+"code" : "MTNB",
+"name" : "maintainability"
+},
+{
+"code" : "REC_CONT",
+"name" : "Number of TotalReference containment",
+},
+{
+"code" : "REF",
+"name" : "Number of TotalReference",
+},
+{
+"code" : "REFCC",
+"name" : "Max chain of containment",
+},
+{
+"code" : "REFEOP",
+"name" : "Number of Opposite Reference ",
+},
+{
+"code" : "SF",
+"name" : "Number of Total eStructuralFeature",
+},
+{
+"code" : "SFH",
+"name" : "Number of Total structural feature with inherited",
 }
+
