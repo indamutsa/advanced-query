@@ -3,9 +3,15 @@ import Image from "next/image";
 import ResultBox from "../components/ResultBox";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useAppContext } from "../context/AppContext";
 
-const Result = () => {
+const Result = ({ data }) => {
   const router = useRouter();
+
+  // UseContext when using useReducer
+  const { state, dispatch } = useAppContext();
+  const { number } = state;
+  console.log(number);
 
   const handleSubmit = (e) => {
     e.preventDefault();

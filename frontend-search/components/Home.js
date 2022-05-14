@@ -2,12 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/Home.module.scss";
 import { useRouter } from "next/router";
+import { useAppContext } from "../context/AppContext";
 
 const Home = () => {
   const router = useRouter();
 
+  // UseContext when using useReducer
+  const { state, dispatch } = useAppContext();
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch({ type: "add_number", value: 3 });
     router.push(`/result`);
   };
 

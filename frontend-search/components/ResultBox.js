@@ -29,7 +29,7 @@ const ResultBox = () => {
             artifacts
           </span>
         </div>
-        <Link href="artifact-display" passHref>
+        <Link href="/artifact-display" passHref>
           <div className={styles.viewDownload}>View / Download</div>
         </Link>
       </div>

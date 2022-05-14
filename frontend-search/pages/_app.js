@@ -7,16 +7,15 @@ config.autoAddCss = false;
 import Layout from "../components/Layout";
 import "../styles/globals.scss";
 
-// import store from "../redux/store";
-// import { Provider } from "react-redux";
+import { AppProvider } from "../context/AppContext";
 
 function MyApp({ Component, pageProps }) {
   return (
-    // <Provider store={store}>
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
-    // </Provider>
+    <AppProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </AppProvider>
   );
 }
 
