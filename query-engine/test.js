@@ -1,9 +1,65 @@
+function add(number) {
+  if (number > 0) {
+    return number + add(number - 1);
+  } else {
+    return number;
+  }
+}
+
+// const sum = add(10);
+// console.log(sum);
+
 // matches a number, some characters and another number
 // const reg = /\d.*\d/;
 // const str = "Java3foobar4Script";
 // const newStr = str.replace(reg, "-");
 // console.log(newStr);
 // "Java-Script"
+
+const str =
+  "student teacher 'hello world' AND name = ' arsene indamutsa ' jahjahjdah AND hasAttribute='name' sdkjfdsjf";
+const newStr =
+  "((size <= 5000) AND (project= '6270277a6320d300138ce4d0') NOT (ext='etl')) OR save the model using CMC == 2 CMC = 2";
+// What is a keyword
+// const tokens = str.split(/\s+/);
+
+let attribute = newStr.match(/([a-zA-Z]+\s*=\s*'[^']+\s*'\s*)+/g);
+console.log(attribute);
+
+let op = newStr.match(/([a-zA-Z]+\s*(=|<|>|<=|>=|==)\s*[0-9])+/g);
+console.log(op);
+
+let keyword = str.match(/\w*\s*'(\w)'+/g);
+console.log(keyword);
+
+// for (let i = 0; i < tokens.length; i++) {
+//   if (tokens[i].match(/\w='.*'$/)) {
+//     console.log(tokens[i]);
+//   }
+
+//   // if (tokens[i].match(/=/) && tokens[i + 1].match(/'/)) {
+//   //   console.log(tokens[i]);
+//   // }
+// }
+
+// const tokens = [];
+// let keyword = "";
+// for (let i = 0; i < str.length; i++) {
+//   keyword = keyword + str.charAt(i);
+//   if (str.charAt(i).match(/\s+(?!\s*\=\s*['|(+)])/)) {
+//     tokens.push(keyword);
+//     i++;
+//     keyword = "";
+//   }
+// }
+
+/**
+ * I am going to extract keywords
+ * a keyword are words or symbols delimited by space.
+ * they are followed or preceded by attribute
+ * keywords and attrbutes can be joined by operator
+ *
+ */
 
 /**
  *
@@ -34,16 +90,16 @@
  *
  */
 
-const newSentence =
-  "name : 'SimpleOOP.ecore' modelMetric.metrics.CMC.value: >5";
-const str = "name = ['SimpleOOP.ecore'] modelMetric.metrics.CMC.value: >5";
-const makeTag = /=\s*\[["|']/;
-let tag = /s*["|']s*\]s*/;
+// const newSentence =
+//   "name : 'SimpleOOP.ecore' modelMetric.metrics.CMC.value: >5";
+// const str = "name = ['SimpleOOP.ecore'] modelMetric.metrics.CMC.value: >5";
+// const makeTag = /=\s*\[["|']/;
+// let tag = /s*["|']s*\]s*/;
 
-let newStr = str.replace(makeTag, ": '");
-let now = newStr.replace(tag, "'");
+// let newStr = str.replace(makeTag, ": '");
+// let now = newStr.replace(tag, "'");
 
-console.log(now);
+// console.log(now);
 
 // const transformArrayToObj = (data) => {
 //   const metrics = [

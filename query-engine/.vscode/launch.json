@@ -17,6 +17,13 @@
       "name": "Launch Program",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/server.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug test.js",
+      "program": "${workspaceFolder}/test.js",
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }
