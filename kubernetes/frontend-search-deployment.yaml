@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontend-search
+  name: frontend-search
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontend-search
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/search-engine: "true"
+        io.kompose.service: frontend-search
+    spec:
+      containers:
+      - env:
+        - name: HOST
+          value: 0.0.0.0
+        image: indamutsa/frontend-search:v1.3
+        imagePullPolicy: ""
+        name: frontend-search
+        ports:
+        - containerPort: 3500
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}

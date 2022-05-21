@@ -22,7 +22,7 @@ const ItemPaginate = () => {
   const pageCount = Math.ceil(items.length / itemsPerPage);
 
   const changePage = ({ selected }) => {
-    console.log(selected);
+    // console.log(selected);
     setPageNumber(selected);
   };
 
