@@ -1,5 +1,5 @@
 content = read("file")
-var element = content.foreach(n => n=== )
+var element = content.foreach(n => n !== m )
 
 if(i == 0)
     print("yes")

@@ -1,6 +1,11 @@
 const Services = require("../../../service");
 
 const Query = {
+  query: async (parent, args, context, info) => {
+    console.log(args);
+    return "Hello";
+  },
+
   users: async (parent, args, context, info) => {
     try {
       const result = await Services.getCollections("users");
@@ -144,6 +149,7 @@ const Query = {
   // ================================================================
   user: async (parent, args, context, info) => {
     try {
+      console.log(args);
       const { username, userId } = args;
       const result = await Services.getUser(username, userId);
 

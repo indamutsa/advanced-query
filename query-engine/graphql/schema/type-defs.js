@@ -24,6 +24,9 @@ const typeDefs = gql`
     dslById(dslId: String): collData!
     # ===================================
     metamodelByValue(field: String, value: String, size: Int = 5): Data!
+
+    # -------------Query----------------------
+    query(microsyntax: String): Data!
   }
 
   """
