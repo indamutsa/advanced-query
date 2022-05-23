@@ -1,6 +1,30 @@
 const Services = require("../../../service");
 
 const Query = {
+  // Main query for the engine
+  query: async (parent, args, context, info) => {
+    try {
+      const result = await Services.search(args);
+      const _data = result.hits.hits.map((doc) => {
+        let id = doc._id;
+        doc = doc._source;
+        doc.id = id;
+        return doc;
+      });
+
+      const data = {
+        status_code: 200,
+        success: true,
+        data: _data,
+        message: "Data successfully fetched!",
+      };
+
+      return data;
+    } catch (err) {
+      console.log(err.message);
+    }
+  },
+
   users: async (parent, args, context, info) => {
     try {
       const result = await Services.getCollections("users");

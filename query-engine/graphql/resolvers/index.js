@@ -12,6 +12,7 @@ const resolvers = {
       if (obj.models) return "Metamodel";
       if (obj.metamodel) return "Model";
       if (obj.type === "DSL") return "Dsl";
+      if (obj.ext === "UML") return "Dsl";
       return null;
     },
   },

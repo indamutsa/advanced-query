@@ -5,10 +5,22 @@ const index = config.es_index;
 const type = config.es_type;
 
 const esb = require("elastic-builder"); //the builder
-const { generateDroidQueryDsl } = require("../utils");
+const { generateDroidQueryDsl, mainQueryGenerator } = require("../utils");
 
 module.exports = {
-  async search() {
+  async search(body) {
+    const requestBody = mainQueryGenerator(body);
+
+    let index = `mdeforge.dsls,mdeforge.metamodels,mdeforge.models`;
+    let data = await client.search({
+      index: index,
+      body: requestBody,
+    });
+
+    return data;
+  },
+
+  async searchDemo() {
     const requestBody = esb
       .requestBodySearch()
       .query(esb.matchAllQuery())

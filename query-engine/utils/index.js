@@ -82,6 +82,24 @@ const generateDroidQueryDsl = (body) => {
   return requestObject;
 };
 
+const mainQueryGenerator = (args) => {
+  const { microsyntax } = args;
+
+  let requestObject = `
+  {
+
+    "query": {
+      "query_string": {
+        "query": "${microsyntax}"
+      }
+    }
+  }  
+  `;
+
+  requestObject = fixJSON(requestObject);
+  return requestObject;
+};
+
 const queryType = (operator) => {
   let op = "";
   switch (operator) {
@@ -111,4 +129,4 @@ function fixJSON(json) {
   return newJson;
 }
 
-module.exports = { generateDroidQueryDsl };
+module.exports = { generateDroidQueryDsl, mainQueryGenerator };
