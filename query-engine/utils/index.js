@@ -87,7 +87,7 @@ const mainQueryGenerator = (args) => {
 
   let requestObject = `
   {
-
+    "_source": ["name", "storageUrl", "size", "createdAt", "description"], 
     "query": {
       "query_string": {
         "query": "${microsyntax}"

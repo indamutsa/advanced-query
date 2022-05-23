@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import PageTitle from "../components/common/PageTitle";
 import styles from "../styles/ModelEdit.module.scss";
 import dynamic from "next/dynamic";
@@ -27,9 +28,11 @@ const ModelEdit = () => {
         <Button style={{ marginRight: "20px", padding: "5px 25px" }}>
           Reset
         </Button>
-        <Button style={{ padding: "5px 25px" }} search>
-          Update
-        </Button>
+        <Link href="/artifact-display" passHref>
+          <Button style={{ padding: "5px 25px" }} search>
+            Update
+          </Button>
+        </Link>
       </div>
     </div>
   );

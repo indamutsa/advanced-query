@@ -1,7 +1,21 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "../styles/Home.module.scss";
+import { useRouter } from "next/router";
+import { useAppContext } from "../context/AppContext";
 
 const Home = () => {
+  const router = useRouter();
+
+  // UseContext when using useReducer
+  const { state, dispatch } = useAppContext();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch({ type: "add_number", value: 3 });
+    router.push(`/result`);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.title}>
@@ -12,22 +26,27 @@ const Home = () => {
       </div>
       <div className={styles.searchBar}>
         <div className={styles.bar}>
-          <input
-            className={styles.searchArtifacts}
-            name="searchartifacts"
-            placeholder="Search artifacts..."
-            type="text"
-            required=""
-          />
+          <form onSubmit={handleSubmit}>
+            <input
+              className={styles.searchArtifacts}
+              name="searchartifacts"
+              placeholder="Search artifacts..."
+              type="text"
+              required=""
+            />
+          </form>
+
           <Image
             src="/image/magnify-glass.svg"
             alt=""
             width="40px"
             height="40px"
+            onClick={handleSubmit}
           />
         </div>
-
-        <div className={styles.advanced}>Advanced Search</div>
+        <Link href="/advanced-search" passHref>
+          <div className={styles.advanced}>Advanced Search</div>
+        </Link>
       </div>
       <div className={styles.description}>
         <p>

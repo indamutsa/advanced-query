@@ -29,7 +29,8 @@ console.log(attribute);
 let op = newStr.match(/([a-zA-Z]+\s*(=|<|>|<=|>=|==)\s*[0-9])+/g);
 console.log(op);
 
-let keyword = str.match(/\w*\s*'(\w)'+/g);
+// let keyword = str.match(/\w*\s*'(\w)'+/g);
+let keyword = str.match(/[a-zA-Z]'(\w)'+/g);
 console.log(keyword);
 
 // for (let i = 0; i < tokens.length; i++) {

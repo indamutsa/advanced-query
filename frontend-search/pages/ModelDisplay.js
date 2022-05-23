@@ -1,6 +1,7 @@
 import PageTitle from "../components/common/PageTitle";
 import DisplayItem from "../components/DisplayItem";
 import styles from "../styles/ModelDisplay.module.scss";
+import Link from "next/link";
 
 let data = {
   Name: "SimpleOOP.ecore",
@@ -33,12 +34,14 @@ const ModelDisplay = () => {
             let value = values[i];
             let obj = { key: item, value: value };
 
-            return <DisplayItem data={obj} />;
+            return <DisplayItem key={i} data={obj} />;
           })}
         </div>
       </div>
       <div className={styles.editContent}>
-        <div className={styles.edit}>Edit content</div>
+        <Link href="/edit-artifact" passHref>
+          <div className={styles.edit}>Edit content</div>
+        </Link>
       </div>
     </div>
   );

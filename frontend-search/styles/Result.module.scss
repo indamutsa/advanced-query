@@ -32,11 +32,22 @@
         cursor: pointer;
         box-shadow: 6px 6px 6px #00000040;
 
-        .search {
-          width: 97%;
-          font-family: $opensans;
-          border: 0;
-          font-size: 1em;
+        form {
+          width: 95%;
+          display: flex;
+          align-items: center;
+          .search {
+            width: 97%;
+            font-family: $opensans;
+            border: 0;
+            font-size: 0.8em;
+            margin-left: 0.8em;
+            width: 100%;
+          }
+
+          .search:focus {
+            outline: none;
+          }
         }
       }
 
@@ -56,6 +67,14 @@
           font-size: large;
           font-family: $opensans;
           font-weight: 700;
+          font-family: $montserrat;
+          // padding-top: 20px;
+          // padding-right: 1px;
+          text-align: right;
+          cursor: pointer;
+        }
+        .advanced:hover {
+          color: $primary-color;
         }
       }
     }

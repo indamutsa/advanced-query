@@ -168,6 +168,7 @@ const Query = {
   // ================================================================
   user: async (parent, args, context, info) => {
     try {
+      console.log(args);
       const { username, userId } = args;
       const result = await Services.getUser(username, userId);
 

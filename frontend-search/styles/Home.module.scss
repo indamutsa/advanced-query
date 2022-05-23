@@ -38,18 +38,23 @@
       cursor: pointer;
       box-shadow: 6px 6px 6px #00000040;
 
-      .searchArtifacts {
-        font-weight: 400;
-        font-size: 19px;
-        padding-left: 0px;
-        font-family: $opensans;
-        border: 0;
-        margin-left: 20px;
-        width: 92%;
-      }
+      form {
+        width: 95%;
+        display: flex;
+        align-items: center;
+        .searchArtifacts {
+          font-weight: 400;
+          font-size: 19px;
+          padding-left: 0px;
+          font-family: $opensans;
+          border: 0;
+          margin-left: 20px;
+          width: 100%;
+        }
 
-      .searchArtifacts:focus {
-        outline: none;
+        .searchArtifacts:focus {
+          outline: none;
+        }
       }
     }
     .bar:hover {

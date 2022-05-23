@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: persistence-api
+  name: persistence-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: persistence-api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/search-engine: "true"
+        io.kompose.service: persistence-api
+    spec:
+      containers:
+      - args:
+        - bash
+        - -c
+        - sleep 130 && npm run server
+        image: persistence-api
+        imagePullPolicy: ""
+        name: persistence
+        ports:
+        - containerPort: 3200
+        resources: {}
+        volumeMounts:
+        - mountPath: /app
+          name: persistence-api-claim0
+        - mountPath: /usr/src/app/node_modules
+          name: persistence-api-claim1
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: persistence-api-claim0
+        persistentVolumeClaim:
+          claimName: persistence-api-claim0
+      - name: persistence-api-claim1
+        persistentVolumeClaim:
+          claimName: persistence-api-claim1
+status: {}

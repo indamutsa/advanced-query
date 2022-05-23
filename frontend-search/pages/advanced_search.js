@@ -42,6 +42,12 @@ const Qass = {
 
 const Advanced = () => {
   const [startDate, setStartDate] = useState(new Date());
+
+  const handleClick = () => {
+    e.preventDefault();
+    router.push(`/result`);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -136,7 +142,10 @@ const Advanced = () => {
           </div>
           <div className={styles.buttons}>
             <Button style={{ marginRight: "20px" }}>Reset</Button>
-            <Button search>Search</Button>
+
+            <Button onClick={handleClick} search>
+              Search
+            </Button>
           </div>
         </div>
       </div>
