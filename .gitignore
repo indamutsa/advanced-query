@@ -16,6 +16,7 @@ persistence-api/logs/server.log
 test
 filesystem/logs/serverLog.log
 filesystem/node_modules
+<<<<<<< HEAD
 filesystem/public/*
 persistence-api/node_modules
 query-engine/node_modules
@@ -30,3 +31,9 @@ frontend-search/data/metamodels.json
 frontend-search/.next
 frontend-search/node_modules
 frontend-search/data/models.json
+=======
+persistence-api/node_modules
+query-engine/node_modules
+query-dsl/dsl_frontend/node_modules
+query-dsl/dsl_backend/node_modules
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b

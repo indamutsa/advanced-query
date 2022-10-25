@@ -46,6 +46,7 @@ module.exports = {
     }
   },
 
+<<<<<<< HEAD
   async getAllData(req, res) {
     try {
       let params = req.body
@@ -77,6 +78,8 @@ module.exports = {
     }
   },
 
+=======
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
   // Examples can be run here because you can export them from here
 };
 

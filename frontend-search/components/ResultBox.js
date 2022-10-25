@@ -3,6 +3,7 @@ import Link from "next/link";
 
 const ResultBox = ({ data }) => {
   // console.log(data);
+<<<<<<< HEAD
   const { name, size, createdAt, description, storageUrl } = data;
   return (
     <div className={styles.container}>
@@ -10,13 +11,26 @@ const ResultBox = ({ data }) => {
         <Link passHref href={storageUrl}>
           <a target="_blank" className={styles.url}>
             {storageUrl}
+=======
+  const { name, size, date, description, link } = data;
+  return (
+    <div className={styles.container}>
+      <div className={styles.upperDiv}>
+        <Link passHref href={link}>
+          <a target="_blank" className={styles.url}>
+            {link}
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
           </a>
         </Link>
         <div className={styles.name}>
           <p> Name:</p> <span>{name}</span>
         </div>
         <div className={styles.size}> Size: {size} </div>
+<<<<<<< HEAD
         <div className={styles.date}>{createdAt}</div>
+=======
+        <div className={styles.date}>{date}</div>
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
       </div>
       <div className={styles.bottomDiv}>
         <div className={styles.description}>

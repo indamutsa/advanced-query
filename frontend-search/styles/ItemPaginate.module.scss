@@ -6,6 +6,7 @@
   min-height: 2.5em;
 
   .item {
+<<<<<<< HEAD
     display: flex;
     align-items: center;
     margin-right: 0.5em;
@@ -24,6 +25,14 @@
 
   .item:hover{
     color: darkblue;
+=======
+    margin-right: 0.5em;
+    width: 10em;
+    padding-left: 0.2em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
   }
 }
 

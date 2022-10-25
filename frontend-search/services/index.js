@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { request, gql } from "graphql-request";
 
 const graphQLAPI = process.env.NEXT_PUBLIC_SERVER_ENDPOINT;
@@ -47,3 +48,6 @@ export const getData = async (microsyntax) => {
 
   return result;
 };
+=======
+import { request, gpl } from "graphql-request";
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b

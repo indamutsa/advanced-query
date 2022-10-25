@@ -1,8 +1,13 @@
 import Head from "next/head";
 import Home from "../components/Home";
+<<<<<<< HEAD
 import { getData } from "../services";
 
 export default function Index({ data }) {
+=======
+
+export default function Index() {
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
   return (
     <div>
       <Head>
@@ -14,6 +19,7 @@ export default function Index({ data }) {
     </div>
   );
 }
+<<<<<<< HEAD
 
 export const getStaticProps = async () => {
   // Call data from here
@@ -27,3 +33,5 @@ export const getStaticProps = async () => {
     props: { data: data }, // will be passed to the page component as props
   };
 };
+=======
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b

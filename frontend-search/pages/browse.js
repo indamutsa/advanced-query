@@ -1,6 +1,7 @@
 import PageTitle from "../components/common/PageTitle";
 import ItemPaginate from "../components/ItemPaginate";
 import Letter from "../components/Letter";
+<<<<<<< HEAD
 import SelectType from "../components/SelectType";
 import styles from "../styles/Browse.module.scss";
 import finalData from "../data/final-data.json"
@@ -49,6 +50,14 @@ const browse = ({ data }) => {
           <PageTitle>Browse model artifacts</PageTitle>
           <SelectType data={opData} />
         </div>
+=======
+import styles from "../styles/Browse.module.scss";
+const browse = () => {
+  return (
+    <div className={styles.container}>
+      <div className={styles.upperContent}>
+        <PageTitle>Browse model artifacts</PageTitle>
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
 
         <div className={styles.alphabets}>
           <div className={styles.title}>Alphabetical</div>
@@ -56,13 +65,18 @@ const browse = ({ data }) => {
         </div>
       </div>
       <div className={styles.bottomContent}>
+<<<<<<< HEAD
         <ItemPaginate data={data} />
+=======
+        <ItemPaginate />
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
       </div>
     </div>
   );
 };
 
 export default browse;
+<<<<<<< HEAD
 
 
 
@@ -134,3 +148,5 @@ export async function getStaticProps() {
 
 
 
+=======
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b

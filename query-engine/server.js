@@ -1,6 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+<<<<<<< HEAD
 const cors = require("cors");
+=======
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
 
 require("dotenv").config({
   path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : ".env",
@@ -19,7 +22,10 @@ const esconfig = require("./config/esConfig");
 const client = esconfig.esClient;
 const router = require("./router");
 
+<<<<<<< HEAD
 app.use(cors())
+=======
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use("/", router);

@@ -84,6 +84,7 @@ const generateDroidQueryDsl = (body) => {
 
 const mainQueryGenerator = (args) => {
   const { microsyntax } = args;
+<<<<<<< HEAD
   console.log(args);
   let queryStr = microsyntax ? microsyntax : "";
 
@@ -93,6 +94,15 @@ const mainQueryGenerator = (args) => {
     "query": {
       "query_string": {
         "query": "${queryStr}",
+=======
+
+  let requestObject = `
+  {
+    "_source": ["name", "storageUrl", "size", "createdAt", "description"], 
+    "query": {
+      "query_string": {
+        "query": "${microsyntax}"
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
       }
     }
   }  
@@ -127,8 +137,12 @@ const queryType = (operator) => {
 };
 
 function fixJSON(json) {
+<<<<<<< HEAD
   let newJson = json.replace(/\}\s*,\s*\]/, "}]");
   newJson = newJson.replace(/\"\s*,\s*\}/, '"}');
+=======
+  const newJson = json.replace(/\}\s*,\s*\]/, "}]");
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
   return newJson;
 }
 

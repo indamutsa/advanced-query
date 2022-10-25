@@ -4,6 +4,7 @@ import ResultBox from "../components/ResultBox";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAppContext } from "../context/AppContext";
+<<<<<<< HEAD
 import { useRef, useState } from "react";
 import { getData } from "../services";
 
@@ -68,6 +69,63 @@ const Result = () => {
     let searchQuery = inputRef.current.value;
     let res = await getData(searchQuery);
     setResults(res.query.data);
+=======
+
+const results = [
+  {
+    name: "SimpleOOP.ecore",
+    size: "3k",
+    date: "Jul 17th 2021",
+    description:
+      " The model is typically represented as a database or object model, and the various aspects of the system are represented by relationships between objects in the model. MDA has been used extensively in the software engineering community, particularly in areas such as design and verification.",
+    link: "http://178.238.238.209:3201/file/metamodels/SimpleOOP-1651518206305-59.ecore",
+  },
+  {
+    name: "Person.ecore",
+    size: "1.2k",
+    date: "Jun 19th 2021",
+    description:
+      "This approach has several benefits, including improved clarity and consistency of the code, reduced complexity and cost, and improved maintainability.",
+    link: "http://178.238.238.209:3201/file/metamodels/Person-1651518310371-43.ecore",
+  },
+  {
+    name: "ControllerUML.ecore",
+    size: "2.3k",
+    date: "May 05th 2021",
+    description:
+      "The models are used to create a context for testing and validation, and to generate the code necessary to implement the system. MDA separates the specification of the system from its implementation, using models as a basis for design, test, and documentation.",
+    link: "http://178.238.238.209:3201/file/metamodels/ControllerUML-1651518314958-25.ecore",
+  },
+  {
+    name: "Klaper.ecore",
+    size: "4.1k",
+    date: "Jan 2nd 2021",
+    description:
+      "The models are used to create a context for testing and validation, and to generate the code necessary to implement the system. ",
+    link: "http://178.238.238.209:3201/file/metamodels/Klaper-1651518321772-24.ecore",
+  },
+  {
+    name: "PetriNet.ecore",
+    size: "3.6k",
+    date: "Jul 11th 2021",
+    description:
+      "Model driven architecture (MDA) is a software development process and design methodology that emphasizes models of the system being developed, as opposed to purely textual or procedural descriptions.",
+    link: "http://178.238.238.209:3201/file/metamodels/PetriNet-1651518322912-96.ecore",
+  },
+];
+
+const Result = () => {
+  const router = useRouter();
+
+  // UseContext when using useReducer
+  const { state, dispatch } = useAppContext();
+  const { number } = state;
+  // console.log(number);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    router.push(`/result`);
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
   };
 
   return (
@@ -83,7 +141,10 @@ const Result = () => {
                 placeholder="Search artifacts..."
                 type="text"
                 required=""
+<<<<<<< HEAD
                 ref={inputRef}
+=======
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
               />
             </form>
 

@@ -10,7 +10,10 @@ const { generateDroidQueryDsl, mainQueryGenerator } = require("../utils");
 module.exports = {
   async search(body) {
     const requestBody = mainQueryGenerator(body);
+<<<<<<< HEAD
     // console.log(requestBody);
+=======
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
 
     let index = `mdeforge.dsls,mdeforge.metamodels,mdeforge.models`;
     let data = await client.search({
@@ -21,6 +24,7 @@ module.exports = {
     return data;
   },
 
+<<<<<<< HEAD
 
   // "sort": [
   //   {
@@ -52,6 +56,8 @@ module.exports = {
     return data;
   },
 
+=======
+>>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
   async searchDemo() {
     const requestBody = esb
       .requestBodySearch()
