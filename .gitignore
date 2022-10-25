@@ -1,22 +1,21 @@
-/filesystem
-/mongo-bundle/replica/mongo-rs0-1/data
-/mongo-bundle/replica/mongo-rs0-2/data
-/mongo-bundle/replica/mongo-rs0-3/data
-/persistence-api/logs/server.log
+# filesystem
+mongo-bundle/replica/mongo-rs0-1/data
+mongo-bundle/replica/mongo-rs0-2/data
+mongo-bundle/replica/mongo-rs0-3/data
 persistence-api/logs/server.log
-/mongo-bundle/sharded/mongo_cluster/data1
-/mongo-bundle/sharded/mongo_cluster/data2
-/mongo-bundle/sharded/mongo_cluster/data3
-/mongo-bundle/sharded/mongo_cluster/data4
-/mongo-bundle/sharded/mongo_cluster/data5
-/mongo-bundle/sharded/mongo_cluster/data6
-/mongo-bundle/sharded/mongo_cluster/config1
-/mongo-bundle/sharded/mongo_cluster/config2
-/mongo-bundle/sharded/mongo_cluster/config3
+persistence-api/logs/server.log
+mongo-bundle/sharded/mongo_cluster/data1
+mongo-bundle/sharded/mongo_cluster/data2
+mongo-bundle/sharded/mongo_cluster/data3
+mongo-bundle/sharded/mongo_cluster/data4
+mongo-bundle/sharded/mongo_cluster/data5
+mongo-bundle/sharded/mongo_cluster/data6
+mongo-bundle/sharded/mongo_cluster/config1
+mongo-bundle/sharded/mongo_cluster/config2
+mongo-bundle/sharded/mongo_cluster/config3
 test
 filesystem/logs/serverLog.log
 filesystem/node_modules
-<<<<<<< HEAD
 filesystem/public/*
 persistence-api/node_modules
 query-engine/node_modules
@@ -31,9 +30,7 @@ frontend-search/data/metamodels.json
 frontend-search/.next
 frontend-search/node_modules
 frontend-search/data/models.json
-=======
 persistence-api/node_modules
 query-engine/node_modules
 query-dsl/dsl_frontend/node_modules
 query-dsl/dsl_backend/node_modules
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
