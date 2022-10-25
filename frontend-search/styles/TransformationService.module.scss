@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+
+  .blocka {
+    margin-right: 1.2em;
+    margin-left: 0.15em;
+
+    .blockb {
+      margin-top: 1em;
+    }
+  }
+}

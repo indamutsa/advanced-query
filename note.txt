@@ -1,0 +1,714 @@
+Run the cluster:
+-> docker-compose up
+
+Head to Elasticsearch
+Head to http://localhost:5601
+
+Inside elasticsearch
+Login
+Go to Stack managament
+  kibana
+    index Patterns
+      Create index pattern
+        Create indices of logstash and mdeforge collections.
+
+Head to adminmongo
+Head to http://localhost:9990
+
+You can add some in the mongo using adminmongo
+
+Head back to Elasticsearch and make sure all data transactions are reflected in elasticsearch.
+
+
+// ---------------------------------------------------------------------------
+// Run this command to see the state of the container 
+docker exec mongo-cluster_mongo-rs0-1_1 bash -c 'mongo --eval "rs.status();"'
+
+// Establish the connection in mongo admin
+--  Connection name	        Connection string
+    connect mongo           mongodb://mongo-rs0-1
+
+    #"mongodb://mongo-rs0-1,mongo-rs0-2,mongo-rs0-3/mdeforge"
+
+    # mongodb://localhost:27017/mdeforge
+
+
+// Establish the connection of all the cluster on adminmongo
+mongodb://mongo-rs0-1,mongo-rs0-2,mongo-rs0-1?replicaSet=rs0
+cluster url: "mongodb://mongo-rs0-1,mongo-rs0-2,mongo-rs0-3/mdeforge"
+
+
+----------------------------------------------------------------
+# In this cluster of microservices, we define elastastic as engine and its logging and visualization supporting tools (logstash, kibana and filebeat)
+# In the second part, we synchronize our search engine with the persistence api
+
+# The next thing is to define a crawler that go through files asynchronsously and extracts keywords and index it as well (save it db)
+# Then build the complete search api
+
+version: "3.4"
+
+services:
+  # ELASTIC SEARCH STACK: ELASTICSEARCH / LOGSTASH/ FILEBEAT/ KIBANA
+  ################################################################################
+  elasticsearch:
+    container_name: elasticsearch
+    image: indamutsa/elasticsearch:v1.0
+    volumes:
+      - type: bind
+        source: ./elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        read_only: true
+      - type: volume
+        source: elasticsearch
+        target: /usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTIC_PASSWORD: changeme
+      # Use single node discovery in order to disable production mode and avoid bootstrap checks.
+      # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
+      discovery.type: single-node
+    networks:
+      - search-engine
+
+  logstash:
+    container_name: logstash
+    image: indamutsa/logstash:v1.0
+    links:
+      - elasticsearch:elasticsearch
+    volumes:
+      - type: bind
+        source: ./logstash/config/logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+        read_only: true
+      - type: bind
+        source: ./logstash/pipeline
+        target: /usr/share/logstash/pipeline
+        read_only: true
+    ports:
+      - "5044:5044"
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - search-engine
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    container_name: kibana
+    image: indamutsa/kibana:v1.0
+    links:
+      - elasticsearch:elasticsearch
+    volumes:
+      - type: bind
+        source: ./kibana/config/kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+        read_only: true
+    ports:
+      - "5601:5601"
+    networks:
+      - search-engine
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    container_name: filebeat
+    image: indamutsa/filebeat:v1.0
+    volumes:
+      - "$HOME/Project/school-projects/mdeforge/search-engine/test-filebeat:/logs"
+      - "$HOME/Project/school-projects/mdeforge/search-engine/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
+      - "/var/lib/docker/containers:/usr/share/filebeat/dockerlogs:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+    command: filebeat -e --strict.perms=false
+    links:
+      - elasticsearch
+      - kibana
+    networks:
+      - search-engine
+
+  # MONGO DB CLUSTER AND EXAMPLE APP
+  #####################################################
+  persistence-api:
+    container_name: persistence
+    image: indamutsa/persistence-api:v1.0
+    command: node index.js
+    ports:
+      - "3200:3000"
+    volumes:
+      - ./web-app:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - "setup-rs"
+    networks:
+      - search-engine
+
+  # web:
+  #   container_name: web
+  #   image: indamutsa/sample-node-app:v1.0
+  #   command: node index.js
+  #   ports:
+  #     - "3200:3000"
+  #   volumes:
+  #     - ./web-app:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   depends_on:
+  #     - "setup-rs"
+  #   networks:
+  #     - search-engine
+
+  mongo-rs0-1:
+    container_name: mongo-rs0-1
+    image: indamutsa/mongo-start:v1.0
+    ports:
+      - "30000:27017"
+    volumes:
+      - ./mongo-rs0-1/data:/data/db
+    depends_on:
+      - "mongo-rs0-2"
+      - "mongo-rs0-3"
+    networks:
+      - search-engine
+
+  mongo-rs0-2:
+    container_name: mongo-rs0-2
+    image: "mongo:4.0"
+    command: --replSet rs0 --smallfiles --oplogSize 128
+    ports:
+      - "30001:27017"
+    volumes:
+      - ./mongo-rs0-2/data:/data/db
+    networks:
+      - search-engine
+
+  mongo-rs0-3:
+    container_name: mongo-rs0-3
+    image: "mongo:4.0"
+    command: --replSet rs0 --smallfiles --oplogSize 128
+    ports:
+      - "30002:27017"
+    volumes:
+      - ./mongo-rs0-3/data:/data/db
+    networks:
+      - search-engine
+
+  # A shortlived container for starting the cluster
+  setup-rs:
+    container_name: setup-rs
+    image: indamutsa/setup-rs:v1.0
+    depends_on:
+      - "mongo-rs0-1"
+    networks:
+      - search-engine
+
+  adminmongo:
+    container_name: adminmongo
+    image: mrvautin/adminmongo
+    ports:
+      - 9990:1234
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - search-engine
+
+  # Synchronizing the elasticsearch and mongo cluster using MONSTACHE
+  ###################################################################
+  monstache:
+    image: indamutsa/monstache:v1.0 # After building the image i pushed it
+    container_name: monstache
+    working_dir: /app
+    command: -f monstache.config.toml
+    # build:
+    #   context: ./monstache
+    #   dockerfile: ./Dockerfile
+    volumes:
+      - "$HOME/Project/school-projects/mdeforge/search-engine/monstache/monstache.config.toml:/app/monstache.config.toml"
+    depends_on:
+      - mongo-rs0-1
+      - elasticsearch
+    ports:
+      - "8080:8080"
+    networks:
+      - search-engine
+    healthcheck:
+      test: "wget -q -O - http://localhost:8080/healthz"
+      interval: 1s
+      timeout: 30s
+      retries: 300
+    restart: unless-stopped
+
+# Defining the network
+######################################################
+networks:
+  search-engine:
+    external: false
+
+# networks:
+#   elk:
+#     driver: bridge
+
+volumes:
+  elasticsearch:
+
+
+----------------------------------------------
+
+# In this cluster of microservices, we define elastastic as engine and its logging and visualization supporting tools (logstash, kibana and filebeat)
+# In the second part, we synchronize our search engine with the persistence api
+
+# The next thing is to define a crawler that go through files asynchronsously and extracts keywords and index it as well (save it db)
+# Then build the complete search api
+
+version: "3.4"
+
+services:
+  # ELASTIC SEARCH STACK: ELASTICSEARCH / LOGSTASH/ FILEBEAT/ KIBANA
+  ################################################################################
+  elasticsearch:
+    container_name: elasticsearch
+    image: indamutsa/elasticsearch:v1.0
+    volumes:
+      - type: bind
+        source: ./elastic-bundle/elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elastic-bundle/elasticsearch/config/elasticsearch.yml
+        read_only: true
+      - type: volume
+        source: elasticsearch
+        target: /usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTIC_PASSWORD: changeme
+      # Use single node discovery in order to disable production mode and avoid bootstrap checks.
+      # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
+      discovery.type: single-node
+    networks:
+      - search-engine
+
+  logstash:
+    container_name: logstash
+    image: indamutsa/logstash:v1.0
+    links:
+      - elasticsearch:elasticsearch
+    volumes:
+      - type: bind
+        source: ./elastic-bundle/logstash/config/logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+        read_only: true
+      - type: bind
+        source: ./elastic-bundle/logstash/pipeline
+        target: /usr/share/logstash/pipeline
+        read_only: true
+    ports:
+      - "5044:5044"
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - search-engine
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    container_name: kibana
+    image: indamutsa/kibana:v1.0
+    links:
+      - elasticsearch:elasticsearch
+    volumes:
+      - type: bind
+        source: ./elastic-bundle/kibana/config/kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+        read_only: true
+    ports:
+      - "5601:5601"
+    networks:
+      - search-engine
+    depends_on:
+      - elasticsearch
+  filebeat:
+    container_name: filebeat
+    image: indamutsa/filebeat:v1.0
+    volumes:
+      - "$HOME/Project/school-projects/mdeforge/advanced-query-mechanisms/elastic-bundle/test-filebeat:/logs"
+      - "$HOME/Project/school-projects/mdeforge/advanced-query-mechanisms/elastic-bundle/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
+      - "/var/lib/docker/containers:/usr/share/filebeat/dockerlogs:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+    command: filebeat -e --strict.perms=false
+    links:
+      - elasticsearch
+      - kibana
+    networks:
+      - search-engine
+
+  # MONGO DB CLUSTER AND EXAMPLE APP
+  #####################################################
+  persistence-api:
+    container_name: persistence
+    build:
+      context: ./persistence-api
+    image: indamutsa/persistence-api:v1.0
+    command: node index.js
+    ports:
+      - "3200:3200"
+    restart: unless-stopped
+    volumes:
+      - ./persistence-api:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - "setup-rs"
+    networks:
+      - search-engine
+
+  mongo-rs0-1:
+    container_name: mongo-rs0-1
+    image: indamutsa/mongo-start:v1.0
+    ports:
+      - "30000:27017"
+    volumes:
+      - ./mongo-rs0-1/data:/data/db
+    depends_on:
+      - "mongo-rs0-2"
+      - "mongo-rs0-3"
+    networks:
+      - search-engine
+
+  mongo-rs0-2:
+    container_name: mongo-rs0-2
+    image: "mongo:4.0"
+    command: --replSet rs0 --smallfiles --oplogSize 128
+    ports:
+      - "30001:27017"
+    volumes:
+      - ./mongo-rs0-2/data:/data/db
+    networks:
+      - search-engine
+
+  mongo-rs0-3:
+    container_name: mongo-rs0-3
+    image: "mongo:4.0"
+    command: --replSet rs0 --smallfiles --oplogSize 128
+    ports:
+      - "30002:27017"
+    volumes:
+      - ./mongo-rs0-3/data:/data/db
+    networks:
+      - search-engine
+
+  # A shortlived container for starting the cluster
+  setup-rs:
+    container_name: setup-rs
+    image: indamutsa/setup-rs:v1.0
+    depends_on:
+      - "mongo-rs0-1"
+    networks:
+      - search-engine
+
+  adminmongo:
+    container_name: adminmongo
+    image: mrvautin/adminmongo
+    ports:
+      - 9990:1234
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - search-engine
+
+  # Synchronizing the elasticsearch and mongo cluster using MONSTACHE
+  ###################################################################
+  monstache:
+    image: indamutsa/monstache:v1.0 # After building the image i pushed it
+    container_name: monstache
+    working_dir: /app
+    command: -f monstache.config.toml
+    # build:
+    #   context: ./monstache
+    #   dockerfile: ./Dockerfile
+    volumes:
+      - "$HOME/Project/school-projects/mdeforge/advanced-query-mechanisms/mongo-bundle/monstache/monstache.config.toml:/app/monstache.config.toml"
+    depends_on:
+      - mongo-rs0-1
+      - elasticsearch
+    ports:
+      - "8080:8080"
+    networks:
+      - search-engine
+    healthcheck:
+      test: "wget -q -O - http://localhost:8080/healthz"
+      interval: 1s
+      timeout: 30s
+      retries: 300
+    restart: unless-stopped
+
+  # Mongo cluster  -- Sharded cluster
+  #################################################
+
+  # ----------------------------router ---------------------------------
+  mongodb-sharded-0:
+    container_name: router
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-sharded-0
+      - MONGODB_SHARDING_MODE=mongos
+      - MONGODB_CFG_PRIMARY_HOST=mongodb-cfg
+      - MONGODB_CFG_REPLICA_SET_NAME=cfgreplicaset
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_ROOT_PASSWORD=password123
+    ports:
+      - "27010:27017"
+
+  # ----------------------------------Shards ---------------------------------------------------
+  mongodb-shard0:
+    container_name: shard1
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard0
+      - MONGODB_SHARDING_MODE=shardsvr
+      - MONGODB_MONGOS_HOST=mongodb-sharded-0
+      - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=shard0
+    volumes:
+      - "shard0_data:/bitnami"
+
+  mongodb-shard1:
+    container_name: shard2
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard1
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-shard0
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_SHARDING_MODE=shardsvr
+      - MONGODB_MONGOS_HOST=mongodb-sharded-0
+      # - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=shard0
+    volumes:
+      - "shard1_data:/bitnami"
+
+  mongodb-shard2:
+    container_name: shard3
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard2
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-shard0
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_SHARDING_MODE=shardsvr
+      - MONGODB_MONGOS_HOST=mongodb-sharded-0
+      # - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=shard0
+    volumes:
+      - "shard2_data:/bitnami"
+  # ----------------------------- config--------------------------------------
+  mongodb-cfg:
+    container_name: configsvr0
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-cfg
+      - MONGODB_SHARDING_MODE=configsvr
+      - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=cfgreplicaset
+    volumes:
+      - "cfg_data:/bitnami"
+
+  mongodb-cfg3:
+    container_name: configsvr3
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-cfg3
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-cfg
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_SHARDING_MODE=configsvr
+      # - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=cfgreplicaset
+
+  mongodb-cfg2:
+    container_name: configsvr2
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-cfg2
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-cfg
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_SHARDING_MODE=configsvr
+      # - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=cfgreplicaset
+    volumes:
+      - "cfg_data:/bitnami"
+
+# Defining the network
+######################################################
+networks:
+  search-engine:
+    external: false
+
+# networks:
+#   elk:
+#     driver: bridge
+
+volumes:
+  elasticsearch:
+  shard0_data:
+    driver: local
+  shard1_data:
+    driver: local
+  shard2_data:
+    driver: local
+  cfg_data:
+    driver: local
+
+--------------------------------------------------------------------
+
+# In this cluster of microservices, we define elastastic as engine and its logging and visualization supporting tools (logstash, kibana and filebeat)
+# In the second part, we synchronize our search engine with the persistence api
+
+# The next thing is to define a crawler that go through files asynchronsously and extracts keywords and index it as well (save it db)
+# Then build the complete search api
+
+version: "3.4"
+
+services:
+  # Mongo cluster  -- Sharded cluster
+  #################################################
+
+  # ----------------------------router ---------------------------------
+  mongodb-sharded-0:
+    container_name: router
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-sharded-0
+      - MONGODB_SHARDING_MODE=mongos
+      - MONGODB_CFG_PRIMARY_HOST=mongodb-cfg
+      - MONGODB_CFG_REPLICA_SET_NAME=cfgreplicaset
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_ROOT_PASSWORD=password123
+    ports:
+      - "27010:27017"
+
+  # ----------------------------------Shards ---------------------------------------------------
+  mongodb-shard0:
+    container_name: shard1
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard0
+      - MONGODB_SHARDING_MODE=shardsvr
+      - MONGODB_MONGOS_HOST=mongodb-sharded-0
+      - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=shard0
+    volumes:
+      - "shard0_data:/bitnami"
+
+  mongodb-shard1:
+    container_name: shard2
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard1
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-shard0
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_SHARDING_MODE=shardsvr
+      - MONGODB_MONGOS_HOST=mongodb-sharded-0
+      # - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=shard0
+    volumes:
+      - "shard1_data:/bitnami"
+
+  mongodb-shard2:
+    container_name: shard3
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard2
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-shard0
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_SHARDING_MODE=shardsvr
+      - MONGODB_MONGOS_HOST=mongodb-sharded-0
+      # - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=shard0
+    volumes:
+      - "shard2_data:/bitnami"
+  # ----------------------------- config--------------------------------------
+  mongodb-cfg:
+    container_name: configsvr0
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-cfg
+      - MONGODB_SHARDING_MODE=configsvr
+      - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=cfgreplicaset
+    volumes:
+      - "cfg_data:/bitnami"
+
+  mongodb-cfg3:
+    container_name: configsvr3
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-cfg3
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-cfg
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_SHARDING_MODE=configsvr
+      # - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=cfgreplicaset
+
+  mongodb-cfg2:
+    container_name: configsvr2
+    image: docker.io/bitnami/mongodb-sharded:4.4
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-cfg2
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-cfg
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_SHARDING_MODE=configsvr
+      # - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_REPLICA_SET_NAME=cfgreplicaset
+    volumes:
+      - "cfg_data:/bitnami"
+
+# Defining the network
+######################################################
+#networks:
+#  search-engine:
+#    external: false
+
+# networks:
+#   elk:
+#     driver: bridge
+
+volumes:
+  shard0_data:
+    driver: local
+  shard1_data:
+    driver: local
+  shard2_data:
+    driver: local
+  cfg_data:
+    driver: local
+
+

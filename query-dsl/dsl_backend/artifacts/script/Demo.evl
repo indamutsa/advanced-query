@@ -1,0 +1,21 @@
+operation printTrace(name : String){
+    return ">> " + name;
+}
+
+pre {
+    var initialMsg = "Validating --- :";
+	var finishedMsg = "--- Passed ---";
+	initialMsg.println();
+	printTrace(TreeModel.name).println();
+}
+
+context Tree {
+	constraint NotA {
+		check : self.label <> 'a'
+		message : 'A tree cannot be named a'
+	}	
+}
+
+post {
+	finishedMsg.println();
+}

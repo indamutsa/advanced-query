@@ -1,0 +1,51 @@
+@mixin flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin button {
+  margin-right: 1em;
+  padding: 0.2em 0.3em 0.2em 0.3em;
+  // background-color: rgba(43, 90, 105, 1);
+  color: white;
+  box-shadow: 2px 6px 6px #00000040;
+}
+
+.dispItem {
+  @include flex;
+  padding: 0.4em;
+
+  .fieldItem {
+    margin-right: 3em;
+    width: 25em;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+    span:first-child {
+      color: $black;
+      font-family: $roboto;
+      font-size: $font-size-xl;
+      font-weight: 500;
+      font-style: normal;
+    }
+  }
+
+  .crudOp {
+    @include flex;
+
+    .editField {
+      @include button;
+      background-color: rgba(43, 90, 105, 1);
+      cursor: pointer;
+    }
+
+    .updateField {
+      @include button;
+      background-color: #1b926c;
+      cursor: pointer;
+    }
+  }
+}

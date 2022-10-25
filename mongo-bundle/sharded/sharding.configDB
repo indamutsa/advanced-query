@@ -1,0 +1,4 @@
+sharding:
+  configDB: mongors1/mongocfg1,mongocfg2,mongocfg3
+net:
+  bindIp: localhost
