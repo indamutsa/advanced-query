@@ -4,6 +4,7 @@ import Letter from "../components/Letter";
 import SelectType from "../components/SelectType";
 import styles from "../styles/Browse.module.scss";
 import finalData from "../data/final-data.json"
+import { useAppContext } from "../context/AppContext";
 
 
 
@@ -25,6 +26,21 @@ const opData = {
 
 
 const browse = ({ data }) => {
+  const { state, dispatch } = useAppContext();
+
+  data = data.filter(el => {
+    if (state.letter === "All") return true
+    return el.name.charAt(0) === state.letter
+  });
+
+  // console.log(data[0]);
+  data = data.filter(el => {
+    if (state.dataType === "SELECT ALL") return true
+    if (el.type === state.dataType) return true
+    else return false
+  });
+
+  // console.log(state);
   return (
     <div className={styles.container}>
       <div className={styles.upperContent}>
@@ -54,7 +70,7 @@ export default browse;
 // It may be called again, on a serverless function, if
 // revalidation is enabled and a new request comes in
 export async function getStaticProps() {
-  console.log(finalData.length);
+  // console.log(finalData.length);
 
   return {
     props: {

@@ -1,8 +1,17 @@
+import { useAppContext } from "../context/AppContext";
 import styles from "../styles/Letter.module.scss";
 
 const Letter = () => {
+  // UseContext when using useReducer
+  const { state, dispatch } = useAppContext();
+  const handleClick = (e) => {
+    e.preventDefault();
+    dispatch({ type: "letter", value: e.target.innerText });
+  }
+
   return (
-    <div className={styles.letters}>
+    <div onClick={handleClick} className={styles.letters}>
+      <p className={styles.letter}>All</p>
       <p className={styles.letter}>A</p>
       <p className={styles.letter}>B</p>
       <p className={styles.letter}>C</p>

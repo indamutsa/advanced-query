@@ -41,6 +41,7 @@ const SelectType = ({ data }) => {
                             setIsOpen(!isOpen);
                             items[0] = "Select All"
                             setUpdatedItems(items)
+
                         }}
                         className={isOpen ? styles.dropImage : styles.rotate}
                     >
@@ -62,7 +63,7 @@ const SelectType = ({ data }) => {
                             onClick={(e) => {
                                 setIsOpen(!isOpen);
                                 setItem(item);
-                                dispatch({ type: "type", value: item });
+                                dispatch({ type: "type", value: item.toUpperCase() });
                                 setField(false);
                             }}
                         >
