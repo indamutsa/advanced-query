@@ -13,10 +13,7 @@
   "dependencies": {
     "apollo-server-core": "^3.6.4",
     "apollo-server-express": "^3.6.4",
-<<<<<<< HEAD
     "cors": "^2.8.5",
-=======
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
     "dotenv": "^16.0.0",
     "elastic-builder": "^2.16.0",
     "elasticsearch": "^16.7.3",

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { useAppContext } from "../context/AppContext";
 import styles from "../styles/Letter.module.scss";
 
@@ -13,13 +12,6 @@ const Letter = () => {
   return (
     <div onClick={handleClick} className={styles.letters}>
       <p className={styles.letter}>All</p>
-=======
-import styles from "../styles/Letter.module.scss";
-
-const Letter = () => {
-  return (
-    <div className={styles.letters}>
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
       <p className={styles.letter}>A</p>
       <p className={styles.letter}>B</p>
       <p className={styles.letter}>C</p>

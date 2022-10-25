@@ -1,5 +1,4 @@
 import styles from "../styles/ItemPaginate.module.scss";
-<<<<<<< HEAD
 // import data from "../data/data.json";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
@@ -17,16 +16,6 @@ const ItemPaginate = ({ data }) => {
     // navigate to model-view
   }
 
-=======
-import data from "../data/data.json";
-import { useState } from "react";
-import ReactPaginate from "react-paginate";
-
-const ItemPaginate = () => {
-  const items = data;
-  const [pageNumber, setPageNumber] = useState(0);
-
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
   const itemsPerPage = 119;
   const pagesVisited = pageNumber * itemsPerPage;
   const displayItems = items
@@ -34,12 +23,8 @@ const ItemPaginate = () => {
     .map((item, i) => {
       return (
         <div key={i} className={styles.item}>
-<<<<<<< HEAD
           &#8226;
           <a onClick={handleClick}>{item.name}</a>
-=======
-          &#8226; {item.name}
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
         </div>
       );
     });
