@@ -5,10 +5,6 @@ const Query = {
   query: async (parent, args, context, info) => {
     try {
       const result = await Services.search(args);
-<<<<<<< HEAD
-
-=======
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
       const _data = result.hits.hits.map((doc) => {
         let id = doc._id;
         doc = doc._source;
@@ -19,14 +15,9 @@ const Query = {
       const data = {
         status_code: 200,
         success: true,
-<<<<<<< HEAD
         total_hits: result.hits.total.value,
         message: "Data successfully fetched!",
         data: _data,
-=======
-        data: _data,
-        message: "Data successfully fetched!",
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
       };
 
       return data;

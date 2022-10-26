@@ -1,36 +1,23 @@
-<<<<<<< HEAD
 import { useRef } from "react";
-=======
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/Home.module.scss";
 import { useRouter } from "next/router";
 import { useAppContext } from "../context/AppContext";
-<<<<<<< HEAD
 import { getData } from "../services";
 
 const Home = () => {
   const router = useRouter();
   const inputRef = useRef("Hello");
-=======
-
-const Home = () => {
-  const router = useRouter();
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
 
   // UseContext when using useReducer
   const { state, dispatch } = useAppContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-<<<<<<< HEAD
     let searchQuery = inputRef.current.value;
 
     dispatch({ type: "add_number", value: searchQuery });
-=======
-    dispatch({ type: "add_number", value: 3 });
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
     router.push(`/result`);
   };
 
@@ -51,10 +38,7 @@ const Home = () => {
               placeholder="Search artifacts..."
               type="text"
               required=""
-<<<<<<< HEAD
               ref={inputRef}
-=======
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
             />
           </form>
 

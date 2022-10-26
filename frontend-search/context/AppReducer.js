@@ -2,7 +2,8 @@ export const initialState = {
   number: 0,
   str: "",
   dataType: "SELECT ALL",
-  letter: "All"
+  letter: "All",
+  item: {}
 };
 
 export const appReducer = (state, action) => {
@@ -24,7 +25,6 @@ export const appReducer = (state, action) => {
         ...state,
         dataType: action.value
       }
-
     }
 
     case "letter": {
@@ -32,7 +32,16 @@ export const appReducer = (state, action) => {
         ...state,
         letter: action.value
       }
+    }
 
+    case "item": {
+      console.log(action.value);
+
+
+      return {
+        ...state,
+        item: action.value
+      }
     }
   }
 };

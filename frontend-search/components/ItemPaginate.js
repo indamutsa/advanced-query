@@ -2,18 +2,21 @@ import styles from "../styles/ItemPaginate.module.scss";
 // import data from "../data/data.json";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
+import { useAppContext } from "../context/AppContext";
+import { useRouter } from "next/router";
 
 const ItemPaginate = ({ data }) => {
   const items = data;
-
+  const { state, dispatch } = useAppContext();
+  const router = useRouter();
   const [pageNumber, setPageNumber] = useState(0);
 
 
-  const handleClick = (e) => {
+  const handleClick = (e, item) => {
     e.preventDefault();
-    console.log("hello world");
-    // Dispatch url, and the name
+    dispatch({ type: "item", value: item })
     // navigate to model-view
+    router.push('/artifact-display')
   }
 
   const itemsPerPage = 119;
@@ -24,7 +27,7 @@ const ItemPaginate = ({ data }) => {
       return (
         <div key={i} className={styles.item}>
           &#8226;
-          <a onClick={handleClick}>{item.name}</a>
+          <a onClick={e => handleClick(e, item)}>{item.name}</a>
         </div>
       );
     });

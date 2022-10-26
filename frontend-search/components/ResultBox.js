@@ -1,36 +1,35 @@
 import styles from "../styles/ResultBox.module.scss";
 import Link from "next/link";
+import { useAppContext } from "../context/AppContext";
+import { useRouter } from "next/router";
 
 const ResultBox = ({ data }) => {
-  // console.log(data);
-<<<<<<< HEAD
-  const { name, size, createdAt, description, storageUrl } = data;
+  const { state, dispatch } = useAppContext();
+  const router = useRouter();
+
+  const { id, name, size, type, createdAt, description, storageUrl } = data;
+  let item = {
+    id, name, storageUrl, type
+  }
+  const handleClick = (e, item) => {
+    e.preventDefault();
+    dispatch({ type: "item", value: item })
+    // navigate to model-view
+    router.push('/artifact-display')
+  }
   return (
     <div className={styles.container}>
       <div className={styles.upperDiv}>
         <Link passHref href={storageUrl}>
           <a target="_blank" className={styles.url}>
             {storageUrl}
-=======
-  const { name, size, date, description, link } = data;
-  return (
-    <div className={styles.container}>
-      <div className={styles.upperDiv}>
-        <Link passHref href={link}>
-          <a target="_blank" className={styles.url}>
-            {link}
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
           </a>
         </Link>
         <div className={styles.name}>
           <p> Name:</p> <span>{name}</span>
         </div>
         <div className={styles.size}> Size: {size} </div>
-<<<<<<< HEAD
         <div className={styles.date}>{createdAt}</div>
-=======
-        <div className={styles.date}>{date}</div>
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
       </div>
       <div className={styles.bottomDiv}>
         <div className={styles.description}>
@@ -38,7 +37,7 @@ const ResultBox = ({ data }) => {
           <span>{resizeDesc(description)}</span>
         </div>
         <Link href="/artifact-display" passHref>
-          <div className={styles.viewDownload}>View / Download</div>
+          <div onClick={e => handleClick(e, item)} className={styles.viewDownload}>View / Download</div>
         </Link>
       </div>
     </div>

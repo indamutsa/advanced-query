@@ -13108,3 +13108,70 @@ info: May-04-2022 18:16:00: 	Listening on port 3200...
 info: Aug-17-2022 12:15:57: 	Listening on port 3200...
 info: Aug-17-2022 12:17:01: 	Listening on port 3200...
 error: Aug-17-2022 12:17:11: 	We got an unhandled rejection
+info: Oct-26-2022 15:59:28: 	Listening on port 3200...
+info: Oct-26-2022 15:59:57: 	[26/Oct/2022:13:59:57 +0000] 'GET /store/api-docs/ HTTP/1.1' 200 3102 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 6.902 ms
+
+info: Oct-26-2022 15:59:57: 	[26/Oct/2022:13:59:57 +0000] 'GET /store/api-docs/swagger-ui.css HTTP/1.1' 200 143858 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 3.203 ms
+
+info: Oct-26-2022 15:59:57: 	[26/Oct/2022:13:59:57 +0000] 'GET /store/api-docs/swagger-ui-init.js HTTP/1.1' 200 60153 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 0.652 ms
+
+info: Oct-26-2022 15:59:57: 	[26/Oct/2022:13:59:57 +0000] 'GET /store/api-docs/swagger-ui-standalone-preset.js HTTP/1.1' 200 339479 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 9.292 ms
+
+info: Oct-26-2022 15:59:57: 	[26/Oct/2022:13:59:57 +0000] 'GET /store/api-docs/swagger-ui-bundle.js HTTP/1.1' 200 1094602 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 10.657 ms
+
+info: Oct-26-2022 15:59:58: 	[26/Oct/2022:13:59:58 +0000] 'GET /store/api-docs/favicon-32x32.png HTTP/1.1' 200 628 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 13.028 ms
+
+info: Oct-26-2022 16:09:52: 	Dsl retrieved successfully!
+info: Oct-26-2022 16:09:52: 	[26/Oct/2022:14:09:52 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 200 542 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 191.547 ms
+
+info: Oct-26-2022 16:21:29: 	[26/Oct/2022:14:21:29 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 3.758 ms
+
+info: Oct-26-2022 16:21:29: 	[26/Oct/2022:14:21:29 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 1.853 ms
+
+info: Oct-26-2022 16:21:53: 	[26/Oct/2022:14:21:53 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 0.947 ms
+
+info: Oct-26-2022 16:22:00: 	[26/Oct/2022:14:22:00 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 2.532 ms
+
+info: Oct-26-2022 16:22:00: 	[26/Oct/2022:14:22:00 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 1.056 ms
+
+info: Oct-26-2022 16:26:32: 	[26/Oct/2022:14:26:32 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 0.852 ms
+
+info: Oct-26-2022 16:26:40: 	[26/Oct/2022:14:26:40 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 0.763 ms
+
+info: Oct-26-2022 16:26:40: 	[26/Oct/2022:14:26:40 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 0.837 ms
+
+info: Oct-26-2022 16:28:10: 	[26/Oct/2022:14:28:10 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 1.588 ms
+
+info: Oct-26-2022 16:28:30: 	[26/Oct/2022:14:28:30 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 1.766 ms
+
+info: Oct-26-2022 16:28:30: 	[26/Oct/2022:14:28:30 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 1.221 ms
+
+info: Oct-26-2022 16:29:50: 	[26/Oct/2022:14:29:50 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 0.449 ms
+
+info: Oct-26-2022 16:30:08: 	[26/Oct/2022:14:30:08 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 2.002 ms
+
+info: Oct-26-2022 16:31:56: 	[26/Oct/2022:14:31:56 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 0.747 ms
+
+info: Oct-26-2022 16:31:56: 	[26/Oct/2022:14:31:56 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 0.771 ms
+
+info: Oct-26-2022 16:33:01: 	[26/Oct/2022:14:33:01 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 0.581 ms
+
+info: Oct-26-2022 16:33:07: 	[26/Oct/2022:14:33:07 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 0.413 ms
+
+info: Oct-26-2022 16:33:07: 	[26/Oct/2022:14:33:07 +0000] 'GET /store/artifact/undefined/undefined HTTP/1.1' 404 173 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 0.676 ms
+
+info: Oct-26-2022 16:34:08: 	Dsl retrieved successfully!
+info: Oct-26-2022 16:34:08: 	[26/Oct/2022:14:34:08 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 200 523 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 174.330 ms
+
+info: Oct-26-2022 16:34:19: 	Dsl retrieved successfully!
+info: Oct-26-2022 16:34:19: 	[26/Oct/2022:14:34:19 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 124.136 ms
+
+info: Oct-26-2022 16:34:19: 	Dsl retrieved successfully!
+info: Oct-26-2022 16:34:19: 	[26/Oct/2022:14:34:19 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 145.384 ms
+
+info: Oct-26-2022 16:43:21: 	Metamodel retrieved successfully!
+info: Oct-26-2022 16:43:21: 	[26/Oct/2022:14:43:21 +0000] 'GET /store/artifact/metamodel/62702b556320d300138cfdc6 HTTP/1.1' 200 797 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 137.887 ms
+
+info: Oct-26-2022 16:43:21: 	Metamodel retrieved successfully!
+info: Oct-26-2022 16:43:21: 	[26/Oct/2022:14:43:21 +0000] 'GET /store/artifact/metamodel/62702b556320d300138cfdc6 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 147.766 ms
+

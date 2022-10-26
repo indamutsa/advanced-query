@@ -7,10 +7,7 @@ const { Project } = require("./Project");
 const { User } = require("./User");
 const { Workspace } = require("./Workspace");
 const { Transformation } = require("./Transformation");
-<<<<<<< HEAD
 const { Rose } = require("./Rose");
-=======
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
 module.exports = {
   Artifact,
   Comment,
@@ -21,8 +18,5 @@ module.exports = {
   User,
   Workspace,
   Transformation,
-<<<<<<< HEAD
   Rose,
-=======
->>>>>>> 16c76e983f7dcafb1cc32e315dbdee0664a8522b
 };
