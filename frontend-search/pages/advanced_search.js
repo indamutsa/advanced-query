@@ -6,6 +6,7 @@ import Button from "../components/common/Button";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useRouter } from "next/router";
 
 const contextData = {
   dropdown: {
@@ -42,9 +43,10 @@ const Qass = {
 
 const Advanced = () => {
   const [startDate, setStartDate] = useState(new Date());
+  const router = useRouter();
 
   const handleClick = () => {
-    e.preventDefault();
+    // e.preventDefault();
     router.push(`/result`);
   };
 

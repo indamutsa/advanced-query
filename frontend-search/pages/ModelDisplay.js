@@ -1,35 +1,48 @@
 import PageTitle from "../components/common/PageTitle";
 import DisplayItem from "../components/DisplayItem";
 import styles from "../styles/ModelDisplay.module.scss";
-import Link from "next/link";
 import { useAppContext } from "../context/AppContext";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 
 let datam = {
-  Name: "SimpleOOP.ecore",
-  Description: "We are trying to save the metamodel using the api",
-  Type: "METAMODEL",
+  Name: "",
+  Description: "",
+  Type: "",
   StorageUrl:
-    "http://178.238.238.209:3200/files/metamodels/SimpleOOP-1649864593972-32.ecore",
-  Project: "Project_id",
-  Workspace: "Workspace_id",
-  "Access control": "PUBLIC",
-  CreatedAt: "TimeStamp",
-  "Last modifiedAt": "TimeStamp",
+    "",
+  Project: "",
+  Workspace: "",
+  "Access control": "",
+  CreatedAt: "",
+  "Last modifiedAt": "",
 };
+
+// let datam = {
+//   Name: "SimpleOOP.ecore",
+//   Description: "We are trying to save the metamodel using the api",
+//   Type: "METAMODEL",
+//   StorageUrl:
+//     "http://178.238.238.209:3200/files/metamodels/SimpleOOP-1649864593972-32.ecore",
+//   Project: "Project_id",
+//   Workspace: "Workspace_id",
+//   "Access control": "PUBLIC",
+//   CreatedAt: "TimeStamp",
+//   "Last modifiedAt": "TimeStamp",
+// };
 
 
 const ModelDisplay = () => {
-  const [data, setData] = useState({})
-
-
-  const keys = Object.keys(data);
-  const values = Object.values(data);
-
-
   const { state, dispatch } = useAppContext();
+  const [data, setData] = useState({})
+  const router = useRouter();
+
+  let { content, ...returnedData } = data;
+  const keys = Object.keys(returnedData);
+  const values = Object.values(returnedData);
+
   const typeDisp = {
     DSL: "script",
     METAMODEL: "metamodel",
@@ -37,22 +50,24 @@ const ModelDisplay = () => {
   }
 
   useEffect(() => {
-    console.log(state);
-    if (Object.keys(state.item).length !== 0) {
-      fetch(`http://localhost:3200/store/artifact/${typeDisp[state.item.type]}/${state.item.id}`)
+
+    if (Object.keys(state.item).length !== 0 && Object.keys(data).length === 0) {
+      fetch(`http://178.238.238.209:3200/store/artifact/${typeDisp[state.item.type]}/${state.item.id}`)
         .then((res) => res.json())
-        .then((data) => {
+        .then((d) => {
+          console.log(d);
           let mdata = {
-            Name: data ? data.returnedData.name : "SimpleOOP.ecore",
-            Description: data ? data.returnedData.description : "We are trying to save the metamodel using the api",
-            Type: data ? data.returnedData.type : "METAMODEL",
+            Name: d.returnedData.name,
+            Description: d.returnedData.description,
+            Type: d.returnedData.type,
+            content: d.returnedData.content,
             StorageUrl:
-              data ? data.returnedData.storageUrl : "http://178.238.238.209:3200/files/metamodels/SimpleOOP-1649864593972-32.ecore",
-            Project: data ? "[ " + data.returnedData.project.toString() + " ]" : "Project_id",
+              d.returnedData.storageUrl,
+            Project: "[ " + d.returnedData.project.toString() + " ]",
             Workspace: "Workspace_id",
-            "Access control": data ? data.returnedData.accessControl : "PUBLIC",
-            CreatedAt: data ? data.returnedData.createdAt : "TimeStamp",
-            "Last modifiedAt": data ? data.returnedData.updatedAt : "TimeStamp",
+            "Access control": d.returnedData.accessControl,
+            CreatedAt: d.returnedData.createdAt,
+            "Last modifiedAt": d.returnedData.updatedAt
           };
           setData(mdata)
         })
@@ -60,7 +75,17 @@ const ModelDisplay = () => {
     else {
       setData(datam)
     }
-  }, [state])
+  }, [state,])
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    console.log(data);
+    dispatch({
+      type: "content", value: data
+    })
+    // navigate to model-view
+    router.push('/edit-artifact')
+  }
 
   return (
     <div className={styles.container}>
@@ -81,9 +106,7 @@ const ModelDisplay = () => {
         </div>
       </div>
       <div className={styles.editContent}>
-        <Link href="/edit-artifact" passHref>
-          <div className={styles.edit}>Edit content</div>
-        </Link>
+        <div onClick={e => handleClick(e)} className={styles.edit}>Edit content</div>
       </div>
     </div>
   );

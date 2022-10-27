@@ -13175,3 +13175,227 @@ info: Oct-26-2022 16:43:21: 	[26/Oct/2022:14:43:21 +0000] 'GET /store/artifact/m
 info: Oct-26-2022 16:43:21: 	Metamodel retrieved successfully!
 info: Oct-26-2022 16:43:21: 	[26/Oct/2022:14:43:21 +0000] 'GET /store/artifact/metamodel/62702b556320d300138cfdc6 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.47' - 147.766 ms
 
+info: Oct-27-2022 15:36:46: 	Listening on port 3200...
+info: Oct-27-2022 15:36:52: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:36:52: 	[27/Oct/2022:13:36:52 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 200 542 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 66.273 ms
+
+info: Oct-27-2022 15:36:52: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:36:52: 	[27/Oct/2022:13:36:52 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 55.133 ms
+
+info: Oct-27-2022 15:45:52: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:45:52: 	[27/Oct/2022:13:45:52 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 59.172 ms
+
+info: Oct-27-2022 15:45:52: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:45:52: 	[27/Oct/2022:13:45:52 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 55.393 ms
+
+info: Oct-27-2022 15:47:05: 	[27/Oct/2022:13:47:05 +0000] 'GET /store/api-docs/ HTTP/1.1' 200 3102 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 3.088 ms
+
+info: Oct-27-2022 15:47:06: 	[27/Oct/2022:13:47:06 +0000] 'GET /store/api-docs/swagger-ui.css HTTP/1.1' 200 143858 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 3.415 ms
+
+info: Oct-27-2022 15:47:06: 	[27/Oct/2022:13:47:06 +0000] 'GET /store/api-docs/swagger-ui-init.js HTTP/1.1' 200 60153 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 0.483 ms
+
+info: Oct-27-2022 15:47:06: 	[27/Oct/2022:13:47:06 +0000] 'GET /store/api-docs/swagger-ui-standalone-preset.js HTTP/1.1' 200 339479 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 5.162 ms
+
+info: Oct-27-2022 15:47:06: 	[27/Oct/2022:13:47:06 +0000] 'GET /store/api-docs/swagger-ui-bundle.js HTTP/1.1' 200 1094602 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 6.061 ms
+
+info: Oct-27-2022 15:47:07: 	[27/Oct/2022:13:47:07 +0000] 'GET /store/api-docs/favicon-32x32.png HTTP/1.1' 200 628 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 5.444 ms
+
+info: Oct-27-2022 15:48:15: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:48:15: 	[27/Oct/2022:13:48:15 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 69.702 ms
+
+info: Oct-27-2022 15:48:28: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:48:28: 	[27/Oct/2022:13:48:28 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 56.146 ms
+
+info: Oct-27-2022 15:48:28: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:48:28: 	[27/Oct/2022:13:48:28 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 51.825 ms
+
+info: Oct-27-2022 15:49:15: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:49:15: 	[27/Oct/2022:13:49:15 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 56.350 ms
+
+info: Oct-27-2022 15:52:01: 	Listening on port 3200...
+info: Oct-27-2022 15:53:30: 	Listening on port 3200...
+info: Oct-27-2022 15:53:43: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:53:43: 	[27/Oct/2022:13:53:43 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 200 1719 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 75.058 ms
+
+info: Oct-27-2022 15:55:33: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:55:33: 	[27/Oct/2022:13:55:33 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 52.470 ms
+
+info: Oct-27-2022 15:57:01: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:57:01: 	[27/Oct/2022:13:57:01 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 54.867 ms
+
+info: Oct-27-2022 15:57:21: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:57:21: 	[27/Oct/2022:13:57:21 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 54.224 ms
+
+info: Oct-27-2022 15:57:23: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:57:23: 	[27/Oct/2022:13:57:23 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 55.434 ms
+
+info: Oct-27-2022 15:57:50: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:57:50: 	[27/Oct/2022:13:57:50 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 56.010 ms
+
+info: Oct-27-2022 15:57:52: 	Dsl retrieved successfully!
+info: Oct-27-2022 15:57:52: 	[27/Oct/2022:13:57:52 +0000] 'GET /store/artifact/script/627036516320d300138de7e7 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 54.382 ms
+
+info: Oct-27-2022 16:18:35: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:18:35: 	[27/Oct/2022:14:18:35 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 200 936 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 52.887 ms
+
+info: Oct-27-2022 16:18:35: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:18:35: 	[27/Oct/2022:14:18:35 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 48.578 ms
+
+info: Oct-27-2022 16:18:38: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:18:38: 	[27/Oct/2022:14:18:38 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 54.458 ms
+
+info: Oct-27-2022 16:20:30: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:20:30: 	[27/Oct/2022:14:20:30 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 54.171 ms
+
+info: Oct-27-2022 16:20:30: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:20:30: 	[27/Oct/2022:14:20:30 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 48.125 ms
+
+info: Oct-27-2022 16:20:32: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:20:32: 	[27/Oct/2022:14:20:32 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 50.417 ms
+
+info: Oct-27-2022 16:20:49: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:20:49: 	[27/Oct/2022:14:20:49 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 50.520 ms
+
+info: Oct-27-2022 16:20:49: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:20:49: 	[27/Oct/2022:14:20:49 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 48.838 ms
+
+info: Oct-27-2022 16:21:35: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:21:35: 	[27/Oct/2022:14:21:35 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 54.098 ms
+
+info: Oct-27-2022 16:24:25: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:24:25: 	[27/Oct/2022:14:24:25 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 56.286 ms
+
+info: Oct-27-2022 16:24:41: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:24:41: 	[27/Oct/2022:14:24:41 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 51.451 ms
+
+info: Oct-27-2022 16:24:41: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:24:41: 	[27/Oct/2022:14:24:41 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 52.283 ms
+
+info: Oct-27-2022 16:24:43: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:24:43: 	[27/Oct/2022:14:24:43 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 52.653 ms
+
+info: Oct-27-2022 16:25:42: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:25:42: 	[27/Oct/2022:14:25:42 +0000] 'GET /store/artifact/script/627036526320d300138de7ff HTTP/1.1' 200 984 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 50.391 ms
+
+info: Oct-27-2022 16:25:42: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:25:42: 	[27/Oct/2022:14:25:42 +0000] 'GET /store/artifact/script/627036526320d300138de7ff HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 49.697 ms
+
+info: Oct-27-2022 16:25:46: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:25:46: 	[27/Oct/2022:14:25:46 +0000] 'GET /store/artifact/script/627036526320d300138de7ff HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 54.589 ms
+
+info: Oct-27-2022 16:26:44: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:26:44: 	[27/Oct/2022:14:26:44 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 51.095 ms
+
+info: Oct-27-2022 16:26:44: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:26:44: 	[27/Oct/2022:14:26:44 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 51.464 ms
+
+info: Oct-27-2022 16:27:09: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:27:09: 	[27/Oct/2022:14:27:09 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 53.648 ms
+
+info: Oct-27-2022 16:28:00: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:28:00: 	[27/Oct/2022:14:28:00 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 226.381 ms
+
+info: Oct-27-2022 16:28:03: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:28:03: 	[27/Oct/2022:14:28:03 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 117.293 ms
+
+info: Oct-27-2022 16:28:38: 	Metamodel retrieved successfully!
+info: Oct-27-2022 16:28:38: 	[27/Oct/2022:14:28:38 +0000] 'GET /store/artifact/metamodel/62702a496320d300138ce4e1 HTTP/1.1' 200 4694 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 191.845 ms
+
+info: Oct-27-2022 16:28:38: 	Metamodel retrieved successfully!
+info: Oct-27-2022 16:28:38: 	[27/Oct/2022:14:28:38 +0000] 'GET /store/artifact/metamodel/62702a496320d300138ce4e1 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 376.241 ms
+
+info: Oct-27-2022 16:28:42: 	Metamodel retrieved successfully!
+info: Oct-27-2022 16:28:42: 	[27/Oct/2022:14:28:42 +0000] 'GET /store/artifact/metamodel/62702a496320d300138ce4e1 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 233.316 ms
+
+info: Oct-27-2022 16:29:01: 	Metamodel retrieved successfully!
+info: Oct-27-2022 16:29:01: 	[27/Oct/2022:14:29:01 +0000] 'GET /store/artifact/metamodel/62702a496320d300138ce4e1 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 251.793 ms
+
+info: Oct-27-2022 16:29:01: 	Metamodel retrieved successfully!
+info: Oct-27-2022 16:29:01: 	[27/Oct/2022:14:29:01 +0000] 'GET /store/artifact/metamodel/62702a496320d300138ce4e1 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 254.616 ms
+
+info: Oct-27-2022 16:37:34: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:37:34: 	[27/Oct/2022:14:37:34 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 47.290 ms
+
+info: Oct-27-2022 16:37:34: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:37:34: 	[27/Oct/2022:14:37:34 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 50.733 ms
+
+info: Oct-27-2022 16:38:16: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:38:16: 	[27/Oct/2022:14:38:16 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 48.618 ms
+
+info: Oct-27-2022 16:38:16: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:38:16: 	[27/Oct/2022:14:38:16 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 48.986 ms
+
+info: Oct-27-2022 16:39:06: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:39:06: 	[27/Oct/2022:14:39:06 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 51.749 ms
+
+info: Oct-27-2022 16:39:06: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:39:06: 	[27/Oct/2022:14:39:06 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 52.947 ms
+
+info: Oct-27-2022 16:39:51: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:39:51: 	[27/Oct/2022:14:39:51 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 51.779 ms
+
+info: Oct-27-2022 16:39:51: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:39:51: 	[27/Oct/2022:14:39:51 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 51.422 ms
+
+info: Oct-27-2022 16:40:15: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:40:15: 	[27/Oct/2022:14:40:15 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 47.948 ms
+
+info: Oct-27-2022 16:40:15: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:40:15: 	[27/Oct/2022:14:40:15 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 48.493 ms
+
+info: Oct-27-2022 16:40:17: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:40:17: 	[27/Oct/2022:14:40:17 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 47.883 ms
+
+info: Oct-27-2022 16:40:17: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:40:17: 	[27/Oct/2022:14:40:17 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 54.236 ms
+
+info: Oct-27-2022 16:40:24: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:40:24: 	[27/Oct/2022:14:40:24 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 54.502 ms
+
+info: Oct-27-2022 16:40:24: 	Dsl retrieved successfully!
+info: Oct-27-2022 16:40:24: 	[27/Oct/2022:14:40:24 +0000] 'GET /store/artifact/script/627036516320d300138de7e3 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 57.333 ms
+
+info: Oct-27-2022 16:44:37: 	[27/Oct/2022:14:44:37 +0000] 'GET /graphql HTTP/1.1' 200 - '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 2.267 ms
+
+info: Oct-27-2022 16:45:10: 	[27/Oct/2022:14:45:10 +0000] 'POST /graphql HTTP/1.1' 400 1783 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 4.974 ms
+
+info: Oct-27-2022 16:47:14: 	[27/Oct/2022:14:47:14 +0000] 'POST /graphql HTTP/1.1' 400 1666 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 2.403 ms
+
+info: Oct-27-2022 16:48:23: 	[27/Oct/2022:14:48:23 +0000] 'POST /graphql HTTP/1.1' 400 1768 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 3.023 ms
+
+info: Oct-27-2022 16:49:03: 	[27/Oct/2022:14:49:03 +0000] 'POST /graphql HTTP/1.1' 400 1661 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 4.757 ms
+
+info: Oct-27-2022 16:49:04: 	[27/Oct/2022:14:49:04 +0000] 'POST /graphql HTTP/1.1' 400 1661 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 9.357 ms
+
+info: Oct-27-2022 16:49:20: 	User retrieved successfully!
+info: Oct-27-2022 16:49:20: 	[27/Oct/2022:14:49:20 +0000] 'POST /graphql HTTP/1.1' 200 35 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 107.983 ms
+
+info: Oct-27-2022 16:49:30: 	User retrieved successfully!
+info: Oct-27-2022 16:49:30: 	[27/Oct/2022:14:49:30 +0000] 'POST /graphql HTTP/1.1' 200 76 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 103.676 ms
+
+info: Oct-27-2022 16:50:14: 	User retrieved successfully!
+info: Oct-27-2022 16:50:14: 	[27/Oct/2022:14:50:14 +0000] 'POST /graphql HTTP/1.1' 200 117 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 106.158 ms
+
+info: Oct-27-2022 16:50:42: 	[27/Oct/2022:14:50:42 +0000] 'POST /graphql HTTP/1.1' 400 5185 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 3.609 ms
+
+info: Oct-27-2022 16:50:58: 	[27/Oct/2022:14:50:58 +0000] 'POST /graphql HTTP/1.1' 400 1759 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 2.523 ms
+
+info: Oct-27-2022 16:51:22: 	User retrieved successfully!
+info: Oct-27-2022 16:51:22: 	[27/Oct/2022:14:51:22 +0000] 'POST /graphql HTTP/1.1' 200 117 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 108.225 ms
+
+info: Oct-27-2022 16:51:34: 	Workspace not found!
+info: Oct-27-2022 16:51:34: 	[27/Oct/2022:14:51:34 +0000] 'POST /graphql HTTP/1.1' 200 86 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 52.933 ms
+
+info: Oct-27-2022 16:51:57: 	User retrieved successfully!
+info: Oct-27-2022 16:51:57: 	[27/Oct/2022:14:51:57 +0000] 'GET /store/user?username=arsene HTTP/1.1' 200 217 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 51.011 ms
+
+info: Oct-27-2022 16:52:15: 	[27/Oct/2022:14:52:15 +0000] 'GET /store/workspace/6270277a6320d300138ce4cc HTTP/1.1' 404 32 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 52.490 ms
+
+info: Oct-27-2022 16:54:42: 	Model retrieved successfully!
+info: Oct-27-2022 16:54:42: 	[27/Oct/2022:14:54:42 +0000] 'POST /graphql HTTP/1.1' 200 78 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 59.064 ms
+
+info: Oct-27-2022 16:54:56: 	Model retrieved successfully!
+info: Oct-27-2022 16:54:56: 	[27/Oct/2022:14:54:56 +0000] 'POST /graphql HTTP/1.1' 200 90 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36 Edg/106.0.1370.52' - 52.113 ms
+
+info: Oct-27-2022 17:21:02: 	Listening on port 3200...
+info: Oct-27-2022 17:22:03: 	Listening on port 3200...

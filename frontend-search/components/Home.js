@@ -4,7 +4,6 @@ import Link from "next/link";
 import styles from "../styles/Home.module.scss";
 import { useRouter } from "next/router";
 import { useAppContext } from "../context/AppContext";
-import { getData } from "../services";
 
 const Home = () => {
   const router = useRouter();

@@ -3,7 +3,10 @@ export const initialState = {
   str: "",
   dataType: "SELECT ALL",
   letter: "All",
-  item: {}
+  item: {},
+  content: "",
+  refreshed: 1,
+  data: {}
 };
 
 export const appReducer = (state, action) => {
@@ -35,13 +38,26 @@ export const appReducer = (state, action) => {
     }
 
     case "item": {
-      console.log(action.value);
-
-
       return {
         ...state,
         item: action.value
       }
     }
+
+    case "content": {
+      return {
+        ...state,
+        content: action.value.content,
+        data: action.value
+      }
+    }
+
+    case "refreshed": {
+      return {
+        ...state,
+        refreshed: state.refreshed + 1
+      }
+    }
+
   }
 };

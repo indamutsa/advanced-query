@@ -221,11 +221,11 @@ const uploadMetamodel = async (req) => {
         ePackage: metamodelData
           ? metamodelData.ePackage
           : {
-              name: data?.ePackage?.name,
-              nsURI: data?.ePackage?.nsURI,
-              nsPrefix: data?.ePackage?.nsPrefix,
-              eSubpackages: data?.ePackage?.eSubpackages,
-            },
+            name: data?.ePackage?.name,
+            nsURI: data?.ePackage?.nsURI,
+            nsPrefix: data?.ePackage?.nsPrefix,
+            eSubpackages: data?.ePackage?.eSubpackages,
+          },
       };
       const newMetamodel = await Metamodel(metamodel);
       const savedMetaModel = await newMetamodel.save();
@@ -419,7 +419,8 @@ router.get("/metamodel/:id", async (req, res) => {
     const metamodel = await Metamodel.findById(req.params.id);
 
     let dataMM = JSON.parse(JSON.stringify(metamodel));
-    let { content, ...returnedData } = dataMM;
+    // let { content, ...returnedData } = dataMM;
+    let returnedData = dataMM
 
     logger.info("Metamodel retrieved successfully!");
     res
@@ -536,7 +537,7 @@ router.put("/metamodel/:id", async (req, res) => {
 
               await deleteFile(
                 "." +
-                  artifactFile.storageUrl.split(`http://${req.headers.host}`)[1]
+                artifactFile.storageUrl.split(`http://${req.headers.host}`)[1]
               ).then(async () => {
                 await artifactFile.delete();
               });
@@ -935,7 +936,8 @@ router.get("/model/:id", async (req, res) => {
     const models = await Model.findById(req.params.id);
 
     let dataModel = JSON.parse(JSON.stringify(models));
-    let { content, ...returnedData } = dataModel;
+    // let { content, ...returnedData } = dataModel;
+    let returnedData = dataModel
 
     logger.info("Model retrieved successfully!");
     res
@@ -1053,7 +1055,7 @@ router.put("/model/:id", async (req, res) => {
 
               await deleteFile(
                 "." +
-                  artifactFile.storageUrl.split(`http://${req.headers.host}`)[1]
+                artifactFile.storageUrl.split(`http://${req.headers.host}`)[1]
               ).then(async () => {
                 await artifactFile.delete();
               });
@@ -1486,7 +1488,9 @@ router.get("/script/:id", async (req, res) => {
   try {
     const dsls = await Dsl.findById(req.params.id);
     let dataDsls = JSON.parse(JSON.stringify(dsls));
-    let { content, ...returnedData } = dataDsls;
+    // let { content, ...returnedData } = dataDsls;
+    console.log(dataDsls);
+    let returnedData = dataDsls
 
     if (returnedData) {
       logger.info("Dsl retrieved successfully!");
@@ -1608,7 +1612,7 @@ router.put("/script/:id", async (req, res) => {
 
               await deleteFile(
                 "." +
-                  artifactFile.storageUrl.split(`http://${req.headers.host}`)[1]
+                artifactFile.storageUrl.split(`http://${req.headers.host}`)[1]
               ).then(async () => {
                 await artifactFile.delete();
               });
