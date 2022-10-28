@@ -1,3 +1,16 @@
+To start the cluster with docker-compose
+RUN -> run.sh
+--------
+To build and push an image:
+RUN ->  build.sh etl-transformation v5.0 ==> [name of the image] and [the version]
+-----------
+
+When recreating elasticsearch:
+RUN -> docker-compose up --build --force-recreate --no-deps -d elasticsearch
+
+RUN monstache as well to synchronize mongo and elasticsearch
+RUN -> docker-compose up --build --force-recreate --no-deps -d monstache
+
 Run the cluster:
 -> docker-compose up
 
