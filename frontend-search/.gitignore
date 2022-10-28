@@ -30,7 +30,7 @@ yarn-error.log*
 
 # vercel
 .vercel
-
+.next
 
 /data/models.json
 /data/data.js
