@@ -6,7 +6,7 @@ const nextConfig = {
     return [
       {
         source: "/model-service",
-        destination: "/model_service",
+        destination: "/ModelService",
       },
       {
         source: "/advanced-search",
@@ -23,6 +23,10 @@ const nextConfig = {
       {
         source: "/result",
         destination: "/Result",
+      },
+      {
+        source: "/browse",
+        destination: "/Browse",
       },
     ];
   },

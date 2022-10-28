@@ -25,7 +25,7 @@ const opData = {
 };
 
 
-const browse = ({ data }) => {
+const Browse = ({ data }) => {
   const { state, dispatch } = useAppContext();
 
   data = data.filter(el => {
@@ -62,7 +62,7 @@ const browse = ({ data }) => {
   );
 };
 
-export default browse;
+export default Browse;
 
 
 
