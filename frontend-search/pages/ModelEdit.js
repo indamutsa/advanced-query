@@ -10,7 +10,6 @@ import { useAppContext } from "../context/AppContext";
 
 const ModelEdit = () => {
   const { state, dispatch } = useAppContext();
-  console.log(state);
 
   const [artifact, setArtifact] = useState(state.content);
   formatXml(artifact);

@@ -3,6 +3,9 @@ import Dropdown from "./Dropdown";
 import FieldDiv from "./common/FieldDiv";
 import SearchInput from "./common/SearchInput";
 import SearchRect from "./common/SearchRect";
+import axios from "axios";
+
+
 
 const opData = {
   dropdown: {
@@ -21,6 +24,45 @@ const opData = {
 };
 
 const TransformationService = () => {
+
+  const execTrans = async () => {
+
+    try {
+      const sourceM = await axios.get(`http://178.238.238.209:3200/store/artifact/model/62702f7e6320d300138daa59`)
+      const sourceMM = await axios.get(`http://178.238.238.209:3200/store/artifact/metamodel/62702a4d6320d300138ce572`)
+      const targetMM = await axios.get(`http://178.238.238.209:3200/store/artifact/metamodel/62702a4d6320d300138ce572`)
+      const script = await axios.get(`http://178.238.238.209:3200/store/artifact/script/635fdcab19b0930014799eba`)
+
+      let arr = [
+        {
+          name: sourceM.data.returnedData.name,
+          content: sourceM.data.returnedData.content
+        },
+        {
+          name: sourceMM.data.returnedData.name,
+          content: sourceMM.data.returnedData.content
+        },
+        {
+          name: targetMM.data.returnedData.name,
+          content: targetMM.data.returnedData.content
+        },
+        {
+          name: script.data.returnedData.name,
+          content: script.data.returnedData.content
+        }
+      ];
+      console.log(arr);
+      const res = await axios.post("http://178.238.238.209:8085/mms/transform/str", arr)
+      console.log(res.data);
+      return res.data
+    } catch (error) {
+      return error.message
+    }
+
+  }
+
+
+
   return (
     <div className={styles.container}>
       <div className={styles.blocka}>
@@ -72,6 +114,9 @@ const TransformationService = () => {
           </SearchRect>
         </div>
       </div>
+      <button onClick={execTrans}>
+        Click me
+      </button>
     </div>
   );
 };

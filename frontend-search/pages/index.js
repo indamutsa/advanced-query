@@ -2,7 +2,7 @@ import Head from "next/head";
 import Home from "../components/Home";
 import { getData } from "../services";
 
-export default function Index({ data }) {
+export default function Index() {
   return (
     <div>
       <Head>
@@ -15,15 +15,15 @@ export default function Index({ data }) {
   );
 }
 
-export const getStaticProps = async () => {
-  // Call data from here
-  let data = await getData();
-  // console.log("hello");
-  data = {
-    hello: "world",
-  };
+// export const getStaticProps = async () => {
+//   // Call data from here
+//   let data = await getData();
+//   // console.log("hello");
+//   data = {
+//     hello: "world",
+//   };
 
-  return {
-    props: { data: data }, // will be passed to the page component as props
-  };
-};
+//   return {
+//     props: { data: data }, // will be passed to the page component as props
+//   };
+// };

@@ -1,12 +1,14 @@
 export const initialState = {
   number: 0,
   str: "",
+  searchQuery: "",
   dataType: "SELECT ALL",
   letter: "All",
   item: {},
   content: "",
   refreshed: 1,
-  data: {}
+  data: {},
+  service: "",
 };
 
 export const appReducer = (state, action) => {
@@ -15,10 +17,11 @@ export const appReducer = (state, action) => {
       return action.value;
     }
 
-    case "add_number": {
-      state.str = action.value;
+    case "search-query": {
+      // state.str = action.value;
       return {
         ...state,
+        searchQuery: action.value,
         // number: action.value + state.number,
       };
     }
@@ -56,6 +59,13 @@ export const appReducer = (state, action) => {
       return {
         ...state,
         refreshed: state.refreshed + 1
+      }
+    }
+
+    case "service": {
+      return {
+        ...state,
+        service: action.value
       }
     }
 

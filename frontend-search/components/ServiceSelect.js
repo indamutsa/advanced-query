@@ -3,8 +3,10 @@ import FieldDiv from "./common/FieldDiv";
 import styles from "../styles/Dropdown.module.scss";
 import { useState } from "react";
 import Image from "next/image";
+import { useAppContext } from "../context/AppContext";
 
 const ServiceSelect = () => {
+  const { state, dispatch } = useAppContext();
   const [isOpen, setIsOpen] = useState(true);
   const [item, setItem] = useState("");
   const [field, setField] = useState(true);
@@ -13,6 +15,9 @@ const ServiceSelect = () => {
     "EVL validation",
     "EOL model object query",
   ];
+
+
+
 
   const metaTitle = "Choose a service...";
 
@@ -48,6 +53,7 @@ const ServiceSelect = () => {
                 setIsOpen(!isOpen);
                 setItem(item);
                 setField(false);
+                dispatch({ type: "service", value: item });
               }}
             >
               {item}

@@ -1,6 +1,9 @@
 import TransformationService from "../components/TransformationService";
 import ServiceSelect from "../components/ServiceSelect";
 import styles from "../styles/Service.module.scss";
+import { useAppContext } from "../context/AppContext";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const data = {
   dropdown: {
@@ -17,6 +20,20 @@ const data = {
 };
 
 const service = () => {
+  const { state, dispatch } = useAppContext();
+  const [status, setStatus] = useState(false)
+  let h = state.service.split(" ")[1]
+
+
+  useEffect(() => {
+    if (state.service === "") {
+      setStatus(false)
+    } else if (h.toLowerCase() === "transformation") {
+      setStatus(true)
+    }
+  }, [h])
+
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -27,7 +44,11 @@ const service = () => {
               <div className={styles.titleComponent}>
                 <ServiceSelect />
               </div>
-              <TransformationService />
+              {
+                status && (<TransformationService />)
+              }
+
+
             </div>
           </div>
           <div className={styles.console}>

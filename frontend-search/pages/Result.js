@@ -2,17 +2,84 @@ import styles from "../styles/Result.module.scss";
 import Image from "next/image";
 import ResultBox from "../components/ResultBox";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useAppContext } from "../context/AppContext";
 import { useRef, useState } from "react";
 import { getData } from "../services";
+import { useEffect } from "react";
 
 const Result = () => {
-  const router = useRouter();
+
+  const { state, dispatch } = useAppContext();
   const inputRef = useRef();
   const [results, setResults] = useState([]);
+  console.log(state.searchQuery);
 
-  // let results = [];
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    let searchQuery = inputRef.current.value;
+    let res = await getData(searchQuery);
+    setResults(res.query.data);
+  };
+
+  const handleData = async () => {
+    let res = await getData(state.searchQuery);
+    setResults(res.query.data);
+  };
+
+  useEffect(() => {
+    handleData()
+  }, [state?.searchQuery,])
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.content}>
+        <div className={styles.upperView}>
+          <div className={styles.title}>Search results</div>
+          <div className={styles.searchBar}>
+            <form onSubmit={handleSubmit}>
+              <input
+                className={styles.search}
+                name="searchartifacts"
+                placeholder="Search artifacts..."
+                type="text"
+                required=""
+                ref={inputRef}
+              />
+            </form>
+
+            <Image
+              className={styles.magnify}
+              src="/image/magnify-glass.svg"
+              alt="magnify"
+              height="32px"
+              width="32px"
+              onClick={handleSubmit}
+            />
+          </div>
+          <div className={styles.metaResults}>
+            <div className={styles.total}>Total: 556</div>
+            <Link href="/advanced-search" passHref>
+              <div className={styles.advanced}>Advanced Search</div>
+            </Link>
+          </div>
+        </div>
+        <div className={styles.result}>
+          {results.map((res, i) => (
+            <ResultBox key={i} data={res} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Result;
+
+
+ // let results = [];
 
   // const results = [
   //   {
@@ -61,56 +128,3 @@ const Result = () => {
   //       "http://178.238.238.209:3201/file/metamodels/PetriNet-1651518322912-96.ecore",
   //   },
   // ];
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    let searchQuery = inputRef.current.value;
-    let res = await getData(searchQuery);
-    setResults(res.query.data);
-  };
-
-  return (
-    <div className={styles.container}>
-      <div className={styles.content}>
-        <div className={styles.upperView}>
-          <div className={styles.title}>Search results</div>
-          <div className={styles.searchBar}>
-            <form onSubmit={handleSubmit}>
-              <input
-                className={styles.search}
-                name="searchartifacts"
-                placeholder="Search artifacts..."
-                type="text"
-                required=""
-                ref={inputRef}
-              />
-            </form>
-
-            <Image
-              className={styles.magnify}
-              src="/image/magnify-glass.svg"
-              alt="magnify"
-              height="32px"
-              width="32px"
-              onClick={handleSubmit}
-            />
-          </div>
-          <div className={styles.metaResults}>
-            <div className={styles.total}>Total: 556</div>
-            <Link href="/advanced-search" passHref>
-              <div className={styles.advanced}>Advanced Search</div>
-            </Link>
-          </div>
-        </div>
-        <div className={styles.result}>
-          {results.map((res, i) => (
-            <ResultBox key={i} data={res} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default Result;

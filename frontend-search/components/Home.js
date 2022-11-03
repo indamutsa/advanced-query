@@ -5,7 +5,7 @@ import styles from "../styles/Home.module.scss";
 import { useRouter } from "next/router";
 import { useAppContext } from "../context/AppContext";
 
-const Home = () => {
+const Home = ({ data }) => {
   const router = useRouter();
   const inputRef = useRef("Hello");
 
@@ -16,7 +16,7 @@ const Home = () => {
     e.preventDefault();
     let searchQuery = inputRef.current.value;
 
-    dispatch({ type: "add_number", value: searchQuery });
+    dispatch({ type: "search-query", value: searchQuery });
     router.push(`/result`);
   };
 
