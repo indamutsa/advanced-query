@@ -4,6 +4,7 @@ import FieldDiv from "./common/FieldDiv";
 import SearchInput from "./common/SearchInput";
 import SearchRect from "./common/SearchRect";
 import axios from "axios";
+import { useRef } from "react";
 
 
 
@@ -25,14 +26,26 @@ const opData = {
 
 const TransformationService = () => {
 
+  const sourceMRef = useRef();
+  const sourceMMRef = useRef();
+  const targetMMRef = useRef();
+  const scriptRef = useRef();
+
   const execTrans = async () => {
+    const sourceMID = sourceMRef.current.value
+    const sourceMMID = sourceMMRef.current.value
+    const targetMMID = targetMMRef.current.value
+    const scriptID = scriptRef.current.value
+    console.log(sourceMID);
 
     try {
+      // Calling individual artifacts
       const sourceM = await axios.get(`http://178.238.238.209:3200/store/artifact/model/62702f7e6320d300138daa59`)
       const sourceMM = await axios.get(`http://178.238.238.209:3200/store/artifact/metamodel/62702a4d6320d300138ce572`)
       const targetMM = await axios.get(`http://178.238.238.209:3200/store/artifact/metamodel/62702a4d6320d300138ce572`)
       const script = await axios.get(`http://178.238.238.209:3200/store/artifact/script/635fdcab19b0930014799eba`)
 
+      // Creating request object
       let arr = [
         {
           name: sourceM.data.returnedData.name,
@@ -51,9 +64,10 @@ const TransformationService = () => {
           content: script.data.returnedData.content
         }
       ];
-      console.log(arr);
+
+      // Executing the transformation
       const res = await axios.post("http://178.238.238.209:8085/mms/transform/str", arr)
-      console.log(res.data);
+
       return res.data
     } catch (error) {
       return error.message
@@ -74,6 +88,7 @@ const TransformationService = () => {
               type="text"
               placeholder="Enter selected field..."
               width={opData.size.inputwidth}
+              ref={sourceMRef}
             />
           </SearchRect>
         </div>
@@ -85,6 +100,7 @@ const TransformationService = () => {
             <SearchInput
               type="text"
               placeholder="Enter selected field..."
+              ref={sourceMMRef}
               width={opData.size.inputwidth}
             />
           </SearchRect>
@@ -98,6 +114,7 @@ const TransformationService = () => {
             <SearchInput
               type="text"
               placeholder="Enter selected field..."
+              ref={targetMMRef}
               width={opData.size.inputwidth}
             />
           </SearchRect>
@@ -109,13 +126,14 @@ const TransformationService = () => {
             <SearchInput
               type="text"
               placeholder="Enter selected field..."
+              ref={scriptRef}
               width={opData.size.inputwidth}
             />
           </SearchRect>
         </div>
       </div>
-      <button onClick={execTrans}>
-        Click me
+      <button className={styles.execute} onClick={execTrans}>
+        Execute
       </button>
     </div>
   );

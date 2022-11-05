@@ -12,7 +12,7 @@ const Result = () => {
   const { state, dispatch } = useAppContext();
   const inputRef = useRef();
   const [results, setResults] = useState([]);
-  console.log(state.searchQuery);
+  // console.log(state.searchQuery);
 
 
 

@@ -1,4 +1,6 @@
+const fs = require('fs');
 const { Metamodel } = require("../models");
+
 
 const updateMany = async () => {
   const metamodels = await Metamodel.find();
@@ -51,9 +53,8 @@ const transformArrayToObj = async (metrics) => {
     let mapper = `
           "${metric.name === "maintainability" ? "MTNB" : metric.code}": {
               "name": "${metric.name}",
-              "code": "${
-                metric.name === "maintainability" ? "MTNB" : metric.code
-              }",
+              "code": "${metric.name === "maintainability" ? "MTNB" : metric.code
+      }",
               "value": ${metric.value}
           },`;
 
