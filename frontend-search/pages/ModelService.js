@@ -53,7 +53,9 @@ const service = () => {
           </div>
           <div className={styles.console}>
             <div className={styles.consoleTitle}>Console</div>
-            <div className={styles.consoleBox}></div>
+            <div className={styles.consoleBox}>
+              {state.operationResult}
+            </div>
           </div>
         </div>
       </div>
