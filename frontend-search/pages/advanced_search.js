@@ -1,4 +1,6 @@
+import Image from "next/image";
 import styles from "../styles/Advanced.module.scss";
+import style from "../styles/Dropdown.module.scss";
 import SearchContext from "../components/SearchContext";
 import SearchRect from "../components/common/SearchRect";
 import PossibleTransformation from "../components/PossibleTransformation";
@@ -7,6 +9,13 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/router";
+import ContextRow from "../components/common/ContextRow";
+import Dropdown from "../components/Dropdown";
+import SearchInput from "../components/common/SearchInput";
+import PlusButton from "../components/PlusButton";
+import FieldDiv from "../components/common/FieldDiv";
+import DropDiv from "../components/common/DropDiv";
+import { useRef } from "react";
 
 const contextData = {
   dropdown: {
@@ -16,10 +25,14 @@ const contextData = {
     unique_name: "Unique name",
     desc: "Description",
     ext: "Extension",
+    accessControl: "Access control",
+    content: "Content",
+    type: "Type",
+    size: "Size",
   },
   size: {
     fieldwidth: 16,
-    dropwidth: 16,
+    dropwidth: 8,
     inputwidth: 22,
   },
 };
@@ -41,23 +54,119 @@ const Qass = {
   },
 };
 
+const opData = {
+  dropdown: {
+    title: "Operator",
+    metaTitle: "Operator",
+    gt: "greater than",
+    lt: "less than",
+    gte: "greater than or equal",
+    lte: "less than or equal",
+  },
+  size: {
+    fieldwidth: 10,
+    dropwidth: 10,
+    inputwidth: 5,
+  },
+};
+
 const Advanced = () => {
   const [startDate, setStartDate] = useState(new Date());
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(true);
+  const [item, setItem] = useState("");
+  const [field, setField] = useState(true);
+  const searchInputRef = useRef()
+
+  // const { dropdown, size } = data;
+
+  // const { metaTitle } = dropdown;
+  // const { fieldwidth, dropwidth } = size;
+
+  let items = Object.values(contextData.dropdown);
+  items = items.filter(
+    (item) =>
+      item !== "All fields" &&
+      item !== "Search in context" &&
+      item !== "Operator" &&
+      item !== "Quality Assessment" &&
+      item !== "Quality metrics / attributes" &&
+      item !== "Choose a service..."
+  );
+
 
   const handleClick = () => {
     // e.preventDefault();
-    router.push(`/result`);
+    // router.push(`/result`);
+    console.log(searchInputRef.current.value, Object.keys(contextData.dropdown).find(key => contextData.dropdown[key] === item));
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.title}>Advanced Search</div>
-        <div className={styles.contentSearch}>
+        <form className={styles.contentSearch}>
           <div className={styles.search}>
-            <SearchContext data={contextData} />
+            {/* <SearchContext data={contextData} /> */}
+            <div className={styles.context}>
+              <div className={styles.contextTitle}>{contextData.dropdown.title}</div>
+
+              {/* ------Content Row---------- */}
+              <ContextRow>
+                <SearchRect>
+                  {/* ------Dropdown ----------------- */}
+                  {/* <Dropdown data={contextData} /> */}
+                  <div>
+                    <FieldDiv width={contextData.size.fieldwidth}>
+                      <div className={style.container}>
+                        <div className={style.field}>{field ? contextData.dropdown.metaTitle : item}</div>
+                        <div
+                          onClick={(e) => {
+                            setIsOpen(!isOpen);
+                            console.log(e.target.value);
+                          }}
+                          className={isOpen ? style.dropImage : style.rotate}
+                        >
+                          <Image
+                            src="/image/dropdown.svg"
+                            alt=""
+                            height="22px"
+                            width="22px"
+                          />
+                        </div>
+                      </div>
+                    </FieldDiv>
+                    <DropDiv width={contextData.size.dropwidth}>
+                      {!isOpen &&
+                        items.map((item, i) => (
+                          <div
+                            className={style.item}
+                            key={i}
+                            onClick={(e) => {
+                              setIsOpen(!isOpen);
+                              setItem(item);
+                              setField(false);
+                              // The function below inside 
+                            }}
+                          >
+                            {item}
+                          </div>
+                        ))}
+                    </DropDiv>
+                  </div>
+                  <SearchInput
+                    type="text"
+                    placeholder="Search a field"
+                    width={contextData.size.inputwidth}
+                    ref={searchInputRef}
+                  />
+                </SearchRect>
+                <PlusButton />
+              </ContextRow>
+
+            </div>
             <SearchContext data={Qass} />
+            {/* -------- Possible transformations------------ */}
             <PossibleTransformation />
           </div>
           <div className={styles.bar}>
@@ -125,7 +234,7 @@ const Advanced = () => {
               </div>
             </div>
           </div>
-        </div>
+        </form>
         <div className={styles.bottomView}>
           <div className={styles.instruction}>
             <div className={styles.title}>Instruction</div>
@@ -156,3 +265,57 @@ const Advanced = () => {
 };
 
 export default Advanced;
+
+
+// dispatch gets the key by the value
+//                                 dispatch({
+//                                   type: "advanced", value: {
+//                                     key: Object.keys(dropdown).find(key => dropdown[key] === item)
+//                                   }
+//                                 })
+
+
+{/* <div className={styles.context}>
+              <div className={styles.contextTitle}>{contextData.dropdown.title}</div>
+
+              <ContextRow>
+                {contextData?.dropdown?.title === "Search in context" && (
+                  <SearchRect>
+                    <Dropdown data={contextData} />
+                    <SearchInput
+                      type="text"
+                      placeholder="Search a field"
+                      width={contextData.size.inputwidth}
+                    />
+                  </SearchRect>
+                )}
+
+                {contextData?.dropdown?.title === "Quality Assessment" && (
+                  <SearchRect>
+                    <Dropdown data={contextData} />
+                    <Dropdown data={opData} />
+                    <SearchInput
+                      type="text"
+                      placeholder="Value"
+                      width={contextData.size.inputwidth}
+                    />
+                  </SearchRect>
+                )}
+                <PlusButton />
+              </ContextRow>
+            </div> */}
+
+
+
+{/* --------Quality assessemnt block------------ */ }
+{/* {contextData?.dropdown?.title === "Quality Assessment" && (
+                  <SearchRect>
+                    <Dropdown data={contextData} />
+                    <Dropdown data={opData} />
+                    <SearchInput
+                      type="text"
+                      placeholder="Value"
+                      width={contextData.size.inputwidth}
+                    />
+                  </SearchRect>
+                )} */}

@@ -4,6 +4,7 @@ import Dropdown from "./Dropdown";
 import ContextRow from "./common/ContextRow";
 import PlusButton from "./PlusButton";
 import SearchInput from "./common/SearchInput";
+import { useAppContext } from "../context/AppContext";
 
 const opData = {
   dropdown: {
@@ -22,9 +23,11 @@ const opData = {
 };
 
 const SearchContext = ({ data }) => {
+  const { state, dispatch } = useAppContext();
   const { dropdown, size } = data;
   const { title } = dropdown;
   const { inputwidth } = size;
+
 
   return (
     <div className={styles.context}>
@@ -38,6 +41,11 @@ const SearchContext = ({ data }) => {
               type="text"
               placeholder="Search a field"
               width={inputwidth}
+              onChange={(e) => dispatch({
+                type: "advanced", value: {
+                  value: e.target.value
+                }
+              })}
             />
           </SearchRect>
         )}

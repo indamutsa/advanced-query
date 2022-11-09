@@ -3,11 +3,17 @@ import { useState } from "react";
 import FieldDiv from "./common/FieldDiv";
 import styles from "../styles/Dropdown.module.scss";
 import DropDiv from "./common/DropDiv";
+import { useAppContext } from "../context/AppContext";
 
 const Dropdown = ({ data }) => {
+  const { state, dispatch } = useAppContext();
   const [isOpen, setIsOpen] = useState(true);
   const [item, setItem] = useState("");
   const [field, setField] = useState(true);
+  const [object, setObject] = useState({
+    key: "",
+    value: ""
+  });
   const { dropdown, size } = data;
 
   const { metaTitle } = dropdown;
@@ -23,6 +29,8 @@ const Dropdown = ({ data }) => {
       item !== "Quality metrics / attributes" &&
       item !== "Choose a service..."
   );
+
+
 
   return (
     <div>
@@ -54,6 +62,12 @@ const Dropdown = ({ data }) => {
                 setIsOpen(!isOpen);
                 setItem(item);
                 setField(false);
+                // The function below inside dispatch gets the key by the value
+                dispatch({
+                  type: "advanced", value: {
+                    key: Object.keys(dropdown).find(key => dropdown[key] === item)
+                  }
+                })
               }}
             >
               {item}

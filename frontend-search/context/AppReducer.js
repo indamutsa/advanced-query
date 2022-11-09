@@ -9,7 +9,10 @@ export const initialState = {
   refreshed: 1,
   data: {},
   service: "",
-  operationResult: ""
+  operationResult: "",
+  advancedSearch: {
+
+  }
 };
 
 export const appReducer = (state, action) => {
@@ -76,6 +79,5 @@ export const appReducer = (state, action) => {
         operationResult: action.value
       }
     }
-
   }
 };

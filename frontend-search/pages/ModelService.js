@@ -19,7 +19,7 @@ const data = {
   },
 };
 
-const service = () => {
+const ModelService = () => {
   const { state, dispatch } = useAppContext();
   const [status, setStatus] = useState(false)
   let h = state.service.split(" ")[1]
@@ -63,4 +63,4 @@ const service = () => {
   );
 };
 
-export default service;
+export default ModelService;
