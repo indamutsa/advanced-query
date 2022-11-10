@@ -16,6 +16,7 @@ import PlusButton from "../components/PlusButton";
 import FieldDiv from "../components/common/FieldDiv";
 import DropDiv from "../components/common/DropDiv";
 import { useRef } from "react";
+import Modal from 'react-modal'
 
 const contextData = {
   dropdown: {
@@ -41,14 +42,24 @@ const Qass = {
   dropdown: {
     title: "Quality Assessment",
     metaTitle: "Quality metrics / attributes",
-    REF: "Number of TotalReference",
+    REF: "Number of Total Reference",
     SF: "Number of Total eStructuralFeatures",
     CMC: "Number of concrete MetaClass",
     AMC: "Number of abstract MetaClass",
     MC: "Number of MetaClass",
+    REF1: "Number of Total Reference",
+    SF1: "Number of Total eStructuralFeatures",
+    CMC1: "Number of concrete MetaClass",
+    AMC1: "Number of abstract MetaClass",
+    MC1: "Number of MetaClass",
+    REF2: "Number of Total Reference",
+    SF2: "Number of Total eStructuralFeatures",
+    CMC2: "Number of concrete MetaClass",
+    AMC2: "Number of abstract MetaClass",
+    MC2: "Number of MetaClass",
   },
   size: {
-    fieldwidth: 16,
+    fieldwidth: 20,
     dropwidth: 16,
     inputwidth: 22,
   },
@@ -70,30 +81,82 @@ const opData = {
   },
 };
 
+const possibleTransData = {
+  dropdown: {
+    title: "Operator",
+    metaTitle: "Operator",
+    id: "ID",
+    unique_name: "Artifact unique_name",
+  },
+  size: {
+    fieldwidth: 10,
+    dropwidth: 10,
+    inputwidth: 10,
+  },
+};
+
+
+// console.log(Qass.dropdown);
+
 const Advanced = () => {
   const [startDate, setStartDate] = useState(new Date());
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(true);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenQ, setIsOpenQ] = useState(false);
+  const [isOpenOP, setIsOpenOP] = useState(false);
+  const [isOpenT, setIsOpenT] = useState(false);
+
+
   const [item, setItem] = useState("");
+  const [itemQ, setItemQ] = useState("");
+  const [itemOP, setItemOP] = useState("");
+  const [itemT, setItemT] = useState("");
+
   const [field, setField] = useState(true);
+  const [fieldQ, setFieldQ] = useState(true);
+  const [fieldOP, setFieldOP] = useState(true);
+  const [fieldT, setFieldT] = useState(true);
+
   const searchInputRef = useRef()
+
+  // console.log(isOpen);
 
   // const { dropdown, size } = data;
 
   // const { metaTitle } = dropdown;
   // const { fieldwidth, dropwidth } = size;
 
-  let items = Object.values(contextData.dropdown);
-  items = items.filter(
+  let itemsSearch = Object.values(contextData.dropdown);
+
+  itemsSearch = itemsSearch.filter(
     (item) =>
       item !== "All fields" &&
-      item !== "Search in context" &&
+      item !== "Search in context"
+  );
+  // console.log(itemsSearch);
+
+  let itemsQuality = Object.values(Qass.dropdown);
+  itemsQuality = itemsQuality.filter(
+    (item) =>
       item !== "Operator" &&
       item !== "Quality Assessment" &&
-      item !== "Quality metrics / attributes" &&
-      item !== "Choose a service..."
+      item !== "Quality metrics / attributes"
   );
 
+  let itemsOp = Object.values(opData.dropdown);
+  itemsOp = itemsOp.filter(
+    (item) =>
+      item !== "Operator"
+  );
+
+  let itemsT = Object.values(possibleTransData.dropdown);
+  itemsT = itemsT.filter(
+    (item) =>
+      item !== "Operator"
+  );
+
+  // console.log(Qass.dropdown);
 
   const handleClick = () => {
     // e.preventDefault();
@@ -108,24 +171,25 @@ const Advanced = () => {
         <form className={styles.contentSearch}>
           <div className={styles.search}>
             {/* <SearchContext data={contextData} /> */}
+            {/* ===================== SEARCH CONTEXT ======================= */}
             <div className={styles.context}>
               <div className={styles.contextTitle}>{contextData.dropdown.title}</div>
 
-              {/* ------Content Row---------- */}
+              {/* ------Context Row---------- */}
               <ContextRow>
                 <SearchRect>
                   {/* ------Dropdown ----------------- */}
                   {/* <Dropdown data={contextData} /> */}
                   <div>
-                    <FieldDiv width={contextData.size.fieldwidth}>
+                    {/* Field div------------------------------- */}
+                    <FieldDiv id="react-modals" width={contextData.size.fieldwidth} onClick={(e) => {
+                      setIsOpen(!isOpen);
+                    }}>
                       <div className={style.container}>
                         <div className={style.field}>{field ? contextData.dropdown.metaTitle : item}</div>
                         <div
-                          onClick={(e) => {
-                            setIsOpen(!isOpen);
-                            console.log(e.target.value);
-                          }}
-                          className={isOpen ? style.dropImage : style.rotate}
+
+                          className={isOpen ? style.rotate : style.dropImage}
                         >
                           <Image
                             src="/image/dropdown.svg"
@@ -135,24 +199,62 @@ const Advanced = () => {
                           />
                         </div>
                       </div>
+
                     </FieldDiv>
-                    <DropDiv width={contextData.size.dropwidth}>
-                      {!isOpen &&
-                        items.map((item, i) => (
-                          <div
-                            className={style.item}
-                            key={i}
-                            onClick={(e) => {
-                              setIsOpen(!isOpen);
-                              setItem(item);
-                              setField(false);
-                              // The function below inside 
-                            }}
-                          >
-                            {item}
-                          </div>
-                        ))}
-                    </DropDiv>
+                    {/* Modal---------------------------------- */}
+                    <Modal
+                      isOpen={isOpen}
+                      onRequestClose={() => { setIsOpen(false) }}
+                      shouldCloseOnOverlayClick={true}
+                      ariaHideApp={false}
+                      style={
+                        {
+                          overlay: {
+                            backgroundColor: 'rgba(0,0,0,0.4)'
+                          },
+                          content: {
+                            // color: 'orange',
+                            width: '20%',
+                            height: '40%',
+                            margin: 'auto',
+
+                          }
+                        }
+                      }
+                    >
+
+                      <h3>Select a field</h3>
+                      <div style={{}}>
+                        {
+                          itemsSearch.map((item, i) => (
+
+                            <div
+                              className={style.item}
+                              key={i}
+                              onClick={(e) => {
+                                setIsOpen(!isOpen);
+                                setItem(item);
+                                setField(false);
+                              }}
+                            >
+                              {item}
+                            </div>
+                          ))}
+
+                      </div>
+
+                      <Button
+                        style={{
+                          padding: ".2em 1em",
+                          fontSize: '0.9em',
+                          marginTop: '1em'
+                        }}
+                        onClick={() => { setIsOpen(!isOpen); }} search>
+                        Close
+
+                      </Button>
+                    </Modal>
+
                   </div>
                   <SearchInput
                     type="text"
@@ -165,10 +267,193 @@ const Advanced = () => {
               </ContextRow>
 
             </div>
-            <SearchContext data={Qass} />
-            {/* -------- Possible transformations------------ */}
-            <PossibleTransformation />
+            {/* ||===================== SEARCH CONTEXT =================END======|| */}
+            {/* ==================== Quality assessement ==================== */}
+            {/* <SearchContext data={Qass} /> */}
+            <div className={styles.context}>
+              <div className={styles.contextTitle}>{Qass.dropdown.title}</div>
+
+              <ContextRow>
+                <SearchRect>
+                  <div>
+                    <FieldDiv width={Qass.size.fieldwidth}
+                      onClick={() => {
+                        setIsOpenQ(!isOpenQ);
+                      }}
+                    >
+                      <div className={style.container}>
+                        <div className={style.field}>{fieldQ ? Qass.dropdown.metaTitle : itemQ}</div>
+                        <div
+
+                          className={isOpenQ ? style.rotate : style.dropImage}
+                        >
+                          <Image
+                            src="/image/dropdown.svg"
+                            alt=""
+                            height="22px"
+                            width="22px"
+                          />
+                        </div>
+                      </div>
+                    </FieldDiv>
+                    <Modal
+                      isOpen={isOpenQ}
+                      onRequestClose={() => { setIsOpenQ(false) }}
+                      shouldCloseOnOverlayClick={true}
+                      ariaHideApp={false}
+                      style={
+                        {
+                          overlay: {
+                            backgroundColor: 'rgba(0,0,0,0.4)'
+                          },
+                          content: {
+                            // color: 'orange',
+                            width: '30%',
+                            height: '50%',
+                            margin: 'auto',
+
+                          }
+                        }
+                      }
+                    >
+
+                      <h3>Select quality parameter</h3>
+                      <div
+                        style={{
+                          height: '80%',
+                          overflowY: 'scroll',
+                          overflowX: 'hidden',
+                          marginTop: '1em'
+                        }}>
+                        {
+                          itemsQuality.map((item_, i) => (
+                            <div
+                              className={style.item}
+                              key={i}
+                              onClick={(e) => {
+                                setIsOpenQ(!isOpenQ);
+                                setItemQ(item_);
+                                setFieldQ(false);
+                              }}
+                            >
+                              {item_}
+                            </div>
+                          ))}
+                      </div>
+
+                      <Button
+                        style={{
+                          padding: ".2em 1em",
+                          fontSize: '0.9em',
+                          marginTop: '1em'
+                        }}
+                        onClick={() => { setIsOpenQ(!isOpenQ); }} search>
+                        Close
+                      </Button>
+                    </Modal>
+                  </div>
+                  {/* ---------Operator dropdown-------- */}
+                  {/* <Dropdown data={opData} /> */}
+                  <div>
+                    <FieldDiv width={opData.size.fieldwidth}>
+                      <div className={style.container}>
+                        <div className={style.field}>{fieldOP ? opData.dropdown.metaTitle : itemOP}</div>
+                        <div
+                          onClick={() => {
+                            setIsOpenOP(!isOpenOP);
+                          }}
+                          className={isOpenOP ? style.rotate : style.dropImage}
+                        >
+                          <Image
+                            src="/image/dropdown.svg"
+                            alt=""
+                            height="22px"
+                            width="22px"
+                          />
+                        </div>
+                      </div>
+                    </FieldDiv>
+                    <DropDiv width={opData.size.dropwidth}>
+                      {isOpenOP &&
+                        itemsOp.map((item_op, i) => (
+                          <div
+                            className={style.item}
+                            key={i}
+                            onClick={(e) => {
+                              setIsOpenOP(!isOpenOP);
+                              setItemOP(item_op);
+                              setFieldOP(false);
+                            }}
+                          >
+                            {item_op}
+                          </div>
+                        ))}
+                    </DropDiv>
+                  </div>
+                  <SearchInput
+                    type="text"
+                    placeholder="Value"
+                    width={opData.size.inputwidth}
+                  />
+                </SearchRect>
+                <PlusButton />
+              </ContextRow>
+            </div>
+            {/* ||==================== Quality assessement ===========END=========|| */}
+            {/* ===================== Possible transformations===================== */}
+            {/* <PossibleTransformation /> */}
+            <div className={styles.transformations}>
+              <div className={styles.title}>Possible Transformation</div>
+              <SearchRect>
+                <FieldDiv width={10}>Metamodel</FieldDiv>
+                {/* <Dropdown data={possibleTransData} /> */}
+                <div>
+                  <FieldDiv width={possibleTransData.size.fieldwidth}>
+                    <div className={style.container}>
+                      <div className={style.field}>{fieldT ? possibleTransData.dropdown.metaTitle : itemT}</div>
+                      <div
+                        onClick={() => {
+                          setIsOpenT(!isOpenT);
+                        }}
+                        className={isOpenT ? style.rotate : style.dropImage}
+                      >
+                        <Image
+                          src="/image/dropdown.svg"
+                          alt=""
+                          height="22px"
+                          width="22px"
+                        />
+                      </div>
+                    </div>
+                  </FieldDiv>
+                  <DropDiv width={possibleTransData.size.dropwidth}>
+                    {isOpenT &&
+                      itemsT.map((item_t, i) => (
+                        <div
+                          className={style.item}
+                          key={i}
+                          onClick={(e) => {
+                            setIsOpenT(!isOpenT);
+                            setItemT(item_t);
+                            setFieldT(false);
+                          }}
+                        >
+                          {item_t}
+                        </div>
+                      ))}
+                  </DropDiv>
+                </div>
+                <SearchInput
+                  type="text"
+                  placeholder="Enter selected field..."
+                  width={possibleTransData.size.inputwidth}
+                />
+              </SearchRect>
+            </div>
           </div>
+          {/* ||===================== Possible transformations=======END==============|| */}
+          {/* ====================== THE DIVIDER ======================= */}
+
           <div className={styles.bar}>
             <div className={styles.gray}></div>
             <div className={styles.bluefish}></div>
@@ -266,56 +551,3 @@ const Advanced = () => {
 
 export default Advanced;
 
-
-// dispatch gets the key by the value
-//                                 dispatch({
-//                                   type: "advanced", value: {
-//                                     key: Object.keys(dropdown).find(key => dropdown[key] === item)
-//                                   }
-//                                 })
-
-
-{/* <div className={styles.context}>
-              <div className={styles.contextTitle}>{contextData.dropdown.title}</div>
-
-              <ContextRow>
-                {contextData?.dropdown?.title === "Search in context" && (
-                  <SearchRect>
-                    <Dropdown data={contextData} />
-                    <SearchInput
-                      type="text"
-                      placeholder="Search a field"
-                      width={contextData.size.inputwidth}
-                    />
-                  </SearchRect>
-                )}
-
-                {contextData?.dropdown?.title === "Quality Assessment" && (
-                  <SearchRect>
-                    <Dropdown data={contextData} />
-                    <Dropdown data={opData} />
-                    <SearchInput
-                      type="text"
-                      placeholder="Value"
-                      width={contextData.size.inputwidth}
-                    />
-                  </SearchRect>
-                )}
-                <PlusButton />
-              </ContextRow>
-            </div> */}
-
-
-
-{/* --------Quality assessemnt block------------ */ }
-{/* {contextData?.dropdown?.title === "Quality Assessment" && (
-                  <SearchRect>
-                    <Dropdown data={contextData} />
-                    <Dropdown data={opData} />
-                    <SearchInput
-                      type="text"
-                      placeholder="Value"
-                      width={contextData.size.inputwidth}
-                    />
-                  </SearchRect>
-                )} */}

@@ -7,13 +7,14 @@ const FieldDiv = styled.div`
   font-weight: 400;
   font-style: normal;
   min-width: ${(props) => props.width}em;
-  border: 0.03em solid #ccc;
+  /* border: 0.03em solid white; */
   background-color: rgba(0, 0, 0, 0.05);
   /* padding-top: 0.2em; */
   /* padding-bottom: 0.2em; */
   padding-left: 1em;
   padding-right: 0.5em;
   position: relative;
+  cursor: pointer;
 `;
 
 export default FieldDiv;
