@@ -13,67 +13,72 @@
 }
 
 .container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  // background-color: blueviolet;
+  min-width: 92vw !important;
+  // margin-left: -20em !important;
+  padding-right: 2em;
+  height: 87vh;
+  overflow: 0 auto;
 
-  .content {
-    width: 85%;
-    height: 100%;
-    margin-left: 2.1em;
 
-    .title {
-      font-size: 1.4em;
-      font-family: $montserrat;
-      padding-top: 1em;
-      padding-left: 0.1em;
-      padding-bottom: 0.2em;
-      font-weight: 600;
-      margin-bottom: 0.5em;
+  .title {
+    font-size: 1.4em;
+    font-family: $montserrat;
+    margin-top: 1em;
+    // padding-left: 0.1em;
+    // background-color: red;
+    padding-bottom: 0.2em;
+    font-weight: 600;
+    margin-bottom: 0.5em;
+  }
+
+  button{
+    padding: 0.3em 2em;
+    margin-right: 5em;
+    font-size: 1em;
+    // margin: 2em;
+    background-color: $primary-color;
+    color: white;
+    cursor: pointer;
+  }
+
+  .upperBox {
+    // width: 100%;
+    height: 57vh;
+    // justify-self: flex-start;
+    // box-shadow: 0px 0px 0px 2px #00000040;
+    // background-color: greenyellow;
+  
+    border-top: 1px solid black;
+    // @include flexRow;
+
+    .titleComponent {
+      width: 20%;
+      // display: flex;
     }
+    
+  }
 
-    .upperBox {
-      width: 90%;
-      height: 8.8em;
-      justify-self: flex-start;
-      box-shadow: 1px 1px 1px 3px #00000040;
-      // border: 1px solid black;
-      @include flexRow;
-
-      .box {
-        // width: 90%;
-        height: 100%;
-        // background-color: red;
-        padding-top: 0.5em;
-        padding-left: 0.2em;
-
-        .titleComponent {
-          width: 48.8%;
-          // display: flex;
-        }
-      }
+  .console {
+    margin-top: 1em;
+    min-width: 100%;
+    
+    .consoleTitle {
+      color: $black;
+      font-family: $macondo;
+      font-size: 1.3em;
+      font-weight: 400;
     }
+    .consoleBox {
+      background-color: #dddbdb38;
+      box-shadow: 3px 4px 4px #00000020;
+      height: 18vh;
+      margin-left: 0;
 
-    .console {
-      margin-top: 2em;
-      .consoleTitle {
-        color: $black;
-        font-family: $macondo;
-        font-size: 1.3em;
-        font-weight: 400;
-      }
-      .consoleBox {
-        background-color: #dddbdb38;
-        box-shadow: 3px 4px 4px #00000020;
-        height: 18em;
-        margin-left: 0;
-        width: 60em;
-        padding: 1em;
-        border: 0.1px solid black;
-        white-space: pre-line;   
-      }
+      padding: 1em;
+      border: 0.1px solid black;
+      white-space: pre-line;   
     }
   }
 }
+

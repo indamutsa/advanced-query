@@ -16,7 +16,8 @@ const CodeMirror = dynamic(
 );
 
 const Editor = (props) => {
-  const { language, value, onChange } = props;
+  const { language, value, onChange, style } = props;
+  const c = "code-mirror-wrapper"
 
   const handleChange = (e) => {
     onChange(value);
@@ -24,8 +25,7 @@ const Editor = (props) => {
 
   return (
     <CodeMirror
-      // className={"CodeMirror"}
-      height="200px"
+      className={`${style ? style : c}`}
       onBeforeChange={handleChange}
       value={value}
       options={{

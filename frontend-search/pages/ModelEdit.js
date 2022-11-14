@@ -23,6 +23,7 @@ const ModelEdit = () => {
           language="xml"
           value={formatXml(artifact)}
           onChange={setArtifact}
+          style={"edit-container"}
         />
       </div>
       <div className={styles.buttons}>

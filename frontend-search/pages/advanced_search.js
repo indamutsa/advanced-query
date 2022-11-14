@@ -1,16 +1,13 @@
 import Image from "next/image";
 import styles from "../styles/Advanced.module.scss";
 import style from "../styles/Dropdown.module.scss";
-import SearchContext from "../components/SearchContext";
 import SearchRect from "../components/common/SearchRect";
-import PossibleTransformation from "../components/PossibleTransformation";
 import Button from "../components/common/Button";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/router";
 import ContextRow from "../components/common/ContextRow";
-import Dropdown from "../components/Dropdown";
 import SearchInput from "../components/common/SearchInput";
 import PlusButton from "../components/PlusButton";
 import FieldDiv from "../components/common/FieldDiv";
@@ -99,7 +96,7 @@ const possibleTransData = {
 // console.log(Qass.dropdown);
 
 const Advanced = () => {
-  const [startDate, setStartDate] = useState(new Date());
+
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -117,6 +114,20 @@ const Advanced = () => {
   const [fieldQ, setFieldQ] = useState(true);
   const [fieldOP, setFieldOP] = useState(true);
   const [fieldT, setFieldT] = useState(true);
+
+
+  // Radio buttons
+  const [allDate, setAllDate] = useState(true)
+  const [specificDate, setSpecificDate] = useState(true)
+  const [timeFrame, setTimeFrame] = useState(true)
+  const [customFrame, setCustomFrame] = useState(true)
+
+  // Dates
+  const [date, setDate] = useState(new Date())
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date())
+  const [period, setPeriod] = useState('');
+
 
   const searchInputRef = useRef()
 
@@ -156,13 +167,68 @@ const Advanced = () => {
       item !== "Operator"
   );
 
-  // console.log(Qass.dropdown);
+  // Constructing the object
+  const advancedObject = {
+    searchContent: [
+      {
+        key: "",
+        value: "",
+      }
+    ],
+    qualityAssessment: [
+      {
+        key: "",
+        operator: "",
+        value: "",
+      }
+    ],
+    optimalTransfo: {
+      metamodelId: "",
+    },
+    publication: {
+
+    }
+  }
 
   const handleClick = () => {
+    console.log(period, "***");
     // e.preventDefault();
     // router.push(`/result`);
     console.log(searchInputRef.current.value, Object.keys(contextData.dropdown).find(key => contextData.dropdown[key] === item));
   };
+
+  const handleChange = (e) => {
+    switch (e.target.id) {
+
+      case 'all_date':
+        setAllDate(true)
+        setSpecificDate(true)
+        setTimeFrame(true)
+        setCustomFrame(true)
+        break
+
+      case 'datepub':
+        setAllDate(false)
+        setSpecificDate(false)
+        setTimeFrame(true)
+        setCustomFrame(true)
+        break
+
+      case 'timeframe':
+        setAllDate(false)
+        setSpecificDate(true)
+        setTimeFrame(false)
+        setCustomFrame(true)
+        break
+
+      case 'custom_timeframe':
+        setAllDate(false)
+        setSpecificDate(true)
+        setTimeFrame(true)
+        setCustomFrame(false)
+        break
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -452,38 +518,45 @@ const Advanced = () => {
             </div>
           </div>
           {/* ||===================== Possible transformations=======END==============|| */}
+
+
+
           {/* ====================== THE DIVIDER ======================= */}
 
           <div className={styles.bar}>
             <div className={styles.gray}></div>
             <div className={styles.bluefish}></div>
           </div>
+
+          {/* ====================== PUBLICATION =======================  */}
           <div className={styles.publication}>
             <div className={styles.pubTitle}>Publication date:</div>
             <div className={styles.titleDatePub}>
-              <input type="radio" id="html" name="fav_language" value="HTML" /> {" "}
+              <input type="radio" id="all_date" name="fav_language" value="HTML" style={{ marginRight: ".5em" }} onChange={handleChange} checked={allDate} />
               <label htmlFor="html">All dates</label>
             </div>
             <div className={styles.titleDatePub}>
-              <input type="radio" id="html" name="fav_language" value="HTML" /> {" "}
+              <input type="radio" id="datepub" name="fav_language" value="HTML" style={{ marginRight: ".5em" }} onChange={handleChange} />
               <label htmlFor="html">Specific date</label>
               <DatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
+                selected={date}
+                onChange={(date) => setDate(date)}
                 timeInputLabel="Time:"
                 dateFormat="MM-dd-yyyy h:mm aa"
                 // dateFormat="MM/dd/yyyy"
                 showTimeInput
+                readOnly={specificDate}
                 className={styles.boxDate}
               />
             </div>
             <div className={styles.titleDatePub}>
-              <input type="radio" id="html" name="fav_language" value="HTML" /> {" "}
+              <input type="radio" id="timeframe" name="fav_language" value="HTML" style={{ marginRight: ".5em" }} onChange={handleChange} />
               <label className={styles.recentOption} htmlFor="html">
                 Last
               </label>
               <br />
-              <select name="deityName" className={styles.boxDate}>
+              <select name="deityName" className={styles.boxDate} disabled={timeFrame} onChange={(e) => setPeriod(e.target.value)}>
+                <option className={styles.option}>Select timeframe</option>
                 <option className={styles.option}>7 days</option>
                 <option className={styles.option}>Month</option>
                 <option className={styles.option}>6 months</option>
@@ -491,7 +564,7 @@ const Advanced = () => {
               </select>
             </div>
             <div className={styles.titleDatePub}>
-              <input type="radio" id="html" name="fav_language" value="HTML" /> {" "}
+              <input type="radio" id="custom_timeframe" name="fav_language" value="HTML" style={{ marginRight: ".5em" }} onChange={handleChange} />
               <label htmlFor="html">Custom range:</label>
               <div className={styles.from}>
                 <label>From:</label>
@@ -503,18 +576,20 @@ const Advanced = () => {
                   // dateFormat="MM/dd/yyyy"
                   showTimeInput
                   className={styles.fromToBox}
+                  readOnly={customFrame}
                 />
               </div>
               <div className={styles.to}>
                 <label>To:</label>
                 <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
+                  selected={endDate}
+                  onChange={(date) => setEndDate(date)}
                   timeInputLabel="Time:"
                   dateFormat="MM-dd-yyyy h:mm aa"
                   // dateFormat="MM/dd/yyyy"
                   showTimeInput
                   className={styles.fromToBox}
+                  readOnly={customFrame}
                 />
               </div>
             </div>

@@ -5,6 +5,7 @@ import { useAppContext } from "../context/AppContext";
 import { useState } from "react";
 import { useEffect } from "react";
 
+
 const data = {
   dropdown: {
     metaTitle: "Choose a service...",
@@ -18,6 +19,7 @@ const data = {
     inputwidth: 10,
   },
 };
+
 
 const ModelService = () => {
   const { state, dispatch } = useAppContext();
@@ -36,27 +38,23 @@ const ModelService = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.content}>
-        <div className={styles.upperView}>
-          <div className={styles.title}>Advanced management services</div>
-          <div className={styles.upperBox}>
-            <div className={styles.box}>
-              <div className={styles.titleComponent}>
-                <ServiceSelect />
-              </div>
-              {
-                status && (<TransformationService />)
-              }
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className={styles.title}>Advanced management services</div>
+        <button>Execute</button>
+      </div>
+      <div className={styles.upperBox}>
+
+        <div className={styles.titleComponent}>
+          <ServiceSelect />
+        </div>
+        <TransformationService />
 
 
-            </div>
-          </div>
-          <div className={styles.console}>
-            <div className={styles.consoleTitle}>Console</div>
-            <div className={styles.consoleBox}>
-              {state.operationResult}
-            </div>
-          </div>
+      </div>
+      <div className={styles.console}>
+        <div className={styles.consoleTitle}>Console</div>
+        <div className={styles.consoleBox}>
+          {state.operationResult}
         </div>
       </div>
     </div>

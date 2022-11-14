@@ -6,6 +6,8 @@ import SearchRect from "./common/SearchRect";
 import axios from "axios";
 import { useRef } from "react";
 import { useAppContext } from "../context/AppContext";
+import Editor from "./Editor";
+import OpEditor from "./OpEditor";
 
 
 
@@ -38,7 +40,6 @@ const TransformationService = () => {
     const sourceMMID = sourceMMRef.current.value
     const targetMMID = targetMMRef.current.value
     const scriptID = scriptRef.current.value
-    console.log(sourceMID);
 
     try {
       // Calling individual artifacts
@@ -86,7 +87,16 @@ const TransformationService = () => {
   return (
     <div className={styles.container}>
       <div className={styles.blocka}>
-        <div className={styles.blockb}>
+        <OpEditor />
+        <OpEditor />
+      </div>
+      <div className={styles.blockb}>
+        <OpEditor />
+        <OpEditor />
+      </div>
+      {/* <OpEditor />
+      <OpEditor /> */}
+      {/* <div className={styles.blockb}>
           <SearchRect width={35}>
             <FieldDiv width={10}>Source model</FieldDiv>
             <Dropdown data={opData} />
@@ -97,8 +107,16 @@ const TransformationService = () => {
               ref={sourceMRef}
             />
           </SearchRect>
-        </div>
-
+          <div className={styles.editor}>
+            <Editor
+              height={"100px"}
+              language="xml"
+            value={formatXml(artifact)}
+            onChange={setArtifact}
+            />
+          </div>
+        </div> */}
+      {/* 
         <div className={styles.blockb}>
           <SearchRect width={35}>
             <FieldDiv width={10}>Source metamodel</FieldDiv>
@@ -110,9 +128,9 @@ const TransformationService = () => {
               width={opData.size.inputwidth}
             />
           </SearchRect>
-        </div>
-      </div>
-      <div className={styles.blocka}>
+        </div> */}
+
+      {/* <div className={styles.blocka}>
         <div className={styles.blockb}>
           <SearchRect width={35}>
             <FieldDiv width={10}>Target metamodel</FieldDiv>
@@ -137,10 +155,10 @@ const TransformationService = () => {
             />
           </SearchRect>
         </div>
-      </div>
-      <button className={styles.execute} onClick={execTrans}>
+      </div> */}
+      {/* <button className={styles.execute} onClick={execTrans}>
         Execute
-      </button>
+      </button> */}
     </div>
   );
 };

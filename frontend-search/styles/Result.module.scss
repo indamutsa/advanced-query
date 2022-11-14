@@ -1,12 +1,13 @@
 .container {
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
 
   .content {
-    width: 85%;
+    width: 100%;
     height: 100%;
 
     .upperView {
