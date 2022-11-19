@@ -1,12 +1,13 @@
-html,
+
 body {
   /* font-family: "Macondo", cursive; */
   /* font-family: "Montserrat Alternates", sans-serif; */
   /* font-family: "Open Sans", sans-serif; */
   position: relative;
-  min-width: 80em !important;
-  max-width: 85em;
+  // min-width: 82em !important;
+  // max-width: 85em;
   background: #ffffff;
+  margin: auto;
 }
 
 a {
@@ -21,5 +22,27 @@ a {
 }
 
 .CodeMirror {
+  height: 100% !important;
+}
+
+.code-mirror-wrapper{
+  height: 13.7em !important;
+  width: 100% !important;
+  
+}
+
+.edit-container{
   height: 420px !important;
+}
+
+.CodeMirror-wrap pre {
+  word-break: break-word !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+    -webkit-transition-delay: 9999s;
 }

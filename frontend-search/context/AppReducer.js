@@ -9,6 +9,10 @@ export const initialState = {
   refreshed: 1,
   data: {},
   service: "",
+  operationResult: "",
+  advancedSearch: {
+
+  }
 };
 
 export const appReducer = (state, action) => {
@@ -69,5 +73,11 @@ export const appReducer = (state, action) => {
       }
     }
 
+    case "operationResult": {
+      return {
+        ...state,
+        operationResult: action.value
+      }
+    }
   }
 };

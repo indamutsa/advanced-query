@@ -1,11 +1,11 @@
-import styles from "../styles/Advanced.module.scss";
+import styles from "../styles/Plus.module.scss";
 import Image from "next/image";
 
 const PlusButton = () => {
   return (
-    <div className={styles.plus}>
-      <Image src="/image/plus.svg" alt="plus" height="33px" width="33px" />
-    </div>
+    <span className={styles.plus}>
+      <Image src="/image/plus.svg" alt="plus" height="23px" width="23px" />
+    </span>
   );
 };
 

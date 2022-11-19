@@ -5,6 +5,9 @@ import SearchInput from "./common/SearchInput";
 import SearchRect from "./common/SearchRect";
 import axios from "axios";
 import { useRef } from "react";
+import { useAppContext } from "../context/AppContext";
+import Editor from "./Editor";
+import OpEditor from "./OpEditor";
 
 
 
@@ -25,6 +28,7 @@ const opData = {
 };
 
 const TransformationService = () => {
+  const { dispatch } = useAppContext()
 
   const sourceMRef = useRef();
   const sourceMMRef = useRef();
@@ -36,14 +40,13 @@ const TransformationService = () => {
     const sourceMMID = sourceMMRef.current.value
     const targetMMID = targetMMRef.current.value
     const scriptID = scriptRef.current.value
-    console.log(sourceMID);
 
     try {
       // Calling individual artifacts
-      const sourceM = await axios.get(`http://178.238.238.209:3200/store/artifact/model/62702f7e6320d300138daa59`)
-      const sourceMM = await axios.get(`http://178.238.238.209:3200/store/artifact/metamodel/62702a4d6320d300138ce572`)
-      const targetMM = await axios.get(`http://178.238.238.209:3200/store/artifact/metamodel/62702a4d6320d300138ce572`)
-      const script = await axios.get(`http://178.238.238.209:3200/store/artifact/script/635fdcab19b0930014799eba`)
+      const sourceM = await axios.get(`http://178.238.238.209:3200/store/artifact/model/${sourceMID}`);
+      const sourceMM = await axios.get(`http://178.238.238.209:3200/store/artifact/metamodel/${sourceMMID}`)
+      const targetMM = await axios.get(`http://178.238.238.209:3200/store/artifact/metamodel/${targetMMID}`)
+      const script = await axios.get(`http://178.238.238.209:3200/store/artifact/script/${scriptID}`)
 
       // Creating request object
       let arr = [
@@ -67,9 +70,13 @@ const TransformationService = () => {
 
       // Executing the transformation
       const res = await axios.post("http://178.238.238.209:8085/mms/transform/str", arr)
+      console.log(res.data);
+
+      dispatch({ type: "operationResult", value: res.data })
 
       return res.data
     } catch (error) {
+      dispatch({ type: "operationResult", value: error.message })
       return error.message
     }
 
@@ -80,7 +87,16 @@ const TransformationService = () => {
   return (
     <div className={styles.container}>
       <div className={styles.blocka}>
-        <div className={styles.blockb}>
+        <OpEditor />
+        <OpEditor />
+      </div>
+      <div className={styles.blockb}>
+        <OpEditor />
+        <OpEditor />
+      </div>
+      {/* <OpEditor />
+      <OpEditor /> */}
+      {/* <div className={styles.blockb}>
           <SearchRect width={35}>
             <FieldDiv width={10}>Source model</FieldDiv>
             <Dropdown data={opData} />
@@ -91,8 +107,16 @@ const TransformationService = () => {
               ref={sourceMRef}
             />
           </SearchRect>
-        </div>
-
+          <div className={styles.editor}>
+            <Editor
+              height={"100px"}
+              language="xml"
+            value={formatXml(artifact)}
+            onChange={setArtifact}
+            />
+          </div>
+        </div> */}
+      {/* 
         <div className={styles.blockb}>
           <SearchRect width={35}>
             <FieldDiv width={10}>Source metamodel</FieldDiv>
@@ -104,9 +128,9 @@ const TransformationService = () => {
               width={opData.size.inputwidth}
             />
           </SearchRect>
-        </div>
-      </div>
-      <div className={styles.blocka}>
+        </div> */}
+
+      {/* <div className={styles.blocka}>
         <div className={styles.blockb}>
           <SearchRect width={35}>
             <FieldDiv width={10}>Target metamodel</FieldDiv>
@@ -131,12 +155,19 @@ const TransformationService = () => {
             />
           </SearchRect>
         </div>
-      </div>
-      <button className={styles.execute} onClick={execTrans}>
+      </div> */}
+      {/* <button className={styles.execute} onClick={execTrans}>
         Execute
-      </button>
+      </button> */}
     </div>
   );
 };
 
 export default TransformationService;
+
+
+// -----------------------------------------
+// const sourceM = await axios.get(`http://178.238.238.209:3200/store/artifact/model/62702f7e6320d300138daa59`)
+// const sourceMM = await axios.get(`http://178.238.238.209:3200/store/artifact/metamodel/62702a4d6320d300138ce572`)
+// const targetMM = await axios.get(`http://178.238.238.209:3200/store/artifact/metamodel/62702a4d6320d300138ce572`)
+// const script = await axios.get(`http://178.238.238.209:3200/store/artifact/script/635fdcab19b0930014799eba`)
