@@ -48,12 +48,7 @@ services:
       discovery.type: single-node
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   logstash:
     container_name: logstash
@@ -80,12 +75,7 @@ services:
       - search-engine
     depends_on:
       - elasticsearch
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
 
   kibana:
@@ -104,12 +94,7 @@ services:
       - search-engine
     depends_on:
       - elasticsearch
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   filebeat:
     container_name: filebeat
@@ -126,12 +111,7 @@ services:
       - kibana
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   # PERSISTENCE API
   #####################################################
@@ -143,7 +123,6 @@ services:
     command: bash -c "sleep 130 && npm run server"
     ports:
       - "3200:3200"
-    restart: always
     volumes:
       - ./persistence-api:/app
       - /usr/src/app/node_modules
@@ -151,12 +130,7 @@ services:
       - "setup-rs"
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   # QUERY ENGINE
   #####################################################
@@ -169,18 +143,12 @@ services:
 
     ports:
       - "3300:3300"
-    restart: always
     volumes:
       - ./query-engine:/app
       - /app/node_modules
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
 
   # web:
@@ -208,12 +176,7 @@ services:
       - HOST=0.0.0.0
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   # Synchronizing the elasticsearch and mongo cluster using MONSTACHE
   ###################################################################
@@ -239,12 +202,7 @@ services:
       timeout: 30s
       retries: 300
     # restart: unless-stopped
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
 
   # Mongo cluster  -- Sharded cluster
@@ -265,12 +223,7 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/data1:/data/db
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   mongors1n2:
     container_name: mongors1n2
@@ -286,12 +239,7 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/data2:/data/db
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   mongors1n3:
     container_name: mongors1n3
@@ -307,12 +255,7 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/data3:/data/db
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   # Shard 2
   mongors2n1:
@@ -329,12 +272,7 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/data4:/data/db
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   mongors2n2:
     container_name: mongors2n2
@@ -350,12 +288,7 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/data5:/data/db
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure     
 
   mongors2n3:
     container_name: mongors2n3
@@ -371,12 +304,7 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/data6:/data/db
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   # Configuration server
   mongocfg1:
@@ -391,12 +319,7 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/config1:/data/db
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   mongocfg2:
     container_name: mongocfg2
@@ -410,12 +333,7 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/config2:/data/db
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   mongocfg3:
     container_name: mongocfg3
@@ -429,12 +347,7 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/config3:/data/db
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   # The router
   mongos1:
@@ -452,12 +365,7 @@ services:
       - ./setup/addShards.js:/home/app/addShards.js
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   mongos2:
     container_name: mongos2
@@ -472,12 +380,7 @@ services:
       - "27017"
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   # A shortlived container for starting the cluster
   setup-rs:
@@ -497,12 +400,7 @@ services:
       - HOST=0.0.0.0
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
   frontend-search:
     container_name: frontend-search
@@ -513,12 +411,7 @@ services:
       - HOST=0.0.0.0
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
       
 
@@ -531,12 +424,7 @@ services:
       - HOST=0.0.0.0
     networks:
       - search-engine
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s   
+    restart: on-failure   
 
 # Defining the network
 ######################################################
