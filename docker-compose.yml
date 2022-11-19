@@ -355,7 +355,7 @@ services:
 
   model-transformation:
     container_name: etl-transformation
-    image: indamutsa/etl-transformation:v1.0
+    image: indamutsa/etl-transformation:v1.2
     ports:
       - 8085:8085
     environment:
@@ -365,7 +365,7 @@ services:
 
   frontend-search:
     container_name: frontend-search
-    image: indamutsa/frontend-search:v1.4
+    image: indamutsa/frontend-search:v1.6
     ports:
       - 3500:3500
     environment:
