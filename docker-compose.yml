@@ -51,7 +51,9 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        max-attempts: 3
+        delay: 5s
+        max_attempts: 3
+        window: 120s   
 
   logstash:
     container_name: logstash
@@ -81,7 +83,9 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        max-attempts: 3
+        delay: 5s
+        max_attempts: 3
+        window: 120s   
 
 
   kibana:
@@ -103,7 +107,9 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        max-attempts: 3
+        delay: 5s
+        max_attempts: 3
+        window: 120s   
 
   filebeat:
     container_name: filebeat
@@ -172,7 +178,9 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        max-attempts: 3
+        delay: 5s
+        max_attempts: 3
+        window: 120s   
 
 
   # web:
@@ -203,7 +211,9 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        max-attempts: 3
+        delay: 5s
+        max_attempts: 3
+        window: 120s   
 
   # Synchronizing the elasticsearch and mongo cluster using MONSTACHE
   ###################################################################
@@ -232,7 +242,9 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        max-attempts: 3
+        delay: 5s
+        max_attempts: 3
+        window: 120s   
 
 
   # Mongo cluster  -- Sharded cluster
@@ -277,7 +289,9 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        max-attempts: 3
+        delay: 5s
+        max_attempts: 3
+        window: 120s   
 
   mongors1n3:
     container_name: mongors1n3
@@ -296,7 +310,9 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        max-attempts: 3
+        delay: 5s
+        max_attempts: 3
+        window: 120s   
 
   # Shard 2
   mongors2n1:
@@ -316,7 +332,9 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        max-attempts: 3
+        delay: 5s
+        max_attempts: 3
+        window: 120s   
 
   mongors2n2:
     container_name: mongors2n2
