@@ -15,6 +15,7 @@ export default function Index() {
   );
 }
 
+
 // export const getStaticProps = async () => {
 //   // Call data from here
 //   let data = await getData();

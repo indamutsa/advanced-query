@@ -21,26 +21,21 @@ const data = {
 };
 
 
+
+
 const ModelService = () => {
   const { state, dispatch } = useAppContext();
-  const [status, setStatus] = useState(false)
-  let h = state.service.split(" ")[1]
 
-
-  useEffect(() => {
-    if (state.service === "") {
-      setStatus(false)
-    } else if (h.toLowerCase() === "transformation") {
-      setStatus(true)
-    }
-  }, [h])
+  const execTransfo = () => {
+    console.log(state.source_m, "Execute");
+  }
 
 
   return (
     <div className={styles.container}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div className={styles.title}>Advanced management services</div>
-        <button>Execute</button>
+        <button onClick={execTransfo}>Execute</button>
       </div>
       <div className={styles.upperBox}>
 

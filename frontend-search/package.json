@@ -20,6 +20,7 @@
     "file-download": "^0.1.2",
     "graphql": "^15.6.1",
     "graphql-request": "^3.5.0",
+    "lodash": "^4.17.21",
     "next": "12.1.5",
     "path": "^0.12.7",
     "react": "18.0.0",

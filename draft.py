@@ -1,3 +1,29 @@
+# find the largest number in an array with dynamic programming
+def find_largest_number(array):
+    largest = array[0]
+    for i in range(1, len(array)):
+        if array[i] > largest:
+            largest = array[i]
+    return largest
+
+
+# find the smallest number in an array recursively
+def find_smallest_number(array):
+    if len(array) == 1:
+        return array[0]
+    else:
+        return min(array[0], find_smallest_number(array[1:]))
+
+a = [4,2,54,6,78,32,2,54,6,5]
+
+print(find_largest_number(a))
+
+
+
+
+
+
+
 # The main search query is included within the query object. 
 # As we will see later, we can add different types of search queries 
 # to this object. For each query, we add a key with the query type 

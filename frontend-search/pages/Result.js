@@ -47,6 +47,7 @@ const Result = () => {
                 type="text"
                 required=""
                 ref={inputRef}
+                value={state.searchQuery}
               />
             </form>
 
