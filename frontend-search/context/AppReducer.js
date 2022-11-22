@@ -12,7 +12,12 @@ export const initialState = {
   operationResult: "",
   advancedSearch: {
 
-  }
+  },
+  source_m: {},
+  source_mm: {},
+  target_mm: {},
+  script: {},
+
 };
 
 export const appReducer = (state, action) => {
@@ -70,6 +75,34 @@ export const appReducer = (state, action) => {
       return {
         ...state,
         service: action.value
+      }
+    }
+
+    case "source_m": {
+      return {
+        ...state,
+        source_m: action.value
+      }
+    }
+
+    case "source_mm": {
+      return {
+        ...state,
+        source_mm: action.value
+      }
+    }
+
+    case "target_mm": {
+      return {
+        ...state,
+        target_mm: action.value
+      }
+    }
+
+    case "script": {
+      return {
+        ...state,
+        script: action.value
       }
     }
 

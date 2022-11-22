@@ -2,7 +2,7 @@
 # In the second part, we synchronize our search engine with the persistence api
 
 # The next thing is to define a crawler that go through files asynchronsously and extracts keywords and index it as well (save it db)
-# Then build the complete search api
+# Then build the complete search api 
 
 version: "3.4"
 

@@ -136,3 +136,6 @@ for path in paths:
 # The match_phrase_prefix query is similar to the match_phrase query, but here the last term of the search keyword 
 # is considered as a prefix and is used to match any term starting with that prefix term.
 # First, let’s insert a document into our index to better understand the match_phrase_prefix query:
+
+
+
