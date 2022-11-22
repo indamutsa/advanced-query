@@ -62,10 +62,14 @@ const ModelService = () => {
 
     // Executing the transformation
     const res = await axios.post("http://178.238.238.209:8085/mms/transform/str", arr)
-    console.log(res.status);
+
+    // console.log(res.status);
     if (res.status === 201) {
       setStatus(false);
       setResult(res.data);
+    } else {
+      setStatus(false);
+      setResult("Error occurred while executing the transformation\nPlease check your input!");
     }
   }
 

@@ -68,7 +68,7 @@ const readFile = async (type, path) => {
       }
     }
 
-    data.content = minify(readData);
+    // data.content = minify(readData);
 
     return data;
   } catch (err) {
@@ -136,12 +136,12 @@ const writeFileName = (file, cb) => {
   cb(
     null,
     fileName +
-      "-" +
-      Date.now() +
-      "-" +
-      Math.round(Math.random() * 100).toString() +
-      "." +
-      ext
+    "-" +
+    Date.now() +
+    "-" +
+    Math.round(Math.random() * 100).toString() +
+    "." +
+    ext
   );
 };
 
