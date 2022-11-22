@@ -68,7 +68,7 @@ const readFile = async (type, path) => {
       }
     }
 
-    // data.content = minify(readData);
+    data.content = readData;
 
     return data;
   } catch (err) {

@@ -404,7 +404,7 @@ services:
 
   frontend-search:
     container_name: frontend-search
-    image: indamutsa/frontend-search:v1.6
+    image: indamutsa/frontend-search:v1.9
     ports:
       - 3500:3500
     environment:
