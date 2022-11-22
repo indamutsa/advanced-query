@@ -1,9 +1,5 @@
 import styles from "../styles/TransformationService.module.scss";
-import { useRef, useState } from "react";
 import OpEditor from "./OpEditor";
-import { useAppContext } from "../context/AppContext";
-
-
 
 const opData = {
   dropdown: {

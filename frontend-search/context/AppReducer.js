@@ -13,10 +13,10 @@ export const initialState = {
   advancedSearch: {
 
   },
-  source_m: "",
-  source_mm: "",
-  target_mm: "",
-  script: "",
+  source_m: {},
+  source_mm: {},
+  target_mm: {},
+  script: {},
 
 };
 
@@ -79,7 +79,6 @@ export const appReducer = (state, action) => {
     }
 
     case "source_m": {
-      console.log(action.value);
       return {
         ...state,
         source_m: action.value

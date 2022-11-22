@@ -48,7 +48,8 @@ const OpEditor = ({ artifact, onChangeSourceM }) => {
 
     const { state, dispatch } = useAppContext();
     const artifactRef = useRef();
-    const [content, setContent] = useState(artifact.content);
+    const [content, setContent] = useState("");
+    const [name, setName] = useState("");
     const language = "xml"
 
     const handler = useMemo(
@@ -90,19 +91,20 @@ const OpEditor = ({ artifact, onChangeSourceM }) => {
     useEffect(() => {
         // console.log(content);
         let { type } = getUrl(artifactRef.current.value)
-        dispatch({ type, value: content });
+        dispatch({ type, value: { name, content } });
     }, [content])
-
+    //
 
     // A function that makes a request to the backend to get the artifact with axios and await the artifact
     const getArtifact = async () => {
-        content = null;
+        setContent(null)
         const id = artifactRef.current.value;
         if (id === "") return;
         const { url } = getUrl(artifact);
 
         const { data } = await axios.get(`${url}${id}`);
         setContent(data.returnedData.content);
+        setName(data.returnedData.name);
 
         return data.returnedData;
     }
