@@ -104,7 +104,7 @@ const ModelService = () => {
         <div className={styles.console}>
           <div className={styles.consoleTitle}>Console</div>
           <div className={styles.consoleBox}>
-            {formatXml(result)}
+            <pre>{formatXml(result)}</pre>
           </div>
         </div>
       </div>
