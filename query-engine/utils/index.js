@@ -8,8 +8,8 @@ const generateDroidQueryDsl = (body) => {
   let quality = "";
   if (key && operator && value1)
     quality = `"modelMetric.metrics.${key}.value: (${operator === "range"
-        ? ">=" + value1 + " AND <=" + value2
-        : operator + value1
+      ? ">=" + value1 + " AND <=" + value2
+      : operator + value1
       })"`;
 
   let requestObject = `
@@ -78,7 +78,7 @@ const generateDroidQueryDsl = (body) => {
 
 const mainQueryGenerator = (args) => {
   const { microsyntax } = args;
-  console.log(args);
+  // console.log(args);
   let queryStr = microsyntax ? microsyntax : "";
 
   let requestObject = `

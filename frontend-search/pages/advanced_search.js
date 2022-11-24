@@ -191,10 +191,10 @@ const Advanced = () => {
   }
 
   const handleClick = () => {
-    console.log(period, "***");
+    // console.log(period, "***");
     // e.preventDefault();
     // router.push(`/result`);
-    console.log(searchInputRef.current.value, Object.keys(contextData.dropdown).find(key => contextData.dropdown[key] === item));
+    // console.log(searchInputRef.current.value, Object.keys(contextData.dropdown).find(key => contextData.dropdown[key] === item));
   };
 
   const handleChange = (e) => {

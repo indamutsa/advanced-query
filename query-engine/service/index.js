@@ -31,7 +31,7 @@ module.exports = {
   // ],
 
   async searchAll({ idx1, idx2 }) {
-    console.log(idx1, idx2);
+    // console.log(idx1, idx2);
 
     let index = `mdeforge.dsls,mdeforge.metamodels,mdeforge.models`;
     const requestBody = {

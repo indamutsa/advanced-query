@@ -12,7 +12,8 @@ const Result = () => {
   const { state, dispatch } = useAppContext();
   const inputRef = useRef();
   const [results, setResults] = useState([]);
-  // console.log(state.searchQuery);
+  const [total, setTotal] = useState()
+
 
 
 
@@ -22,11 +23,13 @@ const Result = () => {
     let searchQuery = inputRef.current.value;
     let res = await getData(searchQuery);
     setResults(res.query.data);
+    setTotal(res.query.total_hits);
   };
 
   const handleData = async () => {
     let res = await getData(state.searchQuery);
     setResults(res.query.data);
+    setTotal(res.query.total_hits);
   };
 
   useEffect(() => {
@@ -46,8 +49,8 @@ const Result = () => {
                 placeholder="Search artifacts..."
                 type="text"
                 required=""
+                defaultValue={state?.searchQuery}
                 ref={inputRef}
-                value={state.searchQuery}
               />
             </form>
 
@@ -61,7 +64,7 @@ const Result = () => {
             />
           </div>
           <div className={styles.metaResults}>
-            <div className={styles.total}>Total: 556</div>
+            <div className={styles.total}>Total: {total}</div>
             <Link href="/advanced-search" passHref>
               <div className={styles.advanced}>Advanced Search</div>
             </Link>

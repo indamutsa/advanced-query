@@ -13400,3 +13400,99 @@ info: Oct-27-2022 16:54:56: 	[27/Oct/2022:14:54:56 +0000] 'POST /graphql HTTP/1.
 info: Oct-27-2022 17:21:02: 	Listening on port 3200...
 info: Oct-27-2022 17:22:03: 	Listening on port 3200...
 info: Oct-28-2022 12:05:25: 	Listening on port 3200...
+info: Nov-24-2022 09:47:24: 	Listening on port 3200...
+info: Nov-24-2022 09:49:06: 	Listening on port 3200...
+info: Nov-24-2022 09:49:29: 	Model retrieved successfully!
+info: Nov-24-2022 09:49:29: 	[24/Nov/2022:08:49:29 +0000] 'GET /store/artifact/model/62702f7e6320d300138daa59?answer=42 HTTP/1.1' 200 1004 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 52.985 ms
+
+info: Nov-24-2022 09:49:57: 	Listening on port 3200...
+info: Nov-24-2022 09:50:02: 	Model retrieved successfully!
+info: Nov-24-2022 09:50:02: 	[24/Nov/2022:08:50:02 +0000] 'GET /store/artifact/model/62702f7e6320d300138daa59?answer=42 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 59.875 ms
+
+info: Nov-24-2022 09:50:36: 	Listening on port 3200...
+info: Nov-24-2022 09:50:39: 	Model retrieved successfully!
+info: Nov-24-2022 09:50:39: 	[24/Nov/2022:08:50:39 +0000] 'GET /store/artifact/model/62702f7e6320d300138daa59?answer=42 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 59.499 ms
+
+info: Nov-24-2022 09:51:23: 	Listening on port 3200...
+info: Nov-24-2022 09:51:24: 	Model retrieved successfully!
+info: Nov-24-2022 09:51:24: 	[24/Nov/2022:08:51:24 +0000] 'GET /store/artifact/model/62702f7e6320d300138daa59?answer=42 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 54.260 ms
+
+info: Nov-24-2022 09:52:53: 	Metamodel retrieved successfully!
+info: Nov-24-2022 09:52:53: 	[24/Nov/2022:08:52:53 +0000] 'GET /store/artifact/metamodel/62702a4d6320d300138ce572?answer=42 HTTP/1.1' 200 6020 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 64.883 ms
+
+info: Nov-24-2022 09:53:28: 	Listening on port 3200...
+info: Nov-24-2022 09:53:30: 	Metamodel retrieved successfully!
+info: Nov-24-2022 09:53:30: 	[24/Nov/2022:08:53:30 +0000] 'GET /store/artifact/metamodel/62702a4d6320d300138ce572?answer=42 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 70.648 ms
+
+info: Nov-24-2022 09:57:02: 	[24/Nov/2022:08:57:02 +0000] 'GET /store/artifact/metamodel/62702a4d6320d300138ce572/4?answer=42 HTTP/1.1' 404 190 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 6.713 ms
+
+info: Nov-24-2022 10:05:59: 	Listening on port 3200...
+info: Nov-24-2022 10:06:17: 	[24/Nov/2022:09:06:17 +0000] 'GET /store/api-docs/ HTTP/1.1' 200 3102 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 10.364 ms
+
+info: Nov-24-2022 10:06:17: 	[24/Nov/2022:09:06:17 +0000] 'GET /store/api-docs/swagger-ui.css HTTP/1.1' 200 143858 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 3.905 ms
+
+info: Nov-24-2022 10:06:17: 	[24/Nov/2022:09:06:17 +0000] 'GET /store/api-docs/swagger-ui-init.js HTTP/1.1' 200 60403 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 0.639 ms
+
+info: Nov-24-2022 10:06:17: 	[24/Nov/2022:09:06:17 +0000] 'GET /store/api-docs/swagger-ui-standalone-preset.js HTTP/1.1' 200 339479 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 6.426 ms
+
+info: Nov-24-2022 10:06:17: 	[24/Nov/2022:09:06:17 +0000] 'GET /store/api-docs/swagger-ui-bundle.js HTTP/1.1' 200 1094602 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 6.315 ms
+
+info: Nov-24-2022 10:06:18: 	[24/Nov/2022:09:06:18 +0000] 'GET /store/api-docs/favicon-32x32.png HTTP/1.1' 200 628 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 15.836 ms
+
+info: Nov-24-2022 10:09:17: 	Listening on port 3200...
+info: Nov-24-2022 10:09:21: 	[24/Nov/2022:09:09:21 +0000] 'GET /store/artifact/metamodel/62702a4d6320d300138ce572/4?answer=42 HTTP/1.1' 404 190 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 6.253 ms
+
+info: Nov-24-2022 10:10:17: 	[24/Nov/2022:09:10:17 +0000] 'GET /store/artifact/metamodel/62702a4d6320d300138ce572/4?answer=42 HTTP/1.1' 404 190 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 2.202 ms
+
+info: Nov-24-2022 10:10:35: 	[24/Nov/2022:09:10:35 +0000] 'GET /store/artifact/metamodel/62702a4d6320d300138ce572/4?answer=42 HTTP/1.1' 404 190 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 0.713 ms
+
+info: Nov-24-2022 10:10:58: 	[24/Nov/2022:09:10:58 +0000] 'GET /store/artifact/metamodel/62702a4d6320d300138ce572/4?answer=42 HTTP/1.1' 404 190 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 0.473 ms
+
+info: Nov-24-2022 10:11:20: 	Listening on port 3200...
+info: Nov-24-2022 10:11:33: 	Metamodel retrieved successfully!
+info: Nov-24-2022 10:11:33: 	[24/Nov/2022:09:11:33 +0000] 'GET /store/artifact/metamodel/62702a4d6320d300138ce572?answer=42 HTTP/1.1' 304 - 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 78.288 ms
+
+info: Nov-24-2022 10:12:05: 	Listening on port 3200...
+info: Nov-24-2022 10:26:49: 	Listening on port 3200...
+info: Nov-24-2022 10:27:13: 	Listening on port 3200...
+info: Nov-24-2022 10:33:54: 	Listening on port 3200...
+info: Nov-24-2022 10:33:58: 	[24/Nov/2022:09:33:58 +0000] 'GET /store/api-docs/ HTTP/1.1' 304 - '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 6.743 ms
+
+info: Nov-24-2022 10:33:59: 	[24/Nov/2022:09:33:59 +0000] 'GET /store/api-docs/swagger-ui.css HTTP/1.1' 304 - '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 2.214 ms
+
+info: Nov-24-2022 10:33:59: 	[24/Nov/2022:09:33:59 +0000] 'GET /store/api-docs/swagger-ui-bundle.js HTTP/1.1' 304 - '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 2.490 ms
+
+info: Nov-24-2022 10:33:59: 	[24/Nov/2022:09:33:59 +0000] 'GET /store/api-docs/swagger-ui-standalone-preset.js HTTP/1.1' 304 - '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 5.984 ms
+
+info: Nov-24-2022 10:33:59: 	[24/Nov/2022:09:33:59 +0000] 'GET /store/api-docs/swagger-ui-init.js HTTP/1.1' 200 60153 '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 1.477 ms
+
+info: Nov-24-2022 10:34:00: 	[24/Nov/2022:09:34:00 +0000] 'GET /store/api-docs/favicon-32x32.png HTTP/1.1' 304 - '- Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 0.739 ms
+
+info: Nov-24-2022 10:52:29: 	Metamodel retrieved successfully!
+info: Nov-24-2022 10:52:29: 	[24/Nov/2022:09:52:29 +0000] 'GET /store/artifact/metamodel/62702a4d6320d300138ce572 HTTP/1.1' 200 6020 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 95.388 ms
+
+error: Nov-24-2022 10:53:21: 	CastError: Cast to ObjectId failed for value "Copygnn-1651519359928-36.xmi" (type string) at path "_id" for model "Metamodel"
+info: Nov-24-2022 10:53:21: 	[24/Nov/2022:09:53:21 +0000] 'GET /store/artifact/metamodel/Copygnn-1651519359928-36.xmi HTTP/1.1' 500 305 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 6.744 ms
+
+info: Nov-24-2022 10:54:38: 	Listening on port 3200...
+info: Nov-24-2022 10:56:23: 	Listening on port 3200...
+info: Nov-24-2022 10:56:30: 	Listening on port 3200...
+error: Nov-24-2022 11:01:04: 	CastError: Cast to ObjectId failed for value "unique_name" (type string) at path "_id" for model "Metamodel"
+info: Nov-24-2022 11:01:04: 	[24/Nov/2022:10:01:04 +0000] 'GET /store/artifact/metamodel/unique_name?unique_name=Tree-1651518029872-54.ecore HTTP/1.1' 500 254 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 7.059 ms
+
+info: Nov-24-2022 11:02:37: 	Listening on port 3200...
+info: Nov-24-2022 11:02:51: 	Listening on port 3200...
+info: Nov-24-2022 11:02:58: 	Metamodel retrieved successfully!
+info: Nov-24-2022 11:02:58: 	[24/Nov/2022:10:02:58 +0000] 'GET /store/artifact/metamodel/unique_name?unique_name=Tree-1651518029872-54.ecore HTTP/1.1' 200 6020 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 96.991 ms
+
+info: Nov-24-2022 11:03:09: 	Listening on port 3200...
+info: Nov-24-2022 11:05:32: 	Listening on port 3200...
+info: Nov-24-2022 11:07:33: 	Listening on port 3200...
+info: Nov-24-2022 11:12:00: 	Dsl retrieved successfully!
+info: Nov-24-2022 11:12:00: 	[24/Nov/2022:10:12:00 +0000] 'GET /store/artifact/script/unique_name?unique_name=Demo-1669151305286-36.etl HTTP/1.1' 200 711 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 74.082 ms
+
+info: Nov-24-2022 11:12:33: 	Listening on port 3200...
+info: Nov-24-2022 11:15:21: 	Model retrieved successfully!
+info: Nov-24-2022 11:15:21: 	[24/Nov/2022:10:15:21 +0000] 'GET /store/artifact/model/unique_name?unique_name=Tree-1651519358689-19.xmi HTTP/1.1' 200 1004 'http://localhost:3500/ Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56' - 54.791 ms
+
+info: Nov-24-2022 11:23:49: 	Listening on port 3200...

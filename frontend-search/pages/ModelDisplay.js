@@ -10,7 +10,9 @@ import { useRouter } from "next/router";
 let datam = {
   Name: "",
   Description: "",
+  ID: "",
   Type: "",
+  Unique_name: "",
   StorageUrl:
     "",
   Project: "",
@@ -55,11 +57,13 @@ const ModelDisplay = () => {
       fetch(`http://178.238.238.209:3200/store/artifact/${typeDisp[state.item.type]}/${state.item.id}`)
         .then((res) => res.json())
         .then((d) => {
-          console.log(d);
+          // console.log(d);
           let mdata = {
             Name: d.returnedData.name,
             Description: d.returnedData.description,
             Type: d.returnedData.type,
+            Unique_name: d.returnedData.unique_name,
+            ID: d.returnedData._id,
             content: d.returnedData.content,
             StorageUrl:
               d.returnedData.storageUrl,
@@ -79,7 +83,7 @@ const ModelDisplay = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    console.log(data);
+    // console.log(data);
     dispatch({
       type: "content", value: data
     })
@@ -90,7 +94,7 @@ const ModelDisplay = () => {
   return (
     <div className={styles.container}>
       <PageTitle>
-        Name: <span>SimpleOOP.ecore</span>
+        Name: <span>{data.Name}</span>
       </PageTitle>
       <div className={styles.hrCenter}>
         <hr className={styles.hr} />

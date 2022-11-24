@@ -12,11 +12,12 @@ const ModelEdit = () => {
   const { state, dispatch } = useAppContext();
 
   const [artifact, setArtifact] = useState(state.content);
+  // console.log(state);
   formatXml(artifact);
   return (
     <div className={styles.container}>
       <PageTitle>
-        Name: <span>SimpleOOP.ecore</span>
+        Name: <span>{state.data.Name}</span>
       </PageTitle>
       <div className={styles.editor}>
         <Editor

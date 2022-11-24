@@ -29,7 +29,7 @@ const Homepage = () => {
         </div>
 
         <Link href="/advanced-search">
-          <div onClick={() => console.log("Hello")} className={styles.advanced}>
+          <div className={styles.advanced}>
             Advanced Search
           </div>
         </Link>

@@ -4,7 +4,6 @@ import styles from '../styles/OpEditor.module.scss'
 import FieldDiv from './common/FieldDiv'
 import SearchInput from './common/SearchInput'
 import Dropdown from './Dropdown'
-import Editor from './Editor'
 import { formatXml } from "../adhoc/formatXml";
 import { debounce } from "lodash";
 // ----------------------------------------------------------------
@@ -33,9 +32,7 @@ const opData = {
         title: "Operator",
         metaTitle: "Input type",
         id: "ID",
-        name: "Artifact name",
         unique_name: "Artifact unique_name",
-        file: "Upload a file",
     },
     size: {
         fieldwidth: 10,
@@ -50,14 +47,21 @@ const OpEditor = ({ artifact, onChangeSourceM }) => {
     const artifactRef = useRef();
     const [content, setContent] = useState("");
     const [name, setName] = useState("");
+    const [input, setInput] = useState("")
+
     const language = "xml"
+
 
     const handler = useMemo(
         () => debounce((value) => setContent(value), 1000),
         [content]
     );
 
-
+    const handleInput = (value) => {
+        setInput(value)
+        console.log(value, "clicked....");
+        // setInput(value)
+    }
 
     const c = "code-mirror-wrapper"
 
@@ -66,22 +70,26 @@ const OpEditor = ({ artifact, onChangeSourceM }) => {
             case "Source model":
                 return {
                     url: "http://178.238.238.209:3200/store/artifact/model/",
-                    type: "source_m"
+                    type: "source_m",
+                    extension: ".xmi"
                 };
             case "Source metamodel":
                 return {
                     url: "http://178.238.238.209:3200/store/artifact/metamodel/",
-                    type: "source_mm"
+                    type: "source_mm",
+                    extension: ".ecore"
                 };
             case "Target metamodel":
                 return {
                     url: "http://178.238.238.209:3200/store/artifact/metamodel/",
-                    type: "target_mm"
+                    type: "target_mm",
+                    extension: ".ecore"
                 };
             case "Script":
                 return {
                     url: "http://178.238.238.209:3200/store/artifact/script/",
-                    type: "script"
+                    type: "script",
+                    extension: ".etl"
                 };
             default:
                 return "";
@@ -90,32 +98,59 @@ const OpEditor = ({ artifact, onChangeSourceM }) => {
 
     useEffect(() => {
         // console.log(content);
-        let { type } = getUrl(artifactRef.current.value)
-        dispatch({ type, value: { name, content } });
+        let { type, extension } = getUrl(artifactRef.current.value)
+        dispatch({
+            type, value: {
+                name:
+                    name ? name : `UserInput${extension}`, content
+            }
+        });
     }, [content])
     //
 
+
     // A function that makes a request to the backend to get the artifact with axios and await the artifact
     const getArtifact = async () => {
-        setContent(null)
-        const id = artifactRef.current.value;
-        if (id === "") return;
-        const { url } = getUrl(artifact);
+        try {
+            setContent(null)
+            const inputVal = artifactRef.current.value;
+            if (!inputVal | !input) {
+                alert("Please Select Input Type")
+                return;
+            }
 
-        const { data } = await axios.get(`${url}${id}`);
-        setContent(data.returnedData.content);
-        setName(data.returnedData.name);
+            const { url } = getUrl(artifact);
+            let returnedData = {}
+            if (input == "ID")
+                returnedData = await axios.get(`${url}${inputVal}`);
+            else if (input == "Artifact unique_name")
+                returnedData = await axios.get(`${url}${"unique_name"}`, { params: { unique_name: inputVal } });
+            else if (input === 'Input type') {
+                alert("Please select input type")
+                return
+            }
 
-        return data.returnedData;
+            const data_ = returnedData.data
+
+            setContent(data_.returnedData.content);
+            setName(data_.returnedData.name);
+
+            return data_.returnedData;
+        } catch (error) {
+            // console.log(error);
+            alert("Failed to fetch the artifact, \nPlease check input type and try again!");
+
+        }
+
     }
 
-    const containerEditor = `<div>ksdjdksf</div>`
+
 
     return (
         <div className={styles.container}>
             <div className={styles.searchRect}>
                 <FieldDiv width={10}>{artifact}</FieldDiv>
-                <Dropdown data={opData} />
+                <Dropdown data={opData} handleInput={handleInput} />
                 <SearchInput
                     type="text"
                     placeholder="Enter selected field..."
@@ -153,7 +188,8 @@ const OpEditor = ({ artifact, onChangeSourceM }) => {
                         }}
 
                         onChange={(editor, data, value) => {
-                            setContent(editor)
+                            // setContent(editor)
+                            handler(editor);
                         }}
 
                         value={""}

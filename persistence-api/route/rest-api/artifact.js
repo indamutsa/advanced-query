@@ -416,7 +416,16 @@ router.get("/metamodel", async (req, res) => {
  */
 router.get("/metamodel/:id", async (req, res) => {
   try {
-    const metamodel = await Metamodel.findById(req.params.id);
+    let metamodel = null;
+
+    if (req?.query?.unique_name) {
+      metamodel = await Metamodel.findOne({
+        unique_name: req.query.unique_name,
+      });
+
+    } else {
+      metamodel = await Metamodel.findById(req.params.id);
+    }
 
     let dataMM = JSON.parse(JSON.stringify(metamodel));
     // let { content, ...returnedData } = dataMM;
@@ -832,7 +841,7 @@ const uploadModel = async (req, res) => {
     }
   } catch (err) {
     logger.error(err.toString());
-    console.log(err);
+    // console.log(err);
 
     await deleteFile(`./localStorage/artifacts/models/` + req.file.filename);
 
@@ -932,10 +941,23 @@ router.get("/model", async (req, res) => {
  *              description: An error occurred on the server, check the logs
  */
 router.get("/model/:id", async (req, res) => {
-  try {
-    const models = await Model.findById(req.params.id);
 
-    let dataModel = JSON.parse(JSON.stringify(models));
+  try {
+    let model = null;
+
+    if (req?.query?.unique_name) {
+      model = await Model.findOne({
+        unique_name: req.query.unique_name,
+      });
+
+    } else {
+      model = await Model.findById(req.params.id);
+    }
+
+
+    // const model = await Model.findById(req.params.id);
+
+    let dataModel = JSON.parse(JSON.stringify(model));
     // let { content, ...returnedData } = dataModel;
     let returnedData = dataModel
 
@@ -1486,10 +1508,21 @@ router.get("/script", async (req, res) => {
  */
 router.get("/script/:id", async (req, res) => {
   try {
-    const dsls = await Dsl.findById(req.params.id);
-    let dataDsls = JSON.parse(JSON.stringify(dsls));
+    let dsl = null;
+
+    if (req?.query?.unique_name) {
+      dsl = await Dsl.findOne({
+        unique_name: req.query.unique_name,
+      });
+
+    } else {
+      dsl = await Dsl.findById(req.params.id);
+    }
+
+
+    let dataDsls = JSON.parse(JSON.stringify(dsl));
     // let { content, ...returnedData } = dataDsls;
-    console.log(dataDsls);
+    // console.log(dataDsls);
     let returnedData = dataDsls
 
     if (returnedData) {
