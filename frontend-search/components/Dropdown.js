@@ -5,7 +5,7 @@ import styles from "../styles/Dropdown.module.scss";
 import DropDiv from "./common/DropDiv";
 import { useAppContext } from "../context/AppContext";
 
-const Dropdown = ({ data }) => {
+const Dropdown = ({ data, handleInput }) => {
   const { state, dispatch } = useAppContext();
   const [isOpen, setIsOpen] = useState(true);
   const [item, setItem] = useState("");
@@ -62,6 +62,7 @@ const Dropdown = ({ data }) => {
                 setIsOpen(!isOpen);
                 setItem(item);
                 setField(false);
+                handleInput(item);
                 // The function below inside dispatch gets the key by the value
                 dispatch({
                   type: "advanced", value: {

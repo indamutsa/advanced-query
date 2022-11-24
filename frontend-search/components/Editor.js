@@ -19,7 +19,7 @@ const Editor = (props) => {
   const { language, value, onChange, style } = props;
   const c = "code-mirror-wrapper"
 
-  console.log(value);
+  // console.log(value);
 
   const handleChange = (e) => {
     onChange(value);

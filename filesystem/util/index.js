@@ -25,7 +25,7 @@ const uploadFile = () => {
           cb(null, "./public/scripts");
         }
       } else {
-        console.log(folder);
+        // console.log(folder);
         console.log("Folder not valid!");
       }
     },
@@ -45,12 +45,12 @@ const writeFileName = (file, cb) => {
   cb(
     null,
     fileName +
-      "-" +
-      Date.now() +
-      "-" +
-      Math.round(Math.random() * 100).toString() +
-      "." +
-      ext
+    "-" +
+    Date.now() +
+    "-" +
+    Math.round(Math.random() * 100).toString() +
+    "." +
+    ext
   );
 };
 

@@ -28,10 +28,10 @@ const data = {
 
 const ModelService = () => {
   const { state, dispatch } = useAppContext();
-  const sourceM = state.source_m;
-  const sourceMM = state.source_mm;
-  const targetMM = state.target_mm;
-  const script = state.script;
+  const sourceM = state?.source_m;
+  const sourceMM = state?.source_mm;
+  const targetMM = state?.target_mm;
+  const script = state?.script;
 
   const [status, setStatus] = useState(false);
   const [result, setResult] = useState();
@@ -39,39 +39,48 @@ const ModelService = () => {
   const execTransfo = async () => {
     // console.log(state.source_m, state.source_mm, state.target_mm, state.script);
     // Creating request object
-    setStatus(true);
 
-    let arr = [
-      {
-        name: sourceM.name,
-        content: sourceM.content
-      },
-      {
-        name: sourceMM.name,
-        content: sourceMM.content
-      },
-      {
-        name: targetMM.name,
-        content: targetMM.content
-      },
-      {
-        name: script.name,
-        content: script.content
+    try {
+      setStatus(true);
+
+      let arr = [
+        {
+          name: sourceM.name,
+          content: sourceM.content
+        },
+        {
+          name: sourceMM.name,
+          content: sourceMM.content
+        },
+        {
+          name: targetMM.name,
+          content: targetMM.content
+        },
+        {
+          name: script.name,
+          content: script.content
+        }
+      ];
+
+      // Executing the transformation
+      const res = await axios.post("http://178.238.238.209:8085/mms/transform/str", arr)
+
+      // console.log(res.status);
+      if (res.status === 201) {
+        setStatus(false);
+        setResult(res.data);
+      } else {
+        setStatus(false);
+        setResult(res.data);
       }
-    ];
-
-    // Executing the transformation
-    const res = await axios.post("http://178.238.238.209:8085/mms/transform/str", arr)
-
-    // console.log(res.status);
-    if (res.status === 201) {
-      setStatus(false);
-      setResult(res.data);
-    } else {
+    } catch (error) {
+      // console.log(error);
       setStatus(false);
       setResult("Error occurred while executing the transformation\nPlease check your input!");
     }
+
   }
+
 
   // useEffect(() => {
   //   setStatus(false);
@@ -104,7 +113,7 @@ const ModelService = () => {
         <div className={styles.console}>
           <div className={styles.consoleTitle}>Console</div>
           <div className={styles.consoleBox}>
-            {formatXml(result)}
+            <pre>{formatXml(result)}</pre>
           </div>
         </div>
       </div>

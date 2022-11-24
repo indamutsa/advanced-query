@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
     let i = 1
     while (i < total) {
-        console.log("r ==> " + i);
+        // console.log("r ==> " + i);
         let idx1 = ((i * 119) - 119) + 1;
         let idx2 =
             i + 1 == total && total % 119 == 0 ?
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
         i++
     }
 
-    console.log(total, data.total_hits, dataArr.length);
+    // console.log(total, data.total_hits, dataArr.length);
 
 
 
