@@ -99,18 +99,20 @@ const ModelDisplay = () => {
       <div className={styles.hrCenter}>
         <hr className={styles.hr} />
       </div>
-      <div className={styles.centerDisplay}>
-        <div className={styles.modelDisp}>
-          {keys.map((item, i) => {
-            let value = values[i];
-            let obj = { key: item, value: value };
+      <div>
+        <div className={styles.centerDisplay}>
+          <div className={styles.modelDisp}>
+            {keys.map((item, i) => {
+              let value = values[i];
+              let obj = { key: item, value: value };
 
-            return <DisplayItem key={i} data={obj} />;
-          })}
+              return <DisplayItem key={i} data={obj} />;
+            })}
+          </div>
         </div>
-      </div>
-      <div className={styles.editContent}>
-        <div onClick={e => handleClick(e)} className={styles.edit}>Edit content</div>
+        <div className={styles.editContent}>
+          <div onClick={e => handleClick(e)} className={styles.edit}>Edit content</div>
+        </div>
       </div>
     </div>
   );

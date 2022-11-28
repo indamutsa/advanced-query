@@ -4,6 +4,13 @@
   align-items: center;
 }
 
+@mixin flex-col {
+  display: flex;
+  direction: column;
+  // justify-content: center;
+  // align-items: center;
+}
+
 @mixin button {
   margin-right: 1em;
   padding: 0.2em 0.3em 0.2em 0.3em;
@@ -24,33 +31,38 @@
     @include flex;
 
     hr {
-      width: 70%;
+      width: 85%;
     }
   }
   .centerDisplay {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .modelDisp {
+    // @include flex;
+    display: block;
+    // .modelDisp {
       margin-top: 2em;
-      height: 22em;
-      width: 80%;
-      // background-color: red;
-    }
+    //   height: 22em;
+    //   width: 80%;
+    //   // background-color: red;
+    // }
   }
   .editContent {
-    @include flex;
+    text-align: center;
+    margin:  auto;
+    margin-top: 2em;
+    // transform: translate(420%, 60%);
+
+    // @include flex;
     // background-color: red;
-    width: 50%;
+    // width: 50%;
 
     .edit {
       background-color: rgba(43, 90, 105, 1);
-      justify-content: flex-start;
-      margin-left: 8em;
+        display: inline-block;
+      // justify-content: flex-start;
+      // margin-left: 8em;
       @include button;
       padding: 0.7em 1.2em 0.7em 1.2em;
       cursor: pointer;
     }
   }
+
 }
