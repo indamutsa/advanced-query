@@ -9,6 +9,10 @@ const app = express();
 const initializeApp = require("./route");
 initializeApp(app);
 
+app.get("/test", ()=>{
+  res.status(200).json({"Status": "ON"})
+})
+
 app
   .listen(PORT, () => logger.info("Server started successfully!"))
   .on("error", (err) =>
