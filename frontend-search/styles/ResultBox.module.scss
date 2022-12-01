@@ -15,19 +15,30 @@
     align-items: center;
     justify-content: space-between;
     padding-bottom: 0.2em;
+    
     .url {
       color: $havelock-blue;
       font-family: $montserrat;
       font-size: $font-size-m;
       font-weight: 700;
       font-style: normal;
+      
       cursor: pointer;
+      white-space: nowrap; 
+      width: 45%; 
+      overflow: hidden;
+      text-overflow: ellipsis; 
     }
 
     .name {
       display: flex;
       align-items: center;
       justify-content: center;
+
+      white-space: nowrap; 
+      // width: 20%; 
+      overflow: hidden;
+      text-overflow: ellipsis; 
       p {
         color: $black;
         font-family: $roboto;
@@ -59,6 +70,11 @@
       font-size: $font-size-m;
       font-weight: 300;
       font-style: italic;
+
+      white-space: nowrap; 
+      // width: 40%; 
+      overflow: hidden;
+      text-overflow: ellipsis; 
     }
   }
 

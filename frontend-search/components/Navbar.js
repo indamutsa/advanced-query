@@ -28,8 +28,8 @@ const Navbar = () => {
           <Link href="/model-service" passHref>
             <li className={styles.listItem}>Services</li>
           </Link>
-          <li className={styles.listItem}>Log In</li>
-          <li className={styles.listItem}>Register</li>
+          <li onClick={() => alert("Under implementation")} className={styles.listItem}>Log In</li>
+          <li onClick={() => alert("Under implementation")} className={styles.listItem}>Register</li>
         </ul>
       </div>
     </div>

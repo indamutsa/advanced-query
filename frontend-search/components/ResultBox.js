@@ -2,10 +2,12 @@ import styles from "../styles/ResultBox.module.scss";
 import Link from "next/link";
 import { useAppContext } from "../context/AppContext";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 const ResultBox = ({ data }) => {
   const { state, dispatch } = useAppContext();
   const router = useRouter();
+
 
   const { id, name, size, type, createdAt, description, storageUrl } = data;
   let item = {
@@ -17,14 +19,21 @@ const ResultBox = ({ data }) => {
     // navigate to model-view
     router.push('/artifact-display')
   }
+
+  const confirmus = (e) => {
+    let text = "Do you want to download the artifact?";
+    if (window.confirm(text) == true) {
+      window.open(e.target.innerText, '_blank').focus();
+    }
+  }
   return (
     <div className={styles.container}>
       <div className={styles.upperDiv}>
-        <Link passHref href={storageUrl}>
-          <a target="_blank" className={styles.url}>
-            {storageUrl}
-          </a>
-        </Link>
+
+        <p onClick={confirmus} className={styles.url}>
+          {storageUrl}
+        </p>
+
         <div className={styles.name}>
           <p> Name:</p> <span>{name}</span>
         </div>

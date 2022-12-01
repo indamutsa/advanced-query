@@ -6,9 +6,6 @@ import styles from "../styles/Browse.module.scss";
 import finalData from "../data/final-data.json"
 import { useAppContext } from "../context/AppContext";
 
-
-
-
 const opData = {
   dropdown: {
     // title: "Select Type",
@@ -29,14 +26,14 @@ const Browse = ({ data }) => {
   const { state, dispatch } = useAppContext();
 
   data = data.filter(el => {
-    if (state.letter === "All") return true
-    return el.name.charAt(0) === state.letter
+    if (state?.letter === "All") return true
+    return el.name.charAt(0) === state?.letter
   });
 
   // console.log(data[0]);
   data = data.filter(el => {
-    if (state.dataType === "SELECT ALL") return true
-    if (el.type === state.dataType) return true
+    if (state?.dataType === "SELECT ALL") return true
+    if (el.type === state?.dataType) return true
     else return false
   });
 

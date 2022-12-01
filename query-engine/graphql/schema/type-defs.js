@@ -26,7 +26,7 @@ const typeDefs = gql`
     metamodelByValue(field: String, value: String, size: Int = 5): Data!
 
     # -------------Query----------------------
-    query(microsyntax: String): Data!
+    query(microsyntax: String, from: Int=0, limit: Int=10): Data!
   }
 
   """
