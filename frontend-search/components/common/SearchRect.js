@@ -1,5 +1,5 @@
 import styled from "styled-components";
-const width = 41;
+const width = 35;
 
 const SearchRect = styled.div`
   display: flex;
