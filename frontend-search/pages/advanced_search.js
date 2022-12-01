@@ -93,7 +93,175 @@ const possibleTransData = {
 };
 
 
-// console.log(Qass.dropdown);
+export const ContextSearcher = () => {
+  const router = useRouter();
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenQ, setIsOpenQ] = useState(false);
+  const [isOpenOP, setIsOpenOP] = useState(false);
+  const [isOpenT, setIsOpenT] = useState(false);
+
+
+  const [item, setItem] = useState("");
+  const [itemQ, setItemQ] = useState("");
+  const [itemOP, setItemOP] = useState("");
+  const [itemT, setItemT] = useState("");
+
+  const [field, setField] = useState(true);
+  const [fieldQ, setFieldQ] = useState(true);
+  const [fieldOP, setFieldOP] = useState(true);
+  const [fieldT, setFieldT] = useState(true);
+
+
+  // Radio buttons
+  const [allDate, setAllDate] = useState(true)
+  const [specificDate, setSpecificDate] = useState(true)
+  const [timeFrame, setTimeFrame] = useState(true)
+  const [customFrame, setCustomFrame] = useState(true)
+
+  // Dates
+  const [date, setDate] = useState(new Date())
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date())
+  const [period, setPeriod] = useState('');
+
+
+  const searchInputRef = useRef()
+
+  // console.log(isOpen);
+
+  // const { dropdown, size } = data;
+
+  // const { metaTitle } = dropdown;
+  // const { fieldwidth, dropwidth } = size;
+
+  let itemsSearch = Object.values(contextData.dropdown);
+
+  itemsSearch = itemsSearch.filter(
+    (item) =>
+      item !== "All fields" &&
+      item !== "Search in context"
+  );
+  // console.log(itemsSearch);
+
+  let itemsQuality = Object.values(Qass.dropdown);
+  itemsQuality = itemsQuality.filter(
+    (item) =>
+      item !== "Operator" &&
+      item !== "Quality Assessment" &&
+      item !== "Quality metrics / attributes"
+  );
+
+  let itemsOp = Object.values(opData.dropdown);
+  itemsOp = itemsOp.filter(
+    (item) =>
+      item !== "Operator"
+  );
+
+  let itemsT = Object.values(possibleTransData.dropdown);
+  itemsT = itemsT.filter(
+    (item) =>
+      item !== "Operator"
+  );
+  return (
+
+    <div className={styles.context}>
+      <div className={styles.contextTitle}>{contextData.dropdown.title}</div>
+
+      {/* ------Context Row---------- */}
+      <ContextRow>
+        <SearchRect>
+          {/* ------Dropdown ----------------- */}
+          {/* <Dropdown data={contextData} /> */}
+          <div>
+            {/* Field div------------------------------- */}
+            <FieldDiv id="react-modals" width={contextData.size.fieldwidth} onClick={(e) => {
+              setIsOpen(!isOpen);
+            }}>
+              <div className={style.container}>
+                <div className={style.field}>{field ? contextData.dropdown.metaTitle : item}</div>
+                <div
+
+                  className={isOpen ? style.rotate : style.dropImage}
+                >
+                  <Image
+                    src="/image/dropdown.svg"
+                    alt=""
+                    height="22px"
+                    width="22px"
+                  />
+                </div>
+              </div>
+
+            </FieldDiv>
+            {/* Modal---------------------------------- */}
+            <Modal
+              isOpen={isOpen}
+              onRequestClose={() => { setIsOpen(false) }}
+              shouldCloseOnOverlayClick={true}
+              ariaHideApp={false}
+              style={
+                {
+                  overlay: {
+                    backgroundColor: 'rgba(0,0,0,0.4)'
+                  },
+                  content: {
+                    // color: 'orange',
+                    width: '20%',
+                    height: '40%',
+                    margin: 'auto',
+
+                  }
+                }
+              }
+            >
+
+              <h3>Select a field</h3>
+              <div style={{}}>
+                {
+                  itemsSearch.map((item, i) => (
+
+                    <div
+                      className={style.item}
+                      key={i}
+                      onClick={(e) => {
+                        setIsOpen(!isOpen);
+                        setItem(item);
+                        setField(false);
+                      }}
+                    >
+                      {item}
+                    </div>
+                  ))}
+
+              </div>
+
+              <Button
+                style={{
+                  padding: ".2em 1em",
+                  fontSize: '0.9em',
+                  marginTop: '1em'
+                }}
+                onClick={() => { setIsOpen(!isOpen); }} search>
+                Close
+
+              </Button>
+            </Modal>
+
+          </div>
+          <SearchInput
+            type="text"
+            placeholder="Search a field"
+            width={contextData.size.inputwidth}
+            ref={searchInputRef}
+          />
+        </SearchRect>
+        <PlusButton />
+      </ContextRow>
+
+    </div>
+  )
+}
 
 const Advanced = () => {
 
@@ -237,102 +405,8 @@ const Advanced = () => {
         <form className={styles.contentSearch}>
           <div className={styles.search}>
             {/* <SearchContext data={contextData} /> */}
-            {/* ===================== SEARCH CONTEXT ======================= */}
-            <div className={styles.context}>
-              <div className={styles.contextTitle}>{contextData.dropdown.title}</div>
-
-              {/* ------Context Row---------- */}
-              <ContextRow>
-                <SearchRect>
-                  {/* ------Dropdown ----------------- */}
-                  {/* <Dropdown data={contextData} /> */}
-                  <div>
-                    {/* Field div------------------------------- */}
-                    <FieldDiv id="react-modals" width={contextData.size.fieldwidth} onClick={(e) => {
-                      setIsOpen(!isOpen);
-                    }}>
-                      <div className={style.container}>
-                        <div className={style.field}>{field ? contextData.dropdown.metaTitle : item}</div>
-                        <div
-
-                          className={isOpen ? style.rotate : style.dropImage}
-                        >
-                          <Image
-                            src="/image/dropdown.svg"
-                            alt=""
-                            height="22px"
-                            width="22px"
-                          />
-                        </div>
-                      </div>
-
-                    </FieldDiv>
-                    {/* Modal---------------------------------- */}
-                    <Modal
-                      isOpen={isOpen}
-                      onRequestClose={() => { setIsOpen(false) }}
-                      shouldCloseOnOverlayClick={true}
-                      ariaHideApp={false}
-                      style={
-                        {
-                          overlay: {
-                            backgroundColor: 'rgba(0,0,0,0.4)'
-                          },
-                          content: {
-                            // color: 'orange',
-                            width: '20%',
-                            height: '40%',
-                            margin: 'auto',
-
-                          }
-                        }
-                      }
-                    >
-
-                      <h3>Select a field</h3>
-                      <div style={{}}>
-                        {
-                          itemsSearch.map((item, i) => (
-
-                            <div
-                              className={style.item}
-                              key={i}
-                              onClick={(e) => {
-                                setIsOpen(!isOpen);
-                                setItem(item);
-                                setField(false);
-                              }}
-                            >
-                              {item}
-                            </div>
-                          ))}
-
-                      </div>
-
-                      <Button
-                        style={{
-                          padding: ".2em 1em",
-                          fontSize: '0.9em',
-                          marginTop: '1em'
-                        }}
-                        onClick={() => { setIsOpen(!isOpen); }} search>
-                        Close
-
-                      </Button>
-                    </Modal>
-
-                  </div>
-                  <SearchInput
-                    type="text"
-                    placeholder="Search a field"
-                    width={contextData.size.inputwidth}
-                    ref={searchInputRef}
-                  />
-                </SearchRect>
-                <PlusButton />
-              </ContextRow>
-
-            </div>
+            {/* ===================== SEARCH CONTEXT ==============55========= */}
+            <ContextSearcher />
             {/* ||===================== SEARCH CONTEXT =================END======|| */}
             {/* ==================== Quality assessement ==================== */}
             {/* <SearchContext data={Qass} /> */}

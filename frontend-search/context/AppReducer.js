@@ -8,7 +8,6 @@ export const initialState = {
   content: "",
   refreshed: 1,
   data: {},
-  service: "",
   operationResult: "",
   advancedSearch: {
 
@@ -71,12 +70,6 @@ export const appReducer = (state, action) => {
       }
     }
 
-    case "service": {
-      return {
-        ...state,
-        service: action.value
-      }
-    }
 
     case "source_m": {
       return {

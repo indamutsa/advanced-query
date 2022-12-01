@@ -77,13 +77,15 @@ const generateDroidQueryDsl = (body) => {
 };
 
 const mainQueryGenerator = (args) => {
-  const { microsyntax } = args;
+  const { microsyntax, from, limit } = args;
   // console.log(args);
   let queryStr = microsyntax ? microsyntax : "";
 
   let requestObject = `
   {
     "_source": ["id","name", "storageUrl", "size", "createdAt", "description", "type"], 
+    "from": ${from},
+    "size": ${limit},
     "query": {
       "query_string": {
         "query": "${queryStr}",

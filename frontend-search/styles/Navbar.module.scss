@@ -5,26 +5,38 @@
   justify-content: space-between;
   margin-top: 1.2em;
 
+
   .logo {
     width: 11em;
+
     // margin-left: 7.56em;
-    flex: 1;
+    // flex: 1;
+    width: fit-content;
     cursor: pointer;
+   
 
     .logoImg {
       margin-left: -0.5em;
+      // width: fit-content;
     }
 
     p:first-child {
       font-size: 1.5em;
       font-weight: 400;
       font-family: $macondo;
+      // width: fit-content;
     }
     p:last-child {
       font-size: 1.375em;
       font-weight: 400;
       font-family: $macondo;
+      // width: fit-content;
     }
+  }
+
+  .logo:hover {
+    transform: scale(1.05);
+    transition: all 0.4s ease-in-out;
   }
 
   .navbar {

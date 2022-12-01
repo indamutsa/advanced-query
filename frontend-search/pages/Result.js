@@ -13,28 +13,77 @@ const Result = () => {
   const inputRef = useRef();
   const [results, setResults] = useState([]);
   const [total, setTotal] = useState()
+  const [page, setPage] = useState(0)
+  const [limit, setLimit] = useState(10)
 
 
+  const calculatePage = (tot) => {
+    try {
+      let totNum = tot % 10 === 0 ? tot / 10 : Math.floor(tot / 10) + 1;
+      return Array.from(Array(totNum).keys()).map(totNum => (totNum * limit))
+    } catch (error) {
+      alert("Error occured: ", error.message)
+    }
+  }
+
+  const pages = calculatePage(total ? total : 0)
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      setPage(0)
 
-    let searchQuery = inputRef.current.value;
-    let res = await getData(searchQuery);
-    setResults(res.query.data);
-    setTotal(res.query.total_hits);
+      let searchQuery = inputRef.current.value;
+      dispatch({ type: "search-query", value: searchQuery });
+
+      let res = await getData(state?.searchQuery);
+      setResults(res.query.data);
+      setTotal(res.query.total_hits);
+    } catch (error) {
+      alert("Error occured: ", error.message)
+    }
   };
 
-  const handleData = async () => {
-    let res = await getData(state.searchQuery);
-    setResults(res.query.data);
-    setTotal(res.query.total_hits);
+  const handleData = async (page, limit) => {
+    try {
+      let res = await getData(state?.searchQuery, page, limit, total);
+      setResults(res.query.data);
+      setTotal(res.query.total_hits);
+    } catch (error) {
+      alert("Error occured: ", error.message)
+    }
   };
+
+
 
   useEffect(() => {
     handleData()
-  }, [state?.searchQuery,])
+  }, [state?.searchQuery])
+
+
+  //===============
+
+  const goPrevious = async () => {
+    if (total == 0) {
+      alert("No previous page")
+    }
+
+    setPage(page <= 0 ? pages.length - 1 : page - 1)
+    await handleData(pages[page] == 0 ? 1 : pages[page], limit)
+  }
+
+  // ====================
+  const goNext = async () => {
+
+    console.log(page, "===========", pages[page]);
+    if (total == 0) {
+      alert("No next page")
+    }
+
+    setPage(pages[page] + limit > total ? 0 : page + 1)
+    await handleData(pages[page] == 0 ? 1 : pages[page], limit)
+  }
 
   return (
     <div className={styles.container}>
@@ -71,9 +120,20 @@ const Result = () => {
           </div>
         </div>
         <div className={styles.result}>
-          {results.map((res, i) => (
+
+          {results && results.map((res, i) => (
             <ResultBox key={i} data={res} />
           ))}
+
+        </div>
+        <div>
+          <button style={{
+            padding: '0.5em 2em', marginRight: "1em"
+          }} onClick={goPrevious}>Previous</button>
+          <button style={{
+            padding: '0.5em 2em', marginRight: "1em"
+          }} onClick={() => goNext()}>Next</button>
+          <span>Page: {page + 1}</span>
         </div>
       </div>
     </div>

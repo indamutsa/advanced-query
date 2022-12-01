@@ -1,27 +1,28 @@
-import TransformationService from "../components/TransformationService";
+import ETL from "../components/services/ETL";
+import EVL from "../components/services/EVL";
+import EOL from "../components/services/EOL";
 import ServiceSelect from "../components/ServiceSelect";
 import styles from "../styles/Service.module.scss";
 import { useAppContext } from "../context/AppContext";
 import { useState } from "react";
-import { useEffect } from "react";
 import axios from "axios";
 import Spinner from "../components/common/Spinner";
 import { formatXml } from "../adhoc/formatXml";
 
 
-const data = {
-  dropdown: {
-    metaTitle: "Choose a service...",
-    etl: "ETL Transformation",
-    evl: "EVL Validation",
-    eol: "EOL Model object query",
-  },
-  size: {
-    fieldwidth: 10,
-    dropwidth: 10,
-    inputwidth: 10,
-  },
-};
+// const data = {
+//   dropdown: {
+//     metaTitle: "Choose a service...",
+//     etl: "ETL Transformation",
+//     evl: "EVL Validation",
+//     eol: "EOL Model object query",
+//   },
+//   size: {
+//     fieldwidth: 10,
+//     dropwidth: 10,
+//     inputwidth: 10,
+//   },
+// };
 
 
 
@@ -35,6 +36,33 @@ const ModelService = () => {
 
   const [status, setStatus] = useState(false);
   const [result, setResult] = useState();
+
+  const [etl, setEtl] = useState(true);
+  const [evl, setEvl] = useState(false);
+  const [eol, setEol] = useState(false);
+
+
+  const handleClick = (value) => {
+    switch (value) {
+      case "ETL Transformation":
+        setEtl(true);
+        setEvl(false);
+        setEol(false);
+        break;
+      case "EVL Validation":
+        setEtl(false);
+        setEvl(true);
+        setEol(false);
+        break;
+      case "EOL Model Object Query":
+        setEtl(false);
+        setEvl(false);
+        setEol(true);
+        break;
+      default:
+        break;
+    }
+  }
 
   const execTransfo = async () => {
     // console.log(state.source_m, state.source_mm, state.target_mm, state.script);
@@ -82,12 +110,6 @@ const ModelService = () => {
   }
 
 
-  // useEffect(() => {
-  //   setStatus(false);
-  //   setResult(result);
-  // }, [result])
-
-
   return (
     <div className={styles.container}>
       <div className={status ? styles.spinner : styles.spinnerNone}>
@@ -104,9 +126,12 @@ const ModelService = () => {
         <div className={styles.upperBox}>
 
           <div className={styles.titleComponent}>
-            <ServiceSelect />
+            <ServiceSelect handleClick={handleClick} />
           </div>
-          <TransformationService />
+          {etl && <ETL />}
+          {evl && <EVL />}
+          {eol && <EOL />}
+
 
 
         </div>

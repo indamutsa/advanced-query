@@ -5,15 +5,15 @@ import { useState } from "react";
 import Image from "next/image";
 import { useAppContext } from "../context/AppContext";
 
-const ServiceSelect = () => {
+const ServiceSelect = ({ handleClick }) => {
   const { state, dispatch } = useAppContext();
   const [isOpen, setIsOpen] = useState(true);
   const [item, setItem] = useState("");
   const [field, setField] = useState(true);
   const items = [
-    "ETL transformation",
-    "EVL validation",
-    "EOL model object query",
+    "ETL Transformation",
+    "EVL Validation",
+    "EOL Model Object Query",
   ];
 
 
@@ -26,12 +26,12 @@ const ServiceSelect = () => {
   return (
     <div>
       <FieldDiv width={fieldwidth}>
-        <div className={styles.container}>
-          <div className={styles.field}>{field ? metaTitle : item}</div>
+        <div className={styles.container} onClick={() => {
+          setIsOpen(!isOpen);
+        }}>
+          <div className={styles.field}>{items[0]}</div>
           <div
-            onClick={() => {
-              setIsOpen(!isOpen);
-            }}
+
             className={isOpen ? styles.dropImage : styles.rotate}
           >
             <Image
@@ -52,8 +52,8 @@ const ServiceSelect = () => {
               onClick={(e) => {
                 setIsOpen(!isOpen);
                 setItem(item);
-                setField(false);
-                dispatch({ type: "service", value: item });
+                // setField(false);
+                handleClick(item);
               }}
             >
               {item}
