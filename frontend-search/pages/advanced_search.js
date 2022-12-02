@@ -93,7 +93,7 @@ const possibleTransData = {
 };
 
 
-export const ContextSearcher = ({ handleClick, i, list, mk }) => {
+export const ContextSearcher = ({ handleClick, i, size }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [item, setItem] = useState("");
@@ -219,7 +219,8 @@ export const ContextSearcher = ({ handleClick, i, list, mk }) => {
           />
         </SearchRect>
 
-        <PlusButton handleClick={handleClick} i={i} list={list} mk />
+        {i === 0 || i == size - 1 ?
+          (<PlusButton handleClick={handleClick} i={i} size={size} mk />) : ""}
       </ContextRow>
 
     </div>
@@ -375,11 +376,14 @@ const QualitySearcher = ({ handleClick, i }) => {
   )
 }
 
-const SimpleList = ({ list, handleClick, mk }) => {
+const SimpleList = ({ list, handleClick }) => {
+  const len = list.length
   return (
     <div>
-      {list && list.map((item, i) => (
-        <ContextSearcher key={i} i={i} item={item} list={list} handleClick={handleClick} mk />
+      {list && list.map((Component, i) => (
+
+        (<Component key={i} i={i} handleClick={handleClick} size={len} />)
+        // <ContextSearcher key={i} i={i} item={item} list={list} handleClick={handleClick} mk />
       ))}
     </div>)
 }
@@ -398,6 +402,7 @@ const Advanced = () => {
   const router = useRouter();
   const [arr, setArr] = useState([0]);
   const [arra, setArra] = useState([0]);
+  const [arrComp, setArrComp] = useState([ContextSearcher]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenQ, setIsOpenQ] = useState(false);
@@ -432,6 +437,8 @@ const Advanced = () => {
   const searchInputRef = useRef()
 
   let itemsSearch = Object.values(contextData.dropdown);
+
+
 
   itemsSearch = itemsSearch.filter(
     (item) =>
@@ -490,31 +497,14 @@ const Advanced = () => {
   //   // console.log(searchInputRef.current.value, Object.keys(contextData.dropdown).find(key => contextData.dropdown[key] === item));
   // };
 
-  const handleClick = (i, list, mk) => {
-
+  const handleClick = (i, mk, size) => {
     if (i === 0) {
-
-      if (mk) {
-        let ar = [...arr, arr[arr.length - 1] + 1];
-        setArr(ar);
-      }
-      else {
-        let ar = [...arra, arra[arra.length - 1] + 1];
-        setArra(ar);
-      }
-    } else if (arr.length > 1 || arra.length > 1) {
-
-
-      if (mk) {
-        let ar = arr.filter(itm => itm !== i);
-        let ar2 = Array.from(Array(ar.length).keys());
-        setArr(ar2);
-      }
-      else {
-        let ar = arra.filter(itm => itm !== i);
-        let ar2 = Array.from(Array(ar.length).keys());
-        setArra(ar2)
-      }
+      setArrComp([...arrComp, ContextSearcher]);
+    }
+    else if (arrComp.length > 0) {
+      const arr1 = [...arrComp]
+      let ar = arr1.filter((item, index) => index !== i)
+      setArrComp(ar);
     }
   };
 
@@ -563,7 +553,7 @@ const Advanced = () => {
 
             <div className={styles.context}>
               <div className={styles.contextTitle}>{contextData.dropdown.title}</div>
-              <SimpleList handleClick={handleClick} list={arr} mk />
+              <SimpleList handleClick={handleClick} list={arrComp} mk />
 
               {/* {arr.length != 0 && arr.map((item, i) => (
                 <ContextSearcher key={i} handleClick={handleClick} />
