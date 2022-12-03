@@ -13,7 +13,9 @@ import PlusButton from "../components/PlusButton";
 import FieldDiv from "../components/common/FieldDiv";
 import DropDiv from "../components/common/DropDiv";
 import { useRef } from "react";
-import Modal from 'react-modal'
+import Modal from 'react-modal';
+import { debounce } from "lodash";
+import { useMemo } from "react";
 
 const contextData = {
   dropdown: {
@@ -29,7 +31,7 @@ const contextData = {
     size: "Size",
   },
   size: {
-    fieldwidth: 16,
+    fieldwidth: 10,
     dropwidth: 8,
     inputwidth: 22,
   },
@@ -78,6 +80,19 @@ const opData = {
   },
 };
 
+const opDat = {
+  dropdown: {
+    AND: "AND",
+    OR: "OR",
+    NOT: "NOT",
+  },
+  size: {
+    fieldwidth: 6,
+    dropwidth: 5,
+    inputwidth: 5,
+  },
+};
+
 const possibleTransData = {
   dropdown: {
     title: "Operator",
@@ -93,13 +108,24 @@ const possibleTransData = {
 };
 
 
-export const ContextSearcher = ({ handleClick, i, size }) => {
+export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [item, setItem] = useState("");
   const [field, setField] = useState(true);
 
+  const [isOpenOP, setIsOpenOP] = useState(false);
+  const [itemOP, setItemOP] = useState(opDat.dropdown.AND);
+  const [fieldOP, setFieldOP] = useState(true);
+
   const searchInputRef = useRef()
+
+  const handler = useMemo(
+    () => debounce((value) => handleInput(value), 1000),
+    [searchInputRef?.current?.value]
+  );
+
+
 
   let itemsSearch = Object.values(contextData.dropdown);
 
@@ -109,32 +135,18 @@ export const ContextSearcher = ({ handleClick, i, size }) => {
       item !== "Search in context"
   );
 
-  let itemsQuality = Object.values(Qass.dropdown);
-  itemsQuality = itemsQuality.filter(
-    (item) =>
-      item !== "Operator" &&
-      item !== "Quality Assessment" &&
-      item !== "Quality metrics / attributes"
-  );
-
-  let itemsOp = Object.values(opData.dropdown);
+  let itemsOp = Object.values(opDat.dropdown);
   itemsOp = itemsOp.filter(
     (item) =>
       item !== "Operator"
   );
 
-  let itemsT = Object.values(possibleTransData.dropdown);
-  itemsT = itemsT.filter(
-    (item) =>
-      item !== "Operator"
-  );
   return (
     <div>
       {/* ------Context Row---------- */}
       <ContextRow>
         <SearchRect>
           {/* ------Dropdown ----------------- */}
-          {/* <Dropdown data={contextData} /> */}
           <div>
             {/* Field div------------------------------- */}
             <FieldDiv id="react-modals" width={contextData.size.fieldwidth} onClick={(e) => {
@@ -211,11 +223,55 @@ export const ContextSearcher = ({ handleClick, i, size }) => {
             </Modal>
 
           </div>
+          {/* ---------Operator dropdown-------- */}
+          {/* <Dropdown data={opData} /> */}
+          <div>
+            <FieldDiv width={opDat.size.fieldwidth}>
+              <div className={style.container}>
+                <div className={style.field}>{fieldOP ? opDat.dropdown.AND : itemOP}</div>
+                <div
+                  onClick={() => {
+                    setIsOpenOP(!isOpenOP);
+                  }}
+                  className={isOpenOP ? style.rotate : style.dropImage}
+                >
+                  <Image
+                    src="/image/dropdown.svg"
+                    alt=""
+                    height="22px"
+                    width="22px"
+                  />
+                </div>
+              </div>
+            </FieldDiv>
+            <DropDiv width={opDat.size.dropwidth}>
+              {isOpenOP &&
+                itemsOp.map((item_op, i) => (
+                  <div
+                    className={style.item}
+                    key={i}
+                    onClick={(e) => {
+                      setIsOpenOP(!isOpenOP);
+                      setItemOP(item_op);
+                      setFieldOP(false);
+                    }}
+                  >
+                    {item_op}
+                  </div>
+                ))}
+            </DropDiv>
+          </div>
           <SearchInput
             type="text"
             placeholder="Search a field"
             width={contextData.size.inputwidth}
             ref={searchInputRef}
+            onChange={() => handler({
+              operator: itemOP,
+              field: item,
+              value: searchInputRef.current.value,
+              index: i
+            })}
           />
         </SearchRect>
 
@@ -228,7 +284,7 @@ export const ContextSearcher = ({ handleClick, i, size }) => {
 }
 
 
-const QualitySearcher = ({ handleClick, i }) => {
+const QualitySearcher = ({ handleClick, i, size }) => {
 
   const [isOpenQ, setIsOpenQ] = useState(false);
   const [isOpenOP, setIsOpenOP] = useState(false);
@@ -370,29 +426,33 @@ const QualitySearcher = ({ handleClick, i }) => {
             width={opData.size.inputwidth}
           />
         </SearchRect>
-        <PlusButton handleClick={handleClick} i={i} />
+        {/* <PlusButton handleClick={handleClick} i={i} /> */}
+        {i === 0 || i == size - 1 ?
+          (<PlusButton handleClick={handleClick} i={i} size={size} />) : ""}
       </ContextRow>
     </div>
   )
 }
 
-const SimpleList = ({ list, handleClick }) => {
+const SimpleList = ({ list, handleClick, handleInput }) => {
   const len = list.length
   return (
     <div>
       {list && list.map((Component, i) => (
 
-        (<Component key={i} i={i} handleClick={handleClick} size={len} />)
+        (<Component key={i} i={i} handleClick={handleClick} handleInput={handleInput} size={len} mk />)
         // <ContextSearcher key={i} i={i} item={item} list={list} handleClick={handleClick} mk />
       ))}
     </div>)
 }
 
-const SimpleListQ = ({ list, handleClick }) => {
+const SimpleListQ = ({ list, handleClick, handleInput }) => {
+  const len = list.length
   return (
     <div>
-      {list && list.map((item, i) => (
-        <QualitySearcher key={i} i={i} item={item} handleClick={handleClick} />
+      {list && list.map((Component, i) => (
+        (<Component key={i} i={i} handleClick={handleClick} size={len} />)
+        // <QualitySearcher key={i} i={i} item={item} handleClick={handleClick} />
       ))}
     </div>)
 }
@@ -400,26 +460,15 @@ const SimpleListQ = ({ list, handleClick }) => {
 const Advanced = () => {
 
   const router = useRouter();
-  const [arr, setArr] = useState([0]);
-  const [arra, setArra] = useState([0]);
+
   const [arrComp, setArrComp] = useState([ContextSearcher]);
+  const [arraComp, setArraComp] = useState([QualitySearcher]);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpenQ, setIsOpenQ] = useState(false);
-  const [isOpenOP, setIsOpenOP] = useState(false);
   const [isOpenT, setIsOpenT] = useState(false);
-
-
-  const [item, setItem] = useState("");
-  const [itemQ, setItemQ] = useState("");
-  const [itemOP, setItemOP] = useState("");
   const [itemT, setItemT] = useState("");
-
-  const [field, setField] = useState(true);
-  const [fieldQ, setFieldQ] = useState(true);
-  const [fieldOP, setFieldOP] = useState(true);
   const [fieldT, setFieldT] = useState(true);
 
+  const [objArr, setObjArr] = useState([]);
 
   // Radio buttons
   const [allDate, setAllDate] = useState(true)
@@ -431,34 +480,13 @@ const Advanced = () => {
   const [date, setDate] = useState(new Date())
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date())
-  const [period, setPeriod] = useState('');
 
-
-  const searchInputRef = useRef()
 
   let itemsSearch = Object.values(contextData.dropdown);
-
-
-
   itemsSearch = itemsSearch.filter(
     (item) =>
       item !== "All fields" &&
       item !== "Search in context"
-  );
-  // console.log(itemsSearch);
-
-  let itemsQuality = Object.values(Qass.dropdown);
-  itemsQuality = itemsQuality.filter(
-    (item) =>
-      item !== "Operator" &&
-      item !== "Quality Assessment" &&
-      item !== "Quality metrics / attributes"
-  );
-
-  let itemsOp = Object.values(opData.dropdown);
-  itemsOp = itemsOp.filter(
-    (item) =>
-      item !== "Operator"
   );
 
   let itemsT = Object.values(possibleTransData.dropdown);
@@ -490,23 +518,33 @@ const Advanced = () => {
     }
   }
 
-  // const handleSubmit = () => {
-  //   // console.log(period, "***");
-  //   // e.preventDefault();
-  //   // router.push(`/result`);
-  //   // console.log(searchInputRef.current.value, Object.keys(contextData.dropdown).find(key => contextData.dropdown[key] === item));
-  // };
 
-  const handleClick = (i, mk, size) => {
-    if (i === 0) {
-      setArrComp([...arrComp, ContextSearcher]);
-    }
-    else if (arrComp.length > 0) {
-      const arr1 = [...arrComp]
-      let ar = arr1.filter((item, index) => index !== i)
-      setArrComp(ar);
+  const handleClick = (i, mk) => {
+    if (mk) {
+      if (i === 0) {
+        setArrComp([...arrComp, ContextSearcher]);
+      } else if (arrComp.length > 0) {
+        const arr1 = [...arrComp]
+        let ar = arr1.filter((item, index) => index !== i)
+        setArrComp(ar);
+
+      }
+    } else {
+      if (i === 0) {
+        setArraComp([...arraComp, QualitySearcher]);
+      } else if (arraComp.length > 0) {
+        const arr1 = [...arraComp]
+        let ar = arr1.filter((item, index) => index !== i)
+        setArraComp(ar);
+      }
     }
   };
+
+  const handleInput = (obj) => {
+    const arr = [...objArr, obj]
+    setObjArr(arr)
+    console.log(objArr);
+  }
 
 
   const handleChange = (e) => {
@@ -553,20 +591,20 @@ const Advanced = () => {
 
             <div className={styles.context}>
               <div className={styles.contextTitle}>{contextData.dropdown.title}</div>
-              <SimpleList handleClick={handleClick} list={arrComp} mk />
+              <SimpleList handleClick={handleClick} handleInput={handleInput} list={arrComp} mk />
 
               {/* {arr.length != 0 && arr.map((item, i) => (
                 <ContextSearcher key={i} handleClick={handleClick} />
               ))} */}
-              {arr.length > 1 && <hr style={{ marginTop: "1em" }} />}
+              {arrComp.length > 1 && <hr style={{ marginTop: "1em" }} />}
             </div>
             {/* ||===================== SEARCH CONTEXT =================END======|| */}
             {/* ==================== Quality assessement ==================== */}
             {/* <SearchContext data={Qass} /> */}
             <div className={styles.context}>
               <div className={styles.contextTitle}>{Qass.dropdown.title}</div>
-              <SimpleListQ handleClick={handleClick} list={arra} />
-              {arr.length > 1 && <hr style={{ marginTop: "1em" }} />}
+              <SimpleListQ handleClick={handleClick} list={arraComp} />
+              {arraComp.length > 1 && <hr style={{ marginTop: "1em" }} />}
             </div>
             {/* ||==================== Quality assessement ===========END=========|| */}
             {/* ===================== Possible transformations===================== */}

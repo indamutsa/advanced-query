@@ -10,23 +10,6 @@ import Spinner from "../components/common/Spinner";
 import { formatXml } from "../adhoc/formatXml";
 
 
-// const data = {
-//   dropdown: {
-//     metaTitle: "Choose a service...",
-//     etl: "ETL Transformation",
-//     evl: "EVL Validation",
-//     eol: "EOL Model object query",
-//   },
-//   size: {
-//     fieldwidth: 10,
-//     dropwidth: 10,
-//     inputwidth: 10,
-//   },
-// };
-
-
-
-
 const ModelService = () => {
   const { state, dispatch } = useAppContext();
   const sourceM = state?.source_m;
@@ -106,9 +89,7 @@ const ModelService = () => {
       setStatus(false);
       setResult("Error occurred while executing the transformation\nPlease check your input!");
     }
-
   }
-
 
   return (
     <div className={styles.container}>
