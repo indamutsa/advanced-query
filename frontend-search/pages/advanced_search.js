@@ -33,7 +33,7 @@ const contextData = {
   size: {
     fieldwidth: 10,
     dropwidth: 8,
-    inputwidth: 22,
+    inputwidth: 30,
   },
 };
 
@@ -107,7 +107,6 @@ const possibleTransData = {
   },
 };
 
-
 export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
 
   const [isOpen, setIsOpen] = useState(false);
@@ -121,7 +120,7 @@ export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
   const searchInputRef = useRef()
 
   const handler = useMemo(
-    () => debounce((value) => handleInput(value), 1000),
+    () => debounce((value) => handleInput(value), 500),
     [searchInputRef?.current?.value]
   );
 
@@ -184,7 +183,6 @@ export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
                     width: '20%',
                     height: '40%',
                     margin: 'auto',
-
                   }
                 }
               }
@@ -207,7 +205,6 @@ export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
                       {item}
                     </div>
                   ))}
-
               </div>
 
               <Button
@@ -226,14 +223,14 @@ export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
           {/* ---------Operator dropdown-------- */}
           {/* <Dropdown data={opData} /> */}
           <div>
-            <FieldDiv width={opDat.size.fieldwidth}>
+            <FieldDiv width={opDat.size.fieldwidth}
+              onClick={() => {
+                setIsOpenOP(!isOpenOP);
+              }}
+            >
               <div className={style.container}>
                 <div className={style.field}>{fieldOP ? opDat.dropdown.AND : itemOP}</div>
-                <div
-                  onClick={() => {
-                    setIsOpenOP(!isOpenOP);
-                  }}
-                  className={isOpenOP ? style.rotate : style.dropImage}
+                <div className={isOpenOP ? style.rotate : style.dropImage}
                 >
                   <Image
                     src="/image/dropdown.svg"
@@ -283,7 +280,6 @@ export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
   )
 }
 
-
 const QualitySearcher = ({ handleClick, i, size }) => {
 
   const [isOpenQ, setIsOpenQ] = useState(false);
@@ -299,6 +295,12 @@ const QualitySearcher = ({ handleClick, i, size }) => {
       item !== "Operator" &&
       item !== "Quality Assessment" &&
       item !== "Quality metrics / attributes"
+  );
+
+  let itemsOp = Object.values(opData.dropdown);
+  itemsOp = itemsOp.filter(
+    (item) =>
+      item !== "Operator"
   );
 
   return (
@@ -385,13 +387,13 @@ const QualitySearcher = ({ handleClick, i, size }) => {
           {/* ---------Operator dropdown-------- */}
           {/* <Dropdown data={opData} /> */}
           <div>
-            <FieldDiv width={opData.size.fieldwidth}>
+            <FieldDiv width={opData.size.fieldwidth} onClick={() => {
+              setIsOpenOP(!isOpenOP);
+            }}>
               <div className={style.container}>
-                <div className={style.field}>{fieldOP ? opData.dropdown.metaTitle : itemOP}</div>
+                <div className={style.field}  >{fieldOP ? opData.dropdown.metaTitle : itemOP}</div>
                 <div
-                  onClick={() => {
-                    setIsOpenOP(!isOpenOP);
-                  }}
+
                   className={isOpenOP ? style.rotate : style.dropImage}
                 >
                   <Image
@@ -481,7 +483,6 @@ const Advanced = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date())
 
-
   let itemsSearch = Object.values(contextData.dropdown);
   itemsSearch = itemsSearch.filter(
     (item) =>
@@ -518,7 +519,6 @@ const Advanced = () => {
     }
   }
 
-
   const handleClick = (i, mk) => {
     if (mk) {
       if (i === 0) {
@@ -526,6 +526,7 @@ const Advanced = () => {
       } else if (arrComp.length > 0) {
         const arr1 = [...arrComp]
         let ar = arr1.filter((item, index) => index !== i)
+        objArr.pop()
         setArrComp(ar);
 
       }
@@ -541,11 +542,27 @@ const Advanced = () => {
   };
 
   const handleInput = (obj) => {
-    const arr = [...objArr, obj]
-    setObjArr(arr)
+    replaceObject(obj)
     console.log(objArr);
   }
 
+  // make a function that replace an element object with a key from an array
+  const replaceObject = (obj) => {
+    if (objArr?.length === 0) {
+      setObjArr([...objArr, obj])
+    } else {
+      for (let i = 0; i < objArr?.length; i++) {
+        if (objArr[i].index === obj.index) {
+          objArr[i] = obj
+          setObjArr(objArr)
+          console.log("found----------");
+        } else {
+          setObjArr([...objArr, obj])
+          console.log("not found=========");
+        }
+      }
+    }
+  }
 
   const handleChange = (e) => {
     switch (e.target.id) {
