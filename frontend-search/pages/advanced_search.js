@@ -16,6 +16,7 @@ import { useRef } from "react";
 import Modal from 'react-modal';
 import { debounce } from "lodash";
 import { useMemo } from "react";
+import { getAdvancedSearchData } from "../services";
 
 const contextData = {
   dropdown: {
@@ -725,6 +726,12 @@ const Advanced = () => {
     advancedObject.optimalMetamodel = optimalMetamodel
   }
 
+  const handleSubmit = () => {
+    console.log(advancedObject, "advancedObject");
+    // const data = getAdvancedSearchData(advancedObject)
+    // router.push();
+  }
+
   useEffect(() => {
     setObjArr(objArr)
     setObjArra(objArra)
@@ -872,7 +879,7 @@ const Advanced = () => {
           <div className={styles.buttons}>
             <Button style={{ marginRight: "20px" }}>Reset</Button>
 
-            <Button onClick={handleClick} search>
+            <Button onClick={handleSubmit} search>
               Search
             </Button>
           </div>

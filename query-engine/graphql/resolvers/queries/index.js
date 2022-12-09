@@ -25,6 +25,32 @@ const Query = {
       console.log(err.message);
     }
   },
+  // Advanced search query for the engine
+  advancedQuery: async (parent, args, context, info) => {
+    // console.log(args);
+    try {
+      const result = await Services.advancedSearch(args);
+      // const _data = result.hits.hits.map((doc) => {
+      //   let id = doc._id;
+      //   doc = doc._source;
+      //   doc.id = id;
+      //   return doc;
+      // });
+
+      const data = {
+        status_code: 200,
+        success: true,
+        total_hits: {},
+        message: {},
+        data: {},
+      };
+
+      return data;
+    } catch (err) {
+      console.log(err.message);
+    }
+  },
+
 
   users: async (parent, args, context, info) => {
     try {

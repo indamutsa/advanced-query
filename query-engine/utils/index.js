@@ -122,10 +122,62 @@ const queryType = (operator) => {
   return op;
 };
 
+
+// Advanced Query Generator
+const advancedQueryGenerator = (args) => {
+
+  const { optimalMetamodel, publication, qualityAssessment, searchContext } = args.object;
+  // For now optimal transformation is not used
+
+  let requestObject = ` 
+  {
+    "_source": ["id","name", "storageUrl", "size", "createdAt", "description", "type"],
+    "from": ${from},
+    "size": ${limit},
+    "query": {
+      "query_string": {
+        "query": "${queryStr}",
+      }
+    }
+  }
+  `;
+  // requestObject = fixJSON(requestObject);
+  // return requestObject;
+};
+
+function jsonBuilder(object) {
+
+  let requestObject = ` 
+  {
+    "_source": ["id","name", "storageUrl", "size", "createdAt", "description", "type"],
+    "query": {
+
+    }
+  }
+  `;
+  let jsonSearchContext = "";
+  const { searchContext, publication, qualityAssessment } = object;
+  if (searchContext) {
+
+    for (const field in searchContext) {
+      jsonSearchContext += `query_string: {
+      "query_string": {
+        "default_field": "${searchContext.field.toLowerCase()}",
+        "default_operator": "${searchContext.operator.toLowerCase()}", 
+        "query": "*${searchContext.value}*"
+        }
+      }`
+    }
+  }
+
+  console.log(jsonSearchContext);
+}
+
+
 function fixJSON(json) {
   let newJson = json.replace(/\}\s*,\s*\]/, "}]");
   newJson = newJson.replace(/\"\s*,\s*\}/, '"}');
   return newJson;
 }
 
-module.exports = { generateDroidQueryDsl, mainQueryGenerator };
+module.exports = { generateDroidQueryDsl, mainQueryGenerator, advancedQueryGenerator };

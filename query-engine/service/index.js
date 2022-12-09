@@ -5,7 +5,7 @@ const index = config.es_index;
 const type = config.es_type;
 
 const esb = require("elastic-builder"); //the builder
-const { generateDroidQueryDsl, mainQueryGenerator } = require("../utils");
+const { generateDroidQueryDsl, mainQueryGenerator, advancedQueryGenerator } = require("../utils");
 
 module.exports = {
   async search(body) {
@@ -21,14 +21,18 @@ module.exports = {
     return data;
   },
 
+  async advancedSearch(args) {
+    const requestBody = advancedQueryGenerator(args);
+    // // console.log(requestBody);
 
-  // "sort": [
-  //   {
-  //     "name.keyword": {
-  //       "order": "asc"
-  //     }
-  //   }
-  // ],
+    // let index = `mdeforge.dsls,mdeforge.metamodels,mdeforge.models`;
+    // let data = await client.search({
+    //   index: index,
+    //   body: requestBody,
+    // });
+
+    // return data;
+  },
 
   async searchAll({ idx1, idx2 }) {
     // console.log(idx1, idx2);
