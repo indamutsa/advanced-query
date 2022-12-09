@@ -129,18 +129,22 @@ const advancedQueryGenerator = (args) => {
   const { optimalMetamodel, publication, qualityAssessment, searchContext } = args.object;
   // For now optimal transformation is not used
 
-  let requestObject = ` 
-  {
-    "_source": ["id","name", "storageUrl", "size", "createdAt", "description", "type"],
-    "from": ${from},
-    "size": ${limit},
-    "query": {
-      "query_string": {
-        "query": "${queryStr}",
-      }
-    }
-  }
-  `;
+
+
+  // let queryStr = microsyntax ? microsyntax : "";
+
+  // let requestObject = ` 
+  // {
+  //   "_source": ["id","name", "storageUrl", "size", "createdAt", "description", "type"],
+  //   "from": ${from},
+  //   "size": ${limit},
+  //   "query": {
+  //     "query_string": {
+  //       "query": "${queryStr}",
+  //     }
+  //   }
+  // }
+  // `;
   // requestObject = fixJSON(requestObject);
   // return requestObject;
 };
