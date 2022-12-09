@@ -60,7 +60,7 @@ const Qass = {
   size: {
     fieldwidth: 20,
     dropwidth: 16,
-    inputwidth: 22,
+    inputwidth: 13,
   },
 };
 
@@ -103,7 +103,7 @@ const possibleTransData = {
   size: {
     fieldwidth: 10,
     dropwidth: 10,
-    inputwidth: 10,
+    inputwidth: 30,
   },
 };
 
@@ -120,11 +120,9 @@ export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
   const searchInputRef = useRef()
 
   const handler = useMemo(
-    () => debounce((value) => handleInput(value), 500),
+    () => debounce((value) => handleInput(value), 250),
     [searchInputRef?.current?.value]
   );
-
-
 
   let itemsSearch = Object.values(contextData.dropdown);
 
@@ -200,6 +198,7 @@ export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
                         setIsOpen(!isOpen);
                         setItem(item);
                         setField(false);
+                        searchInputRef.current.value = "";
                       }}
                     >
                       {item}
@@ -251,6 +250,7 @@ export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
                       setIsOpenOP(!isOpenOP);
                       setItemOP(item_op);
                       setFieldOP(false);
+                      searchInputRef.current.value = "";
                     }}
                   >
                     {item_op}
@@ -263,12 +263,25 @@ export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
             placeholder="Search a field"
             width={contextData.size.inputwidth}
             ref={searchInputRef}
-            onChange={() => handler({
+            onBlur={() => handleInput({
               operator: itemOP,
               field: item,
               value: searchInputRef.current.value,
               index: i
             })}
+            onChange={() => {
+              if (item == "") {
+                alert("Please select a field first");
+                searchInputRef.current.value = "";
+              }
+              else
+                handler({
+                  operator: itemOP,
+                  field: item,
+                  value: searchInputRef.current.value,
+                  index: i
+                })
+            }}
           />
         </SearchRect>
 
@@ -280,7 +293,7 @@ export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
   )
 }
 
-const QualitySearcher = ({ handleClick, i, size }) => {
+const QualitySearcher = ({ handleClick, i, size, handleInputQ }) => {
 
   const [isOpenQ, setIsOpenQ] = useState(false);
   const [isOpenOP, setIsOpenOP] = useState(false);
@@ -288,6 +301,8 @@ const QualitySearcher = ({ handleClick, i, size }) => {
   const [itemOP, setItemOP] = useState("");
   const [fieldQ, setFieldQ] = useState(true);
   const [fieldOP, setFieldOP] = useState(true);
+
+  const qualityInputRef = useRef()
 
   let itemsQuality = Object.values(Qass.dropdown);
   itemsQuality = itemsQuality.filter(
@@ -301,6 +316,11 @@ const QualitySearcher = ({ handleClick, i, size }) => {
   itemsOp = itemsOp.filter(
     (item) =>
       item !== "Operator"
+  );
+
+  const handler = useMemo(
+    () => debounce((value) => handleInputQ(value), 250),
+    [qualityInputRef?.current?.value]
   );
 
   return (
@@ -366,6 +386,7 @@ const QualitySearcher = ({ handleClick, i, size }) => {
                         setIsOpenQ(!isOpenQ);
                         setItemQ(item_);
                         setFieldQ(false);
+                        qualityInputRef.current.value = "";
                       }}
                     >
                       {item_}
@@ -415,6 +436,7 @@ const QualitySearcher = ({ handleClick, i, size }) => {
                       setIsOpenOP(!isOpenOP);
                       setItemOP(item_op);
                       setFieldOP(false);
+                      qualityInputRef.current.value = "";
                     }}
                   >
                     {item_op}
@@ -423,9 +445,30 @@ const QualitySearcher = ({ handleClick, i, size }) => {
             </DropDiv>
           </div>
           <SearchInput
-            type="text"
+            type="number"
             placeholder="Value"
-            width={opData.size.inputwidth}
+            width={Qass.size.inputwidth}
+            ref={qualityInputRef}
+            onBlur={() => handleInputQ({
+              operator: itemOP,
+              field: itemQ,
+              value: qualityInputRef.current.value,
+              index: i
+            })}
+            onChange={() => {
+              if (itemQ == "" || itemOP == "" || itemOP == "Operator" || itemQ == "Quality metrics / attributes") {
+                alert("Please select quality metric and operator first");
+                qualityInputRef.current.value = "";
+                return
+              }
+              else
+                handler({
+                  operator: itemOP,
+                  field: itemQ,
+                  value: qualityInputRef.current.value,
+                  index: i
+                })
+            }}
           />
         </SearchRect>
         {/* <PlusButton handleClick={handleClick} i={i} /> */}
@@ -436,27 +479,100 @@ const QualitySearcher = ({ handleClick, i, size }) => {
   )
 }
 
+const OptimalTransfo = ({ getInput }) => {
+  const [isOpenT, setIsOpenT] = useState(false);
+  const [itemT, setItemT] = useState("");
+  const [fieldT, setFieldT] = useState(true);
+
+  const transInputRef = useRef();
+
+  let itemsT = Object.values(possibleTransData.dropdown);
+  itemsT = itemsT.filter(
+    (item) =>
+      item !== "Operator"
+  );
+
+  const handler = useMemo(
+    () => debounce((value) => getInput(value), 500),
+    [transInputRef?.current?.value]
+  );
+
+  return (
+    <div className={styles.transformations}>
+      <div className={styles.title}>Possible Transformation</div>
+      <SearchRect>
+        <FieldDiv width={10}>Metamodel</FieldDiv>
+        <div>
+          <FieldDiv width={possibleTransData.size.fieldwidth}>
+            <div className={style.container}>
+              <div className={style.field}>{fieldT ? possibleTransData.dropdown.metaTitle : itemT}</div>
+              <div
+                onClick={() => {
+                  setIsOpenT(!isOpenT);
+                }}
+                className={isOpenT ? style.rotate : style.dropImage}
+              >
+                <Image
+                  src="/image/dropdown.svg"
+                  alt=""
+                  height="22px"
+                  width="22px"
+                />
+              </div>
+            </div>
+          </FieldDiv>
+          <DropDiv width={possibleTransData.size.dropwidth}>
+            {isOpenT &&
+              itemsT.map((item_t, i) => (
+                <div
+                  className={style.item}
+                  key={i}
+                  onClick={(e) => {
+                    setIsOpenT(!isOpenT);
+                    setItemT(item_t);
+                    setFieldT(false);
+                  }}
+                >
+                  {item_t}
+                </div>
+              ))}
+          </DropDiv>
+        </div>
+        <SearchInput
+          type="text"
+          placeholder="Enter selected field..."
+          width={possibleTransData.size.inputwidth}
+          ref={transInputRef}
+          onChange={() => { handler(transInputRef.current.value) }}
+          onBlur={() => getInput(transInputRef.current.value)}
+        />
+      </SearchRect>
+    </div>
+  )
+}
+
 const SimpleList = ({ list, handleClick, handleInput }) => {
   const len = list.length
   return (
     <div>
       {list && list.map((Component, i) => (
-
         (<Component key={i} i={i} handleClick={handleClick} handleInput={handleInput} size={len} mk />)
-        // <ContextSearcher key={i} i={i} item={item} list={list} handleClick={handleClick} mk />
       ))}
     </div>)
 }
 
-const SimpleListQ = ({ list, handleClick, handleInput }) => {
+const SimpleListQ = ({ list, handleClick, handleInputQ }) => {
   const len = list.length
   return (
     <div>
       {list && list.map((Component, i) => (
-        (<Component key={i} i={i} handleClick={handleClick} size={len} />)
-        // <QualitySearcher key={i} i={i} item={item} handleClick={handleClick} />
+        (<Component key={i} i={i} handleClick={handleClick} handleInputQ={handleInputQ} size={len} />)
       ))}
     </div>)
+}
+
+const dateToTimestamp = (date) => {
+  return Date.parse(date);
 }
 
 const Advanced = () => {
@@ -466,11 +582,9 @@ const Advanced = () => {
   const [arrComp, setArrComp] = useState([ContextSearcher]);
   const [arraComp, setArraComp] = useState([QualitySearcher]);
 
-  const [isOpenT, setIsOpenT] = useState(false);
-  const [itemT, setItemT] = useState("");
-  const [fieldT, setFieldT] = useState(true);
-
   const [objArr, setObjArr] = useState([]);
+  const [objArra, setObjArra] = useState([]);
+  const [optimalMetamodel, setOptimalMetamodel] = useState("");
 
   // Radio buttons
   const [allDate, setAllDate] = useState(true)
@@ -482,6 +596,8 @@ const Advanced = () => {
   const [date, setDate] = useState(new Date())
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date())
+  const [period, setPeriod] = useState("")
+  const [pubDate, setPubDate] = useState("all_date")
 
   let itemsSearch = Object.values(contextData.dropdown);
   itemsSearch = itemsSearch.filter(
@@ -490,32 +606,15 @@ const Advanced = () => {
       item !== "Search in context"
   );
 
-  let itemsT = Object.values(possibleTransData.dropdown);
-  itemsT = itemsT.filter(
-    (item) =>
-      item !== "Operator"
-  );
-
   // Constructing the object
   const advancedObject = {
-    searchContent: [
-      {
-        key: "",
-        value: "",
-      }
-    ],
-    qualityAssessment: [
-      {
-        key: "",
-        operator: "",
-        value: "",
-      }
-    ],
-    optimalTransfo: {
+    searchContext: [],
+    qualityAssessment: [],
+    optimalMetamodel: {
       metamodelId: "",
     },
     publication: {
-
+      pubDate
     }
   }
 
@@ -528,7 +627,6 @@ const Advanced = () => {
         let ar = arr1.filter((item, index) => index !== i)
         objArr.pop()
         setArrComp(ar);
-
       }
     } else {
       if (i === 0) {
@@ -543,7 +641,7 @@ const Advanced = () => {
 
   const handleInput = (obj) => {
     replaceObject(obj)
-    console.log(objArr);
+    advancedObject.searchContext = objArr
   }
 
   // make a function that replace an element object with a key from an array
@@ -564,6 +662,29 @@ const Advanced = () => {
     }
   }
 
+
+  const handleInputQ = (obj) => {
+    replaceObjectQ(obj)
+    advancedObject.qualityAssessment = objArra
+  }
+
+  const replaceObjectQ = (obj) => {
+    if (objArra?.length === 0) {
+      setObjArra([...objArra, obj])
+    } else {
+      for (let i = 0; i < objArra?.length; i++) {
+        if (objArra[i].index === obj.index) {
+          objArra[i] = obj
+          setObjArra(objArra)
+          console.log("found----------");
+        } else {
+          setObjArra([...objArra, obj])
+          console.log("not found=========");
+        }
+      }
+    }
+  }
+
   const handleChange = (e) => {
     switch (e.target.id) {
 
@@ -572,6 +693,8 @@ const Advanced = () => {
         setSpecificDate(true)
         setTimeFrame(true)
         setCustomFrame(true)
+
+        setPubDate("all_date")
         break
 
       case 'datepub':
@@ -597,87 +720,47 @@ const Advanced = () => {
     }
   }
 
+  const getInput = (value) => {
+    setOptimalMetamodel(value)
+    advancedObject.optimalMetamodel = optimalMetamodel
+  }
+
+  useEffect(() => {
+    setObjArr(objArr)
+    setObjArra(objArra)
+    advancedObject.searchContext = objArr
+    advancedObject.qualityAssessment = objArra
+    advancedObject.optimalMetamodel = optimalMetamodel
+    advancedObject.publication = pubDate
+    // console.log(advancedObject, "advancedObject");
+  }, [objArr, objArra, advancedObject, date, startDate, endDate])
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.title}>Advanced Search</div>
         <form className={styles.contentSearch}>
           <div className={styles.search}>
-            {/* <SearchContext data={contextData} /> */}
             {/* ===================== SEARCH CONTEXT ==============55========= */}
 
             <div className={styles.context}>
               <div className={styles.contextTitle}>{contextData.dropdown.title}</div>
               <SimpleList handleClick={handleClick} handleInput={handleInput} list={arrComp} mk />
-
-              {/* {arr.length != 0 && arr.map((item, i) => (
-                <ContextSearcher key={i} handleClick={handleClick} />
-              ))} */}
               {arrComp.length > 1 && <hr style={{ marginTop: "1em" }} />}
             </div>
             {/* ||===================== SEARCH CONTEXT =================END======|| */}
             {/* ==================== Quality assessement ==================== */}
-            {/* <SearchContext data={Qass} /> */}
             <div className={styles.context}>
               <div className={styles.contextTitle}>{Qass.dropdown.title}</div>
-              <SimpleListQ handleClick={handleClick} list={arraComp} />
+              <SimpleListQ handleClick={handleClick} handleInputQ={handleInputQ} list={arraComp} />
               {arraComp.length > 1 && <hr style={{ marginTop: "1em" }} />}
             </div>
             {/* ||==================== Quality assessement ===========END=========|| */}
+
             {/* ===================== Possible transformations===================== */}
-            {/* <PossibleTransformation /> */}
-            <div className={styles.transformations}>
-              <div className={styles.title}>Possible Transformation</div>
-              <SearchRect>
-                <FieldDiv width={10}>Metamodel</FieldDiv>
-                {/* <Dropdown data={possibleTransData} /> */}
-                <div>
-                  <FieldDiv width={possibleTransData.size.fieldwidth}>
-                    <div className={style.container}>
-                      <div className={style.field}>{fieldT ? possibleTransData.dropdown.metaTitle : itemT}</div>
-                      <div
-                        onClick={() => {
-                          setIsOpenT(!isOpenT);
-                        }}
-                        className={isOpenT ? style.rotate : style.dropImage}
-                      >
-                        <Image
-                          src="/image/dropdown.svg"
-                          alt=""
-                          height="22px"
-                          width="22px"
-                        />
-                      </div>
-                    </div>
-                  </FieldDiv>
-                  <DropDiv width={possibleTransData.size.dropwidth}>
-                    {isOpenT &&
-                      itemsT.map((item_t, i) => (
-                        <div
-                          className={style.item}
-                          key={i}
-                          onClick={(e) => {
-                            setIsOpenT(!isOpenT);
-                            setItemT(item_t);
-                            setFieldT(false);
-                          }}
-                        >
-                          {item_t}
-                        </div>
-                      ))}
-                  </DropDiv>
-                </div>
-                <SearchInput
-                  type="text"
-                  placeholder="Enter selected field..."
-                  width={possibleTransData.size.inputwidth}
-                />
-              </SearchRect>
-            </div>
+            <OptimalTransfo getInput={getInput} />
           </div>
           {/* ||===================== Possible transformations=======END==============|| */}
-
-
 
           {/* ====================== THE DIVIDER ======================= */}
 
@@ -690,30 +773,36 @@ const Advanced = () => {
           <div className={styles.publication}>
             <div className={styles.pubTitle}>Publication date:</div>
             <div className={styles.titleDatePub}>
-              <input type="radio" id="all_date" name="fav_language" value="HTML" style={{ marginRight: ".5em" }} onChange={handleChange} checked={allDate} />
+              <input type="radio" id="all_date" name="fav_language" style={{ marginRight: ".5em" }} onChange={handleChange} checked={allDate} />
               <label htmlFor="html">All dates</label>
             </div>
             <div className={styles.titleDatePub}>
-              <input type="radio" id="datepub" name="fav_language" value="HTML" style={{ marginRight: ".5em" }} onChange={handleChange} />
+              <input type="radio" id="datepub" name="fav_language" style={{ marginRight: ".5em" }} onChange={handleChange} />
               <label htmlFor="html">Specific date</label>
               <DatePicker
                 selected={date}
-                onChange={(date) => setDate(date)}
+                onChange={(date) => {
+                  setDate(date)
+                  setPubDate(dateToTimestamp(date))
+                }}
                 timeInputLabel="Time:"
                 dateFormat="MM-dd-yyyy h:mm aa"
-                // dateFormat="MM/dd/yyyy"
                 showTimeInput
                 readOnly={specificDate}
                 className={styles.boxDate}
               />
             </div>
             <div className={styles.titleDatePub}>
-              <input type="radio" id="timeframe" name="fav_language" value="HTML" style={{ marginRight: ".5em" }} onChange={handleChange} />
+              <input type="radio" id="timeframe" name="fav_language" style={{ marginRight: ".5em" }} onChange={handleChange} />
               <label className={styles.recentOption} htmlFor="html">
                 Last
               </label>
               <br />
-              <select name="deityName" className={styles.boxDate} disabled={timeFrame} onChange={(e) => setPeriod(e.target.value)}>
+              <select name="deityName" className={styles.boxDate} disabled={timeFrame} onChange={(e) => {
+                setPeriod(e.target.value)
+                console.log(e.target.value);
+                setPubDate(e.target.value)
+              }}>
                 <option className={styles.option}>Select timeframe</option>
                 <option className={styles.option}>7 days</option>
                 <option className={styles.option}>Month</option>
@@ -722,16 +811,22 @@ const Advanced = () => {
               </select>
             </div>
             <div className={styles.titleDatePub}>
-              <input type="radio" id="custom_timeframe" name="fav_language" value="HTML" style={{ marginRight: ".5em" }} onChange={handleChange} />
+              <input type="radio" id="custom_timeframe" name="fav_language" style={{ marginRight: ".5em" }} onChange={handleChange} />
               <label htmlFor="html">Custom range:</label>
               <div className={styles.from}>
                 <label>From:</label>
                 <DatePicker
                   selected={startDate}
-                  onChange={(date) => setStartDate(date)}
+                  onChange={(date) => {
+                    setStartDate(date)
+
+                    setPubDate({
+                      startDate: dateToTimestamp(startDate),
+                      endDate: dateToTimestamp(startDate)
+                    })
+                  }}
                   timeInputLabel="Time:"
                   dateFormat="MM-dd-yyyy h:mm aa"
-                  // dateFormat="MM/dd/yyyy"
                   showTimeInput
                   className={styles.fromToBox}
                   readOnly={customFrame}
@@ -741,10 +836,15 @@ const Advanced = () => {
                 <label>To:</label>
                 <DatePicker
                   selected={endDate}
-                  onChange={(date) => setEndDate(date)}
+                  onChange={(date) => {
+                    setEndDate(date)
+                    setPubDate({
+                      startDate: dateToTimestamp(startDate),
+                      endDate: dateToTimestamp(endDate),
+                    })
+                  }}
                   timeInputLabel="Time:"
                   dateFormat="MM-dd-yyyy h:mm aa"
-                  // dateFormat="MM/dd/yyyy"
                   showTimeInput
                   className={styles.fromToBox}
                   readOnly={customFrame}
