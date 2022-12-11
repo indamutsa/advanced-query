@@ -1,7 +1,9 @@
 const { gql } = require("apollo-server-express");
+
 const typeDefs = gql`
   # schema.gql
   scalar GraphQLDateTime
+  scalar GraphQLJSON
   """
   Queries are defined here, they need to have the same name in resolvers
   """
@@ -27,6 +29,8 @@ const typeDefs = gql`
 
     # -------------Query----------------------
     query(microsyntax: String, from: Int=0, limit: Int=10): Data!
+    # -------------Advanced Query----------------------
+    advancedQuery(object: GraphQLJSON): Data!
   }
 
   """

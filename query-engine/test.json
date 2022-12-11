@@ -1,99 +1,100 @@
 {
-"code" : "ACFMC",
-"name" : "Number of abstract Completely Featureless MetaClass"
-},
-{
-"code" : "AIFLMC",
-"name" : "Number of abstract immediate Featureless MetaClass",
-},
-{
-"code" : "AMC",
-"name" : "Number of abstract MetaClass",
-},
-{
-"code" : "ATTR",
-"name" : "Number of Total Attribute",
-},
-{
-"code" : "ATTRH",
-"name" : "Number of Total Attribute with inherited",
-},
-{
-"code" : "AVGATTR",
-"name" : "Average Attribute in a class",
-},
-{
-"code" : "AVGREF",
-"name" : "Average Reference in a (class (avg fan out)",
-},
-{
-"code" : "CCFMC",
-"name" : "Number of concrete Completely Featureless MetaClass",
-},
-{
-"code" : "CFLMC",
-"name" : "Number of Completely Featureless MetaClass"
-},
-{
-"code" : "CIFLMC",
-"name" : "Number of concrete immediate Featureless MetaClass",
-},
-{
-"code" : "CMC",
-"name" : "Number of concrete MetaClass",
+    "ACFMC":{
+        "code" : "ACFMC",
+        "name" : "Number of abstract Completely Featureless MetaClass"
+    },
+    "AIFLMC":{
+        "code" : "AIFLMC",
+        "name" : "Number of abstract immediate Featureless MetaClass"
+    },
+    "AMC":{
+        "code" : "AMC",
+        "name" : "Number of abstract MetaClass"
+    },
+    "ATTR":{
+        "code" : "ATTR",
+        "name" : "Number of Total Attribute"
+    },
+    "ATTRH":{
+        "code" : "ATTRH",
+        "name" : "Number of Total Attribute with inherited"
+    },
+    "AVGATTR":{
+        "code" : "AVGATTR",
+        "name" : "Average Attribute in a class"
+    },
+    "AVGREF":{
+        "code" : "AVGREF",
+        "name" : "Average Reference in a (class (avg fan out)"
+    },
+    "CCFMC":{
+        "code" : "CCFMC",
+        "name" : "Number of concrete Completely Featureless MetaClass"
+    },
+    "CFLMC":{
+        "code" : "CFLMC",
+        "name" : "Number of Completely Featureless MetaClass"
+    },
+    "CIFLMC":{
+        "code" : "CIFLMC",
+        "name" : "Number of concrete immediate Featureless MetaClass"
+    },
+    "CMC":{
+        "code" : "CMC",
+        "name" : "Number of concrete MetaClass"
 
-},
-{
-"code" : "IFLMC",
-"name" : "Number of immediate Featureless MetaClass",
+    },
+    "IFLMC":{
+        "code" : "IFLMC",
+        "name" : "Number of immediate Featureless MetaClass"
 
-},
-{
-"code" : "LMC",
-"name" : "Number of lonely classes",
-},
-{
-"code" : "MAXHL",
-"name" : "Max generalizzation hierarchical level",
-},
-{
-"code" : "MAXHS",
-"name" : "Max Hierarchy Sibiling",
-},
-{
-"code" : "MC",
-"name" : "Number of MetaClass",
-},
-{
-"code" : "MCWSP",
-"name" : "Number of class with a super type",
-},
-{
-"code" : "MTNB",
-"name" : "maintainability"
-},
-{
-"code" : "REC_CONT",
-"name" : "Number of TotalReference containment",
-},
-{
-"code" : "REF",
-"name" : "Number of TotalReference",
-},
-{
-"code" : "REFCC",
-"name" : "Max chain of containment",
-},
-{
-"code" : "REFEOP",
-"name" : "Number of Opposite Reference ",
-},
-{
-"code" : "SF",
-"name" : "Number of Total eStructuralFeature",
-},
-{
-"code" : "SFH",
-"name" : "Number of Total structural feature with inherited",
+    },
+    "LMC":{
+        "code" : "LMC",
+        "name" : "Number of lonely classes"
+    },
+    "MAXHL":{
+        "code" : "MAXHL",
+        "name" : "Max generalizzation hierarchical level"
+    },
+    "MAXHS":{
+        "code" : "MAXHS",
+        "name" : "Max Hierarchy Sibiling"
+    },
+    "MC":{
+        "code" : "MC",
+        "name" : "Number of MetaClass"
+    },
+    "MCWSP":{
+        "code" : "MCWSP",
+        "name" : "Number of class with a super type"
+    },
+    "MTNB":{
+        "code" : "MTNB",
+        "name" : "maintainability"
+    },
+    "REC_CONT":{
+        "code" : "REC_CONT",
+        "name" : "Number of TotalReference containment"
+    },
+    "REF":{
+        "code" : "REF",
+        "name" : "Number of TotalReference"
+    },
+    "REFCC":{
+        "code" : "REFCC",
+        "name" : "Max chain of containment"
+    },
+    "REFEOP":{
+        "code" : "REFEOP",
+        "name" : "Number of Opposite Reference "
+    },
+    "SF":{
+        "code" : "SF",
+        "name" : "Number of Total eStructuralFeature"
+    },
+    "SFH":{
+        "code" : "SFH",
+        "name" : "Number of Total structural feature with inherited"
+    }
 }
-
