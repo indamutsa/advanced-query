@@ -27,22 +27,21 @@ const Query = {
   },
   // Advanced search query for the engine
   advancedQuery: async (parent, args, context, info) => {
-    // console.log(args);
     try {
       const result = await Services.advancedSearch(args);
-      // const _data = result.hits.hits.map((doc) => {
-      //   let id = doc._id;
-      //   doc = doc._source;
-      //   doc.id = id;
-      //   return doc;
-      // });
+      const _data = result.hits.hits.map((doc) => {
+        let id = doc._id;
+        doc = doc._source;
+        doc.id = id;
+        return doc;
+      });
 
       const data = {
         status_code: 200,
         success: true,
-        total_hits: {},
-        message: {},
-        data: {},
+        total_hits: result.hits.total.value,
+        message: "Data successfully fetched!",
+        data: _data,
       };
 
       return data;

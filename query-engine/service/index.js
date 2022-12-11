@@ -23,15 +23,14 @@ module.exports = {
 
   async advancedSearch(args) {
     const requestBody = advancedQueryGenerator(args);
-    // // console.log(requestBody);
+    // console.log(requestBody);
 
-    // let index = `mdeforge.dsls,mdeforge.metamodels,mdeforge.models`;
-    // let data = await client.search({
-    //   index: index,
-    //   body: requestBody,
-    // });
-
-    // return data;
+    let index = `mdeforge.dsls,mdeforge.metamodels,mdeforge.models`;
+    let data = await client.search({
+      index: index,
+      body: requestBody,
+    });
+    return data;
   },
 
   async searchAll({ idx1, idx2 }) {

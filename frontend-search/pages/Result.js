@@ -4,7 +4,7 @@ import ResultBox from "../components/ResultBox";
 import Link from "next/link";
 import { useAppContext } from "../context/AppContext";
 import { useRef, useState } from "react";
-import { getData } from "../services";
+import { getAdvancedSearchData, getData } from "../services";
 import { useEffect } from "react";
 
 const Result = () => {
@@ -47,11 +47,19 @@ const Result = () => {
 
   const handleData = async (page, limit) => {
     try {
-      let res = await getData(state?.searchQuery, page, limit, total);
-      setResults(res.query.data);
-      setTotal(res.query.total_hits);
+      let res;
+      if (state?.advancedSearch) {
+        res = await getAdvancedSearchData(state.advancedSearch)
+        setResults(res.advancedQuery.data);
+        setTotal(res.advancedQuery.total_hits);
+      }
+      else {
+        res = await getData(state?.searchQuery, page, limit, total);
+        setResults(res.query.data);
+        setTotal(res.query.total_hits);
+      }
     } catch (error) {
-      alert("Error occured: ", error.message)
+      console.log("Error occured: ", error.message)
     }
   };
 
@@ -59,7 +67,7 @@ const Result = () => {
 
   useEffect(() => {
     handleData()
-  }, [state?.searchQuery])
+  }, [state?.searchQuery, state.advancedSearch])
 
 
   //===============
@@ -76,7 +84,7 @@ const Result = () => {
   // ====================
   const goNext = async () => {
 
-    console.log(page, "===========", pages[page]);
+    // console.log(page, "===========", pages[page]);
     if (total == 0) {
       alert("No next page")
     }

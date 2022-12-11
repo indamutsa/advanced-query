@@ -1,4 +1,6 @@
 {
+    "title": "Quality Assessment",
+    "metaTitle": "Quality metrics / attributes",
     "ACFMC":{
         "code" : "ACFMC",
         "name" : "Number of abstract Completely Featureless MetaClass"

@@ -10,7 +10,6 @@ export const initialState = {
   data: {},
   operationResult: "",
   advancedSearch: {
-
   },
   source_m: {},
   source_mm: {},
@@ -23,6 +22,13 @@ export const appReducer = (state, action) => {
   switch (action.type) {
     case "init_stored": {
       return action.value;
+    }
+
+    case "SET_ADVANCED_SEARCH_DATA": {
+      return {
+        ...state,
+        advancedSearch: action.payload
+      }
     }
 
     case "search-query": {

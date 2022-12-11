@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 
 const fetcher = async (data) => {
     try {
-        let res = await axios.post(`http://localhost:3300/search-all`, data);
+        let res = await axios.post(`http://178.238.238.209:3300/search-all`, data);
         return res.data;
 
     } catch (error) {

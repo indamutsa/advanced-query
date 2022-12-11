@@ -17,6 +17,8 @@ import Modal from 'react-modal';
 import { debounce } from "lodash";
 import { useMemo } from "react";
 import { getAdvancedSearchData } from "../services";
+import metrics from "../data/qass";
+import { useAppContext } from "../context/AppContext";
 
 const contextData = {
   dropdown: {
@@ -69,6 +71,7 @@ const opData = {
   dropdown: {
     title: "Operator",
     metaTitle: "Operator",
+    eq: "equal",
     gt: "greater than",
     lt: "less than",
     gte: "greater than or equal",
@@ -106,6 +109,14 @@ const possibleTransData = {
     dropwidth: 10,
     inputwidth: 30,
   },
+};
+
+const getKeyByValue = (obj, value) => {
+  return Object.keys(obj).filter(key => obj[key] === value)[0];
+};
+
+const getKeyByVal = (obj, value) => {
+  return Object.keys(obj).filter(key => obj[key].name === value)[0];
 };
 
 export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
@@ -264,12 +275,14 @@ export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
             placeholder="Search a field"
             width={contextData.size.inputwidth}
             ref={searchInputRef}
-            onBlur={() => handleInput({
-              operator: itemOP,
-              field: item,
-              value: searchInputRef.current.value,
-              index: i
-            })}
+            onBlur={() =>
+              handleInput({
+                operator: itemOP,
+                field: getKeyByValue(contextData.dropdown, item),
+                value: searchInputRef.current.value,
+                index: i
+              })
+            }
             onChange={() => {
               if (item == "") {
                 alert("Please select a field first");
@@ -278,10 +291,11 @@ export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
               else
                 handler({
                   operator: itemOP,
-                  field: item,
+                  field: getKeyByValue(contextData.dropdown, item),
                   value: searchInputRef.current.value,
                   index: i
                 })
+
             }}
           />
         </SearchRect>
@@ -305,7 +319,7 @@ const QualitySearcher = ({ handleClick, i, size, handleInputQ }) => {
 
   const qualityInputRef = useRef()
 
-  let itemsQuality = Object.values(Qass.dropdown);
+  let itemsQuality = Object.values(metrics);
   itemsQuality = itemsQuality.filter(
     (item) =>
       item !== "Operator" &&
@@ -335,7 +349,7 @@ const QualitySearcher = ({ handleClick, i, size, handleInputQ }) => {
               }}
             >
               <div className={style.container}>
-                <div className={style.field}>{fieldQ ? Qass.dropdown.metaTitle : itemQ}</div>
+                <div className={style.field}>{fieldQ ? metrics.metaTitle : itemQ}</div>
                 <div
 
                   className={isOpenQ ? style.rotate : style.dropImage}
@@ -385,12 +399,12 @@ const QualitySearcher = ({ handleClick, i, size, handleInputQ }) => {
                       key={i}
                       onClick={(e) => {
                         setIsOpenQ(!isOpenQ);
-                        setItemQ(item_);
+                        setItemQ(item_.name);
                         setFieldQ(false);
                         qualityInputRef.current.value = "";
                       }}
                     >
-                      {item_}
+                      {item_.name}
                     </div>
                   ))}
               </div>
@@ -407,7 +421,6 @@ const QualitySearcher = ({ handleClick, i, size, handleInputQ }) => {
             </Modal>
           </div>
           {/* ---------Operator dropdown-------- */}
-          {/* <Dropdown data={opData} /> */}
           <div>
             <FieldDiv width={opData.size.fieldwidth} onClick={() => {
               setIsOpenOP(!isOpenOP);
@@ -450,12 +463,14 @@ const QualitySearcher = ({ handleClick, i, size, handleInputQ }) => {
             placeholder="Value"
             width={Qass.size.inputwidth}
             ref={qualityInputRef}
-            onBlur={() => handleInputQ({
-              operator: itemOP,
-              field: itemQ,
-              value: qualityInputRef.current.value,
-              index: i
-            })}
+            onBlur={() =>
+              handleInputQ({
+                operator: itemOP,
+                field: getKeyByVal(metrics, itemQ),
+                value: qualityInputRef.current.value,
+                index: i
+              })
+            }
             onChange={() => {
               if (itemQ == "" || itemOP == "" || itemOP == "Operator" || itemQ == "Quality metrics / attributes") {
                 alert("Please select quality metric and operator first");
@@ -465,7 +480,7 @@ const QualitySearcher = ({ handleClick, i, size, handleInputQ }) => {
               else
                 handler({
                   operator: itemOP,
-                  field: itemQ,
+                  field: getKeyByVal(metrics, itemQ),
                   value: qualityInputRef.current.value,
                   index: i
                 })
@@ -579,6 +594,7 @@ const dateToTimestamp = (date) => {
 const Advanced = () => {
 
   const router = useRouter();
+  const { state, dispatch } = useAppContext();
 
   const [arrComp, setArrComp] = useState([ContextSearcher]);
   const [arraComp, setArraComp] = useState([QualitySearcher]);
@@ -597,8 +613,10 @@ const Advanced = () => {
   const [date, setDate] = useState(new Date())
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date())
-  const [period, setPeriod] = useState("")
   const [pubDate, setPubDate] = useState("all_date")
+
+  const [value, setValue] = useState("all_date");
+  const [key, setKey] = useState("all_date");
 
   let itemsSearch = Object.values(contextData.dropdown);
   itemsSearch = itemsSearch.filter(
@@ -606,6 +624,8 @@ const Advanced = () => {
       item !== "All fields" &&
       item !== "Search in context"
   );
+
+  let publication = {}
 
   // Constructing the object
   const advancedObject = {
@@ -615,8 +635,9 @@ const Advanced = () => {
       metamodelId: "",
     },
     publication: {
-      pubDate
-    }
+      key,
+      value,
+    },
   }
 
   const handleClick = (i, mk) => {
@@ -654,15 +675,14 @@ const Advanced = () => {
         if (objArr[i].index === obj.index) {
           objArr[i] = obj
           setObjArr(objArr)
-          console.log("found----------");
+          // console.log("found----------");
         } else {
           setObjArr([...objArr, obj])
-          console.log("not found=========");
+          // console.log("not found=========");
         }
       }
     }
   }
-
 
   const handleInputQ = (obj) => {
     replaceObjectQ(obj)
@@ -677,10 +697,10 @@ const Advanced = () => {
         if (objArra[i].index === obj.index) {
           objArra[i] = obj
           setObjArra(objArra)
-          console.log("found----------");
+          // console.log("found----------");
         } else {
           setObjArra([...objArra, obj])
-          console.log("not found=========");
+          // console.log("not found=========");
         }
       }
     }
@@ -696,13 +716,26 @@ const Advanced = () => {
         setCustomFrame(true)
 
         setPubDate("all_date")
+        setKey("all_date")
+        setValue("all_date")
+
+        publication.key = key
+        publication.value = value
+        advancedObject.publication = publication
         break
 
-      case 'datepub':
+      case 'specific_date':
         setAllDate(false)
         setSpecificDate(false)
         setTimeFrame(true)
         setCustomFrame(true)
+
+        setKey("specific_date")
+        setValue(dateToTimestamp(date))
+
+        publication.key = key
+        publication.value = value
+        advancedObject.publication = publication
         break
 
       case 'timeframe':
@@ -710,6 +743,13 @@ const Advanced = () => {
         setSpecificDate(true)
         setTimeFrame(false)
         setCustomFrame(true)
+
+        setKey("timeframe")
+        setValue("all_date")
+
+        publication.key = key
+        publication.value = value
+        advancedObject.publication = publication
         break
 
       case 'custom_timeframe':
@@ -717,19 +757,39 @@ const Advanced = () => {
         setSpecificDate(true)
         setTimeFrame(true)
         setCustomFrame(false)
+
+        setKey("custom_timeframe")
+        setValue({
+          startDate: dateToTimestamp(startDate),
+          endDate: dateToTimestamp(endDate),
+        })
+
+        publication.key = key
+        publication.value = value
+        advancedObject.publication = publication
         break
     }
   }
 
-  const getInput = (value) => {
-    setOptimalMetamodel(value)
+  const getInput = (v) => {
+    setOptimalMetamodel(v)
     advancedObject.optimalMetamodel = optimalMetamodel
   }
 
-  const handleSubmit = () => {
-    console.log(advancedObject, "advancedObject");
-    // const data = getAdvancedSearchData(advancedObject)
-    // router.push();
+  const handleSubmit = async () => {
+
+    if (dateToTimestamp(startDate) > dateToTimestamp(endDate)) {
+      alert("Start date must be less than end date...")
+    } else if (advancedObject.searchContext.length === 0 && advancedObject.qualityAssessment.length === 0 && advancedObject.publication.key === "all_date" && advancedObject.publication.value === "all_date") {
+      alert("Please select at least one search criteria...")
+    }
+
+    else {
+      // const data = await getAdvancedSearchData(advancedObject)
+      // console.log(data, "data");
+      dispatch({ type: "SET_ADVANCED_SEARCH_DATA", payload: advancedObject })
+      router.push("/result");
+    }
   }
 
   useEffect(() => {
@@ -738,9 +798,10 @@ const Advanced = () => {
     advancedObject.searchContext = objArr
     advancedObject.qualityAssessment = objArra
     advancedObject.optimalMetamodel = optimalMetamodel
-    advancedObject.publication = pubDate
+    advancedObject.publication.key = key
+    advancedObject.publication.value = value
     // console.log(advancedObject, "advancedObject");
-  }, [objArr, objArra, advancedObject, date, startDate, endDate])
+  }, [objArr, objArra, advancedObject, date, startDate, endDate, key, value])
 
   return (
     <div className={styles.container}>
@@ -758,7 +819,7 @@ const Advanced = () => {
             {/* ||===================== SEARCH CONTEXT =================END======|| */}
             {/* ==================== Quality assessement ==================== */}
             <div className={styles.context}>
-              <div className={styles.contextTitle}>{Qass.dropdown.title}</div>
+              <div className={styles.contextTitle}>{metrics.title}</div>
               <SimpleListQ handleClick={handleClick} handleInputQ={handleInputQ} list={arraComp} />
               {arraComp.length > 1 && <hr style={{ marginTop: "1em" }} />}
             </div>
@@ -784,13 +845,21 @@ const Advanced = () => {
               <label htmlFor="html">All dates</label>
             </div>
             <div className={styles.titleDatePub}>
-              <input type="radio" id="datepub" name="fav_language" style={{ marginRight: ".5em" }} onChange={handleChange} />
+              <input type="radio" id="specific_date" name="fav_language" style={{ marginRight: ".5em" }} onChange={handleChange} />
               <label htmlFor="html">Specific date</label>
               <DatePicker
                 selected={date}
                 onChange={(date) => {
                   setDate(date)
-                  setPubDate(dateToTimestamp(date))
+                  // setPubDate(dateToTimestamp(date))
+
+                  setKey("specific_date")
+                  setValue(dateToTimestamp(date))
+
+                  publication.key = key
+                  publication.value = value
+                  advancedObject.publication = publication
+
                 }}
                 timeInputLabel="Time:"
                 dateFormat="MM-dd-yyyy h:mm aa"
@@ -806,9 +875,12 @@ const Advanced = () => {
               </label>
               <br />
               <select name="deityName" className={styles.boxDate} disabled={timeFrame} onChange={(e) => {
-                setPeriod(e.target.value)
-                console.log(e.target.value);
-                setPubDate(e.target.value)
+                setKey("timeframe")
+                setValue(e.target.value)
+
+                publication.key = key
+                publication.value = value
+                advancedObject.publication = publication
               }}>
                 <option className={styles.option}>Select timeframe</option>
                 <option className={styles.option}>7 days</option>
@@ -825,12 +897,24 @@ const Advanced = () => {
                 <DatePicker
                   selected={startDate}
                   onChange={(date) => {
-                    setStartDate(date)
 
-                    setPubDate({
-                      startDate: dateToTimestamp(startDate),
-                      endDate: dateToTimestamp(startDate)
-                    })
+                    // We can only go ahead if the start date is less than the end date
+                    // or if the start date is equal to the end date
+                    if (dateToTimestamp(startDate) < dateToTimestamp(endDate) || dateToTimestamp(startDate) === dateToTimestamp(endDate)) {
+                      setStartDate(date)
+
+                      setPubDate({
+                        startDate: dateToTimestamp(startDate),
+                        endDate: dateToTimestamp(startDate)
+                      })
+                      setKey("custom_timeframe")
+                      setValue(pubDate)
+
+                      publication.key = key
+                      publication.value = value
+                      advancedObject.publication = publication
+                    }
+
                   }}
                   timeInputLabel="Time:"
                   dateFormat="MM-dd-yyyy h:mm aa"
@@ -849,6 +933,14 @@ const Advanced = () => {
                       startDate: dateToTimestamp(startDate),
                       endDate: dateToTimestamp(endDate),
                     })
+
+                    setKey("custom_timeframe")
+                    setValue(pubDate)
+
+                    publication.key = key
+                    publication.value = value
+                    advancedObject.publication = publication
+
                   }}
                   timeInputLabel="Time:"
                   dateFormat="MM-dd-yyyy h:mm aa"
