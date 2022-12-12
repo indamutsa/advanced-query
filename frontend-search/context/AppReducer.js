@@ -98,12 +98,16 @@ export const appReducer = (state, action) => {
       }
     }
 
-    case "script": {
-      return {
-        ...state,
-        script: action.value
+    case "script":
+    case "eol script":
+    case "eol script":
+      {
+        return {
+          ...state,
+          script: action.value
+        }
       }
-    }
+
 
     case "operationResult": {
       return {

@@ -29,7 +29,7 @@ const ServiceSelect = ({ handleClick }) => {
         <div className={styles.container} onClick={() => {
           setIsOpen(!isOpen);
         }}>
-          <div className={styles.field}>{items[0]}</div>
+          <div className={styles.field}>{item ? item : items[0]}</div>
           <div
 
             className={isOpen ? styles.dropImage : styles.rotate}

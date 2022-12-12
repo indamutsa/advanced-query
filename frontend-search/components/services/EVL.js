@@ -54,7 +54,6 @@ export default EVL;
 //     const sourceMM = await axios.get(`http://178.238.238.209:3200/store/artifact/metamodel/${sourceMMID}`)
 //     const targetMM = await axios.get(`http://178.238.238.209:3200/store/artifact/metamodel/${targetMMID}`)
 //     const script = await axios.get(`http://178.238.238.209:3200/store/artifact/script/${scriptID}`)
-
 //     // Creating request object
 //     let arr = [
 //       {
@@ -74,19 +73,15 @@ export default EVL;
 //         content: script.data.returnedData.content
 //       }
 //     ];
-
 //     // Executing the transformation
 //     const res = await axios.post("http://178.238.238.209:8085/mms/transform/str", arr)
 //     console.log(res.data);
-
 //     dispatch({ type: "operationResult", value: res.data })
-
 //     return res.data
 //   } catch (error) {
 //     dispatch({ type: "operationResult", value: error.message })
 //     return error.message
 //   }
-
 // }
 
 
