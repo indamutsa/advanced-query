@@ -45,20 +45,26 @@ const Result = () => {
     }
   };
 
+  const handleDataQ = async (page, limit) => {
+    try {
+      let res = await getAdvancedSearchData(state.advancedSearch)
+      setResults(res.advancedQuery.data);
+      setTotal(res.advancedQuery.total_hits);
+
+    } catch (error) {
+      console.log("Error occured: ", error.message)
+    }
+  };
+
+
   const handleData = async (page, limit) => {
     try {
-      let res;
-      if (state?.advancedSearch) {
-        res = await getAdvancedSearchData(state.advancedSearch)
-        setResults(res.advancedQuery.data);
-        setTotal(res.advancedQuery.total_hits);
-      }
-      else {
-        res = await getData(state?.searchQuery, page, limit, total);
-        setResults(res.query.data);
-        setTotal(res.query.total_hits);
-      }
-    } catch (error) {
+      let res
+      res = await getData(state?.searchQuery, page, limit, total);
+      setResults(res.query.data);
+      setTotal(res.query.total_hits);
+    }
+    catch (error) {
       console.log("Error occured: ", error.message)
     }
   };
@@ -67,7 +73,11 @@ const Result = () => {
 
   useEffect(() => {
     handleData()
-  }, [state?.searchQuery, state.advancedSearch])
+  }, [state?.searchQuery])
+
+  useEffect(() => {
+    handleDataQ()
+  }, [state?.advancedSearch])
 
 
   //===============
