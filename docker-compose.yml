@@ -391,6 +391,10 @@ services:
     networks:
       - search-engine
 
+
+# MODEL MANAGEMENT SERVICES
+# -------------------------
+
   model-transformation:
     container_name: etl-transformation
     image: indamutsa/etl-transformation:v1.2
@@ -402,9 +406,36 @@ services:
       - search-engine
     restart: on-failure   
 
+
+  model-validation:
+    container_name: evl-validation
+    image: indamutsa/model-validate-image:v1.2
+    ports:
+      - 8085:8085
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - search-engine
+    restart: on-failure   
+
+
+  model-query:
+    container_name: eol-query
+    image: indamutsa/model-query-image:v1.2
+    ports:
+      - 8085:8085
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - search-engine
+    restart: on-failure   
+
+
+# END OF MODEL MANAGEMENT SERVICES
+# --------------------------------
   frontend-search:
     container_name: frontend-search
-    image: indamutsa/frontend-search:v2.5
+    image: indamutsa/frontend-search:v2.6
     ports:
       - 3500:3500
     environment:
