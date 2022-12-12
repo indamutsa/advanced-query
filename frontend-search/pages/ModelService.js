@@ -48,35 +48,56 @@ const ModelService = () => {
   }
 
   const execTransfo = async () => {
-    // console.log(state.source_m, state.source_mm, state.target_mm, state.script);
-    // Creating request object
-
+    let res;
     try {
       setStatus(true);
 
-      let arr = [
+      let arrTrans = [
         {
-          name: sourceM.name,
-          content: sourceM.content
+          name: sourceM?.name,
+          content: sourceM?.content
         },
         {
-          name: sourceMM.name,
-          content: sourceMM.content
+          name: sourceMM?.name,
+          content: sourceMM?.content
         },
         {
-          name: targetMM.name,
-          content: targetMM.content
+          name: targetMM?.name,
+          content: targetMM?.content
         },
         {
-          name: script.name,
-          content: script.content
+          name: script?.name,
+          content: script?.content
         }
       ];
 
-      // Executing the transformation
-      const res = await axios.post("http://178.238.238.209:8085/mms/transform/str", arr)
+      let arrVQ = [
+        {
+          name: sourceM?.name,
+          content: sourceM?.content
+        },
+        {
+          name: sourceMM?.name,
+          content: sourceMM?.content
+        },
+        {
+          name: script?.name,
+          content: script?.content
+        }
+      ];
 
-      // console.log(res.status);
+
+      if (etl) {
+        res = await axios.post("http://178.238.238.209:8085/mms/transform/str", arrTrans)
+      }
+      else if (evl) {// Executing the validation
+        res = await axios.post("http://178.238.238.209:8086/mms/validate/str", arrVQ)
+      }
+      else if (eol) {// Executing the query
+        res = await axios.post("http://178.238.238.209:8087/mms/query/str", arrVQ)
+      }
+
+
       if (res.status === 201) {
         setStatus(false);
         setResult(res.data);
@@ -85,9 +106,8 @@ const ModelService = () => {
         setResult(res.data);
       }
     } catch (error) {
-      // console.log(error);
       setStatus(false);
-      setResult("Error occurred while executing the transformation\nPlease check your input!");
+      setResult("Error occurred while executing the operation\nPlease check your input!" + "\n" + error.response.data.message);
     }
   }
 
@@ -96,7 +116,7 @@ const ModelService = () => {
       <div className={status ? styles.spinner : styles.spinnerNone}>
         <div className={styles.spinnerBorder}>
           <Spinner type={"bars"} color={"#2c5b69"} />
-          <div style={{ backgroundColor: "white", padding: "5px 15px", display: "inline", margin: "" }}>Loading...</div>
+          <div className={styles.loading}>Loading...</div>
         </div>
       </div>
       <div>
@@ -128,3 +148,6 @@ const ModelService = () => {
 };
 
 export default ModelService;
+
+
+

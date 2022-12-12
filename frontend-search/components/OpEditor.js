@@ -49,7 +49,7 @@ const OpEditor = ({ artifact, onChangeSourceM }) => {
     const [name, setName] = useState("");
     const [input, setInput] = useState("")
 
-    const language = "xml"
+    const language = artifact?.includes("script") ? "" : "xml"
 
 
     const handler = useMemo(
@@ -59,7 +59,7 @@ const OpEditor = ({ artifact, onChangeSourceM }) => {
 
     const handleInput = (value) => {
         setInput(value)
-        console.log(value, "clicked....");
+        // console.log(value, "clicked....");
         // setInput(value)
     }
 
@@ -67,30 +67,49 @@ const OpEditor = ({ artifact, onChangeSourceM }) => {
 
     const getUrl = () => {
         switch (artifact) {
+
             case "Source model":
                 return {
                     url: "http://178.238.238.209:3200/store/artifact/model/",
                     type: "source_m",
                     extension: ".xmi"
                 };
+
             case "Source metamodel":
                 return {
                     url: "http://178.238.238.209:3200/store/artifact/metamodel/",
                     type: "source_mm",
                     extension: ".ecore"
                 };
+
             case "Target metamodel":
                 return {
                     url: "http://178.238.238.209:3200/store/artifact/metamodel/",
                     type: "target_mm",
                     extension: ".ecore"
                 };
+
             case "Script":
                 return {
                     url: "http://178.238.238.209:3200/store/artifact/script/",
                     type: "script",
                     extension: ".etl"
                 };
+
+            case "EVL Script":
+                return {
+                    url: "http://178.238.238.209:3200/store/artifact/script/",
+                    type: "script",
+                    extension: ".evl"
+                };
+
+            case "EOL Script":
+                return {
+                    url: "http://178.238.238.209:3200/store/artifact/script/",
+                    type: "script",
+                    extension: ".eol"
+                };
+
             default:
                 return "";
         }
@@ -172,7 +191,7 @@ const OpEditor = ({ artifact, onChangeSourceM }) => {
                         handler(editor);
                     }}
 
-                    value={formatXml(content)}
+                    value={artifact.includes("script") ? content : formatXml(content)}
                     options={{
                         lineWrapping: true,
                         lint: true,
