@@ -399,7 +399,7 @@ services:
     container_name: etl-transformation
     image: indamutsa/etl-transformation:v1.0
     ports:
-      - 8285:8085
+      - 8085:8085
     environment:
       - HOST=0.0.0.0
     networks:
@@ -411,7 +411,7 @@ services:
     container_name: evl-validation
     image: indamutsa/model-validate-image:v1.2
     ports:
-      - 8286:8086
+      - 8086:8086
     environment:
       - HOST=0.0.0.0
     networks:
@@ -423,7 +423,7 @@ services:
     container_name: eol-query
     image: indamutsa/model-query-image:v1.2
     ports:
-      - 8287:8087
+      - 8087:8087
     environment:
       - HOST=0.0.0.0
     networks:
@@ -435,7 +435,7 @@ services:
 # --------------------------------
   frontend-search:
     container_name: frontend-search
-    image: indamutsa/frontend-search:v2.7
+    image: indamutsa/frontend-search:v2.8
     ports:
       - 3500:3500
     environment:

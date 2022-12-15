@@ -31,13 +31,19 @@ const Result = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log("On submit....");
     try {
       setPage(0)
 
-      let searchQuery = inputRef.current.value;
-      dispatch({ type: "search-query", value: searchQuery });
+      let query = inputRef.current.value;
+      dispatch({
+        type: "search-query", value: {
+          query,
+          source: "result"
+        }
+      });
 
-      let res = await getData(state?.searchQuery);
+      let res = await getData(query);
       setResults(res.query.data);
       setTotal(res.query.total_hits);
     } catch (error) {
@@ -47,7 +53,7 @@ const Result = () => {
 
   const handleDataQ = async (page, limit) => {
     try {
-      let res = await getAdvancedSearchData(state.advancedSearch)
+      let res = await getAdvancedSearchData(state?.searchQuery?.query)
       setResults(res.advancedQuery.data);
       setTotal(res.advancedQuery.total_hits);
 
@@ -60,7 +66,7 @@ const Result = () => {
   const handleData = async (page, limit) => {
     try {
       let res
-      res = await getData(state?.searchQuery, page, limit, total);
+      res = await getData(state?.searchQuery?.query, page, limit, total);
       setResults(res.query.data);
       setTotal(res.query.total_hits);
     }
@@ -72,12 +78,24 @@ const Result = () => {
 
 
   useEffect(() => {
-    handleData()
+
+
+
+
+    if (state?.searchQuery?.source == "home") {
+      // console.log("Changed from hoome", state.searchQuery);
+      handleData()
+    }
+    else if (state?.searchQuery?.source == "advanced") {
+      // console.log("Changed from advanced", state.searchQuery);
+      handleDataQ()
+    }
   }, [state?.searchQuery])
 
-  useEffect(() => {
-    handleDataQ()
-  }, [state?.advancedSearch])
+  // useEffect(() => {
+  //   handleDataQ()
+  //   console.log("Advanced data", window.location.origin);
+  // }, [state?.advancedSearch])
 
 
   //===============
@@ -116,7 +134,7 @@ const Result = () => {
                 placeholder="Search artifacts..."
                 type="text"
                 required=""
-                defaultValue={state?.searchQuery}
+                defaultValue={typeof state?.searchQuery.query === "string" ? state?.searchQuery.query : ""}
                 ref={inputRef}
               />
             </form>

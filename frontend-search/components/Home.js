@@ -14,9 +14,14 @@ const Home = ({ data }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let searchQuery = inputRef.current.value;
+    let query = inputRef.current.value;
 
-    dispatch({ type: "search-query", value: searchQuery });
+    dispatch({
+      type: "search-query", value: {
+        query,
+        source: "home"
+      }
+    });
     router.push(`/result`);
   };
 
