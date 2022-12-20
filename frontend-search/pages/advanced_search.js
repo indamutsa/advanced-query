@@ -787,7 +787,15 @@ const Advanced = () => {
     else {
       // const data = await getAdvancedSearchData(advancedObject)
       // console.log(data, "data");
-      dispatch({ type: "SET_ADVANCED_SEARCH_DATA", payload: advancedObject })
+      // dispatch({ type: "SET_ADVANCED_SEARCH_DATA", payload: advancedObject })
+      dispatch({
+        type: "search-query", value: {
+          query: advancedObject,
+          source: "advanced"
+        }
+      })
+
+
       router.push("/result");
     }
   }

@@ -1,7 +1,7 @@
 export const initialState = {
   number: 0,
   str: "",
-  searchQuery: "",
+  searchQuery: {},
   dataType: "SELECT ALL",
   letter: "All",
   item: {},
