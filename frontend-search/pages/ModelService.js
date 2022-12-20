@@ -48,6 +48,7 @@ const ModelService = () => {
   }
 
   const execTransfo = async () => {
+    // console.log("clockdsd");
     let res;
     try {
       setStatus(true);
@@ -88,13 +89,14 @@ const ModelService = () => {
 
 
       if (etl) {
-        res = await axios.post("http://178.238.238.209:8285/mms/transform/str", arrTrans)
+        // console.log("Hekkoiwshjh", arrTrans);
+        res = await axios.post("http://178.238.238.209:8085/mms/transform/str", arrTrans)
       }
       else if (evl) {// Executing the validation
-        res = await axios.post("http://178.238.238.209:8286/mms/validate/str", arrVQ)
+        res = await axios.post("http://178.238.238.209:8086/mms/validate/str", arrVQ)
       }
       else if (eol) {// Executing the query
-        res = await axios.post("http://178.238.238.209:8287/mms/query/str", arrVQ)
+        res = await axios.post("http://178.238.238.209:8087/mms/query/str", arrVQ)
       }
 
 

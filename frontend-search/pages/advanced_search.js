@@ -289,7 +289,7 @@ export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
                 searchInputRef.current.value = "";
               }
               else
-                handler({
+                handleInput({
                   operator: itemOP,
                   field: getKeyByValue(contextData.dropdown, item),
                   value: searchInputRef.current.value,
@@ -478,7 +478,7 @@ const QualitySearcher = ({ handleClick, i, size, handleInputQ }) => {
                 return
               }
               else
-                handler({
+                handleInputQ({
                   operator: itemOP,
                   field: getKeyByVal(metrics, itemQ),
                   value: qualityInputRef.current.value,
@@ -559,7 +559,7 @@ const OptimalTransfo = ({ getInput }) => {
           placeholder="Enter selected field..."
           width={possibleTransData.size.inputwidth}
           ref={transInputRef}
-          onChange={() => { handler(transInputRef.current.value) }}
+          onChange={() => { getInput(transInputRef.current.value) }}
           onBlur={() => getInput(transInputRef.current.value)}
         />
       </SearchRect>
@@ -645,18 +645,15 @@ const Advanced = () => {
       if (i === 0) {
         setArrComp([...arrComp, ContextSearcher]);
       } else if (arrComp.length > 0) {
-        const arr1 = [...arrComp]
-        let ar = arr1.filter((item, index) => index !== i)
-        objArr.pop()
-        setArrComp(ar);
+        setArrComp(arrComp.filter((item, index) => index !== i));
+        setObjArr(objArr.filter((item, index) => index !== i))
       }
     } else {
       if (i === 0) {
         setArraComp([...arraComp, QualitySearcher]);
       } else if (arraComp.length > 0) {
-        const arr1 = [...arraComp]
-        let ar = arr1.filter((item, index) => index !== i)
-        setArraComp(ar);
+        setArraComp(arraComp.filter((item, index) => index !== i));
+        setObjArra(objArra.filter((item, index) => index !== i))
       }
     }
   };
@@ -668,20 +665,68 @@ const Advanced = () => {
 
   // make a function that replace an element object with a key from an array
   const replaceObject = (obj) => {
-    if (objArr?.length === 0) {
+    // Check if the object is already present in the array
+    if (objArr.length === 0) {
       setObjArr([...objArr, obj])
-    } else {
-      for (let i = 0; i < objArr?.length; i++) {
-        if (objArr[i].index === obj.index) {
-          objArr[i] = obj
-          setObjArr(objArr)
-          // console.log("found----------");
+      return
+    }
+
+    for (let i = 0; i < objArr.length; i++) {
+      if (objArr[i].index === obj.index) {
+        objArr[i] = obj
+        let a = removeDuplicateObjects(objArr)
+        setObjArr(a)
+        // console.log("found----------", objArr);
+        return
+      } else {
+        if (isDuplicate(obj, objArr)) {
+          {
+            let a = removeDuplicateObjects(objArr)
+            setObjArr([...objArr, obj])
+          }
+          // console.log("not found=========", objArr);
         } else {
-          setObjArr([...objArr, obj])
-          // console.log("not found=========");
+          let a = removeDuplicateObjects(objArr)
+          setObjArr(a)
+          // console.log(a);
+          console.log("already in array");
         }
       }
     }
+  }
+
+  // make a function that removes duplicate objects from an array in javascript by object index
+  function removeDuplicateObjects(arr) {
+    // Create a new array to store the unique objects
+    var uniqueArr = [];
+
+    // Loop through the input array
+    for (var i = 0; i < arr.length; i++) {
+      // Get the current object
+      var obj = arr[i];
+
+      // Check if the object is already in the unique array
+      var isUnique = uniqueArr.every(function (uniqueObj) {
+        return uniqueObj.index !== obj.index;
+      });
+
+      // If the object is unique, add it to the unique array
+      if (isUnique) {
+        uniqueArr.push(obj);
+      }
+    }
+
+    // Return the unique array
+    return uniqueArr;
+  }
+
+  // write test for the above function
+
+
+  function isDuplicate(obj, arr) {
+    // Create a new array to store the unique objects
+    let idx = arr.findIndex((item) => obj.index)
+    return idx !== -1 ? true : false
   }
 
   const handleInputQ = (obj) => {
@@ -690,17 +735,31 @@ const Advanced = () => {
   }
 
   const replaceObjectQ = (obj) => {
-    if (objArra?.length === 0) {
+    // Check if the object is already present in the array
+    if (objArra.length === 0) {
       setObjArra([...objArra, obj])
-    } else {
-      for (let i = 0; i < objArra?.length; i++) {
-        if (objArra[i].index === obj.index) {
-          objArra[i] = obj
-          setObjArra(objArra)
-          // console.log("found----------");
+      return
+    }
+
+    for (let i = 0; i < objArra.length; i++) {
+      if (objArra[i].index === obj.index) {
+        objArra[i] = obj
+        let a = removeDuplicateObjects(objArra)
+        setObjArra(a)
+        // console.log("found----------", objArra);
+        return
+      } else {
+        if (isDuplicate(obj, objArra)) {
+          {
+            let a = removeDuplicateObjects(objArra)
+            setObjArra([...objArra, obj])
+          }
+          // console.log("not found=========", objArra);
         } else {
-          setObjArra([...objArra, obj])
-          // console.log("not found=========");
+          let a = removeDuplicateObjects(objArra)
+          setObjArra(a)
+          // console.log(a);
+          console.log("already in array");
         }
       }
     }
@@ -794,8 +853,6 @@ const Advanced = () => {
           source: "advanced"
         }
       })
-
-
       router.push("/result");
     }
   }

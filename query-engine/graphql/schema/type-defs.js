@@ -30,7 +30,7 @@ const typeDefs = gql`
     # -------------Query----------------------
     query(microsyntax: String, from: Int=0, limit: Int=10): Data!
     # -------------Advanced Query----------------------
-    advancedQuery(object: GraphQLJSON): Data!
+    advancedQuery(object: GraphQLJSON, from: Int=0, limit: Int=10): Data!
   }
 
   """
