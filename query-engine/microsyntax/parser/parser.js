@@ -1,5 +1,4 @@
 // Since we are buiding a parser, we need to define nodes for the AST.
-
 const { InvalidToken } = require("../error/error");
 
 // THe number node
@@ -67,8 +66,8 @@ class Parser {
         this.tokens = tokens;
         this.token_index = -1;
         this.currentToken = null;
-        this.operators = ['TT_AND', 'TT_OR', 'TT_NOT', 'TT_SPACE', 'TT_COLON', 'TT_GREATER', 'TT_LESS', 'TT_EQUAL', 'TT_GREATER_EQUAL', 'TT_LESS_EQUAL'];
-        this.metricsOp = ['TT_GREATER', 'TT_LESS', 'TT_EQUAL', 'TT_GREATER_EQUAL', 'TT_LESS_EQUAL']
+        this.operators = ['TT_AND', 'TT_OR', 'TT_NOT', 'TT_SPACE', 'TT_COLON', 'TT_GREATER_THAN', 'TT_LESS_THAN', 'TT_EQUAL', 'TT_GREATER_THAN_EQUAL', 'TT_LESS_THAN_EQUAL'];
+        this.metricsOp = ['TT_GREATER_THAN', 'TT_LESS_THAN', 'TT_EQUAL', 'TT_GREATER_THAN_EQUAL', 'TT_LESS_THAN_EQUAL']
         this.advance();
     }
 
@@ -152,13 +151,17 @@ class Parser {
         // Return a metric node, it extracts the metric, operator and the value
         else if (token.type === 'TT_LBRAKET') {
             this.advance();
+            // this.currentToken.value = "(" + this.currentToken.value;
             let node = this.term();
             if (isInstanceOf(node, InvalidToken)) return { result: null, error: node }
 
             if (this.currentToken.type !== 'TT_RBRAKET') {
                 return new InvalidToken(this.currentToken, this.token_index, "Expected closing bracket!");
             }
+            // this.currentToken = this.currentToken.value + ")";
             this.advance();
+            node.arrowLeft = "(";
+            node.arrowRight = ")";
             return node;
         }
         // Return a metric node, it extracts the metric, operator and the value

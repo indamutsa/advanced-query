@@ -10,11 +10,11 @@ const { log } = console;
 // const query = "name1 name2 mc == 2 hasAttribute:value name:'value2'"
 // const query = "name1 AND name2 [ mc == 2 hasAttribute:value] name:'value2'"
 // const query = "23[23=="
-const query = "23.32 OR    78 AND 99    "
+const query = "(keyword1 keywo)rd2) keyword3 | keyword4 & keyword5"
 
-const Token = require("./lexer/token");
 const { Lexer } = require("./lexer/lexer");
-const { Parser, BinaryOperatorNode } = require("./parser/parser");
+const { Parser } = require("./parser/parser");
+const { Interpreter } = require("./interpreter/interpreter");
 let tokens = new Lexer(query).makeTokens();
 log(tokens);
 
@@ -23,23 +23,12 @@ if (Array.isArray(tokens)) {
     let { result, error } = parser.parse();
 
     log(result ? result : error);
-} else log(lexer);
 
+    if (result) {
 
-function printInorder(node) {
-    if (node == null)
-        return;
+        let interpreter = new Interpreter(result);
+        interpreter.visit(result);
+        log(interpreter.global_query)
+    }
 
-    /* first recur on left child */
-    printInorder(node.left);
-
-    /* then print the data of node */
-    log(isInstanceOf(node, BinaryOperatorNode) ? node.operator : node.token);
-
-    /* now recur on right child */
-    printInorder(node.right);
-}
-
-function isInstanceOf(obj, instance) {
-    return obj instanceof instance;
-}
+} else log(tokens);
