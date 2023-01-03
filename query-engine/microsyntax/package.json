@@ -1,0 +1,20 @@
+{
+  "name": "microsyntax",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "start": "node test.js",
+    "test": "jest --verbose",
+    "cover": "jest --coverage",
+    "testwatch": "jest --watchAll --verbose"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.3.1"
+  },
+  "dependencies": {
+    "axios": "^1.2.2"
+  }
+}
