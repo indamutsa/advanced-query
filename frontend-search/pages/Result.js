@@ -164,11 +164,11 @@ const Result = () => {
         </div>
         <div className={styles.result}>
 
-          {results.length !== 0 ? results.map((res, i) => (
+          {results?.length > 0 ? results?.map((res, i) => (
             <ResultBox key={i} data={res} />
           )) : (
             <div className={styles.noData}>
-              No data...
+              No data... Query might not be valid: {state?.searchQuery?.query}
             </div>)}
 
         </div>

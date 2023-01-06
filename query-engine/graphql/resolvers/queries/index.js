@@ -22,7 +22,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message
     }
   },
   // Advanced search query for the engine
@@ -46,7 +46,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
 
@@ -70,7 +70,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
 
@@ -93,7 +93,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
 
@@ -116,7 +116,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
 
@@ -139,7 +139,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
 
@@ -162,7 +162,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
 
@@ -185,7 +185,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
 
@@ -212,7 +212,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
 
@@ -235,7 +235,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
   project: async (parent, args, context, info) => {
@@ -257,7 +257,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
 
@@ -285,7 +285,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
 
@@ -317,7 +317,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
 
@@ -344,7 +344,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
   metamodelById: async (parent, args, context, info) => {
@@ -366,7 +366,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
   dslById: async (parent, args, context, info) => {
@@ -388,7 +388,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
   // ================================================================
@@ -417,7 +417,7 @@ const Query = {
 
       return data;
     } catch (err) {
-      console.log(err.message);
+      return err.message;
     }
   },
 
