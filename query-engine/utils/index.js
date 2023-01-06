@@ -1,3 +1,5 @@
+const { runMicroSyntax } = require("../microsyntax/main");
+
 const generateDroidQueryDsl = (body) => {
   let { ext, last, from, to, microsyntax, size } = body;
   if (!size) size = -1;
@@ -80,6 +82,7 @@ const mainQueryGenerator = (args) => {
   const { microsyntax, from, limit } = args;
   // console.log(args);
   let queryStr = microsyntax ? microsyntax : "";
+  let { res, err } = runMicroSyntax(queryStr);
 
   let requestObject = `
   {
@@ -101,7 +104,7 @@ const mainQueryGenerator = (args) => {
     "size": ${limit},
     "query": {
       "query_string": {
-        "query": "${queryStr}",
+        "query": "${res ? res : ")) -- we making sure that the query crashes if the microsyntax is not valid"}",
       }
     }
   }  

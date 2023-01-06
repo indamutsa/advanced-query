@@ -188,7 +188,7 @@ class Lexer {
         let dot_count = 0;
 
         // We are checking for a number with a decimal point
-        while (this.currentChar !== null && this.currentChar.match(/[0-9.]/)) {
+        while (this.currentChar !== null && this.currentChar.match(/[0-9\.]/)) {
             if (this.currentChar === '.') {
                 if (dot_count === 1) {
                     return new IllegalCharacterError(
@@ -217,6 +217,13 @@ class Lexer {
         let keyword = '';
         while (this.currentChar !== null &&
             this.currentChar.match(/[\w\d\,\.\/\;\%\|\`\?\"\+\&\|\!\(\)\{\}\^\"\=\<\>\~\*\?\\\-]/)) {
+            // console.log(this.input);
+
+            if (this.currentChar.match(/[\(\)\{\}\^\"]/) && this.input[this.pos == 0 ? this.pos : this.pos - 1] !== '\\')
+                return new IllegalCharacterError(
+                    this.currentChar, this.pos,
+                    `Invalid character in the sequence >> ${this.currentChar} << --`);
+
             keyword += this.currentChar;
             this.advance()
         }
