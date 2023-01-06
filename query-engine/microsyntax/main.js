@@ -20,6 +20,7 @@ const runMicroSyntax = (query) => {
     try {
 
         let tokens = new Lexer(query).makeTokens();
+        log(tokens)
         if (Array.isArray(tokens)) {
             let parser = new Parser(tokens);
             let { result, error } = parser.parse();
@@ -45,10 +46,10 @@ const runMicroSyntax = (query) => {
     }
 }
 
-// console.log(runMicroSyntax("(keyword)"))
+console.log(runMicroSyntax("[hello ]"))
 
 
-module.exports = { runMicroSyntax }
+// module.exports = { runMicroSyntax }
 
 // let tokens = new Lexer(query).makeTokens();
 // log(tokens);

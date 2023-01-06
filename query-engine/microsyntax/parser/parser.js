@@ -153,15 +153,16 @@ class Parser {
             this.advance();
             // this.currentToken.value = "(" + this.currentToken.value;
             let node = this.term();
+            node.arrowLeft = "(";
             if (isInstanceOf(node, InvalidToken)) return { result: null, error: node }
 
-            if (this.currentToken.type !== 'TT_RBRAKET') {
-                return new InvalidToken(this.currentToken, this.token_index, "Expected closing bracket!");
-            }
+            if (this.currentToken.type === 'TT_RBRAKET') {
+                node.arrowRight = ")";
+            } else return new InvalidToken(this.currentToken, this.token_index, "Expected closing bracket!");
+
             // this.currentToken = this.currentToken.value + ")";
             this.advance();
-            node.arrowLeft = "(";
-            node.arrowRight = ")";
+
             return node;
         }
         // Return a metric node, it extracts the metric, operator and the value

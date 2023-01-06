@@ -164,20 +164,20 @@ class Lexer {
         let i = 0;
         while (i < this.tokens.length) {
             if (this.tokens[i].type === 'TT_SPACE') {
-                if (['TT_RBRAKET', 'TT_EOF', 'TT_AND', 'TT_OR', 'TT_NOT', 'TT_COLON', 'TT_GREATER_THAN', 'TT_LESS_THAN'].includes(this.tokens[i + 1].type)) {
+                if (['TT_AND', 'TT_OR', 'TT_NOT', 'TT_COLON', 'TT_GREATER_THAN', 'TT_LESS_THAN'].includes(this.tokens[i + 1].type)) {
                     this.tokens.splice(i, 1);
                     continue;
                 }
-                // if (this.tokens[i].type === 'TT_SPACE') {
-                //     if (this.tokens[i + 1].type === 'TT_RBRAKET' || this.tokens[i + 1].type === 'TT_EOF') {
-                //         this.tokens.splice(i, 1);
-                //         continue;
-                //     }
-                // else if (this.tokens[i - 1].type === 'TT_QUOTE') {
-                //     this.tokens.splice(i, 1);
-                //     continue;
-                // }
+                else if (this.tokens[i + 1].type === 'TT_RBRAKET' || this.tokens[i + 1].type === 'TT_EOF') {
+                    this.tokens.splice(i, 1);
+                    continue;
+                }
+                else if (this.tokens[i - 1].type === 'TT_QUOTE') {
+                    this.tokens.splice(i, 1);
+                    continue;
+                }
             }
+
             i += 1;
         }
 
