@@ -46,10 +46,10 @@ const runMicroSyntax = (query) => {
     }
 }
 
-console.log(runMicroSyntax("[hello ]"))
+// console.log(runMicroSyntax("[hello ]"))
 
 
-// module.exports = { runMicroSyntax }
+module.exports = { runMicroSyntax }
 
 // let tokens = new Lexer(query).makeTokens();
 // log(tokens);
