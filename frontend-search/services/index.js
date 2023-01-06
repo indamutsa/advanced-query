@@ -54,13 +54,13 @@ export const getData = async (microsyntax, from, limit, total) => {
 
 
 // Advanced search
-export const getAdvancedSearchData = async (object) => {
+export const getAdvancedSearchData = async (object, from, limit, total) => {
   // let object = JSON.stringify(obj);
   // console.log(object)
 
   const query = gql`
-    query advancedSearchQuery($object: GraphQLJSON) {
-      advancedQuery(object: $object) {
+    query advancedSearchQuery($object: GraphQLJSON, $from: Int=0, $limit: Int=10) {
+      advancedQuery(object: $object, from: $from, limit: $limit) {
         status_code
         message
         success
@@ -101,7 +101,7 @@ export const getAdvancedSearchData = async (object) => {
     }
   `;
 
-  const result = await request(graphQLAPI, query, { object });
+  const result = await request(graphQLAPI, query, { object, from, limit });
 
   return result;
 };

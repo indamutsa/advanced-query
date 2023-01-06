@@ -89,7 +89,7 @@ const OpEditor = ({ artifact, onChangeSourceM }) => {
                     extension: ".ecore"
                 };
 
-            case "Script":
+            case "ETL Script":
                 return {
                     url: "http://178.238.238.209:3200/store/artifact/script/",
                     type: "script",
@@ -140,8 +140,10 @@ const OpEditor = ({ artifact, onChangeSourceM }) => {
 
             const { url } = getUrl(artifact);
             let returnedData = {}
-            if (input == "ID")
+            if (input == "ID") {
+                // console.log(inputVal);
                 returnedData = await axios.get(`${url}${inputVal}`);
+            }
             else if (input == "Artifact unique_name")
                 returnedData = await axios.get(`${url}${"unique_name"}`, { params: { unique_name: inputVal } });
             else if (input === 'Input type') {
@@ -156,7 +158,7 @@ const OpEditor = ({ artifact, onChangeSourceM }) => {
 
             return data_.returnedData;
         } catch (error) {
-            // console.log(error);
+            console.log(error);
             alert("Failed to fetch the artifact, \nPlease check input type and try again!");
 
         }

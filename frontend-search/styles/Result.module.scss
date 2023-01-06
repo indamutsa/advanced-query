@@ -83,6 +83,15 @@
     .result {
       margin-top: 3em;
       flex-direction: column;
+
+      .noData {
+        font-family: $montserrat;
+        font-size: 1.2em;
+        font-weight: 300;
+        color: rgba(0, 0, 0, 0.82);
+        text-align: center;
+        
+      }
     }
   }
 }

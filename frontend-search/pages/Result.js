@@ -12,7 +12,7 @@ const Result = () => {
   const { state, dispatch } = useAppContext();
   const inputRef = useRef();
   const [results, setResults] = useState([]);
-  const [total, setTotal] = useState()
+  const [total, setTotal] = useState(0)
   const [page, setPage] = useState(0)
   const [limit, setLimit] = useState(10)
 
@@ -53,7 +53,8 @@ const Result = () => {
 
   const handleDataQ = async (page, limit) => {
     try {
-      let res = await getAdvancedSearchData(state?.searchQuery?.query)
+      let res = await getAdvancedSearchData(state?.searchQuery?.query, page, limit, total)
+      // console.log(res);
       setResults(res.advancedQuery.data);
       setTotal(res.advancedQuery.total_hits);
 
@@ -61,7 +62,6 @@ const Result = () => {
       console.log("Error occured: ", error.message)
     }
   };
-
 
   const handleData = async (page, limit) => {
     try {
@@ -75,13 +75,7 @@ const Result = () => {
     }
   };
 
-
-
   useEffect(() => {
-
-
-
-
     if (state?.searchQuery?.source == "home") {
       // console.log("Changed from hoome", state.searchQuery);
       handleData()
@@ -92,12 +86,6 @@ const Result = () => {
     }
   }, [state?.searchQuery])
 
-  // useEffect(() => {
-  //   handleDataQ()
-  //   console.log("Advanced data", window.location.origin);
-  // }, [state?.advancedSearch])
-
-
   //===============
 
   const goPrevious = async () => {
@@ -106,19 +94,36 @@ const Result = () => {
     }
 
     setPage(page <= 0 ? pages.length - 1 : page - 1)
-    await handleData(pages[page] == 0 ? 1 : pages[page], limit)
+    if (state?.searchQuery?.source == "home") {
+      // console.log("Changed from hoome", state.searchQuery);
+      // handleData()
+      await handleData(pages[page] == 0 ? 1 : pages[page], limit)
+    }
+    else if (state?.searchQuery?.source == "advanced") {
+      // console.log("Changed from advanced", state.searchQuery);
+      handleDataQ()
+      await handleDataQ(pages[page] == 0 ? 1 : pages[page], limit)
+    }
+    // await handleData(pages[page] == 0 ? 1 : pages[page], limit)
   }
 
   // ====================
   const goNext = async () => {
-
-    // console.log(page, "===========", pages[page]);
     if (total == 0) {
       alert("No next page")
     }
-
     setPage(pages[page] + limit > total ? 0 : page + 1)
-    await handleData(pages[page] == 0 ? 1 : pages[page], limit)
+    if (state?.searchQuery?.source == "home") {
+      // console.log("Changed from hoome", state.searchQuery);
+      // handleData()
+      await handleData(pages[page] == 0 ? 1 : pages[page], limit)
+    }
+    else if (state?.searchQuery?.source == "advanced") {
+      // console.log("Changed from advanced", state.searchQuery);
+      handleDataQ()
+      await handleDataQ(pages[page] == 0 ? 1 : pages[page], limit)
+    }
+    // await handleData(pages[page] == 0 ? 1 : pages[page], limit)
   }
 
   return (
@@ -149,7 +154,9 @@ const Result = () => {
             />
           </div>
           <div className={styles.metaResults}>
-            <div className={styles.total}>Total: {total}</div>
+            <div className={styles.total}>
+              Total: {total}
+            </div>
             <Link href="/advanced-search" passHref>
               <div className={styles.advanced}>Advanced Search</div>
             </Link>
@@ -157,9 +164,12 @@ const Result = () => {
         </div>
         <div className={styles.result}>
 
-          {results && results.map((res, i) => (
+          {results.length !== 0 ? results.map((res, i) => (
             <ResultBox key={i} data={res} />
-          ))}
+          )) : (
+            <div className={styles.noData}>
+              No data...
+            </div>)}
 
         </div>
         <div>

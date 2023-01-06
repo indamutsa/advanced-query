@@ -10,7 +10,6 @@ const { generateDroidQueryDsl, mainQueryGenerator, advancedQueryGenerator } = re
 module.exports = {
   async search(body) {
     const requestBody = mainQueryGenerator(body);
-    // console.log(requestBody);
 
     let index = `mdeforge.dsls,mdeforge.metamodels,mdeforge.models`;
     let data = await client.search({

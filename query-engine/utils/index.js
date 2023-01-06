@@ -156,14 +156,14 @@ const queryType = (operator) => {
 // Advanced Query Generator
 const advancedQueryGenerator = (args) => {
   // For now optimal transformation is not used
-  let requestObject = jsonBuilder(args.object);
+  let requestObject = jsonBuilder(args);
   requestObject = fixJSON(requestObject);
 
   // console.log("Request Object: ", requestObject);
   return requestObject;
 };
 
-function jsonBuilder(object) {
+function jsonBuilder(args) {
 
   let jsonSearchContext = "";
   let jsonQualityAssessment = "";
@@ -171,7 +171,9 @@ function jsonBuilder(object) {
   let contextualSearch = ""
   let flip = false
 
-  let { searchContext, publication, qualityAssessment } = object;
+  let { searchContext, publication, qualityAssessment } = args.object;
+  let { from, limit } = args;
+  // console.log("Object: ", args);
 
 
   if (searchContext) {
@@ -229,6 +231,8 @@ function jsonBuilder(object) {
       "ext",
       "project"
       ],
+    "from": ${from},
+    "size": ${limit},
     "query": {
       "bool": {
         "must": [

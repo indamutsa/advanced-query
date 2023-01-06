@@ -32,7 +32,7 @@ export const appReducer = (state, action) => {
     }
 
     case "search-query": {
-      // state.str = action.value;
+      // console.log(action);
       return {
         ...state,
         searchQuery: action.value,
