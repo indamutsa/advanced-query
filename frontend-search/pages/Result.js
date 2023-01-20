@@ -37,15 +37,18 @@ const Result = () => {
 
       let query = inputRef.current.value;
       dispatch({
-        type: "search-query", value: {
+        type: "search-query",
+        value: {
           query,
           source: "result"
         }
       });
 
       let res = await getData(query);
+
       setResults(res.query.data);
       setTotal(res.query.total_hits);
+
     } catch (error) {
       alert("Error occured: ", error.message)
     }
@@ -54,9 +57,10 @@ const Result = () => {
   const handleDataQ = async (page, limit) => {
     try {
       let res = await getAdvancedSearchData(state?.searchQuery?.query, page, limit, total)
-      // console.log(res);
+
       setResults(res.advancedQuery.data);
       setTotal(res.advancedQuery.total_hits);
+      // console.log(results);
 
     } catch (error) {
       console.log("Error occured: ", error.message)
@@ -67,6 +71,7 @@ const Result = () => {
     try {
       let res
       res = await getData(state?.searchQuery?.query, page, limit, total);
+
       setResults(res.query.data);
       setTotal(res.query.total_hits);
     }
@@ -101,7 +106,7 @@ const Result = () => {
     }
     else if (state?.searchQuery?.source == "advanced") {
       // console.log("Changed from advanced", state.searchQuery);
-      handleDataQ()
+      // handleDataQ()
       await handleDataQ(pages[page] == 0 ? 1 : pages[page], limit)
     }
     // await handleData(pages[page] == 0 ? 1 : pages[page], limit)
@@ -120,7 +125,7 @@ const Result = () => {
     }
     else if (state?.searchQuery?.source == "advanced") {
       // console.log("Changed from advanced", state.searchQuery);
-      handleDataQ()
+      // handleDataQ()
       await handleDataQ(pages[page] == 0 ? 1 : pages[page], limit)
     }
     // await handleData(pages[page] == 0 ? 1 : pages[page], limit)
@@ -164,11 +169,11 @@ const Result = () => {
         </div>
         <div className={styles.result}>
 
-          {results?.length > 0 ? results?.map((res, i) => (
+          {results.length > 0 ? results.map((res, i) => (
             <ResultBox key={i} data={res} />
           )) : (
             <div className={styles.noData}>
-              No data... Query might not be valid: {state?.searchQuery?.query}
+              No data... Try to tune your query: {state?.searchQuery?.source == "home" ? state?.searchQuery?.query : "Advanced Search"}
             </div>)}
 
         </div>

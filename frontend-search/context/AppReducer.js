@@ -25,6 +25,7 @@ export const appReducer = (state, action) => {
     }
 
     case "SET_ADVANCED_SEARCH_DATA": {
+
       return {
         ...state,
         advancedSearch: action.payload

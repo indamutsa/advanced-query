@@ -119,6 +119,9 @@ const getKeyByVal = (obj, value) => {
   return Object.keys(obj).filter(key => obj[key].name === value)[0];
 };
 
+
+
+
 export const ContextSearcher = ({ handleClick, i, size, handleInput }) => {
 
   const [isOpen, setIsOpen] = useState(false);
@@ -603,6 +606,8 @@ const Advanced = () => {
   const [objArra, setObjArra] = useState([]);
   const [optimalMetamodel, setOptimalMetamodel] = useState("");
 
+
+
   // Radio buttons
   const [allDate, setAllDate] = useState(true)
   const [specificDate, setSpecificDate] = useState(true)
@@ -639,6 +644,7 @@ const Advanced = () => {
       value,
     },
   }
+
 
   const handleClick = (i, mk) => {
     if (mk) {
