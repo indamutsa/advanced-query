@@ -28,7 +28,7 @@ const options = {
       title: "MDEForge Persistence API documentation",
       version: "1.0.0",
       description:
-        "This is the documentation of persistence api of MDEForge repository! It uses openapi 3.0 specification with swagger 2.0",
+        "This is the documentation of persistence api of MDEForge repository! It uses openapi 3.0 specification",
     },
     servers: [
       {
