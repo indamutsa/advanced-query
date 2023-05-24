@@ -37,5 +37,5 @@ TAG: 'TT_TAG';
 METRIC: 'TT_METRIC';
 SPACE: ' ';
 STRING:
-	~('\'')+; // Sequence of characters excluding single quotes
+	~('\'' | ' ')+; // Sequence of characters excluding single quote and spaces
 
