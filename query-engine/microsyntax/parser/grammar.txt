@@ -1,9 +1,0 @@
-expr : term((PLUS|MINUS) term)*
-term : factor ((MUL|DIV) factor)*
-
-factor: INT|FLOAT
-
-----------------------------------------------------------------
-
-factor: (KEYWORD | NUMBER , SPACE )*
-TAG_TERM: (TAG,(SPACE)*, COLON,(SPACE)*, FACTOR)*
