@@ -1,0 +1,57 @@
+# --------------------------------------------------------------------------------------
+
+search_query       ::= term EOF
+term               ::= factor (operator factor)*
+factor             ::= number | keyword | tag | metric | exact_keyword | '(' term ')'
+operator           ::= 'AND' | 'OR' | 'NOT' | space | ':' | '>' | '<' | '=' | '>=' | '<='
+keyword            ::= 'TT_KEYWORD'
+number             ::= 'TT_NUMBER'
+tag                ::= 'TT_TAG' ':' tag_value
+tag_value          ::= keyword | number | exact_keyword 
+metric             ::= 'TT_METRIC' metric_operator number
+metric_operator    ::= '>' | '<' | '=' | '>=' | '<='
+exact_keyword      ::= "'" string "'"
+string             ::= sequence of characters excluding single quotes
+space              ::= 'TT_SPACE'
+EOF                ::= End of input
+
+Constraints:
+1. The search_query should start with a valid token
+2. The search_query should not end with 'AND', 'OR', or 'NOT' or any other operator.
+3. In a metric expression, the metric_operator must be followed by a number because the quality metrics are numerical values.
+4. Tag expressions should have a colon ':' followed by a valid tag_value.
+
+# --------------------------------------------------------------------------------------
+
+METRICS = [
+    "acfmc", "aiflmc", "amc",
+    "attr", "attrh", "avgattr",
+    "avgref", "ccfmc", "cflmc",
+    "ciflmc", "cmc", "iflmc",
+    "lmc", "maxhl", "maxhs",
+    "mc", "mcwsp", "mtnb",
+    "rec_cont", "ref", "refcc",
+    "refeop", "sf", "sfh"
+]
+
+TAG = [
+    "accessControl",
+    "content",
+    "createdAt",
+    "description",
+    "ext",
+    "involvedOperations",
+    "license",
+    "name",
+    "project",
+    "size",
+    "storageUrl",
+    "type",
+    "unique_name",
+    "updatedAt",
+    "conformsTo",
+    "hasAttribute",
+    "isTransformable"
+]
+
+# --------------------------------------------------------------------------------------
