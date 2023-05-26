@@ -446,12 +446,14 @@ instead of `elasticsearch`._
 
 ![My Image](figures/querydia.jpg)
 
+
+elastic: http://178.238.238.209:5601/app/home#/ https://178.238.238.209.sslip.io     
+
 etl transformation: http://178.238.238.209:8085/mms/api-docs/transform
 etl query: http://178.238.238.209:8087/mms/api-docs/query
 etl metrics: http://178.238.238.209:8186/mms/api-docs/metrics
 etl validate: http://178.238.238.209:8086/mms/api-docs/validate
-api http://178.238.238.209:3200/store/api-docs/
+api http://178.238.238.209:3200/store/api-docs/ https://178.238.238.209.sslip.io/repo/store/api-docs/
 
 
-https://178.238.238.209.sslip.io/dtbs
-mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false
+mongodb://178.238.238.209:27019/mdeforge
