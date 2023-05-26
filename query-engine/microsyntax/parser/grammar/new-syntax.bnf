@@ -9,8 +9,8 @@ text = KEYWORD | NUMBER | exactText ;
 exactText = QUOTE, KEYWORD, { SPACE, KEYWORD }, QUOTE ; 
 tag = ( TAG_ID | NUMERICAL_TAG_ID ), "=", tagValue ;
 tagValue = KEYWORD | NUMBER | exactText ;
-expression = numericalExpr | metric_EXPR ;
-metric_EXPR = METRIC_ID, operator, NUMBER ; 
+expression = numericalExpr | metricExpr ;
+metricExpr = METRIC_ID, operator, NUMBER ; 
 numericalExpr = NUMERICAL_TAG_ID, operator, NUMBER ;
 
 TAG_ID = 
