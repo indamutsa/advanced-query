@@ -20,3 +20,12 @@ We also made use of the official es client for Node JS (`https://elastic-builder
 
 
 Please, open an issue, if you run into one. Thanks...
+
+
+
+
+etl transformation: http://178.238.238.209:8085/mms/api-docs/transform
+etl query: http://178.238.238.209:8087/mms/api-docs/query
+etl metrics: http://178.238.238.209:8186/mms/api-docs/metrics
+etl validate: http://178.238.238.209:8086/mms/api-docs/validate
+api http://178.238.238.209:3200/store/api-docs/
