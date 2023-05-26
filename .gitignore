@@ -34,3 +34,4 @@ persistence-api/node_modules
 query-engine/node_modules
 query-dsl/dsl_frontend/node_modules
 query-dsl/dsl_backend/node_modules
+.vercel
