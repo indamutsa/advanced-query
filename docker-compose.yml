@@ -214,7 +214,7 @@ services:
     image: mongo:4.2
     command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017 --bind_ip_all
     ports:
-      - 27017:27017
+      - 27018:27017
     expose:
       - "27017"
     environment:

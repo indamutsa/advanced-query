@@ -64,3 +64,10 @@ ACCEPT     tcp  --  anywhere             172.20.0.19          tcp dpt:5000
 ACCEPT     udp  --  anywhere             172.20.0.19          udp dpt:5000
 ACCEPT     tcp  --  anywhere             172.20.0.25          tcp dpt:3300
 ACCEPT     tcp  --  anywhere             172.20.0.26          tcp dpt:3200
+
+elastic api: https://178.238.238.209.sslip.io/repo/elastic/mdeforge.metamodels/_search
+kibana: https://178.238.238.209.sslip.io/
+
+
+
+connect to mongo: mongodb://178.238.238.209:27018/db?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false
