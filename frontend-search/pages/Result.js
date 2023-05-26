@@ -81,6 +81,8 @@ const Result = () => {
   };
 
   useEffect(() => {
+    // console.log("Page changed: ", results);
+
     if (state?.searchQuery?.source == "home") {
       // console.log("Changed from hoome", state.searchQuery);
       handleData()
@@ -92,7 +94,6 @@ const Result = () => {
   }, [state?.searchQuery])
 
   //===============
-
   const goPrevious = async () => {
     if (total == 0) {
       alert("No previous page")
