@@ -1,4 +1,4 @@
-// Generated from /home/arsene/Project/school-projects/mdeforge/advanced-query/query-engine/microsyntax/parser/SearchQuery.g4 by ANTLR 4.9.2
+// Generated from /home/arsene/Project/school-projects/mdeforge/advanced-query/query-engine/microsyntax/parser/grammar/SearchQuery.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -16,9 +16,9 @@ public class SearchQueryLexer extends Lexer {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, T__11=12, KEYWORD=13, NUMBER=14, TAG=15, METRIC=16, 
-		SPACE=17, STRING=18;
+		T__0=1, T__1=2, AND=3, OR=4, NOT=5, COLON=6, GT=7, LT=8, EQ=9, GTE=10, 
+		LTE=11, KEYWORD=12, NUMBER=13, TAG=14, METRIC=15, SPACE=16, QUOTE=17, 
+		STRING=18;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -29,9 +29,8 @@ public class SearchQueryLexer extends Lexer {
 
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
-			"T__9", "T__10", "T__11", "KEYWORD", "NUMBER", "TAG", "METRIC", "SPACE", 
-			"STRING"
+			"T__0", "T__1", "AND", "OR", "NOT", "COLON", "GT", "LT", "EQ", "GTE", 
+			"LTE", "KEYWORD", "NUMBER", "TAG", "METRIC", "SPACE", "QUOTE", "STRING"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -39,14 +38,14 @@ public class SearchQueryLexer extends Lexer {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'('", "')'", "'AND'", "'OR'", "'NOT'", "':'", "'>'", "'<'", "'='", 
-			"'>='", "'<='", "'''", null, null, "'TT_TAG'", "'TT_METRIC'", "' '"
+			"'>='", "'<='", null, null, "'TT_TAG'", "'TT_METRIC'", "' '", "'''"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, "KEYWORD", "NUMBER", "TAG", "METRIC", "SPACE", "STRING"
+			null, null, null, "AND", "OR", "NOT", "COLON", "GT", "LT", "EQ", "GTE", 
+			"LTE", "KEYWORD", "NUMBER", "TAG", "METRIC", "SPACE", "QUOTE", "STRING"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -108,33 +107,33 @@ public class SearchQueryLexer extends Lexer {
 	public ATN getATN() { return _ATN; }
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\2\24j\b\1\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\2\24l\b\1\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\3\2\3\2\3\3\3\3\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\6\3\6\3\6\3\6"+
 		"\3\7\3\7\3\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\3\13\3\f\3\f\3\f\3\r\3\r\3"+
-		"\16\3\16\3\16\6\16J\n\16\r\16\16\16K\3\17\6\17O\n\17\r\17\16\17P\3\20"+
-		"\3\20\3\20\3\20\3\20\3\20\3\20\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21"+
-		"\3\21\3\21\3\22\3\22\3\23\6\23g\n\23\r\23\16\23h\2\2\24\3\3\5\4\7\5\t"+
-		"\6\13\7\r\b\17\t\21\n\23\13\25\f\27\r\31\16\33\17\35\20\37\21!\22#\23"+
-		"%\24\3\2\5\6\2\62;C\\aac|\3\2\62;\4\2\"\"))\2m\2\3\3\2\2\2\2\5\3\2\2\2"+
-		"\2\7\3\2\2\2\2\t\3\2\2\2\2\13\3\2\2\2\2\r\3\2\2\2\2\17\3\2\2\2\2\21\3"+
-		"\2\2\2\2\23\3\2\2\2\2\25\3\2\2\2\2\27\3\2\2\2\2\31\3\2\2\2\2\33\3\2\2"+
-		"\2\2\35\3\2\2\2\2\37\3\2\2\2\2!\3\2\2\2\2#\3\2\2\2\2%\3\2\2\2\3\'\3\2"+
-		"\2\2\5)\3\2\2\2\7+\3\2\2\2\t/\3\2\2\2\13\62\3\2\2\2\r\66\3\2\2\2\178\3"+
-		"\2\2\2\21:\3\2\2\2\23<\3\2\2\2\25>\3\2\2\2\27A\3\2\2\2\31D\3\2\2\2\33"+
-		"I\3\2\2\2\35N\3\2\2\2\37R\3\2\2\2!Y\3\2\2\2#c\3\2\2\2%f\3\2\2\2\'(\7*"+
-		"\2\2(\4\3\2\2\2)*\7+\2\2*\6\3\2\2\2+,\7C\2\2,-\7P\2\2-.\7F\2\2.\b\3\2"+
-		"\2\2/\60\7Q\2\2\60\61\7T\2\2\61\n\3\2\2\2\62\63\7P\2\2\63\64\7Q\2\2\64"+
-		"\65\7V\2\2\65\f\3\2\2\2\66\67\7<\2\2\67\16\3\2\2\289\7@\2\29\20\3\2\2"+
-		"\2:;\7>\2\2;\22\3\2\2\2<=\7?\2\2=\24\3\2\2\2>?\7@\2\2?@\7?\2\2@\26\3\2"+
-		"\2\2AB\7>\2\2BC\7?\2\2C\30\3\2\2\2DE\7)\2\2E\32\3\2\2\2FJ\t\2\2\2GH\7"+
-		"^\2\2HJ\13\2\2\2IF\3\2\2\2IG\3\2\2\2JK\3\2\2\2KI\3\2\2\2KL\3\2\2\2L\34"+
-		"\3\2\2\2MO\t\3\2\2NM\3\2\2\2OP\3\2\2\2PN\3\2\2\2PQ\3\2\2\2Q\36\3\2\2\2"+
-		"RS\7V\2\2ST\7V\2\2TU\7a\2\2UV\7V\2\2VW\7C\2\2WX\7I\2\2X \3\2\2\2YZ\7V"+
-		"\2\2Z[\7V\2\2[\\\7a\2\2\\]\7O\2\2]^\7G\2\2^_\7V\2\2_`\7T\2\2`a\7K\2\2"+
-		"ab\7E\2\2b\"\3\2\2\2cd\7\"\2\2d$\3\2\2\2eg\n\4\2\2fe\3\2\2\2gh\3\2\2\2"+
-		"hf\3\2\2\2hi\3\2\2\2i&\3\2\2\2\7\2IKPh\2";
+		"\r\3\r\7\rI\n\r\f\r\16\rL\13\r\3\16\6\16O\n\16\r\16\16\16P\3\17\3\17\3"+
+		"\17\3\17\3\17\3\17\3\17\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3"+
+		"\20\3\21\3\21\3\22\3\22\3\23\6\23i\n\23\r\23\16\23j\2\2\24\3\3\5\4\7\5"+
+		"\t\6\13\7\r\b\17\t\21\n\23\13\25\f\27\r\31\16\33\17\35\20\37\21!\22#\23"+
+		"%\24\3\2\4\3\2\62;\3\2))\2n\2\3\3\2\2\2\2\5\3\2\2\2\2\7\3\2\2\2\2\t\3"+
+		"\2\2\2\2\13\3\2\2\2\2\r\3\2\2\2\2\17\3\2\2\2\2\21\3\2\2\2\2\23\3\2\2\2"+
+		"\2\25\3\2\2\2\2\27\3\2\2\2\2\31\3\2\2\2\2\33\3\2\2\2\2\35\3\2\2\2\2\37"+
+		"\3\2\2\2\2!\3\2\2\2\2#\3\2\2\2\2%\3\2\2\2\3\'\3\2\2\2\5)\3\2\2\2\7+\3"+
+		"\2\2\2\t/\3\2\2\2\13\62\3\2\2\2\r\66\3\2\2\2\178\3\2\2\2\21:\3\2\2\2\23"+
+		"<\3\2\2\2\25>\3\2\2\2\27A\3\2\2\2\31D\3\2\2\2\33N\3\2\2\2\35R\3\2\2\2"+
+		"\37Y\3\2\2\2!c\3\2\2\2#e\3\2\2\2%h\3\2\2\2\'(\7*\2\2(\4\3\2\2\2)*\7+\2"+
+		"\2*\6\3\2\2\2+,\7C\2\2,-\7P\2\2-.\7F\2\2.\b\3\2\2\2/\60\7Q\2\2\60\61\7"+
+		"T\2\2\61\n\3\2\2\2\62\63\7P\2\2\63\64\7Q\2\2\64\65\7V\2\2\65\f\3\2\2\2"+
+		"\66\67\7<\2\2\67\16\3\2\2\289\7@\2\29\20\3\2\2\2:;\7>\2\2;\22\3\2\2\2"+
+		"<=\7?\2\2=\24\3\2\2\2>?\7@\2\2?@\7?\2\2@\26\3\2\2\2AB\7>\2\2BC\7?\2\2"+
+		"C\30\3\2\2\2DJ\5%\23\2EF\5!\21\2FG\5%\23\2GI\3\2\2\2HE\3\2\2\2IL\3\2\2"+
+		"\2JH\3\2\2\2JK\3\2\2\2K\32\3\2\2\2LJ\3\2\2\2MO\t\2\2\2NM\3\2\2\2OP\3\2"+
+		"\2\2PN\3\2\2\2PQ\3\2\2\2Q\34\3\2\2\2RS\7V\2\2ST\7V\2\2TU\7a\2\2UV\7V\2"+
+		"\2VW\7C\2\2WX\7I\2\2X\36\3\2\2\2YZ\7V\2\2Z[\7V\2\2[\\\7a\2\2\\]\7O\2\2"+
+		"]^\7G\2\2^_\7V\2\2_`\7T\2\2`a\7K\2\2ab\7E\2\2b \3\2\2\2cd\7\"\2\2d\"\3"+
+		"\2\2\2ef\7)\2\2f$\3\2\2\2gi\n\3\2\2hg\3\2\2\2ij\3\2\2\2jh\3\2\2\2jk\3"+
+		"\2\2\2k&\3\2\2\2\6\2JPj\2";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

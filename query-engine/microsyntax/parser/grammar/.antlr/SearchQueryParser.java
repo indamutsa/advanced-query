@@ -1,4 +1,4 @@
-// Generated from /home/arsene/Project/school-projects/mdeforge/advanced-query/query-engine/microsyntax/parser/SearchQuery.g4 by ANTLR 4.9.2
+// Generated from /home/arsene/Project/school-projects/mdeforge/advanced-query/query-engine/microsyntax/parser/grammar/SearchQuery.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -16,17 +16,17 @@ public class SearchQueryParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, T__11=12, KEYWORD=13, NUMBER=14, TAG=15, METRIC=16, 
-		SPACE=17, STRING=18;
+		T__0=1, T__1=2, AND=3, OR=4, NOT=5, COLON=6, GT=7, LT=8, EQ=9, GTE=10, 
+		LTE=11, KEYWORD=12, NUMBER=13, TAG=14, METRIC=15, SPACE=16, QUOTE=17, 
+		STRING=18;
 	public static final int
 		RULE_searchQuery = 0, RULE_term = 1, RULE_factor = 2, RULE_operator = 3, 
 		RULE_keyword = 4, RULE_number = 5, RULE_tag = 6, RULE_tagValue = 7, RULE_metric = 8, 
-		RULE_metricOperator = 9, RULE_exactKeyword = 10, RULE_string = 11, RULE_space = 12;
+		RULE_metricOperator = 9, RULE_exactKeyword = 10;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"searchQuery", "term", "factor", "operator", "keyword", "number", "tag", 
-			"tagValue", "metric", "metricOperator", "exactKeyword", "string", "space"
+			"tagValue", "metric", "metricOperator", "exactKeyword"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -34,14 +34,14 @@ public class SearchQueryParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'('", "')'", "'AND'", "'OR'", "'NOT'", "':'", "'>'", "'<'", "'='", 
-			"'>='", "'<='", "'''", null, null, "'TT_TAG'", "'TT_METRIC'", "' '"
+			"'>='", "'<='", null, null, "'TT_TAG'", "'TT_METRIC'", "' '", "'''"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, "KEYWORD", "NUMBER", "TAG", "METRIC", "SPACE", "STRING"
+			null, null, null, "AND", "OR", "NOT", "COLON", "GT", "LT", "EQ", "GTE", 
+			"LTE", "KEYWORD", "NUMBER", "TAG", "METRIC", "SPACE", "QUOTE", "STRING"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -112,9 +112,9 @@ public class SearchQueryParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(26);
+			setState(22);
 			term();
-			setState(27);
+			setState(23);
 			match(EOF);
 			}
 		}
@@ -155,21 +155,21 @@ public class SearchQueryParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29);
+			setState(25);
 			factor();
-			setState(35);
+			setState(31);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__3) | (1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__10) | (1L << SPACE))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << AND) | (1L << OR) | (1L << NOT) | (1L << COLON) | (1L << GT) | (1L << LT) | (1L << EQ) | (1L << GTE) | (1L << LTE) | (1L << SPACE))) != 0)) {
 				{
 				{
-				setState(30);
+				setState(26);
 				operator();
-				setState(31);
+				setState(27);
 				factor();
 				}
 				}
-				setState(37);
+				setState(33);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -211,52 +211,52 @@ public class SearchQueryParser extends Parser {
 		FactorContext _localctx = new FactorContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_factor);
 		try {
-			setState(47);
+			setState(43);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case NUMBER:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(38);
+				setState(34);
 				match(NUMBER);
 				}
 				break;
 			case KEYWORD:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(39);
+				setState(35);
 				match(KEYWORD);
 				}
 				break;
 			case TAG:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(40);
+				setState(36);
 				tag();
 				}
 				break;
 			case METRIC:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(41);
+				setState(37);
 				metric();
 				}
 				break;
-			case T__11:
+			case QUOTE:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(42);
+				setState(38);
 				exactKeyword();
 				}
 				break;
 			case T__0:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(43);
+				setState(39);
 				match(T__0);
-				setState(44);
+				setState(40);
 				term();
-				setState(45);
+				setState(41);
 				match(T__1);
 				}
 				break;
@@ -276,7 +276,16 @@ public class SearchQueryParser extends Parser {
 	}
 
 	public static class OperatorContext extends ParserRuleContext {
+		public TerminalNode AND() { return getToken(SearchQueryParser.AND, 0); }
+		public TerminalNode OR() { return getToken(SearchQueryParser.OR, 0); }
+		public TerminalNode NOT() { return getToken(SearchQueryParser.NOT, 0); }
 		public TerminalNode SPACE() { return getToken(SearchQueryParser.SPACE, 0); }
+		public TerminalNode COLON() { return getToken(SearchQueryParser.COLON, 0); }
+		public TerminalNode GT() { return getToken(SearchQueryParser.GT, 0); }
+		public TerminalNode LT() { return getToken(SearchQueryParser.LT, 0); }
+		public TerminalNode EQ() { return getToken(SearchQueryParser.EQ, 0); }
+		public TerminalNode GTE() { return getToken(SearchQueryParser.GTE, 0); }
+		public TerminalNode LTE() { return getToken(SearchQueryParser.LTE, 0); }
 		public OperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -290,9 +299,9 @@ public class SearchQueryParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(49);
+			setState(45);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__3) | (1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__10) | (1L << SPACE))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << AND) | (1L << OR) | (1L << NOT) | (1L << COLON) | (1L << GT) | (1L << LT) | (1L << EQ) | (1L << GTE) | (1L << LTE) | (1L << SPACE))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -327,7 +336,7 @@ public class SearchQueryParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(51);
+			setState(47);
 			match(KEYWORD);
 			}
 		}
@@ -356,7 +365,7 @@ public class SearchQueryParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(53);
+			setState(49);
 			match(NUMBER);
 			}
 		}
@@ -373,6 +382,7 @@ public class SearchQueryParser extends Parser {
 
 	public static class TagContext extends ParserRuleContext {
 		public TerminalNode TAG() { return getToken(SearchQueryParser.TAG, 0); }
+		public TerminalNode COLON() { return getToken(SearchQueryParser.COLON, 0); }
 		public TagValueContext tagValue() {
 			return getRuleContext(TagValueContext.class,0);
 		}
@@ -388,11 +398,11 @@ public class SearchQueryParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(55);
+			setState(51);
 			match(TAG);
-			setState(56);
-			match(T__5);
-			setState(57);
+			setState(52);
+			match(COLON);
+			setState(53);
 			tagValue();
 			}
 		}
@@ -427,27 +437,27 @@ public class SearchQueryParser extends Parser {
 		TagValueContext _localctx = new TagValueContext(_ctx, getState());
 		enterRule(_localctx, 14, RULE_tagValue);
 		try {
-			setState(62);
+			setState(58);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case KEYWORD:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(59);
+				setState(55);
 				keyword();
 				}
 				break;
 			case NUMBER:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(60);
+				setState(56);
 				number();
 				}
 				break;
-			case T__11:
+			case QUOTE:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(61);
+				setState(57);
 				exactKeyword();
 				}
 				break;
@@ -484,11 +494,11 @@ public class SearchQueryParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(64);
+			setState(60);
 			match(METRIC);
-			setState(65);
+			setState(61);
 			metricOperator();
-			setState(66);
+			setState(62);
 			match(NUMBER);
 			}
 		}
@@ -504,6 +514,11 @@ public class SearchQueryParser extends Parser {
 	}
 
 	public static class MetricOperatorContext extends ParserRuleContext {
+		public TerminalNode GT() { return getToken(SearchQueryParser.GT, 0); }
+		public TerminalNode LT() { return getToken(SearchQueryParser.LT, 0); }
+		public TerminalNode EQ() { return getToken(SearchQueryParser.EQ, 0); }
+		public TerminalNode GTE() { return getToken(SearchQueryParser.GTE, 0); }
+		public TerminalNode LTE() { return getToken(SearchQueryParser.LTE, 0); }
 		public MetricOperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -517,9 +532,9 @@ public class SearchQueryParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(68);
+			setState(64);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__10))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << GT) | (1L << LT) | (1L << EQ) | (1L << GTE) | (1L << LTE))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -541,6 +556,10 @@ public class SearchQueryParser extends Parser {
 	}
 
 	public static class ExactKeywordContext extends ParserRuleContext {
+		public List<TerminalNode> QUOTE() { return getTokens(SearchQueryParser.QUOTE); }
+		public TerminalNode QUOTE(int i) {
+			return getToken(SearchQueryParser.QUOTE, i);
+		}
 		public TerminalNode STRING() { return getToken(SearchQueryParser.STRING, 0); }
 		public ExactKeywordContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -554,70 +573,12 @@ public class SearchQueryParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(70);
-			match(T__11);
-			setState(71);
+			setState(66);
+			match(QUOTE);
+			setState(67);
 			match(STRING);
-			setState(72);
-			match(T__11);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class StringContext extends ParserRuleContext {
-		public TerminalNode STRING() { return getToken(SearchQueryParser.STRING, 0); }
-		public StringContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_string; }
-	}
-
-	public final StringContext string() throws RecognitionException {
-		StringContext _localctx = new StringContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_string);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(74);
-			match(STRING);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class SpaceContext extends ParserRuleContext {
-		public TerminalNode SPACE() { return getToken(SearchQueryParser.SPACE, 0); }
-		public SpaceContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_space; }
-	}
-
-	public final SpaceContext space() throws RecognitionException {
-		SpaceContext _localctx = new SpaceContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_space);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(76);
-			match(SPACE);
+			setState(68);
+			match(QUOTE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -632,26 +593,24 @@ public class SearchQueryParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\24Q\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\24I\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
-		"\f\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\2\3\3\3\3\3\3\3\3\7\3$\n\3\f\3\16\3"+
-		"\'\13\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4\62\n\4\3\5\3\5\3\6\3\6"+
-		"\3\7\3\7\3\b\3\b\3\b\3\b\3\t\3\t\3\t\5\tA\n\t\3\n\3\n\3\n\3\n\3\13\3\13"+
-		"\3\f\3\f\3\f\3\f\3\r\3\r\3\16\3\16\3\16\2\2\17\2\4\6\b\n\f\16\20\22\24"+
-		"\26\30\32\2\4\4\2\5\r\23\23\3\2\t\r\2K\2\34\3\2\2\2\4\37\3\2\2\2\6\61"+
-		"\3\2\2\2\b\63\3\2\2\2\n\65\3\2\2\2\f\67\3\2\2\2\169\3\2\2\2\20@\3\2\2"+
-		"\2\22B\3\2\2\2\24F\3\2\2\2\26H\3\2\2\2\30L\3\2\2\2\32N\3\2\2\2\34\35\5"+
-		"\4\3\2\35\36\7\2\2\3\36\3\3\2\2\2\37%\5\6\4\2 !\5\b\5\2!\"\5\6\4\2\"$"+
-		"\3\2\2\2# \3\2\2\2$\'\3\2\2\2%#\3\2\2\2%&\3\2\2\2&\5\3\2\2\2\'%\3\2\2"+
-		"\2(\62\7\20\2\2)\62\7\17\2\2*\62\5\16\b\2+\62\5\22\n\2,\62\5\26\f\2-."+
-		"\7\3\2\2./\5\4\3\2/\60\7\4\2\2\60\62\3\2\2\2\61(\3\2\2\2\61)\3\2\2\2\61"+
-		"*\3\2\2\2\61+\3\2\2\2\61,\3\2\2\2\61-\3\2\2\2\62\7\3\2\2\2\63\64\t\2\2"+
-		"\2\64\t\3\2\2\2\65\66\7\17\2\2\66\13\3\2\2\2\678\7\20\2\28\r\3\2\2\29"+
-		":\7\21\2\2:;\7\b\2\2;<\5\20\t\2<\17\3\2\2\2=A\5\n\6\2>A\5\f\7\2?A\5\26"+
-		"\f\2@=\3\2\2\2@>\3\2\2\2@?\3\2\2\2A\21\3\2\2\2BC\7\22\2\2CD\5\24\13\2"+
-		"DE\7\20\2\2E\23\3\2\2\2FG\t\3\2\2G\25\3\2\2\2HI\7\16\2\2IJ\7\24\2\2JK"+
-		"\7\16\2\2K\27\3\2\2\2LM\7\24\2\2M\31\3\2\2\2NO\7\23\2\2O\33\3\2\2\2\5"+
-		"%\61@";
+		"\f\t\f\3\2\3\2\3\2\3\3\3\3\3\3\3\3\7\3 \n\3\f\3\16\3#\13\3\3\4\3\4\3\4"+
+		"\3\4\3\4\3\4\3\4\3\4\3\4\5\4.\n\4\3\5\3\5\3\6\3\6\3\7\3\7\3\b\3\b\3\b"+
+		"\3\b\3\t\3\t\3\t\5\t=\n\t\3\n\3\n\3\n\3\n\3\13\3\13\3\f\3\f\3\f\3\f\3"+
+		"\f\2\2\r\2\4\6\b\n\f\16\20\22\24\26\2\4\4\2\5\r\22\22\3\2\t\r\2E\2\30"+
+		"\3\2\2\2\4\33\3\2\2\2\6-\3\2\2\2\b/\3\2\2\2\n\61\3\2\2\2\f\63\3\2\2\2"+
+		"\16\65\3\2\2\2\20<\3\2\2\2\22>\3\2\2\2\24B\3\2\2\2\26D\3\2\2\2\30\31\5"+
+		"\4\3\2\31\32\7\2\2\3\32\3\3\2\2\2\33!\5\6\4\2\34\35\5\b\5\2\35\36\5\6"+
+		"\4\2\36 \3\2\2\2\37\34\3\2\2\2 #\3\2\2\2!\37\3\2\2\2!\"\3\2\2\2\"\5\3"+
+		"\2\2\2#!\3\2\2\2$.\7\17\2\2%.\7\16\2\2&.\5\16\b\2\'.\5\22\n\2(.\5\26\f"+
+		"\2)*\7\3\2\2*+\5\4\3\2+,\7\4\2\2,.\3\2\2\2-$\3\2\2\2-%\3\2\2\2-&\3\2\2"+
+		"\2-\'\3\2\2\2-(\3\2\2\2-)\3\2\2\2.\7\3\2\2\2/\60\t\2\2\2\60\t\3\2\2\2"+
+		"\61\62\7\16\2\2\62\13\3\2\2\2\63\64\7\17\2\2\64\r\3\2\2\2\65\66\7\20\2"+
+		"\2\66\67\7\b\2\2\678\5\20\t\28\17\3\2\2\29=\5\n\6\2:=\5\f\7\2;=\5\26\f"+
+		"\2<9\3\2\2\2<:\3\2\2\2<;\3\2\2\2=\21\3\2\2\2>?\7\21\2\2?@\5\24\13\2@A"+
+		"\7\17\2\2A\23\3\2\2\2BC\t\3\2\2C\25\3\2\2\2DE\7\23\2\2EF\7\24\2\2FG\7"+
+		"\23\2\2G\27\3\2\2\2\5!-<";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
