@@ -4,7 +4,8 @@ i=0
 
 while true
 do
-        httpCode=$(curl -s -o /dev/null -w "%{http_code}" http://178.238.238.209:9200/mdeforge.metamodels/_search)
+        # httpCode=$(curl -s -o /dev/null -w "%{http_code}" http://178.238.238.209:9200/mdeforge.metamodels/_search)
+		httpCode=$(curl -s -o /dev/null -w "%{http_code}"  https://178.238.238.209.sslip.io/repo/elastic/mdeforge.metamodels/_search)
 	
 	# If the server is on, we exit
 	if [ $httpCode == 200 ]; then
@@ -21,7 +22,8 @@ do
 		docker-compose restart monstache && echo $(date -u) 'run--- resynchronized the index' >> he.txt
 		
 		# We query the server again, if the index exists - mdeforge.metamodels - then we exit
-		hc=$(curl -s -o /dev/null -w "%{http_code}" http://178.238.238.209:9200/mdeforge.metamodels/_search)
+		# hc=$(curl -s -o /dev/null -w "%{http_code}" http://178.238.238.209:9200/mdeforge.metamodels/_search)
+		hc=$(curl -s -o /dev/null -w "%{http_code}"  https://178.238.238.209.sslip.io/repo/elastic/mdeforge.metamodels/_search)
 		
 		# We will check again to see if the server has been restarted, and then we will exit
 		if [ $hc == 200 ]; then

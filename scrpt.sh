@@ -6,8 +6,10 @@ echo "========================================" $(date -u) >> he.txt
 
 while true
 do
-        httpCode=$(curl -s -o /dev/null -w "%{http_code}" http://178.238.238.209:9200/mdeforge.metamodels/_search)
-	esCode=$(curl -s -o /dev/null -w "%{http_code}" http://178.238.238.209:5601/app/home#/)
+	# httpCode=$(curl -s -o /dev/null -w "%{http_code}" http://178.238.238.209:9200/mdeforge.metamodels/_search)
+	httpCode=$(curl -s -o /dev/null -w "%{http_code}" https://178.238.238.209.sslip.io/repo/elastic/mdeforge.metamodels/_search)
+	# esCode=$(curl -s -o /dev/null -w "%{http_code}" http://178.238.238.209:5601/app/home#/)
+	esCode=$(curl -s -o /dev/null -w "%{http_code}" https://178.238.238.209.sslip.io/app/home#/)
 	
 	echo "Checking if the server is live and running at $(date -u)" >> he.txt
 
@@ -26,7 +28,8 @@ do
 			sleep 200
 			
 			# We query the server again, if the index exists - mdeforge.metamodels - then we exit
-			hc=$(curl -s -o /dev/null -w "%{http_code}" http://178.238.238.209:9200/mdeforge.metamodels/_search)
+			# hc=$(curl -s -o /dev/null -w "%{http_code}" http://178.238.238.209:9200/mdeforge.metamodels/_search)
+			hc=$(curl -s -o /dev/null -w "%{http_code}" https://178.238.238.209.sslip.io/repo/elastic/mdeforge.metamodels/_search)
 			
 			# We check again to see if the server has been restarted, and then we will exit
 			if [ $hc == 200 ]; then
@@ -43,7 +46,8 @@ do
                         docker-compose up --build --force-recreate --no-deps -d monstache && echo $(date -u) 'run--- resynchronized the index' >> he.txt
 
                         # We query the server again, if the index exists - mdeforge.metamodels - then we exit
-                        hc=$(curl -s -o /dev/null -w "%{http_code}" http://178.238.238.209:9200/mdeforge.metamodels/_search)
+                        # hc=$(curl -s -o /dev/null -w "%{http_code}" http://178.238.238.209:9200/mdeforge.metamodels/_search)
+						hc=$(curl -s -o /dev/null -w "%{http_code}" https://178.238.238.209.sslip.io/repo/elastic/mdeforge.metamodels/_search)
 			
 			sleep 200
 

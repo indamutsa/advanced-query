@@ -397,7 +397,7 @@ services:
 
   model-transformation:
     container_name: etl-transformation
-    image: indamutsa/etl-transformation:v1.2
+    image: indamutsa/etl-transformation:v1.3
     ports:
       - 8085:8085
     environment:
