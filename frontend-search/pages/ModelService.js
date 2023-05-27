@@ -90,7 +90,8 @@ const ModelService = () => {
 
       if (etl) {
         // console.log("Hekkoiwshjh", arrTrans);
-        res = await axios.post("http://178.238.238.209:8085/mms/transform/str", arrTrans)
+        // res = await axios.post("http://178.238.238.209:8085/mms/transform/str", arrTrans)
+        res = await axios.post("https://178.238.238.209.sslip.io/etl/mms/transform/str", arrTrans)
       }
       else if (evl) {// Executing the validation
         res = await axios.post("https://178.238.238.209.sslip.io/evl/mms/validate/str", arrVQ)
