@@ -30,10 +30,18 @@ class Lexer {
           this.advance();
           break;
         case " ":
-          if (skipTokens.includes(this.tokens[this.tokens.length - 1]?.type))
-            this.tokens.push(new Token("TT_SPACE", " "));
+          if (skipTokens.includes(this.tokens[this.tokens.length - 1]?.type)) {
+            // If next character is a quote, do not push space
+            if (
+              this.input[this.pos + 1] !== '"' &&
+              this.input[this.pos + 1] !== "'"
+            ) {
+              this.tokens.push(new Token("TT_SPACE", " "));
+            }
+          }
           this.advance();
           break;
+
         case "[":
           this.tokens.push(new Token("TT_LBRAKET", "["));
           this.advance();
@@ -77,11 +85,36 @@ class Lexer {
           this.tokens.push(new Token("TT_COLON", ":"));
           this.advance();
           break;
+        // case '"':
+        // case "'":
+        //   this.tokens.push(new Token("TT_QUOTE", "'"));
+        //   this.advance();
+        //   break;
         case '"':
         case "'":
-          this.tokens.push(new Token("TT_QUOTE", "'"));
+          let strValue = "";
+          const quote = this.currentChar;
+          this.advance();
+          while (this.currentChar !== null && this.currentChar !== quote) {
+            strValue += this.currentChar;
+            this.advance();
+          }
+          if (this.currentChar !== quote) {
+            return new Token(
+              "TT_ERROR",
+              new IllegalCharacterError(
+                quote,
+                this.pos,
+                `Unmatched quote >> ${quote} <<`
+              )
+            );
+          }
+          this.tokens.push(new Token("TT_QUOTE", "'")); // Always push single quote
+          this.tokens.push(new Token("TT_KEYWORD", strValue.trim())); // Trim leading/trailing whitespaces
+          this.tokens.push(new Token("TT_QUOTE", "'")); // Always push single quote
           this.advance();
           break;
+
         case "A":
           if (this.checkStringEquality("AND")) {
             this.tokens.push(new Token("TT_AND", "AND"));

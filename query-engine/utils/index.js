@@ -9,54 +9,60 @@ const generateDroidQueryDsl = (body) => {
 
   let quality = "";
   if (key && operator && value1)
-    quality = `"modelMetric.metrics.${key}.value: (${operator === "range"
-      ? ">=" + value1 + " AND <=" + value2
-      : operator + value1
-      })"`;
+    quality = `"modelMetric.metrics.${key}.value: (${
+      operator === "range"
+        ? ">=" + value1 + " AND <=" + value2
+        : operator + value1
+    })"`;
 
   let requestObject = `
     {
       "size": ${size},
-      ${last
-      ? `"sort":{
+      ${
+        last
+          ? `"sort":{
         "createdAt":"desc"
      },`
-      : ""
-    }
+          : ""
+      }
       "query":{
          "bool":{
             "must":[
-               ${ext
-      ? `{
+               ${
+                 ext
+                   ? `{
                   "match_phrase":{
                      "ext":"${ext}"
                   }
                },`
-      : ""
-    }
+                   : ""
+               }
                
-               ${microsyntax
-      ? `
+               ${
+                 microsyntax
+                   ? `
                {
                   "query_string":{
                      "query":"${microsyntax}"
                   }
                },`
-      : ""
-    }
+                   : ""
+               }
                
-               ${quality
-      ? `
+               ${
+                 quality
+                   ? `
                {
                   "query_string":{
                     "fields": ["modelMetric.metrics.*"], 
                      "query":${quality}
                   }
                }`
-      : ""
-    }
-            ]${from && to
-      ? `,"filter":[
+                   : ""
+               }
+            ]${
+              from && to
+                ? `,"filter":[
                {
                   "range":{
                      "createdAt":{
@@ -67,8 +73,8 @@ const generateDroidQueryDsl = (body) => {
                   }
                }
             ]`
-      : ""
-    }
+                : ""
+            }
          }
       }
     }  
@@ -83,6 +89,8 @@ const mainQueryGenerator = (args) => {
   // console.log(args);
   let queryStr = microsyntax ? microsyntax : "";
   let { res, err } = runMicroSyntax(queryStr);
+
+  console.log(res, err);
 
   let requestObject = `
   {
@@ -104,7 +112,11 @@ const mainQueryGenerator = (args) => {
     "size": ${limit},
     "query": {
       "query_string": {
-        "query": "${res ? res : ")) -- we making sure that the query crashes if the microsyntax is not valid"}",
+        "query": "${
+          res
+            ? res
+            : ")) -- we making sure that the query crashes if the microsyntax is not valid"
+        }",
       }
     }
   }  
@@ -137,8 +149,8 @@ const queryType = (operator) => {
       op = "range";
       break;
     case "equal":
-      op = ""
-      break
+      op = "";
+      break;
     case "AND":
       op = "+";
       break;
@@ -155,7 +167,6 @@ const queryType = (operator) => {
   return op;
 };
 
-
 // Advanced Query Generator
 const advancedQueryGenerator = (args) => {
   // For now optimal transformation is not used
@@ -167,17 +178,15 @@ const advancedQueryGenerator = (args) => {
 };
 
 function jsonBuilder(args) {
-
   let jsonSearchContext = "";
   let jsonQualityAssessment = "";
   let jsonPublication = "";
-  let contextualSearch = ""
-  let flip = false
+  let contextualSearch = "";
+  let flip = false;
 
   let { searchContext, publication, qualityAssessment } = args.object;
   let { from, limit } = args;
   // console.log("Object: ", args);
-
 
   if (searchContext) {
     // console.log("Search Context: ", searchContext);
@@ -186,10 +195,11 @@ function jsonBuilder(args) {
       let operatorCtxt = queryType(searchContext[i].operator.toUpperCase());
       let valueCtxt = searchContext[i].value.toLowerCase();
 
-      jsonSearchContext += `${operatorCtxt}(${fieldCtxt}:(*${valueCtxt}*)) ${i !== searchContext.length - 1 ? "AND" : ""} `
-
+      jsonSearchContext += `${operatorCtxt}(${fieldCtxt}:(*${valueCtxt}*)) ${
+        i !== searchContext.length - 1 ? "AND" : ""
+      } `;
     }
-    jsonSearchContext = `(${jsonSearchContext})`
+    jsonSearchContext = `(${jsonSearchContext})`;
   }
 
   if (qualityAssessment) {
@@ -198,7 +208,9 @@ function jsonBuilder(args) {
       let value = qualityAssessment[i].value;
       let field = qualityAssessment[i].field;
 
-      jsonQualityAssessment += `+(+(modelMetric.metrics.${field}.value:${operator}${value}) +(ext:ecore)) ${i !== qualityAssessment.length - 1 ? "AND" : ""} `
+      jsonQualityAssessment += `+(+(modelMetric.metrics.${field}.value:${operator}${value}) +(ext:ecore)) ${
+        i !== qualityAssessment.length - 1 ? "AND" : ""
+      } `;
     }
   }
 
@@ -212,11 +224,9 @@ function jsonBuilder(args) {
       "query_string": {
         "query": "${jsonSearchContext} ${jsonQualityAssessment} "
       }
-    }`
+    }`;
 
-  if (jsonPublication !== "" && contextualSearch !== "")
-    flip = true
-
+  if (jsonPublication !== "" && contextualSearch !== "") flip = true;
 
   let requestObject = ` 
   {
@@ -247,9 +257,8 @@ function jsonBuilder(args) {
   }
   `;
 
-  return requestObject
+  return requestObject;
 }
-
 
 function getPublicationDate(publication) {
   switch (publication.key) {
@@ -264,8 +273,7 @@ function getPublicationDate(publication) {
         }`;
 
     case "timeframe":
-      if (publication.value === "all_date")
-        return "";
+      if (publication.value === "all_date") return "";
 
       if (publication.value === "7 days")
         return `
@@ -302,9 +310,7 @@ function getPublicationDate(publication) {
             }
           }
         `;
-      if (publication.value === "Select timeframe")
-        return ""
-
+      if (publication.value === "Select timeframe") return "";
 
     case "custom_timeframe":
       return `
@@ -316,8 +322,7 @@ function getPublicationDate(publication) {
             }
           }
         }
-        `
-
+        `;
   }
 }
 
@@ -327,11 +332,13 @@ function fixJSON(json) {
   return newJson;
 }
 
-module.exports = { generateDroidQueryDsl, mainQueryGenerator, advancedQueryGenerator };
+module.exports = {
+  generateDroidQueryDsl,
+  mainQueryGenerator,
+  advancedQueryGenerator,
+};
 
-
-
-// let requestObject = ` 
+// let requestObject = `
 // {
 //   "_source": [
 //     "id",
