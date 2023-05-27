@@ -5,7 +5,11 @@ const graphQLAPI = process.env.NEXT_PUBLIC_SERVER_ENDPOINT;
 // Microsyntax oriented search
 export const getData = async (microsyntax, from, limit, total) => {
   const query = gql`
-    query GeneralDataQuery($microsyntax: String, $from: Int=0, $limit: Int=10) {
+    query GeneralDataQuery(
+      $microsyntax: String
+      $from: Int = 0
+      $limit: Int = 10
+    ) {
       query(microsyntax: $microsyntax, from: $from, limit: $limit) {
         status_code
         message
@@ -48,10 +52,10 @@ export const getData = async (microsyntax, from, limit, total) => {
   `;
 
   const result = await request(graphQLAPI, query, { microsyntax, from, limit });
+  console.log(result);
 
   return result;
 };
-
 
 // Advanced search
 export const getAdvancedSearchData = async (object, from, limit, total) => {
@@ -59,7 +63,11 @@ export const getAdvancedSearchData = async (object, from, limit, total) => {
   // console.log(object)
 
   const query = gql`
-    query advancedSearchQuery($object: GraphQLJSON, $from: Int=0, $limit: Int=10) {
+    query advancedSearchQuery(
+      $object: GraphQLJSON
+      $from: Int = 0
+      $limit: Int = 10
+    ) {
       advancedQuery(object: $object, from: $from, limit: $limit) {
         status_code
         message
