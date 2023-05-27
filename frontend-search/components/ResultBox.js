@@ -8,28 +8,35 @@ const ResultBox = ({ data }) => {
   const { state, dispatch } = useAppContext();
   const router = useRouter();
 
-
   const { id, name, size, type, createdAt, description, storageUrl } = data;
   let item = {
-    id, name, storageUrl, type
-  }
+    id,
+    name,
+    storageUrl,
+    type,
+  };
   const handleClick = (e, item) => {
     e.preventDefault();
-    dispatch({ type: "item", value: item })
+    dispatch({ type: "item", value: item });
     // navigate to model-view
-    router.push('/artifact-display')
-  }
+    router.push("/artifact-display");
+  };
 
   const confirmus = (e) => {
     let text = "Do you want to download the artifact?";
     if (window.confirm(text) == true) {
-      window.open(e.target.innerText, '_blank').focus();
+      window.open(e.target.innerText, "_blank").focus();
     }
-  }
+  };
+
+  const bytesToKb = (bytes) => {
+    const kb = bytes / 1024;
+    return Math.round(kb * 10) / 10;
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.upperDiv}>
-
         <p onClick={confirmus} className={styles.url}>
           {storageUrl}
         </p>
@@ -37,7 +44,7 @@ const ResultBox = ({ data }) => {
         <div className={styles.name}>
           <p> Name:</p> <span>{name}</span>
         </div>
-        <div className={styles.size}> Size: {size} </div>
+        <div className={styles.size}> Size: {bytesToKb(size)} Kb</div>
         <div className={styles.date}>{createdAt}</div>
       </div>
       <div className={styles.bottomDiv}>
@@ -46,7 +53,12 @@ const ResultBox = ({ data }) => {
           <span>{resizeDesc(description)}</span>
         </div>
         <Link href="/artifact-display" passHref>
-          <div onClick={e => handleClick(e, item)} className={styles.viewDownload}>View / Download</div>
+          <div
+            onClick={(e) => handleClick(e, item)}
+            className={styles.viewDownload}
+          >
+            View / Download
+          </div>
         </Link>
       </div>
     </div>
