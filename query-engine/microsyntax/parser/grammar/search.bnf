@@ -1,27 +1,27 @@
 # Example queries of the microsyntax query specification DSL:
 
-# 1.
+# Q1
 accessControl = 'public' AND size < 500 OR ext = 'json'
 
-# 2. 
+# Q2
 (size >= 1000 AND createdAt <= 20220101) OR (project = 'Project2' AND attr > 5)
 
-# 3. Query 
+# Q3 
 (type = 'ecore' AND unique_name = 'uniqueModel') OR (license = 'Apache' AND cflmc = 2)
 
-# 4. Query 
+# Q4 
 (hasAttribute = 'color' AND description = 'Complex Model') OR (updatedAt > 20240101 AND amc <= 3)
 
-# 5. Query 
+# Q5 
 description = 'Advanced Model' OR project = 'Project1' AND type = 'xmi' 
 
-# 6. Query 
+# Q6 
 conformsTo = 'matamodel_id' AND (license = 'GPL' AND name = 'ModelY')
 
-# 7. Query 
+# Q7 
 involvedOperations = 'operation_id' (unique_name = 'ModelX' AND mc > 50)
 
-# 8. Query 
+# Q8 
 (updatedAt > 20230101) NOT (ext = 'json') OR (cmc > 5 AND sf <= 2) keyword5 AND license = "MIT" project="Project1" AND isTransformable='ARTIFACT_ID'
 
 # ------------------------------------------------------------------------------------

@@ -36,13 +36,10 @@ const options = {
         description: "The local server",
       },
       {
-<<<<<<< HEAD
         url: "http://persistence-api:3200",
         description: "The docker network server",
       },
       {
-=======
->>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
         url: "http://34.67.33.7:3200",
         description: "Cloud server",
       },

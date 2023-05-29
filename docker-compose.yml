@@ -1,25 +1,4 @@
-# In this cluster of microservices, we define elastastic as engine and its logging and visualization supporting tools (logstash, kibana and filebeat)
-# In the second part, we synchronize our search engine with the persistence api
-
-# The next thing is to define a crawler that go through files asynchronsously and extracts keywords and index it as well (save it db)
-# Then build the complete search api
-
-
-# Even if you're NOT in swarm mode, there is an option called --compatibility which will work with restart_policy, this will attempt to restart even if you're not deploying. The only glitch, is the sub-keys of 'delay' and 'window' will be ignored. Here is an example:
-
-# version: '3.7'
-# services:
-#   build:
-#     context: .
-#     dockerfile: Dockerfile
-#   container_name: example
-#   deploy:
-#     restart_policy:
-#       condition: on-failure
-#       max-attempts: 3
-# run this command:
-
-# docker-compose -f docker-compose.yml --compatibility up
+# Docker compose for MDEForge-Search platform
 
 version: "3.4"
 
@@ -107,9 +86,9 @@ services:
 
     ports:
       - "3300:3300"
-    volumes:
-      - ./query-engine:/app
-      - /app/node_modules
+    # volumes:
+      # - ./query-engine:/app
+      # - /app/node_modules
     networks:
       - search-engine
     restart: on-failure   
