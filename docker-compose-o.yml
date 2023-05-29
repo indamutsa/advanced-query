@@ -100,7 +100,7 @@ services:
     container_name: filebeat
     image: indamutsa/filebeat:v1.0
     volumes:
-      - "./elastic-bundle/test-filebeat:/logs"
+      - "./elastic-bundle/filebeat/logs:/logs"
       - "./elastic-bundle/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
       - "/var/lib/docker/containers:/usr/share/filebeat/dockerlogs:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"

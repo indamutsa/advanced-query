@@ -10,7 +10,7 @@ if [ -z "$folder_path" ]; then
 fi
 
 # Define array of collection names
-collections=("users" "workspaces" "projects" "metamodels" "models" "dsls")
+collections=("users" "workspaces" "projects" "metamodels" "models" "dsls" "transformations")
 
 # Define MongoDB link
 mongo_link="mongodb://localhost:27019"

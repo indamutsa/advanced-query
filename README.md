@@ -3,7 +3,7 @@ MDEForge-Search, a novel tool introduced in this paper, addresses the need for e
 
 <!-- 
 
-docker run -it --rm --net host -v /var/run/docker.sock:/var/run/docker.sock -v ${HOME}/.kube/:/root/.kube/ -v ${PWD}:/work -w /work alpine sh  && apk add --no-cache docker curl py-pip python3-dev libffi-dev openssl-dev gcc libc-dev make  zip bash openssl git && pip install docker-compose && echo "http://dl-cdn.alpinelinux.org/alpine/v3.14/community" >> /etc/apk/repositories && apk update && apk add mongodb-tools && mongoimport --version && mongoexport --version -->
+apk add --no-cache docker curl py-pip python3-dev libffi-dev openssl-dev gcc libc-dev make  zip bash openssl git && pip install docker-compose && echo "http://dl-cdn.alpinelinux.org/alpine/v3.14/community" >> /etc/apk/repositories && apk update && apk add mongodb-tools && mongoimport --version && mongoexport --version -->
 ## Installation guide
 
 Here is a guide on how you can do this:
@@ -91,7 +91,7 @@ Inside docker-compose.yml, change each of the following line to your local path
 give it an absolute form the host (your machine) path where you have the data files
 
 ```
- source: /your absolute path to this folder/
+ /home/arsene/Project/school-projects/mdeforge/advanced-query
 ```
 
 ### Using docker-compose
@@ -114,6 +114,9 @@ If you want to make sure changes to the docker-compose.yml file are applied, you
 ```bash
 docker-compose up -d --build --force-recreate
 ```
+
+
+
 
 #### Importing data
 Let us import the data into the MongoDB cluster. This data will be synchronized into Elasticsearch by Monstache, a synchronization tool designed to continuously move data from MongoDB to Elasticsearch.

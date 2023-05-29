@@ -1,7 +1,7 @@
 const result = require("dotenv").config();
 
 module.exports = {
-  es_host: process.env.ELASTICSEARCH_HOST,
+  es_host: "elasticsearch", //process.env.ELASTICSEARCH_HOST,
   es_pass: process.env.ELASTICSEARCH_PASSWORD,
   es_port: process.env.ELASTICSEARCH_PORT,
   es_user: process.env.ELASTICSEARCH_USERNAME,

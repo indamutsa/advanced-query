@@ -12,6 +12,7 @@
 echo '####################################################'
 echo 'Removing data...'
 echo '####################################################'
+
 # remove all images
 sudo rm -rf mongo-bundle/sharded/mongo_cluster/data1/*
 sudo rm -rf mongo-bundle/sharded/mongo_cluster/data2/*
@@ -37,10 +38,10 @@ docker rm $(docker ps -aq)
 
 
 # remove all images
-# echo '####################################################'
-# echo 'Removing images ...'
-# echo '####################################################'
-# # docker rmi $(docker images -q)
+echo '####################################################'
+echo 'Removing images ...'
+echo '####################################################'
+docker rmi $(docker images -q)
 
 # remove all stray volumes if any
 echo '####################################################'

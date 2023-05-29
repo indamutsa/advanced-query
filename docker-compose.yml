@@ -7,35 +7,54 @@ services:
   ################################################################################
   elasticsearch:
     container_name: elasticsearch
-    image: indamutsa/elasticsearch:v1.0
+    image: indamutsa/elasticsearch:v1.1
+    volumes:
+      - type: volume
+        source: elasticsearch
+        target: /usr/share/elasticsearch/data
     ports:
       - "9200:9200"
       - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTIC_USERNAME: elastic
+      ELASTIC_PASSWORD: changeme
+      # Use single node discovery in order to disable production mode and avoid bootstrap checks.
+      # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
+      discovery.type: single-node
     networks:
       - search-engine
-    restart: on-failure   
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+    restart: on-failure
+
 
   logstash:
     container_name: logstash
-    image: indamutsa/logstash:v1.0
+    image: indamutsa/logstash:v1.1
     links:
       - elasticsearch:elasticsearch
+
     ports:
       - "5044:5044"
       - "5000:5000/tcp"
       - "5000:5000/udp"
       - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
       - search-engine
     depends_on:
       - elasticsearch
-    restart: on-failure  
-  
+    restart: on-failure   
 
 
   kibana:
     container_name: kibana
-    image: indamutsa/kibana:v1.0
+    image: indamutsa/kibana:v1.1
     links:
       - elasticsearch:elasticsearch
     ports:
@@ -48,13 +67,18 @@ services:
 
   filebeat:
     container_name: filebeat
-    image: indamutsa/filebeat:v1.0
+    image: indamutsa/filebeat:v1.1
+    volumes:
+      - "/var/lib/docker/containers:/usr/share/filebeat/dockerlogs:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+    command: filebeat -e --strict.perms=false
     links:
       - elasticsearch
       - kibana
     networks:
       - search-engine
-    restart: on-failure   
+    restart: on-failure    
 
   # PERSISTENCE API
   #####################################################
@@ -97,7 +121,7 @@ services:
   # web:
   #   container_name: web
   #   build:
-  #     context: ./mongo-bundle/sharded/web-app
+  #     context: /home/arsene/Project/school-projects/mdeforge/advanced-query/mongo-bundle/sharded/web-app
   #   command: bash -c "sleep 120 && node index.js"
   #   ports:
   #     - "3110:3000"
@@ -124,17 +148,11 @@ services:
   # Synchronizing the elasticsearch and mongo cluster using MONSTACHE
   ###################################################################
   monstache:
-    image: indamutsa/monstache:v1.0 # After building the image i pushed it
+    image: indamutsa/monstache:v1.1 # After building the image i pushed it
     container_name: monstache
     working_dir: /app
     command: -f monstache.config.toml
-    # build:
-    #   context: ./monstache
-    #   dockerfile: ./Dockerfile
-    volumes:
-      - "./mongo-bundle/monstache/monstache.config.toml:/app/monstache.config.toml"
-      # - mongo-rs0-1
-      # - elasticsearch
+
     ports:
       - "8080:8080"
     networks:
@@ -164,7 +182,7 @@ services:
     environment:
       TERM: xterm
     volumes:
-      - ./mongo-bundle/sharded/mongo_cluster/data1:/data/db
+      - /home/arsene/Project/school-projects/mdeforge/advanced-query/mongo-bundle/sharded/mongo_cluster/data1:/data/db
     networks:
       - search-engine
     restart: on-failure   
@@ -180,7 +198,7 @@ services:
     environment:
       TERM: xterm
     volumes:
-      - ./mongo-bundle/sharded/mongo_cluster/data2:/data/db
+      - /home/arsene/Project/school-projects/mdeforge/advanced-query/mongo-bundle/sharded/mongo_cluster/data2:/data/db
     networks:
       - search-engine
     restart: on-failure   
@@ -196,7 +214,7 @@ services:
     environment:
       TERM: xterm
     volumes:
-      - ./mongo-bundle/sharded/mongo_cluster/data3:/data/db
+      - /home/arsene/Project/school-projects/mdeforge/advanced-query/mongo-bundle/sharded/mongo_cluster/data3:/data/db
     networks:
       - search-engine
     restart: on-failure   
@@ -213,7 +231,7 @@ services:
     environment:
       TERM: xterm
     volumes:
-      - ./mongo-bundle/sharded/mongo_cluster/data4:/data/db
+      - /home/arsene/Project/school-projects/mdeforge/advanced-query/mongo-bundle/sharded/mongo_cluster/data4:/data/db
     networks:
       - search-engine
     restart: on-failure   
@@ -229,7 +247,7 @@ services:
     environment:
       TERM: xterm
     volumes:
-      - ./mongo-bundle/sharded/mongo_cluster/data5:/data/db
+      - /home/arsene/Project/school-projects/mdeforge/advanced-query/mongo-bundle/sharded/mongo_cluster/data5:/data/db
     networks:
       - search-engine
     restart: on-failure     
@@ -245,7 +263,7 @@ services:
     environment:
       TERM: xterm
     volumes:
-      - ./mongo-bundle/sharded/mongo_cluster/data6:/data/db
+      - /home/arsene/Project/school-projects/mdeforge/advanced-query/mongo-bundle/sharded/mongo_cluster/data6:/data/db
     networks:
       - search-engine
     restart: on-failure   
@@ -260,7 +278,7 @@ services:
     expose:
       - "27017"
     volumes:
-      - ./mongo-bundle/sharded/mongo_cluster/config1:/data/db
+      - /home/arsene/Project/school-projects/mdeforge/advanced-query/mongo-bundle/sharded/mongo_cluster/config1:/data/db
     networks:
       - search-engine
     restart: on-failure   
@@ -274,7 +292,7 @@ services:
     expose:
       - "27017"
     volumes:
-      - ./mongo-bundle/sharded/mongo_cluster/config2:/data/db
+      - /home/arsene/Project/school-projects/mdeforge/advanced-query/mongo-bundle/sharded/mongo_cluster/config2:/data/db
     networks:
       - search-engine
     restart: on-failure   
@@ -288,7 +306,7 @@ services:
     expose:
       - "27017"
     volumes:
-      - ./mongo-bundle/sharded/mongo_cluster/config3:/data/db
+      - /home/arsene/Project/school-projects/mdeforge/advanced-query/mongo-bundle/sharded/mongo_cluster/config3:/data/db
     networks:
       - search-engine
     restart: on-failure   
