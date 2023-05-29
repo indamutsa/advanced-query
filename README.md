@@ -285,6 +285,8 @@ These are some basic commands. Depending on your use-case, you might need to use
 
 Remember to replace `<release_name>`, `<chart>`, `<repo_name>`, `<repo_url>`, `<revision_number>`, and `<chart_path>` with your actual values.
 
+---
+
 Let us spin up the cluster by running the following commands:
 
 ```
