@@ -14,7 +14,7 @@ git clone https://github.com/indamutsa/advanced-query.git
 2. Get a working container. Everything will be installed via a disposable container to avoid installing various on your host. Run the command below in your host terminal in the folder cloned.
 
 ```bash
-docker run -it --rm --net host -v /var/run/docker.sock:/var/run/docker.sock -v ${HOME}/.kube/:/root/.kube/ -v ${PWD}:/work -w /work -u root alpine sh 
+docker run -it --rm --net host -v /var/run/docker.sock:/var/run/docker.sock -v ${HOME}/.kube/:/root/.kube/ -v ${PWD}:/work -w /work alpine sh 
 ```
 
 3. Update the package repository and install necessary dependencies.
