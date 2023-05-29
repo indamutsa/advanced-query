@@ -80,11 +80,7 @@ const Result = () => {
   };
 
   useEffect(() => {
-<<<<<<< HEAD
     console.log("Page changed === : ", results);
-=======
-    console.log("Page changed: ", results);
->>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
     if (state?.searchQuery?.source == "home") {
       // console.log("Changed from hoome", state.searchQuery);
