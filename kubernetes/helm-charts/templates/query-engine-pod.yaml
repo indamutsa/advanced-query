@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c --out helm-chart
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.network/kubernetes-search-engine: "true"
+    io.kompose.service: query-engine
+  name: query-engine
+spec:
+  containers:
+    - image: query-engine
+      name: query-engine
+      ports:
+        - containerPort: 3300
+      resources: {}
+      volumeMounts:
+        - mountPath: /app
+          name: query-engine-claim0
+        - mountPath: /app/node_modules
+          name: query-engine-claim1
+  restartPolicy: OnFailure
+  volumes:
+    - name: query-engine-claim0
+      persistentVolumeClaim:
+        claimName: query-engine-claim0
+    - name: query-engine-claim1
+      persistentVolumeClaim:
+        claimName: query-engine-claim1
+status: {}

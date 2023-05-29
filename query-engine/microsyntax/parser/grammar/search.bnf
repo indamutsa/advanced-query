@@ -1,0 +1,209 @@
+# Example queries of the microsyntax query specification DSL:
+
+# 1.
+accessControl = 'public' AND size < 500 OR ext = 'json'
+
+# 2. 
+(size >= 1000 AND createdAt <= 20220101) OR (project = 'Project2' AND attr > 5)
+
+# 3. Query 
+(type = 'ecore' AND unique_name = 'uniqueModel') OR (license = 'Apache' AND cflmc = 2)
+
+# 4. Query 
+(hasAttribute = 'color' AND description = 'Complex Model') OR (updatedAt > 20240101 AND amc <= 3)
+
+# 5. Query 
+description = 'Advanced Model' OR project = 'Project1' AND type = 'xmi' 
+
+# 6. Query 
+conformsTo = 'matamodel_id' AND (license = 'GPL' AND name = 'ModelY')
+
+# 7. Query 
+involvedOperations = 'operation_id' (unique_name = 'ModelX' AND mc > 50)
+
+# 8. Query 
+(updatedAt > 20230101) NOT (ext = 'json') OR (cmc > 5 AND sf <= 2) keyword5 AND license = "MIT" project="Project1" AND isTransformable='ARTIFACT_ID'
+
+# ------------------------------------------------------------------------------------
+
+# Certainly, here is a LaTeX interpretation of your example queries:
+
+# \begin{enumerate}
+#     \item Query selects artifacts where the `accessControl` tag equals 'public' and the `size` tag is less than 500, or the `ext` tag equals 'json'.
+    
+#     \item Query selects artifacts where the `size` tag is greater than or equal to 1000 and the `createdAt` tag is less than or equal to 20220101, or the `project` tag equals 'Project2' and the `attr` metric is greater than 5.
+    
+#     \item Query selects artifacts where the `type` tag equals 'xml' and the `unique\_name` tag equals 'uniqueModel', or the `license` tag equals 'Apache' and the `cflmc` metric equals 2.
+    
+#     \item Query selects artifacts where the `hasAttribute` tag equals 'color' and the `description` tag equals 'Complex Model', or the `updatedAt` tag is greater than 20240101 and the `amc` metric is less than or equal to 3.
+    
+#     \item Query selects artifacts where the `description` tag equals 'Advanced Model' or the `project` tag equals 'Project1' and the `type` tag equals 'xmi'.
+    
+#     \item Query selects artifacts where the `conformsTo` tag equals 'standard' and the `license` tag equals 'GPL' and the `name` tag equals 'ModelY'.
+    
+#     \item Query selects artifacts where the `involvedOperations` tag equals 'export' and the `unique\_name` tag equals 'ModelX' and the `mc` metric is greater than 50.
+    
+#     \item Query selects artifacts where the `updatedAt` tag is greater than 20230101 and the `ext` tag does not equal 'json', or the `cmc` metric is greater than 5 and the `mcwsp` metric is less than or equal to 2, and the keyword 'keyword5' is present, and the `license` tag equals 'MIT' and the `project` tag equals 'Project1' and the `isTransformable` tag equals 'ARTIFACT\_ID'.
+# \end{enumerate}
+
+# The query syntax provided is versatile, allowing you to search and filter artifacts based on a combination of various tags and metrics. Parentheses are used to group conditions and alter the precedence of boolean operators, providing further flexibility in constructing complex queries. The boolean operators AND, OR, and NOT connect different conditions, allowing the formation of detailed and specific queries.
+
+
+# Sure, let's choose 8 queries with varying complexity and good descriptiveness:
+
+# 1. Query 4
+accessControl = 'public' AND size < 500 OR ext = 'json'
+#This query is quite straightforward. It targets public model artifacts smaller than 500 in size, or any model artifact that has the extension 'json'.
+# 4. The query is looking for model artifacts that are publicly accessible and either have a size smaller than 500 or are of 'json' format.
+
+
+# 2. Query 8
+(size >= 1000 AND createdAt <= 20220101) OR (project = 'Project2' AND attr > 5)
+#This query becomes slightly more complex, adding date and numerical criteria to the size and project tags.
+# 8. The search query targets model artifacts that either have a size greater than or equal to 1000 and were created on or before 1st January 2022, or belong to 'Project2' and have an 'attr' metric greater than 5.
+
+# 3. Query 9
+(type = 'xml' AND unique_name = 'uniqueModel') OR (license = 'Apache' AND cflmc = 2)
+#This query introduces the use of metrics (cflmc) in the search and combines it with criteria on type, unique name, and license.
+# 9. This query is looking for model artifacts that are either of 'xml' type and have a unique name 'uniqueModel', or are licensed under 'Apache' and have a 'cflmc' metric equal to 2.
+
+# 4. Query 10
+(hasAttribute = 'color' AND description = 'Complex Model') OR (updatedAt > 20240101 AND amc <= 3)
+#This query adds more depth by incorporating attribute, description, date, and metric criteria.
+# 10. This search query is for model artifacts that either have a 'color' attribute and are described as 'Complex Model', or have an update timestamp later than 1st January 2024 and have an 'amc' metric less than or equal to 3.
+
+# 5. Query 2
+description = 'Advanced Model' OR project = 'Project1' AND type = 'xmi'
+#This query combines project, description, and type criteria with a mix of AND and OR operators.
+# 2. This query targets model artifacts whose description is 'Advanced Model' or model artifacts that belong to 'Project1' and have 'xmi' as their type. Since AND has a higher precedence than OR, 'Project1' and 'type = xmi' are grouped together. 
+
+# 6. Query 6
+conformsTo = 'standard' AND (license = 'GPL' AND name = 'ModelY')
+# In this query, there is an AND operator outside the brackets and inside, making it more complex. The query combines criteria on conformance, license, and name.
+# 6. This query targets model artifacts conforming to 'standard', and among those, ones that are licensed under 'GPL' and named 'ModelY'.
+
+# 7. Query 5
+involvedOperations = 'export' (unique_name = 'ModelX' AND mc > 50)
+#This query introduces involved operations criteria and combines it with unique name and metric criteria.
+# 5. This query looks for model artifacts with 'export' in their involved operations, and specifically among those, ones with a unique name 'ModelX' and have a 'mc' metric greater than 50.
+
+# 8. Query 15
+(updatedAt > 20230101) NOT (ext = 'json') OR (cmc > 5 AND sf <= 2) keyword5 AND license = "MIT" project="Project1" AND isTransformable='ARTIFACT_ID'
+#This query is the most complex, with a NOT operator included in the mix. It combines date, extension, metric, keyword, license, project, and transformation capability criteria.
+# Models updated after 1st January 2023 and not in JSON format, or models that have cmc metric greater than 5 and mcwsp metric less than or equal to 2, with keyword5, are being searched. They must be licensed under 'MIT', belong to 'Project1', and be transformable.
+
+# These queries offer a good progression in terms of complexity, going from simple tag searches to combining multiple tags, numerical, and metric criteria with various Boolean operators. Please note that there seems to be missing Boolean operators in some queries, so these interpretations are based on the most plausible assumptions.
+
+
+
+# -----------------------------------------------------------------------------------------------
+
+# Query 1
+(size >= 10000 AND ext = 'xml') name = 'model1'
+
+# Query 2
+description = 'Advanced Model' OR project = 'Project1' AND type = 'xmi'
+
+# Query 3
+license = 'MIT'  content = 'UML Diagram' AND updatedAt > 20230201
+
+# Query 4
+accessControl = 'public' AND size < 500 OR ext = 'json'
+
+# Query 5
+involvedOperations = 'export' ( unique_name = 'ModelX' AND mc > 50 )
+
+# Query 6
+conformsTo = 'standard' AND (license = 'GPL' AND name = 'ModelY')
+
+# Query 7
+(storageUrl = 'www.example.com' OR description = 'XMI Model') AND sf < 10
+
+# Query 8
+(size >= 1000 AND createdAt <= 20220101) OR (project = 'Project2' AND attr > 5)
+
+# Query 9
+(type = 'xml' AND unique_name = 'uniqueModel') OR (license = 'Apache' AND cflmc = 2)
+
+# Query 10
+(hasAttribute = 'color' AND description = 'Complex Model') OR (updatedAt > 20240101 AND amc <= 3)
+
+# Query 11
+(size > 2000) AND (ext = 'json') NOT (conformsTo = 'standard') OR (updatedAt > 20240101 AND mc <= 4) project1 AND storageUrl = "www.example.com" hasAttribute="type" AND isTransformable='NO'
+
+# Query 12
+(name = 'ModelZ') NOT (ext = 'xmi') OR (attr > 5 AND avgref <= 3) keyword2 AND involvedOperations = "import" license="GPL" AND isTransformable='ARTIFACT_ID'
+
+# Query 13
+(size < 5000) NOT (content = 'UML Diagram') OR (sf > 3 AND sfh <= 2) keyword3 AND unique_name = "unique_model" description="Simple Model" AND isTransformable='ID'
+
+# Query 14
+(accessControl = 'public') NOT (type = 'xml') OR (amc > 2 AND refcc <= 2) keyword4 AND conformsTo = "convention" hasAttribute="color" AND isTransformable='NO'
+
+# Query 15
+(updatedAt > 20230101) NOT (ext = 'json') OR (cmc > 5 AND mcwsp <= 2) keyword5 AND license = "MIT" project="Project1" AND isTransformable='ARTIFACT_ID'
+
+
+
+
+
+# Here are explanations for the given queries:
+
+# 1. This query looks for model artifacts whose size is greater than or equal to 10,000 and have the extension 'xml', along with models named 'model1'. There is an error in the query, as there is no Boolean operator between the first and second condition.
+
+# 2. This query targets model artifacts whose description is 'Advanced Model' or model artifacts that belong to 'Project1' and have 'xmi' as their type. Since AND has a higher precedence than OR, 'Project1' and 'type = xmi' are grouped together. 
+
+# 3. The query is searching for model artifacts licensed under 'MIT', with the content containing 'UML Diagram' and have a last update timestamp later than 1st February 2023. There's a missing Boolean operator between the first and second condition.
+
+# 4. The query is looking for model artifacts that are publicly accessible and either have a size smaller than 500 or are of 'json' format.
+
+# 5. This query looks for model artifacts with 'export' in their involved operations, and specifically among those, ones with a unique name 'ModelX' and have a 'mc' metric greater than 50.
+
+# 6. This query targets model artifacts conforming to 'standard', and among those, ones that are licensed under 'GPL' and named 'ModelY'.
+
+# 7. This query is looking for model artifacts either stored at 'www.example.com' or described as 'XMI Model', and among those, ones having an 'sf' metric less than 10.
+
+# 8. The search query targets model artifacts that either have a size greater than or equal to 1000 and were created on or before 1st January 2022, or belong to 'Project2' and have an 'attr' metric greater than 5.
+
+# 9. This query is looking for model artifacts that are either of 'xml' type and have a unique name 'uniqueModel', or are licensed under 'Apache' and have a 'cflmc' metric equal to 2.
+
+# 10. This search query is for model artifacts that either have a 'color' attribute and are described as 'Complex Model', or have an update timestamp later than 1st January 2024 and have an 'amc' metric less than or equal to 3.
+   
+# Please note that a few of the queries seem to be missing some Boolean operators. As a language model AI, I infer that these might be typos, and the interpretations provided are based on the most plausible way to complete the queries.
+
+
+
+
+
+
+# Sure, here are additional complex queries that include multiple boolean operations, tag searches, and metric expressions:
+
+# 1.
+#
+# (size > 2000) AND (ext = 'json') NOT (conformsTo = 'standard') OR (updatedAt > 20240101 AND mc <= 4) project1 AND storageUrl = "www.example.com" hasAttribute="type" AND isTransformable='NO'
+# ```
+# In this query, the user is looking for models greater than 2000 in size and in JSON format that do not conform to 'standard', or models updated after 1st January 2024 with mc metric less than or equal to 4, belonging to 'project1'. Additionally, models must be located at 'www.example.com', have an attribute 'type', and not be transformable.
+
+# 2.
+#
+# (name = 'ModelZ') AND NOT (ext = 'xmi') OR (attr > 5 AND avgref <= 3) keyword2 AND involvedOperations = "import" license="GPL" AND isTransformable='ARTIFACT_ID'
+# ```
+# This query searches for 'ModelZ' which is not an 'xmi' file, or models that have attr metric greater than 5 and avgref less than or equal to 3, with keyword2. They must be associated with 'import' operation, licensed under 'GPL', and be transformable.
+
+# 3.
+#
+# (size < 5000) NOT (content = 'UML Diagram') OR (sf > 3 AND sfh <= 2) keyword3 AND unique_name = "unique_model" description="Simple Model" AND isTransformable='ID'
+# ```
+# Models smaller than 5000 in size and not containing 'UML Diagram' in their content, or models that have sf metric greater than 3 and sfh metric less than or equal to 2, with keyword3, are being searched here. The models must have a unique name 'unique_model', have a description 'Simple Model', and be transformable to 'ID'.
+
+# 4.
+#
+# (accessControl = 'public') AND NOT (type = 'xml') OR (amc > 2 AND refcc <= 2) keyword4 AND conformsTo = "convention" hasAttribute="color" AND isTransformable='NO'
+# ```
+# This query searches for models with 'public' access control and not of 'xml' type, or models that have amc metric greater than 2 and refcc less than or equal to 2, with keyword4. Also, they must conform to 'convention', have attribute 'color', and not be transformable.
+
+# 5.
+#
+# (updatedAt > 20230101) AND NOT (ext = 'json') OR (cmc > 5 AND mcwsp <= 2) keyword5 AND license = "MIT" project="Project1" AND isTransformable='ARTIFACT_ID'
+# ```
+# Models updated after 1st January 2023 and not in JSON format, or models that have cmc metric greater than 5 and mcwsp metric less than or equal to 2, with keyword5, are being searched. They must be licensed under 'MIT', belong to 'Project1', and be transformable.

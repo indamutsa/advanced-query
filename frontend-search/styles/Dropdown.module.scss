@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+
+  .dropImage {
+    cursor: pointer;
+  }
+
+  .rotate {
+    transform: rotate(3.142rad);
+    cursor: pointer;
+    // padding-bottom: 0.2em;
+  }
+}
+
+// .items {
+//   position: absolute;
+//   background-color: white;
+//   border: 0.03em solid #ccc;
+//   width: 16em;
+
+.item {
+  font-size: 0.9em;
+  font-style: italic;
+  padding: 0.5em;
+  cursor: pointer;
+}
+
+.item:hover {
+  background-color: lightgray;
+}
+// }

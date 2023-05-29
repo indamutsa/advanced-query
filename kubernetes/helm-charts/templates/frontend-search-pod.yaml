@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c --out helm-chart
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.network/kubernetes-search-engine: "true"
+    io.kompose.service: frontend-search
+  name: frontend-search
+spec:
+  containers:
+    - env:
+        - name: HOST
+          value: 0.0.0.0
+      image: frontend-search
+      name: frontend-search
+      ports:
+        - containerPort: 3500
+      resources: {}
+  restartPolicy: OnFailure
+status: {}

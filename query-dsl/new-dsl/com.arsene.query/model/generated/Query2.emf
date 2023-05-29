@@ -1,0 +1,141 @@
+@namespace(uri="psl", prefix="")
+package query;
+
+class Query{
+	val FullTextSearch fullTextSearch;
+	val ContextualSearch contextualSearch;
+}
+//********************
+
+class FullTextSearch{
+	val Keyword[*] keywords ;
+	val LogicalExpression[*] logExps;
+	val Tag[*] tags;
+}
+
+class ContextualSearch{
+	val AdvancedFilter[*] advancedFilters; 
+	val Service[*] services;
+}
+
+class Keyword{
+	attr String value;
+}
+
+
+class AdvancedFilter{
+	val Keyword[*] keywords;
+	val Tag[*] tags;
+	val LogicalExpression[*] logExps;
+
+}
+
+class LogicalExpression{
+	val Expression[*] expression;
+}
+
+
+class Expression{
+	val Clause[*] clauses;
+}
+
+class Clause {
+	attr String[*] comparisonOperator;
+	attr String[*] Operator;	
+}
+
+// ***********Repository**************
+class Tag{
+	val Conformance[*] conformance;
+	val User user;
+	val Workspace workspace;
+	val Project project;
+	val Metamodel metamodel;
+	val Model model;
+	val Dsl dsl;
+}
+
+class QualityMetric{
+	val Tag[*] tags;
+}
+
+class QualityAttribute{
+	val Tag[*] tags;	
+}
+
+class User{
+	attr Integer userId;
+	attr String userName;
+}
+
+class Workspace{
+	attr Integer workspaceId;
+	attr String workspaceName;
+}
+
+class Project{
+	attr Integer workspaceId;
+	attr String workspaceName;
+}
+
+
+class Metamodel{
+	attr Integer metamodelId;
+	attr String metamodelName;
+}
+
+class Model{
+	attr Integer modelId;
+	attr String modelName;
+}
+
+class Dsl{
+	attr Integer dslId;
+	attr String dslName;
+}
+
+// **************Services***************
+
+class Service{
+	val QualityCalculator[*] qualityCalculator;
+	val Transformable transformable;
+}
+
+class Transformable {	
+	attr String Id;
+	attr String name;
+}
+
+class QualityCalculator{
+	val QualityMetric qualityMetric;
+	val QualityAttribute qualityAttribute;
+}
+
+// *****************Conformance*****************
+class Conformance{
+	attr String modelConformance;
+	val TransfoConformance transfoConformance;
+}
+
+class TransfoConformance{
+	attr String sourceModel;
+	attr String sourceMetamodel;
+	attr String targetMetamodel;
+	attr String transfoScript;
+}
+
+
+//*************************************
+
+enum Operator{
+	AND;
+	OR;
+	EXACT;
+}
+
+enum comparisonOperator{
+	gte;
+	lte;
+	gt;
+	lt;
+}

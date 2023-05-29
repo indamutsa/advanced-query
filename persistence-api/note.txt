@@ -1,0 +1,9 @@
+1. You can start it using:
+npm run start or npm start
+
+
+2. In your package.json, add this to scripts:
+"start": "nodemon index.js"
+
+(make sure the index.js part of the script matches the name of your server entry point file)
+3. Run npm start

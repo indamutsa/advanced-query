@@ -1,0 +1,15 @@
+for (t in Tree.all) {
+	t.label.println();
+}
+
+"We are printing in eshagdjas ol file".println();
+
+//Model.modelFile.println();
+doQuery().println();
+
+"I am talking with you".println();
+
+operation doQuery(){
+     return "HELLO WORLD";
+}
+

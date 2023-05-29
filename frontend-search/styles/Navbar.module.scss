@@ -1,0 +1,72 @@
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.2em;
+
+
+  .logo {
+    width: 11em;
+
+    // margin-left: 7.56em;
+    // flex: 1;
+    width: fit-content;
+    cursor: pointer;
+   
+
+    .logoImg {
+      margin-left: -0.5em;
+      // width: fit-content;
+    }
+
+    p:first-child {
+      font-size: 1.5em;
+      font-weight: 400;
+      font-family: $macondo;
+      // width: fit-content;
+    }
+    p:last-child {
+      font-size: 1.375em;
+      font-weight: 400;
+      font-family: $macondo;
+      // width: fit-content;
+    }
+  }
+
+  .logo:hover {
+    transform: scale(1.05);
+    transition: all 0.4s ease-in-out;
+  }
+
+  .navbar {
+    height: 2.063em;
+    margin-right: 7.56em;
+
+    .list {
+      list-style: none;
+      display: flex;
+      // justify-content: space-between;
+      align-items: center;
+
+      .listItem {
+        font-family: "Macondo";
+        font-style: normal;
+        font-weight: 400;
+        // margin-right: 2em;
+        font-size: 1.313em;
+        line-height: 32px;
+        margin-left: 3em;
+        color: $primary-color;
+        cursor: pointer;
+      }
+
+      .listItem:hover {
+        transform: translate(0, 0.125em);
+        transform: scale(1.1);
+        box-shadow: 0em 0.375em 0.125em -0.25em rgba(0, 0, 0, 0.3);
+        transition-duration: 400ms;
+      }
+    }
+  }
+}

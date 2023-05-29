@@ -1,0 +1,110 @@
+@namespace(uri="psl", prefix="")
+package query;
+
+class Query{
+	val Parameter param;
+	val Return return;
+}
+//********************
+class Return{
+	attr String[*] field; 
+}
+
+class Parameter {
+	val Model model;
+	val Metamodel metamodel;
+	val Dsl dsl;
+	val User user;
+	val Workspace workspace;
+	val Project project;
+}
+
+//*********************
+
+class Model{
+	val Field field;
+	val MicroSyntax microSyntax;
+	val ModelQuery modelQuery;
+	val FullTextSearch fullTextSearch;
+	val Filter filter;
+}
+
+class Metamodel{
+	val Field field;
+	val MicroSyntax microSyntax;
+	val FullTextSearch fullTextSearch;
+	val Filter filter;
+	val QualityMetric qualityMetric;
+	val Transformable transformable;
+}
+
+class Dsl{
+	val Field field;
+	val Filter filter;
+	val MicroSyntax microSyntax;	
+	val FullTextSearch fullTextSearch;
+}
+
+class User{
+	val Field field;
+}
+
+class Workspace{
+	val Field field;
+}
+
+class Project{
+	val Field field;
+}
+
+//**********************************************
+
+class Field{
+	attr String key;
+	attr String value;
+}
+
+class MicroSyntax{
+	attr String query_string;
+}
+
+class FullTextSearch{
+		attr String query_string;
+		attr String Operator;
+}
+
+enum Operator{
+	AND;
+	OR;
+	EXACT;
+}
+
+class Filter{
+	attr String[*] FilterOpertor;
+}
+
+enum FilterOpertor{
+	gte;
+	lte;
+	gt;
+	lt;
+}
+
+class QualityMetric{
+	val Expression expression;
+}
+
+class Expression{
+}
+
+class Transformable {	
+	attr String Id;
+	attr String name;
+}
+
+
+class ModelQuery{
+	attr String type;
+	attr String dsl;
+	
+}

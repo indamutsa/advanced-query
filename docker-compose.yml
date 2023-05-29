@@ -1,0 +1,439 @@
+# In this cluster of microservices, we define elastastic as engine and its logging and visualization supporting tools (logstash, kibana and filebeat)
+# In the second part, we synchronize our search engine with the persistence api
+
+# The next thing is to define a crawler that go through files asynchronsously and extracts keywords and index it as well (save it db)
+# Then build the complete search api
+
+
+# Even if you're NOT in swarm mode, there is an option called --compatibility which will work with restart_policy, this will attempt to restart even if you're not deploying. The only glitch, is the sub-keys of 'delay' and 'window' will be ignored. Here is an example:
+
+# version: '3.7'
+# services:
+#   build:
+#     context: .
+#     dockerfile: Dockerfile
+#   container_name: example
+#   deploy:
+#     restart_policy:
+#       condition: on-failure
+#       max-attempts: 3
+# run this command:
+
+# docker-compose -f docker-compose.yml --compatibility up
+
+version: "3.4"
+
+services:
+  # ELASTIC SEARCH STACK: ELASTICSEARCH / LOGSTASH/ FILEBEAT/ KIBANA
+  ################################################################################
+  elasticsearch:
+    container_name: elasticsearch
+    image: indamutsa/elasticsearch:v1.0
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - search-engine
+    restart: on-failure   
+
+  logstash:
+    container_name: logstash
+    image: indamutsa/logstash:v1.0
+    links:
+      - elasticsearch:elasticsearch
+    ports:
+      - "5044:5044"
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+    networks:
+      - search-engine
+    depends_on:
+      - elasticsearch
+    restart: on-failure  
+  
+
+
+  kibana:
+    container_name: kibana
+    image: indamutsa/kibana:v1.0
+    links:
+      - elasticsearch:elasticsearch
+    ports:
+      - "5601:5601"
+    networks:
+      - search-engine
+    depends_on:
+      - elasticsearch
+    restart: on-failure   
+
+  filebeat:
+    container_name: filebeat
+    image: indamutsa/filebeat:v1.0
+    links:
+      - elasticsearch
+      - kibana
+    networks:
+      - search-engine
+    restart: on-failure   
+
+  # PERSISTENCE API
+  #####################################################
+  persistence-api:
+    container_name: persistence
+    build:
+      context: ./persistence-api
+    # image: indamutsa/persistence-api:v1.0
+    command: bash -c "sleep 130 && npm run server"
+    ports:
+      - "3200:3200"
+    volumes:
+      - ./persistence-api:/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - "setup-rs"
+    networks:
+      - search-engine
+    restart: on-failure   
+
+  # QUERY ENGINE
+  #####################################################
+  query-engine:
+    container_name: query-engine
+    build:
+      context: ./query-engine
+    depends_on:
+      - "setup-rs"
+
+    ports:
+      - "3300:3300"
+    volumes:
+      - ./query-engine:/app
+      - /app/node_modules
+    networks:
+      - search-engine
+    restart: on-failure   
+
+
+  # web:
+  #   container_name: web
+  #   build:
+  #     context: ./mongo-bundle/sharded/web-app
+  #   command: bash -c "sleep 120 && node index.js"
+  #   ports:
+  #     - "3110:3000"
+  #   restart: always
+  #   volumes:
+  #     - ./web-app:/app
+  #     - /usr/src/app/node_modules
+  #   depends_on:
+  #     - setup-rs
+  #   networks:
+  #     - search-engine
+
+  adminmongo:
+    container_name: adminmongo
+    image: indamutsa/adminmongo
+    ports:
+      - 9990:1234
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - search-engine
+    restart: on-failure   
+
+  # Synchronizing the elasticsearch and mongo cluster using MONSTACHE
+  ###################################################################
+  monstache:
+    image: indamutsa/monstache:v1.0 # After building the image i pushed it
+    container_name: monstache
+    working_dir: /app
+    command: -f monstache.config.toml
+    # build:
+    #   context: ./monstache
+    #   dockerfile: ./Dockerfile
+    volumes:
+      - "./mongo-bundle/monstache/monstache.config.toml:/app/monstache.config.toml"
+      # - mongo-rs0-1
+      # - elasticsearch
+    ports:
+      - "8080:8080"
+    networks:
+      - search-engine
+    healthcheck:
+      # test: "wget -q -O - http://localhost:8080/healthz"
+      test: "wget -q -O - http://monstache:8080/healthz"
+      interval: 1s
+      timeout: 30s
+      retries: 300
+    # restart: unless-stopped
+    restart: on-failure   
+
+
+  # Mongo cluster  -- Sharded cluster
+  #################################################
+
+  # Shard 1
+  mongors1n1:
+    container_name: mongors1n1
+    image: mongo:4.2
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017 --bind_ip_all
+    ports:
+      - 27018:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - ./mongo-bundle/sharded/mongo_cluster/data1:/data/db
+    networks:
+      - search-engine
+    restart: on-failure   
+
+  mongors1n2:
+    container_name: mongors1n2
+    image: mongo:4.2
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017 --bind_ip_all
+    ports:
+      - 27027:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - ./mongo-bundle/sharded/mongo_cluster/data2:/data/db
+    networks:
+      - search-engine
+    restart: on-failure   
+
+  mongors1n3:
+    container_name: mongors1n3
+    image: mongo:4.2
+    command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017 --bind_ip_all
+    ports:
+      - 27037:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - ./mongo-bundle/sharded/mongo_cluster/data3:/data/db
+    networks:
+      - search-engine
+    restart: on-failure   
+
+  # Shard 2
+  mongors2n1:
+    container_name: mongors2n1
+    image: mongo:4.2
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017 --bind_ip_all
+    ports:
+      - 27047:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - ./mongo-bundle/sharded/mongo_cluster/data4:/data/db
+    networks:
+      - search-engine
+    restart: on-failure   
+
+  mongors2n2:
+    container_name: mongors2n2
+    image: mongo:4.2
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017 --bind_ip_all
+    ports:
+      - 27057:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - ./mongo-bundle/sharded/mongo_cluster/data5:/data/db
+    networks:
+      - search-engine
+    restart: on-failure     
+
+  mongors2n3:
+    container_name: mongors2n3
+    image: mongo:4.2
+    command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017 --bind_ip_all
+    ports:
+      - 27067:27017
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - ./mongo-bundle/sharded/mongo_cluster/data6:/data/db
+    networks:
+      - search-engine
+    restart: on-failure   
+
+  # Configuration server
+  mongocfg1:
+    container_name: mongocfg1
+    image: mongo:4.2
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27017 --bind_ip_all
+    environment:
+      TERM: xterm
+    expose:
+      - "27017"
+    volumes:
+      - ./mongo-bundle/sharded/mongo_cluster/config1:/data/db
+    networks:
+      - search-engine
+    restart: on-failure   
+
+  mongocfg2:
+    container_name: mongocfg2
+    image: mongo:4.2
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27017 --bind_ip_all
+    environment:
+      TERM: xterm
+    expose:
+      - "27017"
+    volumes:
+      - ./mongo-bundle/sharded/mongo_cluster/config2:/data/db
+    networks:
+      - search-engine
+    restart: on-failure   
+
+  mongocfg3:
+    container_name: mongocfg3
+    image: mongo:4.2
+    command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27017 --bind_ip_all
+    environment:
+      TERM: xterm
+    expose:
+      - "27017"
+    volumes:
+      - ./mongo-bundle/sharded/mongo_cluster/config3:/data/db
+    networks:
+      - search-engine
+    restart: on-failure   
+
+  # The router
+  mongos1:
+    container_name: mongos1
+    image: mongo:4.2
+    depends_on:
+      - mongocfg1
+      - mongocfg2
+    command: mongos --configdb mongors1conf/mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017 --bind_ip_all
+    ports:
+      - 27019:27017
+    expose:
+      - "27017"
+    volumes:
+      - ./setup/addShards.js:/home/app/addShards.js
+    networks:
+      - search-engine
+    restart: on-failure   
+
+  mongos2:
+    container_name: mongos2
+    image: mongo:4.2
+    depends_on:
+      - mongocfg1
+      - mongocfg2
+    command: mongos --configdb mongors1conf/mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017 --bind_ip_all
+    ports:
+      - 27020:27017
+    expose:
+      - "27017"
+    networks:
+      - search-engine
+    restart: on-failure   
+
+  # A shortlived container for starting the cluster
+  setup-rs:
+    container_name: setup-rs
+    build: ./setup
+    depends_on:
+      - "mongos1"
+    networks:
+      - search-engine
+
+
+# MODEL MANAGEMENT SERVICES
+# -------------------------
+
+  model-transformation:
+    container_name: etl-transformation
+    image: indamutsa/etl-transformation:v1.3
+    ports:
+      - 8085:8085
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - search-engine
+    restart: on-failure   
+
+
+  model-validation:
+    container_name: evl-validation
+    image: indamutsa/model-validate-image:v1.2
+    ports:
+      - 8086:8086
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - search-engine
+    restart: on-failure   
+
+
+  model-query:
+    container_name: eol-query
+    image: indamutsa/model-query-image:v1.2
+    ports:
+      - 8087:8087
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - search-engine
+    restart: on-failure   
+
+
+# END OF MODEL MANAGEMENT SERVICES
+# --------------------------------
+  frontend-search:
+    container_name: frontend-search
+    build:
+      context: ./frontend-search
+      dockerfile: ./Dockerfile
+    # image: indamutsa/frontend-search:v3.2
+    ports:
+      - 3500:3500
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - search-engine
+    restart: on-failure   
+
+      
+
+  metrics-calculator:
+    container_name: metrics-calculator
+    image: indamutsa/metrics-calculator:v1.0
+    ports:
+      - 8186:8186
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - search-engine
+    restart: on-failure   
+
+# Defining the network
+######################################################
+networks:
+  search-engine:
+    external: false
+
+# networks:
+#   elk:
+#     driver: bridge
+
+volumes:
+  elasticsearch:

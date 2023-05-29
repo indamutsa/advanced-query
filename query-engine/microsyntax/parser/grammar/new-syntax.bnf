@@ -1,0 +1,42 @@
+(* Extended Backus-Naur Form *)
+
+searchQuery = term, EOF ;
+term = factor, { boolean_operator, factor } ;
+factor = text | tag | expression | "(", term, ")" ;
+boolean_operator = "AND" | "OR" | "NOT" | SPACE ;
+operator = ">" | "<" | "==" | ">=" | "<=" ;
+text = KEYWORD | NUMBER | exactText ;
+exactText = QUOTE, KEYWORD, { SPACE, KEYWORD }, QUOTE ; 
+tag = ( TAG_ID | NUMERICAL_TAG_ID ), "=", tagValue ;
+tagValue = KEYWORD | NUMBER | exactText ;
+expression = numericalExpr | metricExpr ;
+metricExpr = METRIC_ID, operator, NUMBER ; 
+numericalExpr = NUMERICAL_TAG_ID, operator, NUMBER ;
+
+TAG_ID = 
+'accessControl' | 'content' |  'description' | 'ext' | 'involvedOperations' | 'license' | 'name' | 'project' 
+| 'storageUrl' | 'type' | 'unique_name' |  'conformsTo' | 'hasAttribute' | 'isTransformable' ;
+
+NUMERICAL_TAG_ID = 'size' | 'createdAt' | 'updatedAt' ;
+
+METRIC_ID = 'acfmc' | 'aiflmc' | 'amc' | 'attr' 	| 'attrh' | 'avgattr' | 'avgref' | 'ccfmc' | 'cflmc' | 'ciflmc' | 'cmc'	| 'iflmc'
+| 'lmc'	| 'maxhl' | 'maxhs' | 'mc' | 'mcwsp' | 'mtnb' | 'rec_cont' | 'ref'	| 'refcc' | 'refeop' | 'sf' | 'sfh' ;
+
+NUMBER = digit, { digit } ;
+(* digit = "0" .. "9" *)
+
+KEYWORD = nonQuoteSpace, { nonQuoteSpace } ; 
+(* nonQuoteSpace = any character excluding single or double quotes and spaces  - special characters are espaced with '\'*)
+
+SPACE = " " ;
+QUOTE = "'" | "\"" ;
+
+# --------------------------------------------------------------------------------------
+
+# Constraints:
+# 1. The search_query should start with a valid token
+# 2. The search_query should not end with 'AND', 'OR', or 'NOT' or any other operator.
+# 3. In a metric expression, the metric_operator must be followed by a number because the quality metrics are numerical values.
+# 4. Tag expressions should have a colon ':' followed by a valid tag_value.
+
+# --------------------------------------------------------------------------------------

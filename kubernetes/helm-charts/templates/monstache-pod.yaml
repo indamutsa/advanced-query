@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c --out helm-chart
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.network/kubernetes-search-engine: "true"
+    io.kompose.service: monstache
+  name: monstache
+spec:
+  containers:
+    - args:
+        - -f
+        - monstache.config.toml
+      image: indamutsa/monstache:v1.0
+      livenessProbe:
+        exec:
+          command:
+            - wget -q -O - http://monstache:8080/healthz
+        failureThreshold: 300
+        periodSeconds: 1
+        timeoutSeconds: 30
+      name: monstache
+      ports:
+        - containerPort: 8080
+      resources: {}
+      volumeMounts:
+        - mountPath: /app/monstache.config.toml
+          name: monstache-claim0
+      workingDir: /app
+  restartPolicy: OnFailure
+  volumes:
+    - name: monstache-claim0
+      persistentVolumeClaim:
+        claimName: monstache-claim0
+status: {}

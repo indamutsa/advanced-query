@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="query" nsURI="psl" nsPrefix="">
+  <eClassifiers xsi:type="ecore:EClass" name="Query">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fullTextSearch" eType="#//FullTextSearch"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contextualSearch" eType="#//ContextualSearch"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FullTextSearch">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="keywords" upperBound="-1"
+        eType="#//Keyword" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logExps" upperBound="-1"
+        eType="#//LogicalExpression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tags" upperBound="-1" eType="#//Tag"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContextualSearch">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="advancedFilters" upperBound="-1"
+        eType="#//AdvancedFilter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="services" upperBound="-1"
+        eType="#//Service" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Keyword">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AdvancedFilter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="keywords" upperBound="-1"
+        eType="#//Keyword" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tags" upperBound="-1" eType="#//Tag"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logExps" upperBound="-1"
+        eType="#//LogicalExpression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LogicalExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" upperBound="-1"
+        eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="clauses" upperBound="-1"
+        eType="#//Clause" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Clause">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comparisonOperator" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Operator" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tag">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conformance" upperBound="-1"
+        eType="#//Conformance" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="user" eType="#//User" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workspace" eType="#//Workspace"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="project" eType="#//Project"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metamodel" eType="#//Metamodel"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" eType="#//Model"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dsl" eType="#//Dsl" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QualityMetric">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tags" upperBound="-1" eType="#//Tag"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QualityAttribute">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tags" upperBound="-1" eType="#//Tag"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="userId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="userName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Workspace">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workspaceId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workspaceName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Project">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workspaceId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workspaceName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Metamodel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodelId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodelName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Dsl">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dslId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dslName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Service">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualityCalculator" upperBound="-1"
+        eType="#//QualityCalculator" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transformable" eType="#//Transformable"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transformable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QualityCalculator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualityMetric" eType="#//QualityMetric"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualityAttribute" eType="#//QualityAttribute"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Conformance">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelConformance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transfoConformance" eType="#//TransfoConformance"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransfoConformance">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceModel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceMetamodel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetMetamodel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transfoScript" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Operator">
+    <eLiterals name="AND"/>
+    <eLiterals name="OR" value="1"/>
+    <eLiterals name="EXACT" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="comparisonOperator">
+    <eLiterals name="gte"/>
+    <eLiterals name="lte" value="1"/>
+    <eLiterals name="gt" value="2"/>
+    <eLiterals name="lt" value="3"/>
+  </eClassifiers>
+</ecore:EPackage>

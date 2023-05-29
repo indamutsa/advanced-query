@@ -1,0 +1,88 @@
+grammar SearchQuery;
+
+searchQuery: term EOF;
+term: factor (operator factor)*;
+factor:
+	NUMBER
+	| KEYWORD
+	| tag
+	| metric
+	| exactKeyword
+	| '(' term ')';
+operator:
+	'AND'
+	| 'OR'
+	| 'NOT'
+	| SPACE
+	| ':'
+	| '>'
+	| '<'
+	| '='
+	| '>='
+	| '<=';
+keyword: KEYWORD;
+number: NUMBER;
+tag: TAG ':' tagValue;
+tagValue: keyword | number | exactKeyword;
+metric: METRIC metricOperator NUMBER;
+metricOperator: '>' | '<' | '=' | '>=' | '<=';
+exactKeyword: '\'' STRING '\'';
+string: STRING;
+space: SPACE;
+
+// Lexer rules
+KEYWORD: ([a-zA-Z0-9_] | '\\' .)+; // Modify as per your requirements
+NUMBER: [0-9]+; // Modify as per your requirements
+TAG: 'TT_TAG';
+METRIC: 'TT_METRIC';
+SPACE: ' ';
+STRING:
+	~('\'' | ' ')+; // Sequence of characters excluding single quote and spaces
+
+
+# --------------------------------------------------------------------------------------
+
+# Constraints:
+# 1. The search_query should start with a valid token
+# 2. The search_query should not end with 'AND', 'OR', or 'NOT' or any other operator.
+# 3. In a metric expression, the metric_operator must be followed by a number because the quality metrics are numerical values.
+# 4. Tag expressions should have a colon ':' followed by a valid tag_value.
+
+# --------------------------------------------------------------------------------------
+
+
+
+
+
+METRICS = [
+    "acfmc", "aiflmc", "amc",
+    "attr", "attrh", "avgattr",
+    "avgref", "ccfmc", "cflmc",
+    "ciflmc", "cmc", "iflmc",
+    "lmc", "maxhl", "maxhs",
+    "mc", "mcwsp", "mtnb",
+    "rec_cont", "ref", "refcc",
+    "refeop", "sf", "sfh"
+]
+
+TAG = [
+    "accessControl",
+    "content",
+    "createdAt",
+    "description",
+    "ext",
+    "involvedOperations",
+    "license",
+    "name",
+    "project",
+    "size",
+    "storageUrl",
+    "type",
+    "unique_name",
+    "updatedAt",
+    "conformsTo",
+    "hasAttribute",
+    "isTransformable"
+]
+
+# --------------------------------------------------------------------------------------

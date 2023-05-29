@@ -1,0 +1,35 @@
+@mixin flexRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.container {
+  width: 95%;
+  // margin-right: 5rem;
+
+  .upperContent {
+    padding-top: 0.5em;
+
+    .upperTitles {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .alphabets {
+      margin-top: 1em;
+      .title {
+        color: rgba(0, 0, 0, 1);
+        font-family: "Macondo";
+        font-size: 1.5em;
+        font-weight: 400;
+      }
+    }
+  }
+
+  .bottomContent {
+    min-height: 2.5em;
+    // background-color: red;
+  }
+}

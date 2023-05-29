@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c --out helm-chart
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.network/kubernetes-search-engine: "true"
+    io.kompose.service: model-validation
+  name: model-validation
+spec:
+  containers:
+    - env:
+        - name: HOST
+          value: 0.0.0.0
+      image: indamutsa/model-validate-image:v1.2
+      name: evl-validation
+      ports:
+        - containerPort: 8086
+      resources: {}
+  restartPolicy: OnFailure
+status: {}

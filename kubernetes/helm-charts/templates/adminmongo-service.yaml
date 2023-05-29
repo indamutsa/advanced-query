@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c --out helm-chart
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: adminmongo
+  name: adminmongo
+spec:
+  ports:
+    - name: "9990"
+      port: 9990
+      targetPort: 1234
+  selector:
+    io.kompose.service: adminmongo
+status:
+  loadBalancer: {}
