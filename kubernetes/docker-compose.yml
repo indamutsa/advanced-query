@@ -4,6 +4,7 @@
 # The next thing is to define a crawler that go through files asynchronsously and extracts keywords and index it as well (save it db)
 # Then build the complete search api
 
+<<<<<<< HEAD
 
 # Even if you're NOT in swarm mode, there is an option called --compatibility which will work with restart_policy, this will attempt to restart even if you're not deploying. The only glitch, is the sub-keys of 'delay' and 'window' will be ignored. Here is an example:
 
@@ -21,6 +22,8 @@
 
 # docker-compose -f docker-compose.yml --compatibility up
 
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 version: "3.4"
 
 services:
@@ -29,53 +32,119 @@ services:
   elasticsearch:
     container_name: elasticsearch
     image: indamutsa/elasticsearch:v1.0
+<<<<<<< HEAD
     ports:
       - "9200:9200"
       - "9300:9300"
     networks:
       - search-engine
     restart: on-failure   
+=======
+    volumes:
+      - type: bind
+        source: ./elastic-bundle/elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elastic-bundle/elasticsearch/config/elasticsearch.yml
+        read_only: true
+      - type: volume
+        source: elasticsearch
+        target: /usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTIC_PASSWORD: changeme
+      # Use single node discovery in order to disable production mode and avoid bootstrap checks.
+      # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
+      discovery.type: single-node
+    networks:
+      - search-engine
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   logstash:
     container_name: logstash
     image: indamutsa/logstash:v1.0
     links:
       - elasticsearch:elasticsearch
+<<<<<<< HEAD
+=======
+    volumes:
+      - type: bind
+        source: ./elastic-bundle/logstash/config/logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+        read_only: true
+      - type: bind
+        source: ./elastic-bundle/logstash/pipeline
+        target: /usr/share/logstash/pipeline
+        read_only: true
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     ports:
       - "5044:5044"
       - "5000:5000/tcp"
       - "5000:5000/udp"
       - "9600:9600"
+<<<<<<< HEAD
+=======
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     networks:
       - search-engine
     depends_on:
       - elasticsearch
+<<<<<<< HEAD
     restart: on-failure  
   
 
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   kibana:
     container_name: kibana
     image: indamutsa/kibana:v1.0
     links:
       - elasticsearch:elasticsearch
+<<<<<<< HEAD
+=======
+    volumes:
+      - type: bind
+        source: ./elastic-bundle/kibana/config/kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+        read_only: true
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     ports:
       - "5601:5601"
     networks:
       - search-engine
     depends_on:
       - elasticsearch
+<<<<<<< HEAD
     restart: on-failure   
 
   filebeat:
     container_name: filebeat
     image: indamutsa/filebeat:v1.0
+=======
+  filebeat:
+    container_name: filebeat
+    image: indamutsa/filebeat:v1.0
+    volumes:
+      - "./elastic-bundle/test-filebeat:/logs"
+      - "./elastic-bundle/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
+      - "/var/lib/docker/containers:/usr/share/filebeat/dockerlogs:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+    command: filebeat -e --strict.perms=false
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     links:
       - elasticsearch
       - kibana
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   # PERSISTENCE API
   #####################################################
@@ -87,6 +156,10 @@ services:
     command: bash -c "sleep 130 && npm run server"
     ports:
       - "3200:3200"
+<<<<<<< HEAD
+=======
+    restart: always
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     volumes:
       - ./persistence-api:/app
       - /usr/src/app/node_modules
@@ -94,7 +167,10 @@ services:
       - "setup-rs"
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   # QUERY ENGINE
   #####################################################
@@ -107,13 +183,20 @@ services:
 
     ports:
       - "3300:3300"
+<<<<<<< HEAD
+=======
+    restart: always
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     volumes:
       - ./query-engine:/app
       - /app/node_modules
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
 
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   # web:
   #   container_name: web
@@ -140,7 +223,10 @@ services:
       - HOST=0.0.0.0
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   # Synchronizing the elasticsearch and mongo cluster using MONSTACHE
   ###################################################################
@@ -161,6 +247,7 @@ services:
     networks:
       - search-engine
     healthcheck:
+<<<<<<< HEAD
       # test: "wget -q -O - http://localhost:8080/healthz"
       test: "wget -q -O - http://monstache:8080/healthz"
       interval: 1s
@@ -169,6 +256,13 @@ services:
     # restart: unless-stopped
     restart: on-failure   
 
+=======
+      test: "wget -q -O - http://localhost:8080/healthz"
+      interval: 1s
+      timeout: 30s
+      retries: 300
+    restart: unless-stopped
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   # Mongo cluster  -- Sharded cluster
   #################################################
@@ -188,7 +282,10 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/data1:/data/db
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   mongors1n2:
     container_name: mongors1n2
@@ -204,7 +301,10 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/data2:/data/db
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   mongors1n3:
     container_name: mongors1n3
@@ -220,7 +320,10 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/data3:/data/db
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   # Shard 2
   mongors2n1:
@@ -237,7 +340,10 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/data4:/data/db
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   mongors2n2:
     container_name: mongors2n2
@@ -253,7 +359,10 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/data5:/data/db
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure     
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   mongors2n3:
     container_name: mongors2n3
@@ -269,7 +378,10 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/data6:/data/db
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   # Configuration server
   mongocfg1:
@@ -284,7 +396,10 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/config1:/data/db
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   mongocfg2:
     container_name: mongocfg2
@@ -298,7 +413,10 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/config2:/data/db
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   mongocfg3:
     container_name: mongocfg3
@@ -312,7 +430,10 @@ services:
       - ./mongo-bundle/sharded/mongo_cluster/config3:/data/db
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   # The router
   mongos1:
@@ -330,7 +451,10 @@ services:
       - ./setup/addShards.js:/home/app/addShards.js
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   mongos2:
     container_name: mongos2
@@ -345,7 +469,10 @@ services:
       - "27017"
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
   # A shortlived container for starting the cluster
   setup-rs:
@@ -356,6 +483,7 @@ services:
     networks:
       - search-engine
 
+<<<<<<< HEAD
 
 # MODEL MANAGEMENT SERVICES
 # -------------------------
@@ -363,12 +491,18 @@ services:
   model-transformation:
     container_name: etl-transformation
     image: indamutsa/etl-transformation:v1.3
+=======
+  model-transformation:
+    container_name: etl-transformation
+    image: indamutsa/etl-transformation:v1.0
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     ports:
       - 8085:8085
     environment:
       - HOST=0.0.0.0
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
 
 
@@ -404,13 +538,22 @@ services:
       context: ./frontend-search
       dockerfile: ./Dockerfile
     # image: indamutsa/frontend-search:v3.2
+=======
+
+  frontend-search:
+    container_name: frontend-search
+    image: indamutsa/frontend-search:v1.3
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     ports:
       - 3500:3500
     environment:
       - HOST=0.0.0.0
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
       
 
@@ -423,7 +566,10 @@ services:
       - HOST=0.0.0.0
     networks:
       - search-engine
+<<<<<<< HEAD
     restart: on-failure   
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
 # Defining the network
 ######################################################

@@ -12,7 +12,11 @@
 echo '####################################################'
 echo 'Removing data...'
 echo '####################################################'
+<<<<<<< HEAD
 # remove all all cluster data
+=======
+# remove all images
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 sudo rm -rf mongo-bundle/sharded/mongo_cluster/data1/*
 sudo rm -rf mongo-bundle/sharded/mongo_cluster/data2/*
 sudo rm -rf mongo-bundle/sharded/mongo_cluster/data3/*

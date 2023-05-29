@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Home page</title>
+</head>
+
+<body>
+
+    <div class="home-pagescreen">
+        <div class="frame-1">
+            <div class="browse-3">
+                <div class="browsevalign-text-middlemacondo-normal-casal-23-7px">Browse</div>
+            </div>
+            <div class="browse-4">
+                <div class="browsevalign-text-middlemacondo-normal-casal-23-7px">Services</div>
+            </div>
+            <div class="browse-1">
+                <div class="browse-2valign-text-middlemacondo-normal-casal-23-7px">Log In</div>
+            </div>
+            <div class="browse-1">
+                <div class="browse-2valign-text-middlemacondo-normal-casal-23-7px">Register</div>
+            </div>
+        </div>
+        <div class="component-25">
+            <div class="overlap-group">
+                <img class="mdeforge-search-facility" src="mdeforge-search-facility.svg" /><img class="vector-1"
+                    src="vector-1-2.svg" />
+            </div>
+        </div>
+        <div class="component-7">
+            <div class="overlap-group1">
+                <div class="rectangle-1bp1-animate-enter"></div>
+                <img class="emojionemagnifying-glass-tilted-right"
+                    src="emojione-magnifying-glass-tilted-right-1.svg" /><input class="search-artifacts"
+                    name="searchartifacts" placeholder="Search artifacts..." type="text" required="" />
+            </div>
+            <div class="advanced-searchvalign-text-middle">Advanced Search</div>
+        </div>
+        <div class="component-8">
+            <p class="mde-forge-is-a-cloudvalign-text-middleopensans-normal-black-14-9px">
+                MDEForge is a cloud-based repository for model artifacts that supports advanced query mechanisms and
+                <br />provides collaborative
+                features for sharing, reusing and executing transformations on model artifacts. <br /><br />MDEForge
+                uses the MDEForge Query engine to
+                provide powerful search capabilities. <br />The repository can be accessed through various APi
+                specifications and through a web
+                interface. <br />It supports artifact peristence operations, model management services, search and it is
+                tuned to support machine
+                learning techniques.
+            </p>
+        </div>
+        <div class="component-1">
+            <img class="ant-designcopyright-circle-outlined" src="ant-design-copyright-circle-outlined-2.svg" />
+            <div class="mde-forge-all-right-reservedvalign-text-middleopensans-normal-black-14-9px">
+                MDEForge. All right reserved
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

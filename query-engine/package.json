@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
+<<<<<<< HEAD
     "serve": "node server.js",
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     "server": "NODE_ENV=development node server.js",
     "debug": "node --inspect server.js"
   },

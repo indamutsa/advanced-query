@@ -29,9 +29,29 @@ services:
   elasticsearch:
     container_name: elasticsearch
     image: indamutsa/elasticsearch:v1.0
+<<<<<<< HEAD
     ports:
       - "9200:9200"
       - "9300:9300"
+=======
+    volumes:
+      - type: bind
+        source: ./elastic-bundle/elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elastic-bundle/elasticsearch/config/elasticsearch.yml
+        read_only: true
+      - type: volume
+        source: elasticsearch
+        target: /usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTIC_PASSWORD: changeme
+      # Use single node discovery in order to disable production mode and avoid bootstrap checks.
+      # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
+      discovery.type: single-node
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     networks:
       - search-engine
     restart: on-failure   
@@ -41,17 +61,38 @@ services:
     image: indamutsa/logstash:v1.0
     links:
       - elasticsearch:elasticsearch
+<<<<<<< HEAD
+=======
+    volumes:
+      - type: bind
+        source: ./elastic-bundle/logstash/config/logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+        read_only: true
+      - type: bind
+        source: ./elastic-bundle/logstash/pipeline
+        target: /usr/share/logstash/pipeline
+        read_only: true
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     ports:
       - "5044:5044"
       - "5000:5000/tcp"
       - "5000:5000/udp"
       - "9600:9600"
+<<<<<<< HEAD
+=======
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     networks:
       - search-engine
     depends_on:
       - elasticsearch
+<<<<<<< HEAD
     restart: on-failure  
   
+=======
+    restart: on-failure   
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
 
 
   kibana:
@@ -59,6 +100,14 @@ services:
     image: indamutsa/kibana:v1.0
     links:
       - elasticsearch:elasticsearch
+<<<<<<< HEAD
+=======
+    volumes:
+      - type: bind
+        source: ./elastic-bundle/kibana/config/kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+        read_only: true
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     ports:
       - "5601:5601"
     networks:
@@ -70,6 +119,16 @@ services:
   filebeat:
     container_name: filebeat
     image: indamutsa/filebeat:v1.0
+<<<<<<< HEAD
+=======
+    volumes:
+      - "./elastic-bundle/test-filebeat:/logs"
+      - "./elastic-bundle/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
+      - "/var/lib/docker/containers:/usr/share/filebeat/dockerlogs:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+    command: filebeat -e --strict.perms=false
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     links:
       - elasticsearch
       - kibana
@@ -161,8 +220,12 @@ services:
     networks:
       - search-engine
     healthcheck:
+<<<<<<< HEAD
       # test: "wget -q -O - http://localhost:8080/healthz"
       test: "wget -q -O - http://monstache:8080/healthz"
+=======
+      test: "wget -q -O - http://localhost:8080/healthz"
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
       interval: 1s
       timeout: 30s
       retries: 300
@@ -400,10 +463,14 @@ services:
 # --------------------------------
   frontend-search:
     container_name: frontend-search
+<<<<<<< HEAD
     build:
       context: ./frontend-search
       dockerfile: ./Dockerfile
     # image: indamutsa/frontend-search:v3.2
+=======
+    image: indamutsa/frontend-search:v3.2
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     ports:
       - 3500:3500
     environment:

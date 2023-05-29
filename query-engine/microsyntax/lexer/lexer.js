@@ -43,10 +43,20 @@ class Lexer {
           this.advance();
           break;
         case "=":
+<<<<<<< HEAD
           this.tokens.push(new Token("TT_COLON", ":"));
           this.advance();
           break;
 
+=======
+          //   console.log("equal");
+          //   this.advance();
+          if (this.currentChar === "=") {
+            this.tokens.push(new Token("TT_COLON", ":"));
+            this.advance();
+          }
+          break;
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
         case "<":
           this.advance();
           if (this.currentChar === "=") {
@@ -74,6 +84,7 @@ class Lexer {
           this.tokens.push(new Token("TT_COLON", ":"));
           this.advance();
           break;
+<<<<<<< HEAD
         // case '"':
         // case "'":
         //   this.tokens.push(new Token("TT_QUOTE", "'"));
@@ -104,6 +115,13 @@ class Lexer {
           this.advance();
           break;
 
+=======
+        case '"':
+        case "'":
+          this.tokens.push(new Token("TT_QUOTE", "'"));
+          this.advance();
+          break;
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
         case "A":
           if (this.checkStringEquality("AND")) {
             this.tokens.push(new Token("TT_AND", "AND"));
@@ -245,6 +263,7 @@ class Lexer {
       );
   }
 
+<<<<<<< HEAD
   // makeAkeyword() {
   //   let keyword = "";
   //   while (
@@ -272,14 +291,21 @@ class Lexer {
   //   return keyword;
   // }
 
+=======
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
   makeAkeyword() {
     let keyword = "";
     while (
       this.currentChar !== null &&
       this.currentChar.match(
+<<<<<<< HEAD
         /[\w\d\,\.\/\;\%\|\`\?\"\+\&\|\!\(\)\{\}\^\"\<\>\~\*\?\\\-]/
       ) &&
       this.currentChar !== "="
+=======
+        /[\w\d\,\.\/\;\%\|\`\?\"\+\&\|\!\(\)\{\}\^\"\=\<\>\~\*\?\\\-]/
+      )
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
     ) {
       // console.log(this.input);
 
@@ -323,3 +349,53 @@ class Lexer {
   }
 }
 module.exports = { Lexer };
+<<<<<<< HEAD
+=======
+
+// const functions = {
+//     add: (num1, num2) => num1 + num2,
+//     isNull: () => null,
+//     checkValue: x => x,
+//     createUser: () => {
+//         const user = { firstName: 'Brad' };
+//         user['lastName'] = 'Traversy';
+//         return user;
+//     },
+//     fetchUser: () =>
+//         axios
+//             .get('https://jsonplaceholder.typicode.com/users/1')
+//             .then(res => res.data)
+//             .catch(err => 'error')
+// };
+
+// case 'c':
+//     if (this.checkStringEquality('conformsTo')) {
+//         this.tokens.push(new Token("TT_TAG", 'conformsTo'));
+//     } else {
+//         let keyword = this.makeAkeyword();
+//         if (keyword instanceof Token)
+//             return keyword;
+//         this.tokens.push(new Token('TT_KEYWORD', keyword));
+//     }
+//     break;
+// case 'h':
+//     if (this.checkStringEquality('hasAttribute')) {
+//         this.tokens.push(new Token("TT_TAG", 'hasAttribute'));
+//     } else {
+//         let keyword = this.makeAkeyword();
+//         if (keyword instanceof Token)
+//             return keyword;
+//         this.tokens.push(new Token('TT_KEYWORD', keyword));
+//     }
+//     break;
+// case 'i':
+//     if (this.checkStringEquality('isTransformable')) {
+//         this.tokens.push(new Token("TT_TAG", 'isTransformable'));
+//     } else {
+//         let keyword = this.makeAkeyword();
+//         if (keyword instanceof Token)
+//             return keyword;
+//         this.tokens.push(new Token('TT_KEYWORD', keyword));
+//     }
+//     break;
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4

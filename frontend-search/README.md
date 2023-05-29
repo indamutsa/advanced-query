@@ -70,6 +70,7 @@ kibana: https://178.238.238.209.sslip.io/
 
 
 
+<<<<<<< HEAD
 connect to mongo: mongodb://178.238.238.209:27018/db?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false
 
 
@@ -84,3 +85,6 @@ api http://178.238.238.209:3200/store/api-docs/ https://178.238.238.209.sslip.io
 
 
 mongodb://178.238.238.209:27019/mdeforge
+=======
+connect to mongo: mongodb://178.238.238.209:27018/db?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4

@@ -3,6 +3,7 @@ let operators = {
   TT_AND: "AND",
   TT_OR: "OR",
   TT_NOT: "NOT",
+<<<<<<< HEAD
   TT_LBRAKET: "(",
   TT_RBRAKET: ")",
   TT_EQUAL: "==",
@@ -62,6 +63,27 @@ let operators = {
   TT_FUZZ: "~",
   TT_PLUS: "+",
   TT_MINUS: "-",
+=======
+  TT_LBRAKET: "[",
+  TT_RBRAKET: "]",
+  TT_EQUAL: "::",
+  TT_LESS_THAN: "<",
+  TT_GREATER_THAN: ">",
+  TT_LESS_THAN_EQUAL: "<:",
+  TT_GREATER_THAN_EQUAL: ">:",
+  TT_NUMBER: "NUMBER",
+  TT_KEYWORD: "KEYWORD",
+  TT_CONFORMS_TO: "conformsTo",
+  TT_HAS_ATTRIBUTE: "hasAttribute",
+  TT_IS_TRANSFORMABLE: "isTransformable",
+  TT_COMMA: ",",
+  TT_COLON: ":",
+  TT_STRING_CHAR: "'" || '"',
+  TT_FUZZ: "~",
+  TT_PLUS: "+",
+  TT_MINUS: "-",
+  TT_MUL: "*",
+>>>>>>> eac889988eaa001bbb110548cab4098c97cf68e4
   TT_EOF: "EOF",
 };
 
