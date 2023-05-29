@@ -216,7 +216,6 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 Make sure the nodes are ready
 
 ```
-```
 kubectl get nodes
 NAME                     STATUS   ROLES           AGE   VERSION
 mdeforge-control-plane   Ready    control-plane   83s   v1.27.1
