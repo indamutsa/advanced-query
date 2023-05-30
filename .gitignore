@@ -1,4 +1,5 @@
 # filesystem
+.gitignore
 mongo-bundle/replica/mongo-rs0-1/data
 mongo-bundle/replica/mongo-rs0-2/data
 mongo-bundle/replica/mongo-rs0-3/data
