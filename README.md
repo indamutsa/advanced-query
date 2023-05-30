@@ -95,6 +95,9 @@ give it an absolute form the host (your machine) path where you have the data fi
 ```
 
 ### Using docker-compose
+_N.B: The project will take around 15 minutes to setup depending on the connection and the host machine speed_
+
+
 This might be the easier and faster way to run the system.
 
 Run the following command to start the system:
