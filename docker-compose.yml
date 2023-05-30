@@ -84,9 +84,9 @@ services:
   #####################################################
   persistence-api:
     container_name: persistence
-    build:
-      context: ./persistence-api
-    # image: indamutsa/persistence-api:v1.0
+    # build:
+    #   context: ./persistence-api
+    image: indamutsa/persistence-api:v1.1
     command: bash -c "sleep 130 && npm run server"
     ports:
       - "3200:3200"
@@ -103,8 +103,9 @@ services:
   #####################################################
   query-engine:
     container_name: query-engine
-    build:
-      context: ./query-engine
+    image: indamutsa/query-engine:v1.2
+    # build:
+    #   context: ./query-engine
     depends_on:
       - "setup-rs"
 
@@ -398,10 +399,10 @@ services:
 # --------------------------------
   frontend-search:
     container_name: frontend-search
-    build:
-      context: ./frontend-search
-      dockerfile: ./Dockerfile
-    # image: indamutsa/frontend-search:v3.2
+    # build:
+    #   context: ./frontend-search
+    #   dockerfile: ./Dockerfile
+    image: indamutsa/frontend-search:v3.4
     ports:
       - 3500:3500
     environment:

@@ -306,3 +306,50 @@ class Lexer {
   }
 }
 module.exports = { Lexer };
+
+// const functions = {
+//     add: (num1, num2) => num1 + num2,
+//     isNull: () => null,
+//     checkValue: x => x,
+//     createUser: () => {
+//         const user = { firstName: 'Brad' };
+//         user['lastName'] = 'Traversy';
+//         return user;
+//     },
+//     fetchUser: () =>
+//         axios
+//             .get('https://jsonplaceholder.typicode.com/users/1')
+//             .then(res => res.data)
+//             .catch(err => 'error')
+// };
+
+// case 'c':
+//     if (this.checkStringEquality('conformsTo')) {
+//         this.tokens.push(new Token("TT_TAG", 'conformsTo'));
+//     } else {
+//         let keyword = this.makeAkeyword();
+//         if (keyword instanceof Token)
+//             return keyword;
+//         this.tokens.push(new Token('TT_KEYWORD', keyword));
+//     }
+//     break;
+// case 'h':
+//     if (this.checkStringEquality('hasAttribute')) {
+//         this.tokens.push(new Token("TT_TAG", 'hasAttribute'));
+//     } else {
+//         let keyword = this.makeAkeyword();
+//         if (keyword instanceof Token)
+//             return keyword;
+//         this.tokens.push(new Token('TT_KEYWORD', keyword));
+//     }
+//     break;
+// case 'i':
+//     if (this.checkStringEquality('isTransformable')) {
+//         this.tokens.push(new Token("TT_TAG", 'isTransformable'));
+//     } else {
+//         let keyword = this.makeAkeyword();
+//         if (keyword instanceof Token)
+//             return keyword;
+//         this.tokens.push(new Token('TT_KEYWORD', keyword));
+//     }
+//     break;
