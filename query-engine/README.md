@@ -32,3 +32,7 @@ api http://178.238.238.209:3200/store/api-docs/
 
 
 ------
+
+<!-- 
+
+apk add --no-cache docker curl py-pip python3-dev libffi-dev openssl-dev gcc libc-dev make  zip bash openssl git && pip install docker-compose && echo "http://dl-cdn.alpinelinux.org/alpine/v3.14/community" >> /etc/apk/repositories && apk update && apk add mongodb-tools && mongoimport --version && mongoexport --version -->
