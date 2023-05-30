@@ -88,17 +88,17 @@ const ModelService = () => {
       ];
 
       if (etl) {// Executing the transformation
-        res = await axios.post("http://model-transformation:8085/mms/transform/str", arrTrans)
+        res = await axios.post("http://localhost:8085/mms/transform/str", arrTrans)
         // res = await axios.post("https://178.238.238.209.sslip.io/etl/mms/transform/str", arrTrans)
         // res = await axios.post("http://178.238.238.209:8085/mms/transform/str", arrTrans)
       }
       else if (evl) {// Executing the validation
-        res = await axios.post("http://model-validation:8086/mms/validate/str", arrVQ)
+        res = await axios.post("http://localhost:8086/mms/validate/str", arrVQ)
         // res = await axios.post("https://178.238.238.209.sslip.io/evl/mms/validate/str", arrVQ)
         // res = await axios.post("http://178.238.238.209:8086/mms/validate/str", arrVQ)
       }
       else if (eol) {// Executing the query
-        res = await axios.post("http://model-query:8087/mms/query/str", arrVQ)
+        res = await axios.post("http://localhost:8087/mms/query/str", arrVQ)
          // res = await axios.post("https://178.238.238.209.sslip.io/eol/mms/query/str", arrVQ)
          // res = await axios.post("http://178.238.238.209:8087/mms/query/str", arrVQ)
       }

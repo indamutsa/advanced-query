@@ -56,7 +56,7 @@ const ModelDisplay = () => {
     if (Object.keys(state.item).length !== 0 && Object.keys(data).length === 0) {
       // fetch(`http://178.238.238.209:3200/store/artifact/${typeDisp[state.item.type]}/${state.item.id}`)
       // fetch(`https://178.238.238.209.sslip.io/repo/store/artifact/${typeDisp[state.item.type]}/${state.item.id}`)
-      fetch(`https://persistence-api:3200/store/artifact/${typeDisp[state.item.type]}/${state.item.id}`)
+      fetch(`http://localhost:3200/store/artifact/${typeDisp[state.item.type]}/${state.item.id}`)
         .then((res) => res.json())
         .then((d) => {
           // console.log(d);
