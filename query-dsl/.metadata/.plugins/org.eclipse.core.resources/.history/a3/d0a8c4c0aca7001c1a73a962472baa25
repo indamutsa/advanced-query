@@ -1,9 +1,0 @@
-grammar com.arsene.dsl.query.QueryDsl with org.eclipse.xtext.common.Terminals
-
-generate queryDsl "http://www.arsene.com/dsl/query/QueryDsl"
-
-Model:
-	greetings+=Greeting*;
-	
-Greeting:
-	'Hello' name=ID '!';
