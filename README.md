@@ -88,10 +88,11 @@ docker images
 It should return the list of images available on your system. At least alpine should be present.
 
 Inside docker-compose.yml, change each of the following line to your local path
-give it an absolute form the host (your machine) path where you have the data files
+give it an absolute form the host (your machine) path where you have the data files. Follow the example below:
 
 ```
- /home/arsene/Project/school-projects/mdeforge/advanced-query
+vi docker-compose.yml
+:%s#/home/arsene/Project/school-projects/mdeforge/advanced-query#your-path-to-the-cloned-folder#g
 ```
 
 ### Using docker-compose
