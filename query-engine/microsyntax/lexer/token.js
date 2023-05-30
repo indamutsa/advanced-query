@@ -1,18 +1,20 @@
+import { tokenTypes } from './tokenTypes';
+
 // Define your token types somewhere in your code.
 let tokenTypes = {
-    LOGICAL_OPERATOR: 'TT_LOGICAL_OPERATOR',
-    COMPARISON_OPERATOR: 'TT_COMPARISON_OPERATOR',
-    ASSIGNMENT_OPERATOR: 'TT_ASSIGNMENT_OPERATOR',
-    NUMBER: 'TT_NUMBER',
-    KEYWORD: 'TT_KEYWORD',
-    METRIC: 'TT_METRIC',
-    SPACE: 'TT_SPACE',
-    TAG: 'TT_TAG',
-    QUOTE: 'TT_QUOTE',
-    FUZZ: 'TT_FUZZ',
-    PLUS: 'TT_PLUS',
-    MINUS: 'TT_MINUS',
-    EOF: 'TT_EOF',
+    TT_LOGICAL_OPERATOR: tokenTypes.VALID_LOGICAL_OPERATORS,
+    TT_COMPARISON_OPERATOR: tokenTypes.VALID_COMPARISON_OPERATORS,
+    TT_ASSIGNMENT_OPERATOR: tokenTypes.VALID_ASSIGNMENT_OPERATORS,
+    TT_NUMBER: 'TT_NUMBER',
+    TT_KEYWORD: 'TT_KEYWORD',
+    TT_METRIC: 'TT_METRIC',
+    TT_SPACE: 'TT_SPACE',
+    TT_TAG: 'TT_TAG',
+    TT_QUOTE: 'TT_QUOTE',
+    TT_FUZZ: 'TT_FUZZ',
+    TT_PLUS: 'TT_PLUS',
+    TT_MINUS: 'TT_MINUS',
+    TT_EOF: 'TT_EOF',
   };
   
   // Token class

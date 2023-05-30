@@ -91,7 +91,7 @@ services:
     ports:
       - "3200:3200"
     volumes:
-      - ./persistence-api:/app
+      - /home/arsene/Project/school-projects/mdeforge/advanced-query/persistence-api:/app
       - /usr/src/app/node_modules
     depends_on:
       - "setup-rs"
@@ -324,7 +324,7 @@ services:
     expose:
       - "27017"
     volumes:
-      - ./setup/addShards.js:/home/app/addShards.js
+      - /home/arsene/Project/school-projects/mdeforge/advanced-query/setup/addShards.js:/home/app/addShards.js
     networks:
       - search-engine
     restart: on-failure   
@@ -347,7 +347,8 @@ services:
   # A shortlived container for starting the cluster
   setup-rs:
     container_name: setup-rs
-    build: ./setup
+    image: indamutsa/setup:latest
+    # build: ./setup
     depends_on:
       - "mongos1"
     networks:
