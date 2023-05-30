@@ -1,4 +1,6 @@
 const { log } = console;
+
+
 // Special character /[\'\"\+\&\|\!\(\)\{\}\^\"\~\*\?\:\\\-]/
 // Normal character /[\w\d\,\.\/\;\%\|\`\?]/
 // Test token class
