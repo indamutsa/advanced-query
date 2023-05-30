@@ -95,6 +95,9 @@ give it an absolute form the host (your machine) path where you have the data fi
 ```
 
 ### Using docker-compose
+_N.B: The project will take around 15 minutes to setup depending on the connection and the host machine speed_
+
+
 This might be the easier and faster way to run the system.
 
 Run the following command to start the system:
@@ -126,14 +129,13 @@ Here are the steps you should follow:
 
    - The MongoDB cluster is accessible on port 27019 using this connection string: `mongodb://localhost:27019`
    - You can do this using the MongoDB shell or a GUI tool such as MongoDB Compass.
-2. Download the data files from this <a href="https://drive.google.com/drive/folders/1hydGUBmqTuMW2FFqBNMdmTCOmn-vSF6X">link</a> and unzip them. You can run this command to unzip all the files at once.
+2. Download the data files from this <a href="https://drive.google.com/drive/folders/1hydGUBmqTuMW2FFqBNMdmTCOmn-vSF6X">link</a> and unzip them. You can run this command to unzip all the files at once. UNZIP IT in files folder inside the cloned folder. 
    ```
    unzip \*.zip
    ```
 3. Insert your data into the chosen database. You can do this either manually or by importing data from a file.
-   You can speed up the process by using the script `import.sh` provided in the files folder. From the unzipped folder, mv import.sh script into the folder containing the unzipped and run the following commands:
+   You can speed up the process by using the script `import.sh` provided in the files folder.  and run the following commands:
    ```
-   bash
    chmod +x import.sh
    ./import.sh relative_path_to_data_unzipped_folder
    sh
