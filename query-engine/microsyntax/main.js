@@ -13,7 +13,7 @@ const { log } = console;
 // const query = "(keyword1 keywo)rd2) keyword3 | keyword4 & keyword5"
 // const query = "name = '      university_ocl.ecore '";
 
-const { Lexer } = require("./lexer/lexer-");
+const { Lexer } = require("./lexer/lexer");
 const { Parser } = require("./parser/parser");
 const { Interpreter } = require("./interpreter/interpreter");
 
