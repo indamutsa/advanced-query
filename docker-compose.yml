@@ -103,7 +103,7 @@ services:
   #####################################################
   query-engine:
     container_name: query-engine
-    image: indamutsa/query-engine:v1.3
+    image: indamutsa/query-engine:v1.4
     # build:
     #   context: ./query-engine
     depends_on:

@@ -30,5 +30,7 @@ persistence-api/node_modules
 .vercel
 .docker
 .vscode
-
+files/mongo-mdeforge-backup-20230530T141319Z-001.zip
+files/mongo-mdeforge-backup
+files/import.log
 
