@@ -8,7 +8,7 @@ const { log } = console;
 // const query = "hello [world full [another word]]";
 // const query = "conformsTo: ' id '";
 // const query = "  [   name    :       value  keyword   ] ";
-// const query = "amc == 10";
+const query = "amc == 10";
 // const query = "name1 name2 mc == 2 hasAttribute:value name:'value2'"
 // const query = "name1 AND name2 [ mc == 2 hasAttribute:value] name:'value2'"
 // const query = "23[23==";
@@ -23,29 +23,29 @@ const runMicroSyntax = (query) => {
   try {
     let tokens = new Lexer(query).makeTokens();
     log(tokens);
-    if (Array.isArray(tokens)) {
-      let parser = new Parser(tokens);
-      let { result, error } = parser.parse();
-      //   log(result ? result : error);
+    // if (Array.isArray(tokens)) {
+    //   let parser = new Parser(tokens);
+    //   let { result, error } = parser.parse();
+    //   //   log(result ? result : error);
 
-      let interpreter = new Interpreter(result);
-      //   log("Hello", interpreter.global_query);
+    //   let interpreter = new Interpreter(result);
+    //   //   log("Hello", interpreter.global_query);
 
-      interpreter.visit(result);
-      log(
-        interpreter.global_query,
-        "===> Inside runMicroSyntax function in interpreter"
-      );
+    //   interpreter.visit(result);
+    //   log(
+    //     interpreter.global_query,
+    //     "===> Inside runMicroSyntax function in interpreter"
+    //   );
 
-      return {
-        res: interpreter.global_query,
-        err: "",
-      };
-    } else
-      return {
-        res: "",
-        err: tokens,
-      };
+    //   return {
+    //     res: interpreter.global_query,
+    //     err: "",
+    //   };
+    // } else
+    //   return {
+    //     res: "",
+    //     err: tokens,
+    //   };
   } catch (err) {
     return {
       res: "",
@@ -54,7 +54,7 @@ const runMicroSyntax = (query) => {
   }
 };
 
-// runMicroSyntax(query);
+runMicroSyntax(query);
 
 module.exports = { runMicroSyntax };
 

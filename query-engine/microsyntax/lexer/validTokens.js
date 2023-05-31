@@ -24,7 +24,12 @@ const VALID_ASSIGNMENT_OPERATORS = [
     "=", ":"
 ];
 
+const VALID_QUOTES = [
+    '"', "'"
+];
+
 module.exports = {
+  VALID_QUOTES,
   VALID_METRICS,
   VALID_TAGS,
   VALID_LOGICAL_OPERATORS,
