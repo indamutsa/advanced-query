@@ -6,7 +6,7 @@
 const axios = require("axios");
 const { IllegalCharacterError } = require("../error/error.js");
 const { skipTokens, metrics, tags } = require("./constants.js");
-const Token = require("./token.js");
+const Token = require("./token-.js");
 class Lexer {
   constructor(input) {
     this.input = input;
@@ -52,10 +52,13 @@ class Lexer {
           break;
         case "=":
           //   console.log("equal");
-          //   this.advance();
-          if (this.currentChar === "=") {
-            this.tokens.push(new Token("TT_COLON", ":"));
             this.advance();
+          if (this.currentChar === "=" ) {
+            this.tokens.push(new Token("TT_EQUAL", "=="));
+            this.advance();
+          }
+          else {
+            this.tokens.push(new Token("TT_COLON", ":"));
           }
           break;
         case "<":
@@ -306,50 +309,3 @@ class Lexer {
   }
 }
 module.exports = { Lexer };
-
-// const functions = {
-//     add: (num1, num2) => num1 + num2,
-//     isNull: () => null,
-//     checkValue: x => x,
-//     createUser: () => {
-//         const user = { firstName: 'Brad' };
-//         user['lastName'] = 'Traversy';
-//         return user;
-//     },
-//     fetchUser: () =>
-//         axios
-//             .get('https://jsonplaceholder.typicode.com/users/1')
-//             .then(res => res.data)
-//             .catch(err => 'error')
-// };
-
-// case 'c':
-//     if (this.checkStringEquality('conformsTo')) {
-//         this.tokens.push(new Token("TT_TAG", 'conformsTo'));
-//     } else {
-//         let keyword = this.makeAkeyword();
-//         if (keyword instanceof Token)
-//             return keyword;
-//         this.tokens.push(new Token('TT_KEYWORD', keyword));
-//     }
-//     break;
-// case 'h':
-//     if (this.checkStringEquality('hasAttribute')) {
-//         this.tokens.push(new Token("TT_TAG", 'hasAttribute'));
-//     } else {
-//         let keyword = this.makeAkeyword();
-//         if (keyword instanceof Token)
-//             return keyword;
-//         this.tokens.push(new Token('TT_KEYWORD', keyword));
-//     }
-//     break;
-// case 'i':
-//     if (this.checkStringEquality('isTransformable')) {
-//         this.tokens.push(new Token("TT_TAG", 'isTransformable'));
-//     } else {
-//         let keyword = this.makeAkeyword();
-//         if (keyword instanceof Token)
-//             return keyword;
-//         this.tokens.push(new Token('TT_KEYWORD', keyword));
-//     }
-//     break;

@@ -6,7 +6,7 @@
 const axios = require("axios");
 const { IllegalCharacterError } = require("../error/error.js");
 const { skipTokens, metrics, tags } = require("./constants.js");
-const Token = require("./token.js");
+const Token = require("./token-.js");
 class Lexer {
   constructor(input) {
     this.input = input;
