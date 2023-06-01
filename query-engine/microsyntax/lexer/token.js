@@ -1,46 +1,34 @@
-import {  VALID_QUOTES,
-  VALID_METRICS,
-  VALID_TAGS,
-  VALID_LOGICAL_OPERATORS,
-  VALID_COMPARISON_OPERATORS,
-  VALID_ASSIGNMENT_OPERATORS} from './validTokens.js';
+// Import the necessary functions and values from 'validTokens' module
+const { getTokenType, tokenTypes, TT_KEYWORD } = require("./validTokens");
 
-// Define your token types somewhere in your code.
-let TokenTypes = {
-  LOGICAL_OPERATOR: { token: 'TT_LOGICAL_OPERATOR', value: VALID_LOGICAL_OPERATORS },
-  COMPARISON_OPERATOR: { token: 'TT_COMPARISON_OPERATOR', value: VALID_COMPARISON_OPERATORS },
-  ASSIGNMENT_OPERATOR: { token: 'TT_ASSIGNMENT_OPERATOR', value: VALID_ASSIGNMENT_OPERATORS },
-  NUMBER: { token: 'TT_NUMBER', value: /\d+/ },
-  KEYWORD: { token: 'TT_KEYWORD', value: '' },
-  METRIC: { token: 'TT_METRIC', value: VALID_METRICS },
-  SPACE: { token: 'TT_SPACE', value: ' ' },
-  TAG: { token: 'TT_TAG', value: VALID_TAGS },
-  QUOTE: { token: 'TT_QUOTE', value: VALID_QUOTES },
-  FUZZ: { token: 'TT_FUZZ', value: '~' },
-  PLUS: { token: 'TT_PLUS', value: '+' },
-  MINUS: { token: 'TT_MINUS', value: '-' },
-  EOF: { token: 'TT_EOF', value: '' },
-};
-
-  
-// Token class
+// Define the Token class
 class Token {
-  constructor(type, value) {
-    if (!Object.keys(TokenTypes).some((key) => TokenTypes[key].token === type)) {
+  // Constructor for the Token class that takes a value as argument
+  constructor(keywordValue) {
+    // Get the type of the token using the imported 'getTokenType' function
+    let type =
+      keywordValue?.type == "keyword" ? TT_KEYWORD : getTokenType(keywordValue);
+
+    let value = keywordValue?.value ? keywordValue.value : keywordValue;
+
+    // Convert the token types values into a Set for efficient lookups
+    const tokenTypesSet = new Set(Object.values(tokenTypes));
+
+    // If the type is not in the set of token types, throw an error
+    if (!tokenTypesSet.has(type)) {
       throw new Error(`Invalid token type: ${type}`);
     }
 
+    // Set the type and value of the Token instance
     this.type = type;
     this.value = value;
   }
 
+  // Define a method to convert the Token instance into a string representation
   toString() {
     return `Token >> Type: ${this.type}, Value: ${this.value}`;
   }
 }
 
-  
-module.exports = {
-  Token, TokenTypes,  
-  };
-  
+// Export the Token class
+module.exports = Token;
