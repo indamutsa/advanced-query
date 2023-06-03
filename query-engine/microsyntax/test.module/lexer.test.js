@@ -1,243 +1,754 @@
-const { IllegalCharacterError } = require('../error/error');
-const { Lexer } = require('../lexer/lexer');
-const Token = require('../lexer/token');
-
-// Before everything
-// beforeAll(() => console.log('Before everything'));
-// afterAll(() => console.log('After everything'));
-
-// Testing the lexer
-describe('Testing the lexer', () => {
-
-    // Testing if the makeTokens function is defined
-    test('Testing if makeTokens is defined', () => {
-        // Expecting the makeTokens function to be defined
-        let lexer = new Lexer('123');
-        expect(lexer.makeTokens()).toBeDefined();
-    });
-
-    // Testing if the makeTokens function returns an array
-    test('Testing if makeTokens returns an array', () => {
-        // Expecting the lexer to return a lexer
-        let lexer = new Lexer('123');
-        expect(Array.isArray(lexer.makeTokens())).toBeTruthy();
-    });
-
-    // Testing if the makeTokens function returns an array of tokens
-    test('Testing if makeTokens returns an array of tokens', () => {
-        // Expecting the lexer to return a lexer
-        let lexer = new Lexer('keyword1 keyword2  326676  keyword3 name:value');
-        expect(lexer.makeTokens()[0].type).toBeDefined();
-    });
-
-    // Testing if the makeTokens function returns the correct tokens
-    test('Testing if makeTokens returns the correct tokens -- simpler version -- (i)', () => {
-        // Expecting the lexer to return a lexer
-        let lexer = new Lexer('keyword1 keyword2 AND 326676 OR keyword3 NOT name:value');
-
-        expect(lexer.makeTokens()[0].type).toBe('TT_KEYWORD');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[1].type).toBe('TT_SPACE');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[2].type).toBe('TT_KEYWORD');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[3].type).toBe('TT_AND');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[4].type).toBe('TT_NUMBER');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[5].type).toBe('TT_OR');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[6].type).toBe('TT_KEYWORD');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[7].type).toBe('TT_NOT');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[8].type).toBe('TT_TAG');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[9].type).toBe('TT_COLON');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[10].type).toBe('TT_KEYWORD');
-
-
-    });
-
-    // Testing if the makeTokens function returns the correct tokens at their index
-    test('Testing if makeTokens returns the correct tokens -- complex version -- (ii)', () => {
-        // Expecting the lexer to return a lexer
-        let lexer = new Lexer('[keyword1 keyword2] NOT 326676     keyword3 AND [ name:value keword4 hello [description: "hello world"] AND name:value2] ]');
-
-        expect(lexer.makeTokens()[0].type).toBe('TT_LBRAKET');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[1].type).not.toBe('TT_SPACE');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[2].type).toBe('TT_SPACE');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[3].type).toBe('TT_KEYWORD');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[4].type).toBe('TT_RBRAKET');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[5].type).toBe('TT_NOT');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[6].type).toBe('TT_NUMBER');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[7].type).toBe('TT_SPACE');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[8].type).toBe('TT_KEYWORD');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[9].type).toBe('TT_AND');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[10].type).toBe('TT_LBRAKET');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[11].type).not.toBe('TT_SPACE');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[11].type).toBe('TT_TAG');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[12].type).toBe('TT_COLON');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[13].type).toBe('TT_KEYWORD');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[14].type).toBe('TT_SPACE');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[15].type).toBe('TT_KEYWORD');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[16].type).toBe('TT_SPACE');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[17].type).toBe('TT_KEYWORD');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[18].type).toBe('TT_SPACE');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[19].type).toBe('TT_LBRAKET');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[20].type).toBe('TT_TAG');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[21].type).toBe('TT_COLON');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[22].type).toBe('TT_QUOTE');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[23].type).toBe('TT_KEYWORD');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[24].type).toBe('TT_SPACE');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[25].type).toBe('TT_KEYWORD');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[26].type).toBe('TT_RBRAKET');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[27].type).toBe('TT_AND');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[28].type).toBe('TT_TAG');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[29].type).toBe('TT_COLON');
-
-        // Testing that tokens are coming as expected
-        expect(lexer.makeTokens()[30].type).toBe('TT_KEYWORD');
-    });
-
-
-    // Testing if the makeTokens return the right tokens number
-    test('Testing if makeTokens returns the right number of tokens', () => {
-        // Expecting the lexer to return a lexer
-        let lexer = new Lexer("[conformsTo:'id' hasAttribute:'value'] isTransformable:'value' Kirue");
-
-        expect(lexer.makeTokens().length).toBe(22);
-    });
-
-    // Testing if the makeTokens return the right tokens number
-    test('Testing if makeTokens returns the right number of tokens -- complex version --', () => {
-        // Expecting the lexer to return a lexer
-        let lexer = new Lexer("name1 AND name2 [ mc == 2 hasAttribute:value] name:'value2'");
-
-        // Checking if the length of the tokens array is 20
-        expect(lexer.makeTokens().length).toBe(20);
-
-        // Checking if the token at the end is TT_EOF
-        expect(lexer.makeTokens()[19].type).toBe('TT_EOF');
-
-        // Checking if the token at index 5 is TT_LBRAKET
-        expect(lexer.makeTokens()[4].type).toBe('TT_LBRAKET');
-
-        // Checking if the token at index 6 is TT_METRIC
-        expect(lexer.makeTokens()[5].type).toBe('TT_METRIC');
-
-        // Checking if the token at index 7 is TT_EQUAL
-        expect(lexer.makeTokens()[6].type).toBe('TT_EQUAL');
-
-        // Checking if the token at index 8 is TT_NUMBER
-        expect(lexer.makeTokens()[7].type).toBe('TT_NUMBER');
-
-        // Checking if the token at index 18 is TT_QUOTE
-        expect(lexer.makeTokens()[17].type).toBe('TT_KEYWORD');
-
-        // Checking if the token at index 18 is TT_QUOTE
-        expect(lexer.makeTokens()[18].type).toBe('TT_QUOTE');
-    });
-
-
-    // Testing makeNumberToken method
-    test('Testing makeNumberToken method', () => {
-        // Expecting the lexer to return a lexer
-        let lexer = new Lexer("23[23==");
-        let lex = new Lexer("23.32.3");
-        let lexx = new Lexer("23.32 78 99");
-
-        // Checking if the output is an instance of Token
-        expect(isInstanceOf(lexer.makeNumberToken(), IllegalCharacterError)).toBe(true);
-
-        // Checking illegal dot
-        expect(isInstanceOf(lex.makeNumberToken(), IllegalCharacterError)).toBe(true);
-
-        // Checking if the output is an array of number tokens
-        expect(isInstanceOf(lexx.makeTokens(), Array)).toBe(true);
-    });
-});
-
-function isInstanceOf(obj, instance) {
-    return obj instanceof instance;
+const Lexer = require("../lexer/lexer");
+
+const queries = [
+  // Testing logical operators
+  {
+    query: "AND",
+    expectedTokens: [
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "OR",
+    expectedTokens: [
+      { type: "TT_LOGICAL_OPERATOR", value: "OR" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "NOT",
+    expectedTokens: [
+      { type: "TT_LOGICAL_OPERATOR", value: "NOT" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  // Testing comparison operators
+  {
+    query: "==",
+    expectedTokens: [
+      { type: "TT_COMPARISON_OPERATOR", value: "==" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "<",
+    expectedTokens: [
+      { type: "TT_COMPARISON_OPERATOR", value: "<" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: ">",
+    expectedTokens: [
+      { type: "TT_COMPARISON_OPERATOR", value: ">" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "<=",
+    expectedTokens: [
+      { type: "TT_COMPARISON_OPERATOR", value: "<=" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: ">=",
+    expectedTokens: [
+      { type: "TT_COMPARISON_OPERATOR", value: ">=" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  // Testing assignment operators
+  {
+    query: "=",
+    expectedTokens: [
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: ":",
+    expectedTokens: [
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  // // Testing spaces
+  {
+    query: " ",
+    expectedTokens: [
+      { type: "TT_KEYWORD", value: "undefined" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "         ",
+    expectedTokens: [
+      { type: "TT_KEYWORD", value: "undefined" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "         ",
+    expectedTokens: [
+      { type: "TT_KEYWORD", value: "undefined" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  // Testing fuzz
+  {
+    query: "~",
+    expectedTokens: [
+      { type: "TT_FUZZ", value: "~" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "~~",
+    expectedTokens: [
+      { type: "TT_FUZZ", value: "~" },
+      { type: "TT_FUZZ", value: "~" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  // Testing plus
+  {
+    query: "+",
+    expectedTokens: [
+      { type: "TT_PLUS", value: "+" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "++",
+    expectedTokens: [
+      { type: "TT_PLUS", value: "+" },
+      { type: "TT_PLUS", value: "+" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  // Testing left paranthesis
+  {
+    query: "(",
+    expectedTokens: [
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "((",
+    expectedTokens: [
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  // Testing right paranthesis
+  {
+    query: ")",
+    expectedTokens: [
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "))",
+    expectedTokens: [
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  // Testing EOF
+  {
+    query: "EOF",
+    expectedTokens: [
+      { type: "TT_KEYWORD", value: "EOF" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  // testing keywords
+  {
+    query: "hello",
+    expectedTokens: [
+      { type: "TT_KEYWORD", value: "hello" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "hello999world",
+    expectedTokens: [
+      { type: "TT_KEYWORD", value: "hello999world" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "999hello",
+    expectedTokens: [
+      { type: "TT_KEYWORD", value: "999hello" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "name999",
+    expectedTokens: [
+      { type: "TT_KEYWORD", value: "name999" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "999name",
+    expectedTokens: [
+      { type: "TT_KEYWORD", value: "999name" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "name\\:999\\#",
+    expectedTokens: [
+      { type: "TT_KEYWORD", value: "name\\:999\\#" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  // Testing numbers
+  {
+    query: "99999",
+    expectedTokens: [
+      { type: "TT_NUMBER", value: "99999" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "999.99",
+    expectedTokens: [
+      { type: "TT_NUMBER", value: "999.99" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  // Tesing tags
+  {
+    query: "name:999\\(9",
+    expectedTokens: [
+      { type: "TT_TAG", value: "name" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_KEYWORD", value: "999\\(9" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  {
+    query: "  (   name    :       value  keyword   ) ",
+    expectedTokens: [
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_TAG", value: "name" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_KEYWORD", value: "value" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_KEYWORD", value: "keyword" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "name=89",
+    expectedTokens: [
+      { type: "TT_TAG", value: "name" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_NUMBER", value: "89" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "name:99999",
+    expectedTokens: [
+      { type: "TT_TAG", value: "name" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_NUMBER", value: "99999" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "name:hello999world",
+    expectedTokens: [
+      { type: "TT_TAG", value: "name" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_KEYWORD", value: "hello999world" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "name:'999hello'",
+    expectedTokens: [
+      { type: "TT_TAG", value: "name" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "999hello" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "name:999\\(9",
+    expectedTokens: [
+      { type: "TT_TAG", value: "name" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_KEYWORD", value: "999\\(9" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "name:'hello\\#\\%999'",
+    expectedTokens: [
+      { type: "TT_TAG", value: "name" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "hello\\#\\%999" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "name = ' 9 university_ocl.ecore '",
+    expectedTokens: [
+      { type: "TT_TAG", value: "name" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "9 university_ocl.ecore" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "conformsTo : ' id hello world way back '",
+    expectedTokens: [
+      { type: "TT_TAG", value: "conformsTo" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "id hello world way back" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "amc == 10",
+    expectedTokens: [
+      { type: "TT_METRIC", value: "amc" },
+      { type: "TT_COMPARISON_OPERATOR", value: "==" },
+      { type: "TT_NUMBER", value: "10" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "conformsTo : ' id hello world way back '",
+    expectedTokens: [
+      { type: "TT_TAG", value: "conformsTo" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "id hello world way back" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  // --------------------COMPLEX QUERIES-------------------
+  {
+    query:
+      "(conformsTo:'id' hasAttribute:'value') isTransformable:'value' Kirue",
+    //  "(conformsTo:'id' hasAttribute:'value') isTransformable:'value' Kirue",
+    expectedTokens: [
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_TAG", value: "conformsTo" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "id" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_TAG", value: "hasAttribute" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "value" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_TAG", value: "isTransformable" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "value" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_KEYWORD", value: "Kirue" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  {
+    query: "name1 AND name2 ( mc == 2 hasAttribute:value) name:'value2'",
+    expectedTokens: [
+      { type: "TT_KEYWORD", value: "name1" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_KEYWORD", value: "name2" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_METRIC", value: "mc" },
+      { type: "TT_COMPARISON_OPERATOR", value: "==" },
+      { type: "TT_NUMBER", value: "2" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_TAG", value: "hasAttribute" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_KEYWORD", value: "value" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_TAG", value: "name" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "value2" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "accessControl = 'public' AND size < 500 OR ext = 'json'",
+    expectedTokens: [
+      { type: "TT_TAG", value: "accessControl" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "public" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_NUMERIC_TAG", value: "size" },
+      { type: "TT_COMPARISON_OPERATOR", value: "<" },
+      { type: "TT_NUMBER", value: "500" },
+      { type: "TT_LOGICAL_OPERATOR", value: "OR" },
+      { type: "TT_TAG", value: "ext" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "json" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query:
+      "(size >= 1000 AND createdAt <= 20220101) OR (project = 'Project2' AND attr > 5)",
+    expectedTokens: [
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_NUMERIC_TAG", value: "size" },
+      { type: "TT_COMPARISON_OPERATOR", value: ">=" },
+      { type: "TT_NUMBER", value: "1000" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_NUMERIC_TAG", value: "createdAt" },
+      { type: "TT_COMPARISON_OPERATOR", value: "<=" },
+      { type: "TT_NUMBER", value: "20220101" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_LOGICAL_OPERATOR", value: "OR" },
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_TAG", value: "project" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "Project2" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_METRIC", value: "attr" },
+      { type: "TT_COMPARISON_OPERATOR", value: ">" },
+      { type: "TT_NUMBER", value: "5" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query:
+      "(type = 'ecore' AND uniqueName = 'uniqueModel') OR (license = 'Apache' AND cflmc = 2)",
+    expectedTokens: [
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_TAG", value: "type" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "ecore" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_TAG", value: "uniqueName" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "uniqueModel" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_LOGICAL_OPERATOR", value: "OR" },
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_TAG", value: "license" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "Apache" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_METRIC", value: "cflmc" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_NUMBER", value: "2" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query:
+      "(hasAttribute = 'color' AND description = 'Complex Model') OR (updatedAt > 20240101 AND amc <= 3)",
+    expectedTokens: [
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_TAG", value: "hasAttribute" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "color" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_TAG", value: "description" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "Complex Model" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_LOGICAL_OPERATOR", value: "OR" },
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_NUMERIC_TAG", value: "updatedAt" },
+      { type: "TT_COMPARISON_OPERATOR", value: ">" },
+      { type: "TT_NUMBER", value: "20240101" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_METRIC", value: "amc" },
+      { type: "TT_COMPARISON_OPERATOR", value: "<=" },
+      { type: "TT_NUMBER", value: "3" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query:
+      "description = 'Advanced Model' OR project = 'Project1' AND type = 'xmi'",
+    expectedTokens: [
+      { type: "TT_TAG", value: "description" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "Advanced Model" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: "OR" },
+      { type: "TT_TAG", value: "project" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "Project1" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_TAG", value: "type" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "xmi" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query:
+      "conformsTo = 'matamodel_id' AND (license = 'GPL' AND name = 'ModelY')",
+    expectedTokens: [
+      { type: "TT_TAG", value: "conformsTo" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "matamodel_id" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_TAG", value: "license" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "GPL" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_TAG", value: "name" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "ModelY" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query:
+      "involvedOperations = 'operation_id' (uniqueName = 'ModelX' AND mc > 50)",
+    expectedTokens: [
+      { type: "TT_TAG", value: "involvedOperations" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "operation_id" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_TAG", value: "uniqueName" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "ModelX" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_METRIC", value: "mc" },
+      { type: "TT_COMPARISON_OPERATOR", value: ">" },
+      { type: "TT_NUMBER", value: "50" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query:
+      "(updatedAt > 20230101) NOT (ext = 'json') OR (cmc > 5 AND sf <= 2) keyword5 AND license = 'MIT' project='Project1' AND isTransformable='ARTIFACT_ID'",
+    expectedTokens: [
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_NUMERIC_TAG", value: "updatedAt" },
+      { type: "TT_COMPARISON_OPERATOR", value: ">" },
+      { type: "TT_NUMBER", value: "20230101" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_LOGICAL_OPERATOR", value: "NOT" },
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_TAG", value: "ext" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "json" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_LOGICAL_OPERATOR", value: "OR" },
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_METRIC", value: "cmc" },
+      { type: "TT_COMPARISON_OPERATOR", value: ">" },
+      { type: "TT_NUMBER", value: "5" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_METRIC", value: "sf" },
+      { type: "TT_COMPARISON_OPERATOR", value: "<=" },
+      { type: "TT_NUMBER", value: "2" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_KEYWORD", value: "keyword5" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_TAG", value: "license" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "MIT" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_TAG", value: "project" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "Project1" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_TAG", value: "isTransformable" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "ARTIFACT_ID" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "name = 'ModelX' AND (mc > 50 OR sf <= 2)",
+    expectedTokens: [
+      { type: "TT_TAG", value: "name" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "ModelX" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_METRIC", value: "mc" },
+      { type: "TT_COMPARISON_OPERATOR", value: ">" },
+      { type: "TT_NUMBER", value: "50" },
+      { type: "TT_LOGICAL_OPERATOR", value: "OR" },
+      { type: "TT_METRIC", value: "sf" },
+      { type: "TT_COMPARISON_OPERATOR", value: "<=" },
+      { type: "TT_NUMBER", value: "2" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+
+  {
+    query: "student professor",
+    expectedTokens: [
+      { type: "TT_KEYWORD", value: "student" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_KEYWORD", value: "professor" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query: "student AND professor",
+    expectedTokens: [
+      { type: "TT_KEYWORD", value: "student" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_KEYWORD", value: "professor" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+  {
+    query:
+      "student professor (name: jack AND size: 20 (project: 'Project1' OR hello (cmc == 2 AND mc: 2 size = 600 )) )",
+    expectedTokens: [
+      { type: "TT_KEYWORD", value: "student" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_KEYWORD", value: "professor" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_TAG", value: "name" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_KEYWORD", value: "jack" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_NUMERIC_TAG", value: "size" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_NUMBER", value: "20" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_TAG", value: "project" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_KEYWORD", value: "Project1" },
+      { type: "TT_QUOTE", value: "'" },
+      { type: "TT_LOGICAL_OPERATOR", value: "OR" },
+      { type: "TT_KEYWORD", value: "hello" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_LPARANTH", value: "(" },
+      { type: "TT_METRIC", value: "cmc" },
+      { type: "TT_COMPARISON_OPERATOR", value: "==" },
+      { type: "TT_NUMBER", value: "2" },
+      { type: "TT_LOGICAL_OPERATOR", value: "AND" },
+      { type: "TT_METRIC", value: "mc" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: ":" },
+      { type: "TT_NUMBER", value: "2" },
+      { type: "TT_LOGICAL_OPERATOR", value: " " },
+      { type: "TT_NUMERIC_TAG", value: "size" },
+      { type: "TT_ASSIGNMENT_OPERATOR", value: "=" },
+      { type: "TT_NUMBER", value: "600" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_RPARANTH", value: ")" },
+      { type: "TT_EOF", value: "EOF" },
+    ],
+  },
+];
+
+for (const { query, expectedTokens } of queries) {
+  test(`should correctly tokenize the query: "${query}"`, () => {
+    const lexer = new Lexer(query);
+
+    const tokens = lexer.makeTokens();
+
+    for (let i = 0; i < tokens.length; i++) {
+      // console.log("Token: ", tokens[i], "Index: ", i);
+      expect(tokens[i].type).toEqual(expectedTokens[i].type);
+      expect(tokens[i].value).toEqual(expectedTokens[i].value);
+    }
+  });
 }
-
-// Test token class
-// const query = "[conformsTo:'id' hasAttribute:'value'] isTransformable:'value' Kirue";
-// const query = "hello [world full [another word]]";
-// const query = "conformsTo: ' id '";
-// const query = "  [   name    :       value  keyword   ] ";
-// const query = "amc == 10";
-// const query = "name1 name2 mc == 2 hasAttribute:value name:'value2'"
-// const query = "name1 AND name2 [ mc == 2 hasAttribute:value] name:'value2'"
