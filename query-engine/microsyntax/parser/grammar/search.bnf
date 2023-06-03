@@ -7,7 +7,7 @@ accessControl = 'public' AND size < 500 OR ext = 'json'
 (size >= 1000 AND createdAt <= 20220101) OR (project = 'Project2' AND attr > 5)
 
 # Q3 
-(type = 'ecore' AND unique_name = 'uniqueModel') OR (license = 'Apache' AND cflmc = 2)
+(type = 'ecore' AND uniqueName = 'uniqueModel') OR (license = 'Apache' AND cflmc = 2)
 
 # Q4 
 (hasAttribute = 'color' AND description = 'Complex Model') OR (updatedAt > 20240101 AND amc <= 3)
@@ -19,7 +19,7 @@ description = 'Advanced Model' OR project = 'Project1' AND type = 'xmi'
 conformsTo = 'matamodel_id' AND (license = 'GPL' AND name = 'ModelY')
 
 # Q7 
-involvedOperations = 'operation_id' (unique_name = 'ModelX' AND mc > 50)
+involvedOperations = 'operation_id' (uniqueName = 'ModelX' AND mc > 50)
 
 # Q8 
 (updatedAt > 20230101) NOT (ext = 'json') OR (cmc > 5 AND sf <= 2) keyword5 AND license = "MIT" project="Project1" AND isTransformable='ARTIFACT_ID'
