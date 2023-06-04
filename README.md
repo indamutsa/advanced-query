@@ -3,7 +3,7 @@
 MDEForge-Search, a novel tool introduced in this paper, addresses the need for efficient discovery and retrieval of modeling artifacts in the emerging field of model-driven engineering. Utilizing advanced discovery mechanisms, it retrieves heterogeneous artifacts within a megamodel context, promoting reuse across model management services. It features a domain-specific approach for queries using keywords, search tags, conditional operators, and a transformation chain discoverer, all in relation to quality model assessment services. Validated within a recommender system modeling framework, it leverages over 5,000 model artifacts currently stored in our cloud-based repository, MDEForge. Below is a guide on how to install and run the system from your host.
 
 <!-- 
-
+<!-- 
 apk add --no-cache docker curl py-pip python3-dev libffi-dev openssl-dev gcc libc-dev make  zip bash openssl git && pip install docker-compose && echo "http://dl-cdn.alpinelinux.org/alpine/v3.14/community" >> /etc/apk/repositories && apk update && apk add mongodb-tools && mongoimport --version && mongoexport --version -->
 ## Installation guide
 
@@ -160,8 +160,7 @@ Here are the steps you should follow:
    docker rm $(docker ps -aq)
    docker volume rm $(docker volume ls -q)
    docker rmi -f $(docker images -q) #remove all images
-   ```
-   
+   ``` 
    You can stop one by one by running the following commands:
    ```
    docker-compose down -v
