@@ -37,8 +37,7 @@ let query = "";
 // query =
 //   "(updatedAt > 20230101) NOT (ext = 'json') OR (cmc > 5 AND sf <= 2) keyword5 AND license = 'MIT' project='Project1' AND isTransformable='ARTIFACT_ID'";
 // query = "name = 'ModelX' AND (mc > 50 OR sf <= 2)";
-query =
-  "student professor (name: jack AND size: 20 (project: 'Project1' OR hello (cmc == 2 AND mc: 2 size = 600 )))";
+// query =  "student professor (name: jack AND size: 20 (project: 'Project1' OR hello (cmc == 2 AND mc: 2 size = 600 )))";
 
 const Lexer = require("./lexer");
 const { Parser } = require("./parser");
@@ -75,10 +74,3 @@ const runMicroSyntax = (query) => {
 runMicroSyntax(query);
 
 module.exports = { runMicroSyntax };
-
-// from the tests above, do the same for each test
-// - (updatedAt > 20230101) NOT (ext = 'json') OR (cmc > 5 AND sf <= 2) keyword5 AND license = 'MIT' project='Project1' AND isTransformable='ARTIFACT_ID'
-// - name = 'ModelX' AND (mc > 50 OR sf <= 2)
-// - student professor
-// - student AND professor
-// - student professor (name: jack AND size: 20 (project: 'Project1' OR hello (cmc == 2 AND mc: 2 size = 600 )) )
