@@ -3,6 +3,9 @@ const { InvalidToken } = require("../error/error");
 const {
   VALID_ASSIGNMENT_OPERATORS,
   VALID_COMPARISON_OPERATORS,
+  tokenTypes,
+  getTokenType,
+  VALID_LOGICAL_OPERATORS,
 } = require("../lexer/validTokens");
 
 // THe number node
@@ -48,7 +51,7 @@ class ExactKeywordNode {
   }
 
   toString() {
-    return `ExactKeyword =-> : (StartingQuote: ${this.startingQuote}, Str: ${this.str}, EndingQuote: ${this.endingQuote})`;
+    return `ExactKeyword =-> : (StartingQuote: ${this.startingQuote}, Keyword: ${this.keyword}, EndingQuote: ${this.endingQuote})`;
   }
 }
 
@@ -70,29 +73,10 @@ class Parser {
     this.tokens = tokens;
     this.token_index = -1;
     this.currentToken = null;
-    this.logicalOperator = VALID_ASSIGNMENT_OPERATORS;
-    this.comparisonOperator = VALID_COMPARISON_OPERATORS;
+    this.logicalOperators = VALID_LOGICAL_OPERATORS;
+    this.comparisonOperators = VALID_COMPARISON_OPERATORS;
     this.assignmentOperator = VALID_ASSIGNMENT_OPERATORS;
 
-    this.operators = [
-      "TT_AND",
-      "TT_OR",
-      "TT_NOT",
-      "TT_SPACE",
-      "TT_COLON",
-      "TT_GREATER_THAN",
-      "TT_LESS_THAN",
-      "TT_EQUAL",
-      "TT_GREATER_THAN_EQUAL",
-      "TT_LESS_THAN_EQUAL",
-    ];
-    this.metricsOp = [
-      "TT_GREATER_THAN",
-      "TT_LESS_THAN",
-      "TT_EQUAL",
-      "TT_GREATER_THAN_EQUAL",
-      "TT_LESS_THAN_EQUAL",
-    ];
     this.advance();
   }
 
@@ -100,21 +84,16 @@ class Parser {
     // Check if the token at the start and at the end are valid
     this.token_index++;
     this.currentToken = this.tokens[this.token_index];
-    this.checkIfValidToken();
+    let check = this.checkIfValidToken();
+    // console.log(check);
     return this.currentToken;
   }
 
   checkIfValidToken() {
     if (this.token_index === 0) {
       if (
-        ![
-          "TT_SPACE",
-          "TT_LBRAKET",
-          "TT_RBRAKET",
-          "TT_KEYWORD",
-          "TT_NUMBER",
-          "TT_TAG",
-        ].includes(this.currentToken.type)
+        !getTokenType(this.currentToken.value) ||
+        this.currentToken.type === "TT_UNKNOWN"
       ) {
         return new InvalidToken(
           this.currentToken,
@@ -125,8 +104,11 @@ class Parser {
     }
 
     if (
-      ["TT_AND", "TT_OR", "TT_NOT"].includes(
-        this.tokens[this.tokens.length - 2].type
+      this.logicalOperators.has(
+        this.tokens[this.tokens.length - 2].type ||
+          this.comparisonOperators.has(
+            this.tokens[this.tokens.length - 2].value
+          )
       )
     ) {
       return new InvalidToken(
@@ -135,6 +117,8 @@ class Parser {
         "Invalid ending token!"
       );
     }
+
+    return "Passed!!!";
   }
 
   parse() {
@@ -157,12 +141,14 @@ class Parser {
 
   term() {
     let leftNode = this.factor();
+    // console.log(leftNode);
+
     if (isInstanceOf(leftNode, InvalidToken))
       return { result: null, error: leftNode };
 
-    while (this.operators.includes(this.currentToken.type)) {
+    while (this.currentToken.type == "TT_LOGICAL_OPERATOR") {
       if (
-        this.metricsOp.includes(this.currentToken.type) &&
+        this.comparisonOperators.has(this.currentToken.value) &&
         this.tokens[this.token_index + 1].type !== "TT_NUMBER"
       ) {
         return new InvalidToken(
@@ -172,11 +158,17 @@ class Parser {
         );
       }
       let operator_token = this.currentToken;
+      //console.log(operator_token);
       this.advance();
 
       let rightNode = this.factor();
+      // console.log(rightNode);
       if (isInstanceOf(rightNode, InvalidToken))
-        return { result: null, error: rightNode };
+        return new InvalidToken(
+          this.currentToken,
+          this.token_index,
+          "Something wrong with the right node!!"
+        );
       leftNode = new BinaryOperatorNode(leftNode, operator_token, rightNode);
     }
     return { result: leftNode, error: null };
@@ -190,45 +182,87 @@ class Parser {
       this.advance();
       return new Node(token);
     }
-    // Return a tag node, it extracts the tag, colon and the value
+    // Return a tag node, it extracts the tag, assignment op and the value
     else if (token.type === "TT_TAG") {
       const tagNode = new TagNode();
       tagNode.tag = token;
       this.advance();
 
-      if (this.currentToken.type === "TT_COLON") {
-        tagNode.colon = this.currentToken;
+      if (this.currentToken.type === "TT_ASSIGNMENT_OPERATOR") {
+        tagNode.assignOp = this.currentToken;
         this.advance();
       } else
         return new InvalidToken(
           this.currentToken,
           this.token_index,
-          "Expected colon!"
+          "Expected assignment operator!"
         );
 
       let value = this.getTagValue();
       if (isInstanceOf(value, InvalidToken))
-        return { result: null, error: value };
+        return new InvalidToken(
+          this.currentToken,
+          this.token_index,
+          "Expected closing paranthesis!"
+        );
+      tagNode.value = value.result;
+      return tagNode;
+      // return new Node(token);
+    }
+    // Return a tag node, it extracts the tag, comparison op and the value
+    else if (token.type === "TT_NUMERIC_TAG") {
+      const tagNode = new TagNode();
+      tagNode.tag = token;
+      this.advance();
+
+      if (
+        this.currentToken.type === "TT_COMPARISON_OPERATOR" ||
+        this.currentToken.type === "TT_ASSIGNMENT_OPERATOR"
+      ) {
+        tagNode.assignOp = this.currentToken;
+        this.advance();
+      } else
+        return new InvalidToken(
+          this.currentToken,
+          this.token_index,
+          "Expected assignment operator OR comparison operator!"
+        );
+
+      let value = this.getTagValue();
+      if (
+        isInstanceOf(value, InvalidToken) &&
+        value.result.type !== "TT_NUMBER"
+      )
+        return new InvalidToken(
+          this.currentToken,
+          this.token_index,
+          "Expected closing paranthesis!"
+        );
+
       tagNode.value = value.result;
       return tagNode;
       // return new Node(token);
     }
     // Return a metric node, it extracts the metric, operator and the value
-    else if (token.type === "TT_LBRAKET") {
+    else if (token.type === "TT_LPARANTH") {
       this.advance();
       // this.currentToken.value = "(" + this.currentToken.value;
       let node = this.term();
-      node.arrowLeft = "(";
+      node.paranthLeft = "(";
       if (isInstanceOf(node, InvalidToken))
-        return { result: null, error: node };
+        return new InvalidToken(
+          this.currentToken,
+          this.token_index,
+          "Invalid node after LPRARANTH!"
+        );
 
-      if (this.currentToken.type === "TT_RBRAKET") {
-        node.arrowRight = ")";
+      if (this.currentToken.type === "TT_RPARANTH") {
+        node.paranthRight = ")";
       } else
         return new InvalidToken(
           this.currentToken,
           this.token_index,
-          "Expected closing bracket!"
+          "Expected closing paranthesis!"
         );
 
       // this.currentToken = this.currentToken.value + ")";
@@ -239,17 +273,20 @@ class Parser {
     // Return a metric node, it extracts the metric, operator and the value
     else if (token.type === "TT_METRIC") {
       let metric = token.value;
-      let operator = null;
+      let compOperator = null;
       let value = null;
       this.advance();
-      if (this.metricsOp.includes(this.currentToken.type)) {
-        operator = this.currentToken.value;
+      if (
+        this.comparisonOperators.has(this.currentToken.value) ||
+        this.currentToken.type === "TT_ASSIGNMENT_OPERATOR"
+      ) {
+        compOperator = this.currentToken.value;
         this.advance();
 
         if (this.currentToken.type === "TT_NUMBER") {
           value = this.currentToken.value;
           this.advance();
-          return new MetricNode(metric, operator, value);
+          return new MetricNode(metric, compOperator, value);
         } else
           return new InvalidToken(
             this.currentToken,
@@ -266,18 +303,17 @@ class Parser {
     // Return the exact match when defined, the string is enclosed in single quotes
     else if (token.type === "TT_QUOTE") {
       let startingQuote = "'";
-      let str = "";
+      let keyword = "";
       this.advance();
       while (this.currentToken.type !== "TT_QUOTE") {
-        str += this.currentToken.value;
+        keyword += this.currentToken.value;
         this.advance();
       }
 
-      if (str.charAt(str.length - 1) === " ") str = str.slice(0, -1);
-
       let endingQuote = "'";
       this.advance();
-      return new ExactKeywordNode(startingQuote, str, endingQuote);
+
+      return new ExactKeywordNode(startingQuote, keyword, endingQuote);
     } else
       return new InvalidToken(
         this.currentToken,
@@ -303,25 +339,27 @@ class Parser {
         this.advance();
       }
 
-      if (str.charAt(str.length - 1) === " ") str = str.slice(0, -1);
-
       let endingQuote = "'";
       this.advance();
       return {
         result: new ExactKeywordNode(startingQuote, str, endingQuote),
         error: null,
       };
-    } else if (token.type === "TT_LBRAKET") {
+    } else if (token.type === "TT_LPARANTH") {
       this.advance();
       let node = this.term();
       if (isInstanceOf(node, InvalidToken))
-        return { result: null, error: node };
-
-      if (this.currentToken.type !== "TT_RBRAKET") {
         return new InvalidToken(
           this.currentToken,
           this.token_index,
-          "Expected closing bracket!"
+          "Invalid node after TT_LPARANTH!"
+        );
+
+      if (this.currentToken.type !== "TT_RPARANTH") {
+        return new InvalidToken(
+          this.currentToken,
+          this.token_index,
+          "Expected closing paranthesis!"
         );
       }
       this.advance();

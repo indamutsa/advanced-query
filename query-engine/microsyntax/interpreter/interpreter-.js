@@ -27,7 +27,7 @@ class Interpreter {
   }
 
   visitBinaryOperatorNode(ast) {
-    // const { result, error, arrowLeft, arrowRight } = ast;
+    // const { result, error, paranthLeft, paranthRight } = ast;
 
     const left = ast?.result?.left ? ast.result.left : ast?.left;
     const operator = ast?.result?.operator
@@ -35,8 +35,8 @@ class Interpreter {
       : ast?.operator;
     const right = ast?.result?.right ? ast.result.right : ast?.right;
 
-    const arrowLL = ast?.arrowLeft ? ast.arrowLeft : "";
-    const arrowLR = ast?.arrowRight ? ast.arrowRight : "";
+    const arrowLL = ast?.paranthLeft ? ast.paranthLeft : "";
+    const arrowLR = ast?.paranthRight ? ast.paranthRight : "";
 
     let op = "";
 
@@ -56,33 +56,33 @@ class Interpreter {
     }
 
     this.global_query += arrowLL;
-    this.global_query += left?.arrowLeft ? left.arrowLeft : "";
+    this.global_query += left?.paranthLeft ? left.paranthLeft : "";
     this.visit(left?.result ? left.result : left);
-    this.global_query += left?.arrowRight ? left.arrowRight : "";
+    this.global_query += left?.paranthRight ? left.paranthRight : "";
 
     this.global_query += op;
 
-    this.global_query += right?.arrowLeft ? right.arrowLeft : "";
+    this.global_query += right?.paranthLeft ? right.paranthLeft : "";
     this.visit(right?.result ? right.result : right);
-    this.global_query += right?.arrowRight ? right?.arrowRight : "";
+    this.global_query += right?.paranthRight ? right?.paranthRight : "";
     this.global_query += arrowLR;
   }
 
   visitNode(node) {
     let node_ = node?.result ? node.result : node;
 
-    this.global_query += node?.arrowLeft ? node.arrowLeft : "";
+    this.global_query += node?.paranthLeft ? node.paranthLeft : "";
     this.global_query += `${node_.token.value}`;
-    this.global_query += node?.arrowRight ? node.arrowRight : "";
+    this.global_query += node?.paranthRight ? node.paranthRight : "";
   }
 
   // visitTagNode(node) {
   //     let node_ = node?.result ? node.result : node;
   //     let { tag, colon, value } = node_;
 
-  //     this.global_query += node?.arrowLeft ? node.arrowLeft : "";
+  //     this.global_query += node?.paranthLeft ? node.paranthLeft : "";
   //     this.global_query += `${tag.value}${colon.value}${value.token.value}`;
-  //     this.global_query += node?.arrowRight ? node.arrowRight : "";
+  //     this.global_query += node?.paranthRight ? node.paranthRight : "";
 
   //     // let { tag, colon, value } = node;
   //     // // log(`visitTagNode: ${tag.value}, ${colon.value}, ${value.token.value}`)
@@ -93,7 +93,7 @@ class Interpreter {
     let node_ = node?.result ? node.result : node;
     let { tag, colon, value } = node_;
 
-    this.global_query += node?.arrowLeft ? node.arrowLeft : "";
+    this.global_query += node?.paranthLeft ? node.paranthLeft : "";
 
     // check if value is an ExactKeywordNode
     if (value.constructor.name === "ExactKeywordNode") {
@@ -104,18 +104,18 @@ class Interpreter {
       this.global_query += `${tag.value}${colon.value}${value.token.value}`;
     }
 
-    this.global_query += node?.arrowRight ? node.arrowRight : "";
+    this.global_query += node?.paranthRight ? node.paranthRight : "";
   }
 
   visitMetricNode(node) {
     let node_ = node?.result ? node.result : node;
     let { metric, operator, value } = node_;
 
-    this.global_query += node?.arrowLeft ? node.arrowLeft : "";
+    this.global_query += node?.paranthLeft ? node.paranthLeft : "";
     this.global_query += `modelMetric.metrics.${metric.toUpperCase()}.value:${
       operator === "==" ? "" : `${operator}`
     }${Number(value)}`;
-    this.global_query += node?.arrowRight ? node.arrowRight : "";
+    this.global_query += node?.paranthRight ? node.paranthRight : "";
 
     // let { metric, operator, value } = node;
     // // log(node)
@@ -126,9 +126,9 @@ class Interpreter {
   visitExactKeywordNode(node) {
     let node_ = node?.result ? node.result : node;
 
-    this.global_query += node?.arrowLeft ? node.arrowLeft : "";
+    this.global_query += node?.paranthLeft ? node.paranthLeft : "";
     this.global_query += `"${node_.startingQuote.value}${node_.str}${node_.endingQuote.value}"`;
-    this.global_query += node?.arrowRight ? node.arrowRight : "";
+    this.global_query += node?.paranthRight ? node.paranthRight : "";
 
     // this.global_query += `"${node.startingQuote.value}${node.str}${node.endingQuote.value}"`;
   }

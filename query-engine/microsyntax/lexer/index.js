@@ -1,6 +1,5 @@
 const { IllegalCharacterError, InvalidToken } = require("../error/error.js");
 const Token = require("./token.js");
-const { getTokenType, TT_KEYWORD } = require("./validTokens.js");
 
 // Convert the array to a Set for faster lookup
 const specialCharsToEscape = new Set([
@@ -296,9 +295,9 @@ class Lexer {
       this.cleanWhitespace();
 
       // console.log("-----------------------------------------");
-      this.tokens.forEach((token, index) => {
-        // console.log("Token: ", token, "Index: ", index);
-      });
+      // this.tokens.forEach((token, index) => {
+      // console.log("Token: ", token, "Index: ", index);
+      // });
 
       return this.tokens; // Returns all tokens except the final EOF
     } catch (error) {
@@ -358,7 +357,7 @@ const isNumeric = (str) => {
 };
 
 const isAlphanumeric = (str) => {
-  return /^[a-zA-Z0-9]+$/.test(str);
+  return /^[a-zA-Z0-9.]+$/.test(str);
 };
 
 module.exports = Lexer;
