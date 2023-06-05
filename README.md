@@ -166,4 +166,4 @@ Here are the steps you should follow:
    docker rmi -f image_name
    ```
 
-For kubernetes, please refer to the kubernetes folder for more details.
+For kubernetes, please refer to the [kubernetes folder](kubernetes) for more details.
