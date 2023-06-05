@@ -1,5 +1,5 @@
 const { log } = console;
-let query = "";
+// let query = "";
 // Node
 // query = "hello";
 // query = "123456";
@@ -53,9 +53,8 @@ const runMicroSyntax = (query) => {
       // log(result ? result : error);
 
       const interpreter = new Interpreter(result);
-      const elasticQuery = {
-        query: interpreter.visitAst(),
-      };
+      const elasticQuery = interpreter.visitAst();
+      // console.log(elasticQuery);
 
       return elasticQuery;
     } else
@@ -71,6 +70,6 @@ const runMicroSyntax = (query) => {
   }
 };
 
-runMicroSyntax(query);
+// runMicroSyntax(query);
 
 module.exports = { runMicroSyntax };

@@ -86,44 +86,50 @@ const generateDroidQueryDsl = (body) => {
 
 const mainQueryGenerator = (args) => {
   const { microsyntax, from, limit } = args;
-  // console.log(args);
   let queryStr = microsyntax ? microsyntax : "";
-  let { res, err } = runMicroSyntax(queryStr);
+  let res = runMicroSyntax(queryStr);
 
-  console.log(res, err);
+  let returnedFields = [
+    "id",
+    "name",
+    "storageUrl",
+    "size",
+    "createdAt",
+    "updatedAt",
+    "description",
+    "type",
+    "accessControl",
+    "unique_name",
+    "ext",
+    "project",
+  ];
 
-  let requestObject = `
-  {
-    "_source": [
-      "id",
-      "name",
-      "storageUrl",
-      "size",
-      "createdAt",
-      "updatedAt",
-      "description",
-      "type",
-      "accessControl",
-      "unique_name",
-      "ext",
-      "project"
-    ],
-    "from": ${from},
-    "size": ${limit},
-    "query": {
-      "query_string": {
-        "query": "${
-          res
-            ? res
-            : ")) -- we making sure that the query crashes if the microsyntax is not valid"
-        }",
-      }
-    }
-  }  
-  `;
+  // Convert the microsyntax to a valid JSON object
+  let requestObject = "";
 
-  requestObject = fixJSON(requestObject);
-  return requestObject;
+  if (res && limit) {
+    res._source = returnedFields;
+    res.limit = limit;
+  } else if (res && from) {
+    res._source = returnedFields;
+    res.from = from;
+  } else if (res && from && limit) {
+    res._source = returnedFields;
+    res.from = from;
+    res.limit = limit;
+  }
+
+  requestObject = res
+    ? res
+    : {
+        query: {
+          query_string: {
+            query: res,
+          },
+        },
+      };
+
+  return JSON.parse(requestObject);
 };
 
 const queryType = (operator) => {
