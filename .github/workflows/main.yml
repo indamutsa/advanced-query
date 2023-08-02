@@ -56,9 +56,6 @@ jobs:
             ${{ matrix.elasticsearch.name }}:${{ env.SHA }}
 
       # Wait for Elasticsearch and test the endpoint
-      - name: Start Elasticsearch
-        run: docker run ...
-
       - name: Check logs
         run: |
           for i in {1..3}; do
