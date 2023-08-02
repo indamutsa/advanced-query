@@ -7,12 +7,12 @@ sleep 120
 count=0
 while [ $count -lt 6 ]; do
   elasticsearch_health=$(curl -s 'http://elasticsearch:9200/_cluster/health?pretty' | grep status | awk '{print $2}' | tr -d '"')
-  if [ "$elasticsearch_health" == "green" ]; then
+  if [ "$elasticsearch_health" = "green" ]; then
     echo "Elasticsearch is healthy"
     curl -XPUT 'http://elasticsearch:9200/testindex/_doc/1' -H 'Content-Type: application/json' -d '{"title":"Test Document"}'
     # Test if the document went through
     test_result=$(curl 'http://elasticsearch:9200/testindex/_search?q=title:Test')
-    if [[ $test_result == *"Test Document"* ]]; then
+    if [[ $test_result = *"Test Document"* ]]; then
       echo "Document indexed successfully"
     else
       echo "Error: Document not indexed"
@@ -21,7 +21,7 @@ while [ $count -lt 6 ]; do
     break
   fi
   echo "Waiting for Elasticsearch..."
-  sleep 5
+  sleep 10
   count=$((count + 1))
 done
 
