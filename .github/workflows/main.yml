@@ -4,7 +4,7 @@ name: Continuous Integration for the MDEForge-Search
 on:
   push:
     branches:
-      - main # or the branch you want to build on
+      - main
 
 jobs:
   build:
@@ -12,79 +12,34 @@ jobs:
 
     strategy:
       matrix:
-        es:
+        repository:
+          - name: indamutsa
+        images:
           - name: elasticsearch
             path: elastic-bundle/elasticsearch
             dockerfile: Dockerfile
-        logstash:
           - name: logstash
             path: elastic-bundle/logstash
             dockerfile: Dockerfile
-        kibana:
           - name: kibana
             path: elastic-bundle/kibana
             dockerfile: Dockerfile
-        filebeat:
           - name: filebeat
             path: elastic-bundle/filebeat
             dockerfile: Dockerfile
 
     steps:
-      # Checkout the repo
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      # Get the short SHA, it will be used to tag the image
-      - name: Get the short SHA
-        run: echo "SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
-      # Build the image
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Building Images with Buildx
+      - name: Build images
         run: |
-          IMAGE_TAG=${{ env.SHA }}
-          docker build ./${{ matrix.es.path }} --tag indamutsa/${{ matrix.es.name }}:$IMAGE_TAG
-          docker build ./${{ matrix.logstash.path }} --tag indamutsa/${{ matrix.logstash.name }}:$IMAGE_TAG
-          docker build ./${{ matrix.kibana.path }} --tag indamutsa/${{ matrix.kibana.name }}:$IMAGE_TAG
-          docker build ./${{ matrix.filebeat.path }} --tag indamutsa/${{ matrix.filebeat.name }}:$IMAGE_TAG
+          IMAGE_TAG=${{ github.sha }}
+          echo $IMAGE_TAG
+          docker build ./${{ matrix.images.path }} --tag ${{ matrix.repository.name }}/${{ matrix.images.name }}:$IMAGE_TAG
 
-      # -----------------------------------
-
-      # Start the Elasticsearch container
-      # --------------------------------------------------------------------------------
-      # - name: Start Elasticsearch
-      #   run: |
-      #     docker run -d \
-      #       --name elasticsearch \
-      #       -v elasticsearch:/usr/share/elasticsearch/data \
-      #       -p 9200:9200 \
-      #       -p 9300:9300 \
-      #       -e "ES_JAVA_OPTS=-Xmx256m -Xms256m" \
-      #       -e "ELASTIC_USERNAME=elastic" \
-      #       -e "ELASTIC_PASSWORD=changeme" \
-      #       -e "discovery.type=single-node" \
-      #       --health-cmd="curl --silent --fail http://localhost:9200/_cluster/health || exit 1" \
-      #       --health-interval=30s \
-      #       --health-timeout=30s \
-      #       --health-retries=5 \
-      #       --restart=on-failure \
-      #       elasticsearch:${{ env.SHA }}
-
-      # # Wait for Elasticsearch and test the endpoint
-      # - name: Check cluster health
-      #   run: |
-      #     sleep 25
-
-      #     status_code=$(curl -u elastic:changeme --write-out '%{http_code}' --silent --output /dev/null http://localhost:9200/_cluster/health)
-      #     echo "Elasticsearch health check returned status $status_code"
-
-      #     if [ "$status_code" != "200" ]; then
-      #       echo "Error: Elasticsearch health check failed with status $status_code"
-      #       exit 1
-      #     fi
-      # -----------------------------------
       # Log into Docker Hub
       - name: Log into Docker Hub
         uses: docker/login-action@v1
@@ -92,12 +47,111 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      # Push the image to Docker Hub
-      - name: Push ${{ matrix.es.name }}
+      - name: Push images
         run: |
-          IMAGE_TAG=${{ env.SHA }}
-          echo indamutsa/${{ matrix.es.name }}:$IMAGE_TAG
-          docker push indamutsa/${{ matrix.es.name }}:$IMAGE_TAG
-          docker push indamutsa/${{ matrix.logstash.name }}:$IMAGE_TAG
-          docker push indamutsa/${{ matrix.kibana.name }}:$IMAGE_TAG
-          docker push indamutsa/${{ matrix.filebeat.name }}:$IMAGE_TAG
+          IMAGE_TAG=${{ github.sha }}
+          docker push docker.io/${{ matrix.repository.name }}/${{ matrix.images.name }}:$IMAGE_TAG
+
+# Build, Test, and Push Docker Images -- workflow not optimized
+# name: Continuous Integration for the MDEForge-Search
+
+# on:
+#   push:
+#     branches:
+#       - main # or the branch you want to build on
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     strategy:
+#       matrix:
+#         es:
+#           - name: elasticsearch
+#             path: elastic-bundle/elasticsearch
+#             dockerfile: Dockerfile
+#         logstash:
+#           - name: logstash
+#             path: elastic-bundle/logstash
+#             dockerfile: Dockerfile
+#         kibana:
+#           - name: kibana
+#             path: elastic-bundle/kibana
+#             dockerfile: Dockerfile
+#         filebeat:
+#           - name: filebeat
+#             path: elastic-bundle/filebeat
+#             dockerfile: Dockerfile
+
+#     steps:
+#       # Checkout the repo
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       # Get the short SHA, it will be used to tag the image
+#       - name: Get the short SHA
+#         run: echo "SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+#       # Build the image
+#       - name: Set up Docker Buildx
+#         uses: docker/setup-buildx-action@v1
+
+#       - name: Building Images with Buildx
+#         run: |
+#           IMAGE_TAG=${{ env.SHA }}
+#           docker build ./${{ matrix.es.path }} --tag indamutsa/${{ matrix.es.name }}:$IMAGE_TAG
+#           docker build ./${{ matrix.logstash.path }} --tag indamutsa/${{ matrix.logstash.name }}:$IMAGE_TAG
+#           docker build ./${{ matrix.kibana.path }} --tag indamutsa/${{ matrix.kibana.name }}:$IMAGE_TAG
+#           docker build ./${{ matrix.filebeat.path }} --tag indamutsa/${{ matrix.filebeat.name }}:$IMAGE_TAG
+
+#       # -----------------------------------
+
+#       # Start the Elasticsearch container
+#       # --------------------------------------------------------------------------------
+#       - name: Start Elasticsearch
+#         run: |
+#           docker run -d \
+#             --name elasticsearch \
+#             -v elasticsearch:/usr/share/elasticsearch/data \
+#             -p 9200:9200 \
+#             -p 9300:9300 \
+#             -e "ES_JAVA_OPTS=-Xmx256m -Xms256m" \
+#             -e "ELASTIC_USERNAME=elastic" \
+#             -e "ELASTIC_PASSWORD=changeme" \
+#             -e "discovery.type=single-node" \
+#             --health-cmd="curl --silent --fail http://localhost:9200/_cluster/health || exit 1" \
+#             --health-interval=30s \
+#             --health-timeout=30s \
+#             --health-retries=5 \
+#             --restart=on-failure \
+#             elasticsearch:${{ env.SHA }}
+
+#       # Wait for Elasticsearch and test the endpoint
+#       - name: Check cluster health
+#         run: |
+#           sleep 25
+
+#           status_code=$(curl -u elastic:changeme --write-out '%{http_code}' --silent --output /dev/null http://localhost:9200/_cluster/health)
+#           echo "Elasticsearch health check returned status $status_code"
+
+#           if [ "$status_code" != "200" ]; then
+#             echo "Error: Elasticsearch health check failed with status $status_code"
+#             exit 1
+#           fi
+#       # -----------------------------------
+#       # Log into Docker Hub
+#       - name: Log into Docker Hub
+#         uses: docker/login-action@v1
+#         with:
+#           username: ${{ secrets.DOCKER_HUB_USERNAME }}
+#           password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+#       # Push the image to Docker Hub
+#       - name: Push ${{ matrix.es.name }}
+#         run: |
+#           IMAGE_TAG=${{ env.SHA }}
+#           echo indamutsa/${{ matrix.es.name }}:$IMAGE_TAG
+#           docker push indamutsa/${{ matrix.es.name }}:$IMAGE_TAG
+#           docker push indamutsa/${{ matrix.logstash.name }}:$IMAGE_TAG
+#           docker push indamutsa/${{ matrix.kibana.name }}:$IMAGE_TAG
+#           docker push indamutsa/${{ matrix.filebeat.name }}:$IMAGE_TAG
