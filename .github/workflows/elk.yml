@@ -40,6 +40,10 @@ jobs:
           echo $IMAGE_TAG
           docker build ./${{ matrix.images.path }} --tag ${{ matrix.repository.name }}/${{ matrix.images.name }}:$IMAGE_TAG
 
+      - name: Create .env file
+        run: |
+          echo "IMAGE_TAG=${{ github.sha }}" > .env
+
       - name: Copy docker-compose.yml
         uses: actions/upload-artifact@v1
         with:
@@ -48,9 +52,11 @@ jobs:
 
       - name: Run docker-compose | Test the server
         run: |
-          docker-compose -f .github/workflows/testing-files/elk-compose.yml up -d
+          docker-compose -f .github/workflows/testing-files/elk-compose.yml up --build
           chmod +x ./.github/workflows/testing-files/elk-test.sh
           ./.github/workflows/testing-files/elk-test.sh
+        env:
+          IMAGE_TAG: ${{ github.sha }}
 
       # Log into Docker Hub
       - name: Log into Docker Hub
