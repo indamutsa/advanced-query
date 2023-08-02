@@ -28,6 +28,7 @@ jobs:
         run: |
           export IMAGE_TAG=${{ github.sha }}
           docker-compose -f .github/workflows/testing-files/elk-compose.yml up --build -d
+          sleep 60
 
           # Wait for Elasticsearch to become healthy, up to 30 seconds
           count=0
