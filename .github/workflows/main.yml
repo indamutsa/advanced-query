@@ -36,25 +36,25 @@ jobs:
           IMAGE_TAG=${{ env.SHA }}
           docker build ./${{ matrix.elasticsearch.path }} --tag $IMAGE_NAME:$IMAGE_TAG
 
-      # # Start the Elasticsearch container
-      # - name: Start Elasticsearch
-      #   run: |
-      #     docker run -d \
-      #       --name ${{ matrix.elasticsearch.name }} \
-      #       -p 9200:9200 \
-      #       -p 9300:9300 \
-      #       my-image-${{ matrix.elasticsearch.name }}:${{ env.SHA }}
+      # Start the Elasticsearch container
+      - name: Start Elasticsearch
+        run: |
+          docker run -d \
+            --name ${{ matrix.elasticsearch.name }} \
+            -p 9200:9200 \
+            -p 9300:9300 \
+            my-image-${{ matrix.elasticsearch.name }}:${{ env.SHA }}
 
-      # # Wait for Elasticsearch to start
-      # - name: Wait for Elasticsearch
-      #   run: |
-      #     for i in {1..30}; do
-      #       curl --silent --fail http://localhost:9200/_cluster/health && exit 0
-      #       echo "Waiting for Elasticsearch..."
-      #       sleep 10
-      #     done
-      #     echo "Elasticsearch did not start in time"
-      #     exit 1
+      # Wait for Elasticsearch to start
+      - name: Wait for Elasticsearch
+        run: |
+          for i in {1..30}; do
+            curl --silent --fail http://localhost:9200/_cluster/health && exit 0
+            echo "Waiting for Elasticsearch..."
+            sleep 10
+          done
+          echo "Elasticsearch did not start in time"
+          exit 1
 
       # # Test the endpoint
       # - name: Test Endpoint
@@ -72,7 +72,7 @@ jobs:
       #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
       #     password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      # Push the image to Docker Hub
+      # # Push the image to Docker Hub
       # - name: Push ${{ matrix.elasticsearch.name }}
       #   run: |
       #     IMAGE_NAME=my-image-${{ matrix.elasticsearch.name }}
