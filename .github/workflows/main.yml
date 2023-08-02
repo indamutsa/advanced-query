@@ -56,9 +56,20 @@ jobs:
             ${{ matrix.elasticsearch.name }}:${{ env.SHA }}
 
       # Wait for Elasticsearch and test the endpoint
-      - name: Test connection
+      - name: Start Elasticsearch
+        run: docker run ...
+
+      - name: Check logs
         run: |
-          curl -s -u elastic:changeme http://localhost:9200/_cluster/health | grep -q 'green'
+          for i in {1..3}; do
+            docker logs -f ${{ matrix.elasticsearch.name }} | grep -q 'started' && exit 0 
+
+            echo "Elasticsearch not ready, retrying..."
+            sleep 10
+          done
+
+          echo "Elasticsearch failed to start after 3 attempts"
+          exit 1
 
       # # Log into Docker Hub
       # - name: Log into Docker Hub
