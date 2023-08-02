@@ -1,14 +1,83 @@
-name: Hello World
+# Build, Test, and Push Docker Images
+name: Continuous Integration for the MDEForge-Search
 
-on: [push]
+on:
+  push:
+    branches:
+      - main # or the branch you want to build on
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        elasticsearch:
+          - name: elasticsearch
+            path: elastic-bundle/elasticsearch
+            dockerfile: Dockerfile
+
     steps:
+      # Checkout the repo
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Print Hello World
-        run: echo "Hello, World!"
+      # Get the short SHA, it will be used to tag the image
+      - name: Get the short SHA
+        id: short-sha
+        run: echo "SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      # Build the image
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build ${{ matrix.elasticsearch.name }}
+        run: |
+          IMAGE_NAME=my-image-${{ matrix.elasticsearch.name }}
+          IMAGE_TAG=${{ env.SHA }}
+          docker build ${{ matrix.elasticsearch.path }} --file ${{ matrix.elasticsearch.dockerfile }} --tag $IMAGE_NAME:$IMAGE_TAG
+
+      # Start the Elasticsearch container
+      - name: Start Elasticsearch
+        run: |
+          docker run -d \
+            --name ${{ matrix.elasticsearch.name }} \
+            -p 9200:9200 \
+            -p 9300:9300 \
+            my-image-${{ matrix.elasticsearch.name }}:${{ env.SHA }}
+
+      # Wait for Elasticsearch to start
+      - name: Wait for Elasticsearch
+        run: |
+          for i in {1..30}; do
+            curl --silent --fail http://localhost:9200/_cluster/health && exit 0
+            echo "Waiting for Elasticsearch..."
+            sleep 10
+          done
+          echo "Elasticsearch did not start in time"
+          exit 1
+
+      # Test the endpoint
+      - name: Test Endpoint
+        run: |
+          STATUS_CODE=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:9200)
+          if [ "$STATUS_CODE" -ne 200 ]; then
+            echo "Failed to reach service, status code: $STATUS_CODE"
+            exit 1
+          fi
+
+      # Log into Docker Hub
+      - name: Log into Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      # Push the image to Docker Hub
+      # - name: Push ${{ matrix.elasticsearch.name }}
+      #   run: |
+      #     IMAGE_NAME=my-image-${{ matrix.elasticsearch.name }}
+      #     IMAGE_TAG=${{ env.SHA }}
+      #     IMAGE_ID=docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/$IMAGE_NAME
+      #     docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_ID:$IMAGE_TAG
+      #     docker push $IMAGE_ID:$IMAGE_TAG
