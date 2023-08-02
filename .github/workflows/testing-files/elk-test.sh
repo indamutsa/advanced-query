@@ -7,6 +7,8 @@ echo 'Wait for Elasticsearch to become healthy'
 #  Sleep for 3 mins while running this: docker-compose -f .github/workflows/testing-files/elk-compose.yml logs
 min_count=0
 while [ $min_count -lt 10 ]; do
+  elasticsearch_health=$(curl -s -u elastic:changeme 'http://elasticsearch:9200/_cluster/health?pretty' | grep status | awk '{print $2}' | tr -d '"')
+  echo "Elasticsearch health---------->>>>>: $elasticsearch_health"
   echo "Logging docker-compose logs for 18 seconds"
   docker-compose -f .github/workflows/testing-files/elk-compose.yml logs
   sleep 18
@@ -15,7 +17,7 @@ done
 
 count=0
 while [ $count -lt 6 ]; do
-  elasticsearch_health=$(curl -s 'http://elasticsearch:9200/_cluster/health?pretty' | grep status | awk '{print $2}' | tr -d '"')
+  elasticsearch_health=$(curl -s -u elastic:changeme 'http://elasticsearch:9200/_cluster/health?pretty' | grep status | awk '{print $2}' | tr -d '"')
   if [ "$elasticsearch_health" = "green" ]; then
     echo "Elasticsearch is healthy"
     curl -XPUT 'http://elasticsearch:9200/testindex/_doc/1' -H 'Content-Type: application/json' -d '{"title":"Test Document"}'
