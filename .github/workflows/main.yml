@@ -61,6 +61,7 @@ jobs:
           sleep 25
 
           status_code=$(curl -u elastic:changeme --write-out '%{http_code}' --silent --output /dev/null http://localhost:9200/_cluster/health)
+          echo "Elasticsearch health check returned status $status_code"
 
           if [ "$status_code" != "200" ]; then
             echo "Error: Elasticsearch health check failed with status $status_code"
