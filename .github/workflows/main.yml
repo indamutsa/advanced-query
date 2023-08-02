@@ -45,6 +45,8 @@ jobs:
             -p 9200:9200 \
             -p 9300:9300 \
             -e "ES_JAVA_OPTS=-Xmx256m -Xms256m" \
+            # -e "ELASTIC_USERNAME=elastic" \
+            # -e "ELASTIC_PASSWORD=changeme" \
             -e "discovery.type=single-node" \
             --health-cmd="curl --silent --fail http://localhost:9200/_cluster/health || exit 1" \
             --health-interval=30s \
