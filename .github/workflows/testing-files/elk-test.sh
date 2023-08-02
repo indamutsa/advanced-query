@@ -2,8 +2,17 @@
 
 # Elasticsearch
 # Wait for Elasticsearch to become healthy, up to 30 seconds, and then put the document
-echo 'Wait for Elasticsearch to become healthy, up to 120 seconds'
-sleep 120
+echo 'Wait for Elasticsearch to become healthy'
+
+#  Sleep for 3 mins while running this: docker-compose -f .github/workflows/testing-files/elk-compose.yml logs
+min_count=0
+while [ $min_count -lt 10 ]; do
+  echo "Logging docker-compose logs for 18 seconds"
+  docker-compose -f .github/workflows/testing-files/elk-compose.yml logs
+  sleep 18
+  min_count=$((min_count + 1))
+done
+
 count=0
 while [ $count -lt 6 ]; do
   elasticsearch_health=$(curl -s 'http://elasticsearch:9200/_cluster/health?pretty' | grep status | awk '{print $2}' | tr -d '"')
