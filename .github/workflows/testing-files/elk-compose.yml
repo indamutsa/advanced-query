@@ -96,6 +96,3 @@ networks:
 
 volumes:
   elasticsearch:
-
-env_file:
-  - .env
