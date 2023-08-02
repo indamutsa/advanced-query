@@ -32,7 +32,7 @@ jobs:
 
       - name: Build ${{ matrix.elasticsearch.name }}
         run: |
-          IMAGE_NAME=my-image-${{ matrix.elasticsearch.name }}
+          IMAGE_NAME=${{ matrix.elasticsearch.name }}
           IMAGE_TAG=${{ env.SHA }}
           docker build ${{ matrix.elasticsearch.path }} --file ${{ matrix.elasticsearch.dockerfile }} --tag $IMAGE_NAME:$IMAGE_TAG
 
