@@ -24,12 +24,11 @@ jobs:
 
       # Get the short SHA, it will be used to tag the image
       - name: Get the short SHA
-        id: short-sha
         run: echo "SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       # Build the image
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v1.6.0 # Specify the version that you want
 
       - name: Build ${{ matrix.elasticsearch.name }}
         run: |
