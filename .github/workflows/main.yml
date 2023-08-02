@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        elasticsearch:
+        esearch:
           - name: elasticsearch
             path: elastic-bundle/elasticsearch
             dockerfile: Dockerfile
@@ -30,17 +30,17 @@ jobs:
       - name: Set up Docker Buildx
         uses: actions/checkout@v3
 
-      - name: Build ${{ matrix.elasticsearch.name }}
+      - name: Build ${{ matrix.esearch.name }}
         run: |
-          IMAGE_NAME=${{ matrix.elasticsearch.name }}
+          IMAGE_NAME=${{ matrix.esearch.name }}
           IMAGE_TAG=${{ env.SHA }}
-          docker build ./${{ matrix.elasticsearch.path }} --tag $IMAGE_NAME:$IMAGE_TAG
+          docker build ./${{ matrix.esearch.path }} --tag $IMAGE_NAME:$IMAGE_TAG
 
       # Start the Elasticsearch container
       - name: Start Elasticsearch
         run: |
           docker run -d \
-            --name ${{ matrix.elasticsearch.name }} \
+            --name ${{ matrix.esearch.name }} \
             -v elasticsearch:/usr/share/elasticsearch/data \
             -p 9200:9200 \
             -p 9300:9300 \
@@ -53,7 +53,7 @@ jobs:
             --health-timeout=30s \
             --health-retries=5 \
             --restart=on-failure \
-            ${{ matrix.elasticsearch.name }}:${{ env.SHA }}
+            ${{ matrix.esearch.name }}:${{ env.SHA }}
 
       # Wait for Elasticsearch and test the endpoint
       - name: Wait for and Test Elasticsearch Endpoint
@@ -78,9 +78,9 @@ jobs:
       #     password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       # # Push the image to Docker Hub
-      # - name: Push ${{ matrix.elasticsearch.name }}
+      # - name: Push ${{ matrix.esearch.name }}
       #   run: |
-      #     IMAGE_NAME=my-image-${{ matrix.elasticsearch.name }}
+      #     IMAGE_NAME=my-image-${{ matrix.esearch.name }}
       #     IMAGE_TAG=${{ env.SHA }}
       #     IMAGE_ID=docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/$IMAGE_NAME
       #     docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_ID:$IMAGE_TAG
