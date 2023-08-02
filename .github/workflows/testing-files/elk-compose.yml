@@ -82,7 +82,7 @@ services:
       - search-engine
     restart: on-failure
   test_script:
-    build: ../testing-files/elk-test.sh
+    build: ../testing-files
 
 # Defining the network
 ######################################################
