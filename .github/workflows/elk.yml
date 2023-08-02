@@ -1,4 +1,4 @@
-# Build, Test, and Push Docker Images
+# Build, Test, and Push Docker Images | Running in parallel
 name: Continuous Integration for the MDEForge-Search
 
 on:
@@ -7,26 +7,8 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        repository:
-          - name: indamutsa
-        images:
-          - name: elasticsearch
-            path: elastic-bundle/elasticsearch
-            dockerfile: Dockerfile
-          - name: logstash
-            path: elastic-bundle/logstash
-            dockerfile: Dockerfile
-          - name: kibana
-            path: elastic-bundle/kibana
-            dockerfile: Dockerfile
-          - name: filebeat
-            path: elastic-bundle/filebeat
-            dockerfile: Dockerfile
 
     steps:
       - uses: actions/checkout@v2
@@ -37,28 +19,19 @@ jobs:
       - name: Build images
         run: |
           IMAGE_TAG=${{ github.sha }}
-          echo $IMAGE_TAG
-          docker build ./${{ matrix.images.path }} --tag ${{ matrix.repository.name }}/${{ matrix.images.name }}:$IMAGE_TAG
-
-      - name: Create .env file
-        run: |
-          echo "IMAGE_TAG=${{ github.sha }}" > .env
-
-      - name: Copy docker-compose.yml
-        uses: actions/upload-artifact@v1
-        with:
-          name: elk-compose.yml
-          path: ./.github/workflows/testing-files/elk-compose.yml
+          docker build ./elastic-bundle/elasticsearch --tag indamutsa/elasticsearch:$IMAGE_TAG
+          docker build ./elastic-bundle/logstash --tag indamutsa/logstash:$IMAGE_TAG
+          docker build ./elastic-bundle/kibana --tag indamutsa/kibana:$IMAGE_TAG
+          docker build ./elastic-bundle/filebeat --tag indamutsa/filebeat:$IMAGE_TAG
 
       - name: Run docker-compose | Test the server
         run: |
-          docker-compose -f .github/workflows/testing-files/elk-compose.yml up --build
+          export IMAGE_TAG=${{ github.sha }}
+          docker-compose -f .github/workflows/testing-files/elk-compose.yml up --build -d
+          sleep 30
           chmod +x ./.github/workflows/testing-files/elk-test.sh
           ./.github/workflows/testing-files/elk-test.sh
-        env:
-          IMAGE_TAG: ${{ github.sha }}
 
-      # Log into Docker Hub
       - name: Log into Docker Hub
         uses: docker/login-action@v1
         with:
@@ -68,8 +41,67 @@ jobs:
       - name: Push images
         run: |
           IMAGE_TAG=${{ github.sha }}
-          docker push docker.io/${{ matrix.repository.name }}/${{ matrix.images.name }}:$IMAGE_TAG
+          docker push indamutsa/elasticsearch:$IMAGE_TAG
+          docker push indamutsa/logstash:$IMAGE_TAG
+          docker push indamutsa/kibana:$IMAGE_TAG
+          docker push indamutsa/filebeat:$IMAGE_TAG
 
+# --------------------------------------------------------------------------------
+# # Build, Test, and Push Docker Images | Running in parallel
+# name: Continuous Integration for the MDEForge-Search
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     strategy:
+#       matrix:
+#         repository:
+#           - name: indamutsa
+#         images:
+#           - name: elasticsearch
+#             path: elastic-bundle/elasticsearch
+#             dockerfile: Dockerfile
+#           - name: logstash
+#             path: elastic-bundle/logstash
+#             dockerfile: Dockerfile
+#           - name: kibana
+#             path: elastic-bundle/kibana
+#             dockerfile: Dockerfile
+#           - name: filebeat
+#             path: elastic-bundle/filebeat
+#             dockerfile: Dockerfile
+
+#     steps:
+#       - uses: actions/checkout@v2
+
+#       - name: Set up Docker Buildx
+#         uses: docker/setup-buildx-action@v1
+
+#       - name: Build images
+#         run: |
+#           IMAGE_TAG=${{ github.sha }}
+#           echo $IMAGE_TAG
+#           docker build ./${{ matrix.images.path }} --tag ${{ matrix.repository.name }}/${{ matrix.images.name }}:$IMAGE_TAG
+
+#       # Log into Docker Hub
+#       - name: Log into Docker Hub
+#         uses: docker/login-action@v1
+#         with:
+#           username: ${{ secrets.DOCKER_HUB_USERNAME }}
+#           password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+#       - name: Push images
+#         run: |
+#           IMAGE_TAG=${{ github.sha }}
+#           docker push docker.io/${{ matrix.repository.name }}/${{ matrix.images.name }}:$IMAGE_TAG
+
+# --------------------------------------------------------------------------------
 # name: Continuous Integration for the MDEForge-Search
 
 # on:
