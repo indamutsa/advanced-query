@@ -34,7 +34,7 @@ jobs:
         run: |
           IMAGE_NAME=${{ matrix.elasticsearch.name }}
           IMAGE_TAG=${{ env.SHA }}
-          docker build ${{ matrix.elasticsearch.path }} --file ${{ matrix.elasticsearch.dockerfile }} --tag $IMAGE_NAME:$IMAGE_TAG
+          docker build ./${{ matrix.elasticsearch.path }} --file ${{ matrix.elasticsearch.dockerfile }} --tag $IMAGE_NAME:$IMAGE_TAG
 
       # # Start the Elasticsearch container
       # - name: Start Elasticsearch
