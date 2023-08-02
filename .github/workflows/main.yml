@@ -16,15 +16,15 @@ jobs:
           - name: elasticsearch
             path: elastic-bundle/elasticsearch
             dockerfile: Dockerfile
-          - name: logstash
-            path: elastic-bundle/logstash
-            dockerfile: Dockerfile
-          - name: kibana
-            path: elastic-bundle/kibana
-            dockerfile: Dockerfile
-          - name: filebeat
-            path: elastic-bundle/filebeat
-            dockerfile: Dockerfile
+          # - name: logstash
+          #   path: elastic-bundle/logstash
+          #   dockerfile: Dockerfile
+          # - name: kibana
+          #   path: elastic-bundle/kibana
+          #   dockerfile: Dockerfile
+          # - name: filebeat
+          #   path: elastic-bundle/filebeat
+          #   dockerfile: Dockerfile
 
     steps:
       # Checkout the repo
