@@ -97,26 +97,26 @@ jobs:
         run: |
           IMAGE_NAME=${{ matrix.es.name }}
           IMAGE_TAG=${{ env.SHA }}
-          docker tag $IMAGE_NAME:$IMAGE_TAG docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.es.name }}:$IMAGE_TAG
-          docker push docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.es.name }}:$IMAGE_TAG
+          docker tag $IMAGE_NAME:$IMAGE_TAG ${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.es.name }}:$IMAGE_TAG
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.es.name }}:$IMAGE_TAG
 
       - name: Push ${{ matrix.logstash.name }}
         run: |
           IMAGE_NAME=${{ matrix.logstash.name }}
           IMAGE_TAG=${{ env.SHA }}
-          docker tag $IMAGE_NAME:$IMAGE_TAG docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.logstash.name }}:$IMAGE_TAG
-          docker push docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.logstash.name }}:$IMAGE_TAG
+          docker tag $IMAGE_NAME:$IMAGE_TAG ${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.logstash.name }}:$IMAGE_TAG
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.logstash.name }}:$IMAGE_TAG
 
       - name: Push ${{ matrix.kibana.name }}
         run: |
           IMAGE_NAME=${{ matrix.kibana.name }}
           IMAGE_TAG=${{ env.SHA }}
-          docker tag $IMAGE_NAME:$IMAGE_TAG docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.kibana.name }}:$IMAGE_TAG
-          docker push docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.kibana.name }}:$IMAGE_TAG
+          docker tag $IMAGE_NAME:$IMAGE_TAG ${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.kibana.name }}:$IMAGE_TAG
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.kibana.name }}:$IMAGE_TAG
 
       - name: Push ${{ matrix.filebeat.name }}
         run: |
           IMAGE_NAME=${{ matrix.filebeat.name }}
           IMAGE_TAG=${{ env.SHA }}
-          docker tag $IMAGE_NAME:$IMAGE_TAG docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.filebeat.name }}:$IMAGE_TAG
-          docker push docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.filebeat.name }}:$IMAGE_TAG
+          docker tag $IMAGE_NAME:$IMAGE_TAG ${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.filebeat.name }}:$IMAGE_TAG
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.filebeat.name }}:$IMAGE_TAG
