@@ -45,10 +45,10 @@ jobs:
       - name: Building Images with Buildx
         run: |
           IMAGE_TAG=${{ env.SHA }}
-          docker build ./${{ matrix.es.path }} --tag ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.es.name }}:$IMAGE_TAG
-          docker build ./${{ matrix.logstash.path }} --tag ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.logstash.name }}:$IMAGE_TAG
-          docker build ./${{ matrix.kibana.path }} --tag ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.kibana.name }}:$IMAGE_TAG
-          docker build ./${{ matrix.filebeat.path }} --tag ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.filebeat.name }}:$IMAGE_TAG
+          docker build ./${{ matrix.es.path }} --tag indamutsa/${{ matrix.es.name }}:$IMAGE_TAG
+          docker build ./${{ matrix.logstash.path }} --tag indamutsa/${{ matrix.logstash.name }}:$IMAGE_TAG
+          docker build ./${{ matrix.kibana.path }} --tag indamutsa/${{ matrix.kibana.name }}:$IMAGE_TAG
+          docker build ./${{ matrix.filebeat.path }} --tag indamutsa/${{ matrix.filebeat.name }}:$IMAGE_TAG
 
       # -----------------------------------
 
@@ -96,8 +96,8 @@ jobs:
       - name: Push ${{ matrix.es.name }}
         run: |
           IMAGE_TAG=${{ env.SHA }}
-          echo ${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.es.name }}:$IMAGE_TAG
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.es.name }}:$IMAGE_TAG
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.logstash.name }}:$IMAGE_TAG
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.kibana.name }}:$IMAGE_TAG
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/$${{ matrix.filebeat.name }}:$IMAGE_TAG
+          echo indamutsa/${{ matrix.es.name }}:$IMAGE_TAG
+          docker push indamutsa/${{ matrix.es.name }}:$IMAGE_TAG
+          docker push indamutsa/${{ matrix.logstash.name }}:$IMAGE_TAG
+          docker push indamutsa/${{ matrix.kibana.name }}:$IMAGE_TAG
+          docker push indamutsa/${{ matrix.filebeat.name }}:$IMAGE_TAG
