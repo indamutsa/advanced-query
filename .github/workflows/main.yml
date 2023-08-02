@@ -48,9 +48,7 @@ jobs:
       - name: Build ${{ matrix.es-bundle.name }} with Buildx
         run: |
           for item in ${{ matrix.es-bundle.name }}; do
-            IMAGE_NAME=$item[name]
-            IMAGE_TAG=${{ env.SHA }}
-            docker build ./$item[path] --tag $IMAGE_NAME:$IMAGE_TAG
+            echo $item
           done
           docker images
 
