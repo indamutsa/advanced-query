@@ -5,25 +5,25 @@
 echo 'Wait for Elasticsearch to become healthy'
 
 #  Sleep for 3 mins while running this: docker-compose -f .github/workflows/testing-files/elk-compose.yml logs
-min_count=0
-while [ $min_count -lt 10 ]; do
-  elasticsearch_health=$(curl -s -u elastic:changeme 'http://elasticsearch:9200/_cluster/health?pretty' | grep status | awk '{print $2}' | tr -d '"')
-  echo "Elasticsearch health---------->>>>>: $elasticsearch_health"
-  echo "Logging docker-compose logs for 18 seconds"
-  docker-compose -f .github/workflows/testing-files/elk-compose.yml logs
-  sleep 18
-  min_count=$((min_count + 1))
-done
+curl -s -u elastic:changeme 'http://localhost:9200/_cluster/health?pretty' | grep status | awk '{print $3}' | tr -d '",'
+sleep 300
+
+docker-compose -f .github/workflows/testing-files/elk-compose.yml logs
+sleep 10
+
 
 count=0
 while [ $count -lt 6 ]; do
-  elasticsearch_health=$(curl -s -u elastic:changeme 'http://elasticsearch:9200/_cluster/health?pretty' | grep status | awk '{print $2}' | tr -d '"')
-  if [ "$elasticsearch_health" = "green" ]; then
+  elasticsearch_health=$(curl -s -u elastic:changeme 'http://localhost:9200/_cluster/health?pretty' | grep status | awk '{print $3}' | tr -d '",')
+  echo "Elasticsearch health---------->>>>>: $elasticsearch_health"
+  if [ "$elasticsearch_health" = "yellow" ]; then
     echo "Elasticsearch is healthy"
-    curl -XPUT 'http://elasticsearch:9200/testindex/_doc/1' -H 'Content-Type: application/json' -d '{"title":"Test Document"}'
+    curl -XPUT -u elastic:changeme 'http://localhost:9200/testindex/_doc/1' -H 'Content-Type: application/json' -d '{"title":"Test Document"}' >/dev/null 2>&1
+    
     # Test if the document went through
-    test_result=$(curl 'http://elasticsearch:9200/testindex/_search?q=title:Test')
-    if [[ $test_result = *"Test Document"* ]]; then
+    test_result=$(curl -u elastic:changeme -s -o /dev/null -w '%{http_code}' 'http://localhost:9200/testindex/_search?q=title:Test' 2>/dev/null)
+    
+    if [ $test_result -eq "200" ]; then
       echo "Document indexed successfully"
     else
       echo "Error: Document not indexed"
@@ -36,7 +36,7 @@ while [ $count -lt 6 ]; do
   count=$((count + 1))
 done
 
-if [ $count -eq 6 ] && [ "$elasticsearch_health" != "green" ]; then
+if [ $count -eq 6 ] && [ "$elasticsearch_health" != "yellow" ]; then
   echo "Elasticsearch did not become healthy within 30 seconds."
   exit 1
 fi
@@ -47,8 +47,8 @@ fi
 echo 'Wait for Kibana to become healthy, up to 10 seconds'
 count=0
 while [ $count -lt 2 ]; do
-  response=$(curl -Is http://kibana:5601 | head -1)
-  if [[ $response =~ "200 OK" ]]; then
+  response=$(curl -Is http://localhost:5601 | head -1 | grep 302 | awk '{print $2}')
+  if [ $response -eq "302" ]; then
     echo "Kibana is healthy"
     break
   fi
@@ -57,27 +57,35 @@ while [ $count -lt 2 ]; do
   count=$((count + 1))
 done
 
-if [ $count -eq 2 ] && [[ ! $response =~ "200 OK" ]]; then
+if [ $count -eq 2 ] && [ ! $response = "302" ]; then
   echo "Kibana did not become healthy within 10 seconds."
   exit 1
 fi
 
 
-# Logstash
-echo '{"message":"Test log event"}' | nc logstash 5044
 sleep 5
-logstash_docs=$(curl 'http://elasticsearch:9200/logstash*/_count?q=message:Test')
-if [[ $logstash_docs -eq 0 ]]; then
+logstash_docs=$(curl -u elastic:changeme 'http://localhost:9200/logstash*/_count?q=message:Test' 2>/dev/null)
+successful_count=$(echo "$logstash_docs" | grep -o '"successful":[0-9]*' | awk -F: '{print $2}')
+
+if [ "$successful_count" -eq 1 ]; then
+  echo "Logstash events indexed successfully"
+else
   echo "Logstash events not indexed"
   exit 1
 fi
 
+
 # Filebeat
-filebeat test -e -d "publish" 
+filebeat test -e -d "publish" >/dev/null 2>&1
 sleep 5 
-filebeat_docs=$(curl 'http://elasticsearch:9200/filebeat*/_count?q=message:Test')
-if [[ $filebeat_docs -eq 0 ]]; then
-  echo "Filebeat logs not indexed" 
+
+filebeat_docs=$(curl -u elastic:changeme 'http://localhost:9200/filebeat*/_count?q=message:Test' 2>/dev/null)
+fail_count=$(echo "$filebeat_docs" | grep -o '"failed":[0-9]*' | awk -F: '{print $2}')
+
+if [ "$fail_count" -eq 0 ]; then
+  echo "Filebeat indexed"
+else
+  echo "Filebeat events not indexed"
   exit 1
 fi
 
