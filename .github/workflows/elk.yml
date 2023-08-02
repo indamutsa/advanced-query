@@ -48,8 +48,8 @@ jobs:
 
       - name: Run docker-compose
         run: |
-          docker-compose -f elk-compose.yml up -d
-          docker-compose -f elk-compose.yml run .github/workflows/testing-files/elk-test.sh
+          docker-compose -f .github/workflows/testing-files/elk-compose.yml up -d
+          docker-compose -f .github/workflows/testing-files/elk-compose.yml run .github/workflows/testing-files/elk-test.sh
 
       # Log into Docker Hub
       - name: Log into Docker Hub
