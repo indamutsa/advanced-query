@@ -46,13 +46,11 @@ jobs:
           name: elk-compose.yml
           path: ./.github/workflows/testing-files/elk-compose.yml
 
-      - name: Run docker-compose
+      - name: Run docker-compose | Test the server
         run: |
           docker-compose -f .github/workflows/testing-files/elk-compose.yml up -d
-
-      - name: Run integration tests
-        run: |
-          docker-compose -f .github/workflows/testing-files/elk-compose.yml run test_script
+          chmod +x ./../testing-files/elk-test.sh
+          ./../testing-files/elk-test.sh
 
       # Log into Docker Hub
       - name: Log into Docker Hub
@@ -66,7 +64,6 @@ jobs:
           IMAGE_TAG=${{ github.sha }}
           docker push docker.io/${{ matrix.repository.name }}/${{ matrix.images.name }}:$IMAGE_TAG
 
-# Build, Test, and Push Docker Images -- workflow not optimized
 # name: Continuous Integration for the MDEForge-Search
 
 # on:
