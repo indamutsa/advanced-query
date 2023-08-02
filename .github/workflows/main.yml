@@ -37,20 +37,13 @@ jobs:
 
       # Build the image
       - name: Set up Docker Buildx
-        uses: actions/checkout@v3
-
-      # - name: Build ${{ matrix.es-bundle.name }}
-      #   run: |
-      #     IMAGE_NAME=${{ matrix.es-bundle.name }}
-      #     IMAGE_TAG=${{ env.SHA }}
-      #     docker build ./${{ matrix.es-bundle.path }} --tag $IMAGE_NAME:$IMAGE_TAG
+        uses: docker/setup-buildx-action@v1
 
       - name: Build ${{ matrix.es-bundle.name }} with Buildx
         run: |
-          for item in ${{ matrix.es-bundle }}; do
-            echo $item[path]
-          done
-          docker images
+          IMAGE_NAME=${{ matrix.es-bundle.name }}
+          IMAGE_TAG=${{ env.SHA }}
+          docker build ./${{ matrix.es-bundle.path }} --tag $IMAGE_NAME:$IMAGE_TAG
 
       # Start the Elasticsearch container
       # - name: Start Elasticsearch
