@@ -47,8 +47,8 @@ jobs:
 
       - name: Build ${{ matrix.es-bundle.name }} with Buildx
         run: |
-          for item in ${{ matrix.es-bundle.name }}; do
-            echo $item
+          for item in ${{ matrix.es-bundle }}; do
+            echo $item[path]
           done
           docker images
 
