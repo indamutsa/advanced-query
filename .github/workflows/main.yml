@@ -43,7 +43,7 @@ jobs:
             --name ${{ matrix.elasticsearch.name }} \
             -p 9200:9200 \
             -p 9300:9300 \
-            my-image-${{ matrix.elasticsearch.name }}:${{ env.SHA }}
+            ${{ matrix.elasticsearch.name }}:${{ env.SHA }}
 
       # Wait for Elasticsearch to start
       - name: Wait for Elasticsearch
