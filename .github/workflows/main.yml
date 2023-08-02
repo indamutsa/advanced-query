@@ -56,19 +56,10 @@ jobs:
             ${{ matrix.esearch.name }}:${{ env.SHA }}
 
       # Wait for Elasticsearch and test the endpoint
-      - name: Wait for and Test Elasticsearch Endpoint
+      - name: Test connection
         run: |
-          for i in {1..3}; do
-            STATUS_CODE=$(curl -u elastic:changeme --write-out '%{http_code}' --silent --output /dev/null http://localhost:9200/_cluster/health)
-            if [ "$STATUS_CODE" -eq 200 ]; then
-              echo "Elasticsearch is up and running!"
-              exit 0
-            fi
-            echo "Waiting for Elasticsearch... (Status code: $STATUS_CODE)"
-            sleep 10
-          done
-          echo "Elasticsearch did not start in time or returned a non-200 status code: $STATUS_CODE"
-          exit 1
+          docker run --network container:${{ matrix.esearch.name }} \
+            appropriate/curl -s -u elastic:changeme http://elasticsearch:9200/_cluster/health
 
       # # Log into Docker Hub
       # - name: Log into Docker Hub
