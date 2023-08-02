@@ -24,17 +24,15 @@ jobs:
           docker build ./elastic-bundle/kibana --tag indamutsa/kibana:$IMAGE_TAG
           docker build ./elastic-bundle/filebeat --tag indamutsa/filebeat:$IMAGE_TAG
 
-      - name: Run docker-compose | Test the server
+      - name: Run docker-compose
         run: |
           export IMAGE_TAG=${{ github.sha }}
           docker-compose -f .github/workflows/testing-files/elk-compose.yml up --build -d
-          sleep 60
-          docker logs elasticsearch
-          docker logs logstash
-          docker logs kibana
-          docker logs filebeat
+          sleep 180
 
-          # Wait for Elasticsearch to become healthy, up to 30 seconds
+      - name: Test the ELK stack
+        run: |
+          echo 'Wait for Elasticsearch to become healthy, up to 30 seconds'
           count=0
           until curl --silent --fail http://elasticsearch:9200/_cluster/health || [ $count -eq 6 ]; do
             echo "Waiting for Elasticsearch..."
@@ -46,7 +44,7 @@ jobs:
             exit 1
           fi
 
-          # Wait for Kibana to become healthy, up to 10 seconds
+          echo 'Wait for Kibana to become healthy, up to 10 seconds'
           count=0
           until curl --silent --fail http://kibana:5601 || [ $count -eq 2 ]; do
             echo "Waiting for Kibana..."
