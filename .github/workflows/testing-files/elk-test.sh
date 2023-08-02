@@ -1,20 +1,56 @@
 #!/bin/sh
 
 # Elasticsearch
-curl -XPUT 'http://elasticsearch:9200/testindex/_doc/1' -H 'Content-Type: application/json' -d '{"title":"Test Document"}'
-curl 'http://elasticsearch:9200/testindex/_search?q=title:Test'
-elasticsearch_health=$(curl -s 'http://elasticsearch:9200/_cluster/health?pretty' | grep status | awk '{print $2}' | tr -d '"')
-if [ "$elasticsearch_health" != "green" ]; then
-  echo "Elasticsearch cluster health check failed"
+# Wait for Elasticsearch to become healthy, up to 30 seconds, and then put the document
+echo 'Wait for Elasticsearch to become healthy, up to 120 seconds'
+sleep 120
+count=0
+while [ $count -lt 6 ]; do
+  elasticsearch_health=$(curl -s 'http://elasticsearch:9200/_cluster/health?pretty' | grep status | awk '{print $2}' | tr -d '"')
+  if [ "$elasticsearch_health" == "green" ]; then
+    echo "Elasticsearch is healthy"
+    curl -XPUT 'http://elasticsearch:9200/testindex/_doc/1' -H 'Content-Type: application/json' -d '{"title":"Test Document"}'
+    # Test if the document went through
+    test_result=$(curl 'http://elasticsearch:9200/testindex/_search?q=title:Test')
+    if [[ $test_result == *"Test Document"* ]]; then
+      echo "Document indexed successfully"
+    else
+      echo "Error: Document not indexed"
+      exit 1
+    fi
+    break
+  fi
+  echo "Waiting for Elasticsearch..."
+  sleep 5
+  count=$((count + 1))
+done
+
+if [ $count -eq 6 ] && [ "$elasticsearch_health" != "green" ]; then
+  echo "Elasticsearch did not become healthy within 30 seconds."
   exit 1
 fi
 
+
 # Kibana
-response=$(curl -Is http://kibana:5601 | head -1) 
-if [[ ! $response =~ "200 OK" ]]; then
-  echo "Error: Kibana not reachable"
+# Wait for Kibana to become healthy, up to 10 seconds
+echo 'Wait for Kibana to become healthy, up to 10 seconds'
+count=0
+while [ $count -lt 2 ]; do
+  response=$(curl -Is http://kibana:5601 | head -1)
+  if [[ $response =~ "200 OK" ]]; then
+    echo "Kibana is healthy"
+    break
+  fi
+  echo "Waiting for Kibana..."
+  sleep 5
+  count=$((count + 1))
+done
+
+if [ $count -eq 2 ] && [[ ! $response =~ "200 OK" ]]; then
+  echo "Kibana did not become healthy within 10 seconds."
   exit 1
 fi
+
 
 # Logstash
 echo '{"message":"Test log event"}' | nc logstash 5044

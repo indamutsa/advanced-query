@@ -28,35 +28,11 @@ jobs:
         run: |
           export IMAGE_TAG=${{ github.sha }}
           docker-compose -f .github/workflows/testing-files/elk-compose.yml up --build -d
-          sleep 180
 
       - name: Test the ELK stack
         run: |
-          echo 'Wait for Elasticsearch to become healthy, up to 30 seconds'
-          count=0
-          until curl --silent --fail http://elasticsearch:9200/_cluster/health || [ $count -eq 6 ]; do
-            echo "Waiting for Elasticsearch..."
-            sleep 5
-            count=$((count + 1))
-          done
-          if [ $count -eq 6 ]; then
-            echo "Elasticsearch did not become healthy within 30 seconds."
-            exit 1
-          fi
-
-          echo 'Wait for Kibana to become healthy, up to 10 seconds'
-          count=0
-          until curl --silent --fail http://kibana:5601 || [ $count -eq 2 ]; do
-            echo "Waiting for Kibana..."
-            sleep 5
-            count=$((count + 1))
-          done
-          if [ $count -eq 2 ]; then
-            echo "Kibana did not become healthy within 10 seconds."
-            exit 1
-          fi
-
           # Run the test script
+          sleep 60
           chmod +x ./.github/workflows/testing-files/elk-test.sh
           ./.github/workflows/testing-files/elk-test.sh || (docker-compose -f .github/workflows/testing-files/elk-compose.yml logs && exit 1)
 
