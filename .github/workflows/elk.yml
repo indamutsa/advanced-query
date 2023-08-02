@@ -40,6 +40,17 @@ jobs:
           echo $IMAGE_TAG
           docker build ./${{ matrix.images.path }} --tag ${{ matrix.repository.name }}/${{ matrix.images.name }}:$IMAGE_TAG
 
+      - name: Copy docker-compose.yml
+        uses: actions/upload-artifact@v1
+        with:
+          name: elk-compose.yml
+          path: ./.github/workflows/testing-files/elk-compose.yml
+
+      - name: Run docker-compose
+        run: |
+          docker-compose -f elk-compose.yml up -d
+          docker-compose -f elk-compose.yml run .github/workflows/testing-files/elk-test.sh
+
       # Log into Docker Hub
       - name: Log into Docker Hub
         uses: docker/login-action@v1
