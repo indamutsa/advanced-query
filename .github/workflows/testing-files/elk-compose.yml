@@ -81,6 +81,8 @@ services:
     networks:
       - search-engine
     restart: on-failure
+  test_script:
+    build: ../testing-files/elk-test.sh
 
 # Defining the network
 ######################################################
