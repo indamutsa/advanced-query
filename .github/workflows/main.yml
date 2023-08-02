@@ -56,21 +56,16 @@ jobs:
             ${{ matrix.elasticsearch.name }}:${{ env.SHA }}
 
       # Wait for Elasticsearch and test the endpoint
-
       - name: Check cluster health
         run: |
-          for i in {1..3}; do
-            if docker logs -f ${{ matrix.elasticsearch.name }} --tail 10 | grep -q "Cluster health status changed from [YELLOW] to [GREEN]"; then
-              echo "Elasticsearch cluster is ready"
-              exit 0
-            fi
-            
-            echo "Cluster not ready yet, waiting..."  
-            sleep 10
-          done
+          sleep 25
 
-          echo "Elasticsearch cluster failed to become ready"
-          exit 1
+          status_code=$(curl -u elastic:changeme --write-out '%{http_code}' --silent --output /dev/null http://localhost:9200/_cluster/health)
+
+          if [ "$status_code" != "200" ]; then
+            echo "Error: Elasticsearch health check failed with status $status_code"
+            exit 1
+          fi
 
       # # Log into Docker Hub
       # - name: Log into Docker Hub
