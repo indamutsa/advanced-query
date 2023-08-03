@@ -1,4 +1,4 @@
-const Lexer = require("../lexer/lexer");
+const Lexer = require("../lexer/index");
 
 const queries = [
   // Testing logical operators
