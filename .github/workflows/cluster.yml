@@ -38,6 +38,7 @@ jobs:
 
       - name: Run tests
         run: |
+
           IMAGE_TAG=${{ github.sha }}
           docker run indamutsa/query-engine:$IMAGE_TAG /bin/sh -c "cd ./query-engine/microsyntax/test.module && npm run test"
 
