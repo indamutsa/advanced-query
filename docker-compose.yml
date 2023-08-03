@@ -7,7 +7,7 @@ services:
   ################################################################################
   elasticsearch:
     container_name: elasticsearch
-    image: indamutsa/elasticsearch:v1.1
+    image: indamutsa/elasticsearch:$IMAGE_TAG
     volumes:
       - type: volume
         source: elasticsearch
@@ -37,7 +37,7 @@ services:
 
   logstash:
     container_name: logstash
-    image: indamutsa/logstash:v1.1
+    image: indamutsa/logstash:$IMAGE_TAG
     links:
       - elasticsearch:elasticsearch
 
@@ -56,7 +56,7 @@ services:
 
   kibana:
     container_name: kibana
-    image: indamutsa/kibana:v1.1
+    image: indamutsa/kibana:$IMAGE_TAG
     links:
       - elasticsearch:elasticsearch
     ports:
@@ -69,7 +69,7 @@ services:
 
   filebeat:
     container_name: filebeat
-    image: indamutsa/filebeat:v1.1
+    image: indamutsa/filebeat:$IMAGE_TAG
     volumes:
       - "/var/lib/docker/containers:/usr/share/filebeat/dockerlogs:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
@@ -88,7 +88,7 @@ services:
     container_name: persistence
     # build:
     #   context: ./persistence-api
-    image: indamutsa/persistence-api:v1.1
+    image: indamutsa/persistence-api:$IMAGE_TAG
     command: bash -c "sleep 130 && npm run server"
     ports:
       - "3200:3200"
@@ -105,7 +105,7 @@ services:
   #####################################################
   query-engine:
     container_name: query-engine
-    image: indamutsa/query-engine:v1.5
+    image: indamutsa/query-engine:$IMAGE_TAG
     # build:
     #   context: ./query-engine
     depends_on:
@@ -136,21 +136,21 @@ services:
   #   networks:
   #     - search-engine
 
-  adminmongo:
-    container_name: adminmongo
-    image: indamutsa/adminmongo
-    ports:
-      - 9990:1234
-    environment:
-      - HOST=0.0.0.0
-    networks:
-      - search-engine
-    restart: on-failure
+  # adminmongo:
+  #   container_name: adminmongo
+  #   image: indamutsa/adminmongo
+  #   ports:
+  #     - 9990:1234
+  #   environment:
+  #     - HOST=0.0.0.0
+  #   networks:
+  #     - search-engine
+  #   restart: on-failure
 
   # Synchronizing the elasticsearch and mongo cluster using MONSTACHE
   ###################################################################
   monstache:
-    image: indamutsa/monstache:v1.1 # After building the image i pushed it
+    image: indamutsa/monstache:$IMAGE_TAG # After building the image i pushed it
     container_name: monstache
     working_dir: /app
     command: -f monstache.config.toml
@@ -174,7 +174,7 @@ services:
   # Shard 1
   mongors1n1:
     container_name: mongors1n1
-    image: mongo:4.2
+    image: indamutsa/mongo:$IMAGE_TAG
     command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017 --bind_ip_all
     ports:
       - 27018:27017
@@ -190,7 +190,7 @@ services:
 
   mongors1n2:
     container_name: mongors1n2
-    image: mongo:4.2
+    image: indamutsa/mongo:$IMAGE_TAG
     command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017 --bind_ip_all
     ports:
       - 27027:27017
@@ -206,7 +206,7 @@ services:
 
   mongors1n3:
     container_name: mongors1n3
-    image: mongo:4.2
+    image: indamutsa/mongo:$IMAGE_TAG
     command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017 --bind_ip_all
     ports:
       - 27037:27017
@@ -223,7 +223,7 @@ services:
   # Shard 2
   mongors2n1:
     container_name: mongors2n1
-    image: mongo:4.2
+    image: indamutsa/mongo:$IMAGE_TAG
     command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017 --bind_ip_all
     ports:
       - 27047:27017
@@ -239,7 +239,7 @@ services:
 
   mongors2n2:
     container_name: mongors2n2
-    image: mongo:4.2
+    image: indamutsa/mongo:$IMAGE_TAG
     command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017 --bind_ip_all
     ports:
       - 27057:27017
@@ -255,7 +255,7 @@ services:
 
   mongors2n3:
     container_name: mongors2n3
-    image: mongo:4.2
+    image: indamutsa/mongo:$IMAGE_TAG
     command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017 --bind_ip_all
     ports:
       - 27067:27017
@@ -272,7 +272,7 @@ services:
   # Configuration server
   mongocfg1:
     container_name: mongocfg1
-    image: mongo:4.2
+    image: indamutsa/mongo:$IMAGE_TAG
     command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27017 --bind_ip_all
     environment:
       TERM: xterm
@@ -286,7 +286,7 @@ services:
 
   mongocfg2:
     container_name: mongocfg2
-    image: mongo:4.2
+    image: indamutsa/mongo:$IMAGE_TAG
     command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27017 --bind_ip_all
     environment:
       TERM: xterm
@@ -300,7 +300,7 @@ services:
 
   mongocfg3:
     container_name: mongocfg3
-    image: mongo:4.2
+    image: indamutsa/mongo:$IMAGE_TAG
     command: mongod --configsvr --replSet mongors1conf --dbpath /data/db --port 27017 --bind_ip_all
     environment:
       TERM: xterm
@@ -315,7 +315,7 @@ services:
   # The router
   mongos1:
     container_name: mongos1
-    image: mongo:4.2
+    image: indamutsa/mongo:$IMAGE_TAG
     depends_on:
       - mongocfg1
       - mongocfg2
@@ -332,7 +332,7 @@ services:
 
   mongos2:
     container_name: mongos2
-    image: mongo:4.2
+    image: indamutsa/mongo:$IMAGE_TAG
     depends_on:
       - mongocfg1
       - mongocfg2
@@ -348,7 +348,7 @@ services:
   # A shortlived container for starting the cluster
   setup-rs:
     container_name: setup-rs
-    image: indamutsa/setup:latest
+    image: indamutsa/setup:$IMAGE_TAG
     # build: ./setup
     depends_on:
       - "mongos1"
@@ -391,6 +391,17 @@ services:
       - search-engine
     restart: on-failure
 
+  metrics-calculator:
+    container_name: metrics-calculator
+    image: indamutsa/metrics-calculator:v1.0
+    ports:
+      - 8186:8186
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - search-engine
+    restart: on-failure
+
   # END OF MODEL MANAGEMENT SERVICES
   # --------------------------------
   frontend-search:
@@ -398,20 +409,9 @@ services:
     # build:
     #   context: ./frontend-search
     #   dockerfile: ./Dockerfile
-    image: indamutsa/frontend-search:v3.4
+    image: indamutsa/frontend-search:$IMAGE_TAG
     ports:
       - 3500:3500
-    environment:
-      - HOST=0.0.0.0
-    networks:
-      - search-engine
-    restart: on-failure
-
-  metrics-calculator:
-    container_name: metrics-calculator
-    image: indamutsa/metrics-calculator:v1.0
-    ports:
-      - 8186:8186
     environment:
       - HOST=0.0.0.0
     networks:

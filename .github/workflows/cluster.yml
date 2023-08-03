@@ -1,5 +1,5 @@
 # Build, Test, and Push Docker Images | Running in parallel
-name: Continuous Integration | MONGO CLUSTER | MDEForge-Search
+name: Continuous Integration | CLUSTER | MDEForge-Search
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  SKIP_CI: "true"
+  SKIP_CI: "false"
 
 jobs:
   check-skip:
@@ -19,7 +19,7 @@ jobs:
         id: set-skip
         run: echo "::set-output name=skip::${{ env.SKIP_CI }}"
 
-  build-and-test-mongo-cluster:
+  build-and-test-cluster:
     needs: check-skip
     runs-on: ubuntu-latest
     if: ${{ needs.check-skip.outputs.skip != 'true' }}
@@ -32,9 +32,9 @@ jobs:
       - name: Build images | Tag Images
         run: |
           IMAGE_TAG=${{ github.sha }}
-          docker build ./mongo-bundle/monstache --tag indamutsa/monstache:$IMAGE_TAG
-          docker build ./mongo-bundle/sharded --tag indamutsa/mongo:$IMAGE_TAG
-          docker build ./setup --tag indamutsa/setup:$IMAGE_TAG
+          docker build ./persistence-api --tag indamutsa/persistence-api:$IMAGE_TAG
+          docker build ./query-engine --tag indamutsa/query-engine:$IMAGE_TAG
+          docker build ./frontend-search --tag indamutsa/frontend-search:$IMAGE_TAG
 
       - name: Log into Docker Hub
         uses: docker/login-action@v1
@@ -45,6 +45,6 @@ jobs:
       - name: Push images
         run: |
           IMAGE_TAG=${{ github.sha }}
-          docker push indamutsa/mongo:$IMAGE_TAG
-          docker push indamutsa/setup:$IMAGE_TAG
-          docker push indamutsa/monstache:$IMAGE_TAG
+          docker push indamutsa/persistence-api:$IMAGE_TAG
+          docker push indamutsa/query-engine:$IMAGE_TAG
+          docker push indamutsa/frontend-search:$IMAGE_TAG
