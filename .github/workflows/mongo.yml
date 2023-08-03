@@ -6,10 +6,23 @@ on:
     branches:
       - main
 
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+env:
+  SKIP_CI: "false"
 
+jobs:
+  check-skip:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.set-skip.outputs.skip }}
+    steps:
+      - name: Check if CI should be skipped
+        id: set-skip
+        run: echo "::set-output name=skip::${{ env.SKIP_CI }}"
+
+  build-and-test-mongo-cluster:
+    needs: check-skip
+    runs-on: ubuntu-latest
+    if: ${{ needs.check-skip.outputs.skip != 'true' }}
     steps:
       - uses: actions/checkout@v2
 

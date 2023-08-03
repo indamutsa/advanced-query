@@ -5,12 +5,23 @@ on:
   push:
     branches:
       - main
+env:
+  SKIP_CI: "true"
 
 jobs:
-  build-and-test:
+  check-skip:
     runs-on: ubuntu-latest
-    if: ${{ false }}
+    outputs:
+      skip: ${{ steps.set-skip.outputs.skip }}
+    steps:
+      - name: Check if CI should be skipped
+        id: set-skip
+        run: echo "::set-output name=skip::${{ env.SKIP_CI }}"
 
+  build-and-test-elk:
+    needs: check-skip
+    runs-on: ubuntu-latest
+    if: ${{ needs.check-skip.outputs.skip != 'true' }}
     steps:
       - uses: actions/checkout@v2
 
