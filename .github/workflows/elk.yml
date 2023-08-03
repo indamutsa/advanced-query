@@ -220,3 +220,4 @@ jobs:
 #           docker push indamutsa/${{ matrix.logstash.name }}:$IMAGE_TAG
 #           docker push indamutsa/${{ matrix.kibana.name }}:$IMAGE_TAG
 #           docker push indamutsa/${{ matrix.filebeat.name }}:$IMAGE_TAG
+

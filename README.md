@@ -104,19 +104,19 @@ This might be the easier and faster way to run the system.
 Run the following command to start the system:
 
 ```bash
-docker-compose up
+docker-compose up # Now use start-dc.sh to start the system
 ```
 
 You can also run the system in detached mode by adding the `-d` flag:
 
 ```bash
-docker-compose up -d
+docker-compose up -d # Now use start-dc.sh to start the system
 ```
 
 If you want to make sure changes to the docker-compose.yml file are applied, you can run the following command:
 
 ```bash
-docker-compose up -d --build --force-recreate
+docker-compose up -d --build --force-recreate # Now use start-dc.sh to start the system
 ```
 
 #### Importing data
