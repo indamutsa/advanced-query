@@ -1,0 +1,35 @@
+# Build, Test, and Push Docker Images | Running in parallel
+name: Continuous Integration | MONGO CLUSTER | MDEForge-Search
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build images | Tag Images
+        run: |
+          IMAGE_TAG=${{ github.sha }}
+          docker tag mongo:4.2 indamutsa/mongo:$IMAGE_TAG
+          docker build ./setup --tag indamutsa/setup:$IMAGE_TAG
+
+      - name: Log into Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Push images
+        run: |
+          IMAGE_TAG=${{ github.sha }}
+          docker push indamutsa/mongo:$IMAGE_TAG
+          docker push indamutsa/setup:$IMAGE_TAG

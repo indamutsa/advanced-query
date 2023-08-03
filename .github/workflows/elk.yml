@@ -1,5 +1,5 @@
 # Build, Test, and Push Docker Images | Running in parallel
-name: Continuous Integration for the MDEForge-Search
+name: Continuous Integration | ELK | MDEForge-Search
 
 on:
   push:
