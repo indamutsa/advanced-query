@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: query-engine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: query-engine
+  template:
+    metadata:
+      labels:
+        service: query-engine
+    spec:
+      containers:
+        - image: indamutsa/query-engine:$IMAGE_TAG
+          name: query-engine
+          ports:
+            - containerPort: 3300
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 256Mi
+      restartPolicy: OnFailure
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: query-engine
+spec:
+  ports:
+    - name: "3300"
+      port: 3300
+      targetPort: 3300
+  selector:
+    service: query-engine
+status:
+  loadBalancer: {}
+

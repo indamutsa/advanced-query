@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: model-query
+  name: model-query
+spec:
+  containers:
+    - env:
+        - name: HOST
+          value: 0.0.0.0
+      image: indamutsa/model-query-image:v1.2
+      name: eol-query
+      ports:
+        - containerPort: 8087
+      resources:
+        # Specify resources here if required
+        requests:
+          cpu: "250m"
+          memory: "64Mi"
+        limits:
+          cpu: "500m"
+          memory: "128Mi"
+  restartPolicy: OnFailure
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: model-query
+  name: model-query
+spec:
+  ports:
+    - name: "8087"
+      port: 8087
+      targetPort: 8087
+  selector:
+    app: model-query
+status:
+  loadBalancer: {}

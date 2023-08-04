@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: frontend-search
+  name: frontend-search
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-search
+  template:
+    metadata:
+      labels:
+        app: frontend-search
+    spec:
+      containers:
+        - env:
+            - name: HOST
+              value: 0.0.0.0
+          image: indamutsa/frontend-search:$IMAGE_TAG
+          name: frontend-search
+          ports:
+            - containerPort: 3500
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 256Mi
+      restartPolicy: OnFailure
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: frontend-search
+  name: frontend-search
+spec:
+  ports:
+    - name: "3500"
+      port: 3500
+      targetPort: 3500
+  selector:
+    app: frontend-search
+status:
+  loadBalancer: {}

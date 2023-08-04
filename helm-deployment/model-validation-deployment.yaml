@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: model-validation
+  name: model-validation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-validation
+  template:
+    metadata:
+      labels:
+        app: model-validation
+    spec:
+      containers:
+        - env:
+            - name: HOST
+              value: 0.0.0.0
+          image: indamutsa/model-validate-image:v1.2
+          name: evl-validation
+          ports:
+            - containerPort: 8086
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 256Mi
+      restartPolicy: OnFailure
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: model-validation
+  name: model-validation
+spec:
+  ports:
+    - name: "8086"
+      port: 8086
+      targetPort: 8086
+  selector:
+    app: model-validation
+status:
+  loadBalancer: {}
