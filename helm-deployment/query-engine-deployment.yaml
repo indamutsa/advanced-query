@@ -13,7 +13,7 @@ spec:
         service: query-engine
     spec:
       containers:
-        - image: indamutsa/query-engine:d487b857
+        - image: indamutsa/query-engine:1d31fc56
           name: query-engine
           ports:
             - containerPort: 3300

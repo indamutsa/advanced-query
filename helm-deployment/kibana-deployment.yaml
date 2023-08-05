@@ -15,7 +15,7 @@ spec:
         app: kibana
     spec:
       containers:
-        - image: indamutsa/kibana:d487b857
+        - image: indamutsa/kibana:1d31fc56
           name: kibana
           ports:
             - containerPort: 5601

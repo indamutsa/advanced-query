@@ -46,7 +46,7 @@ spec:
             - bash
             - -c
             - sleep 130 && npm run server
-          image: indamutsa/persistence-api:d487b857
+          image: indamutsa/persistence-api:1d31fc56
           name: persistence
           ports:
             - containerPort: 3200
