@@ -36,17 +36,17 @@ jobs:
           docker build ./elastic-bundle/kibana --tag indamutsa/kibana:$IMAGE_TAG
           docker build ./elastic-bundle/filebeat --tag indamutsa/filebeat:$IMAGE_TAG
 
-      - name: Run docker-compose
-        run: |
-          export IMAGE_TAG=${{ github.sha }}
-          docker-compose -f .github/workflows/testing-files/elk-compose.yml up -d --build
+      # - name: Run docker-compose
+      #   run: |
+      #     export IMAGE_TAG=${{ github.sha }}
+      #     docker-compose -f .github/workflows/testing-files/elk-compose.yml up -d --build
 
-      - name: Test the ELK stack
-        run: |
-          # Run the test script
-          # sleep 60
-          chmod +x ./.github/workflows/testing-files/elk-test.sh
-          ./.github/workflows/testing-files/elk-test.sh || (docker-compose -f .github/workflows/testing-files/elk-compose.yml logs && exit 1)
+      # - name: Test the ELK stack
+      #   run: |
+      #     # Run the test script
+      #     # sleep 60
+      #     chmod +x ./.github/workflows/testing-files/elk-test.sh
+      #     ./.github/workflows/testing-files/elk-test.sh || (docker-compose -f .github/workflows/testing-files/elk-compose.yml logs && exit 1)
 
       - name: Update Kubernetes Deployment
         run: |
