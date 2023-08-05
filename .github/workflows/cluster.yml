@@ -31,6 +31,7 @@ jobs:
       - name: Build images | Tag Images
         run: |
           IMAGE_TAG=${{ github.sha }}
+          IMAGE_TAG=$(echo ${IMAGE_TAG} | cut -c 1-8)
           docker build ./persistence-api --tag indamutsa/persistence-api:$IMAGE_TAG
           docker build ./query-engine --tag indamutsa/query-engine:$IMAGE_TAG
           docker build ./frontend-search --tag indamutsa/frontend-search:$IMAGE_TAG
@@ -39,6 +40,7 @@ jobs:
         run: |
 
           IMAGE_TAG=${{ github.sha }}
+          IMAGE_TAG=$(echo ${IMAGE_TAG} | cut -c 1-8)
           docker run indamutsa/query-engine:$IMAGE_TAG /bin/sh -c "cd ./microsyntax/test.module && npm run test"
 
       - name: Log into Docker Hub
@@ -50,6 +52,7 @@ jobs:
       - name: Push images
         run: |
           IMAGE_TAG=${{ github.sha }}
+          IMAGE_TAG=$(echo ${IMAGE_TAG} | cut -c 1-8)
           docker push indamutsa/persistence-api:$IMAGE_TAG
           docker push indamutsa/query-engine:$IMAGE_TAG
           docker push indamutsa/frontend-search:$IMAGE_TAG

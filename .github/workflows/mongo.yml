@@ -32,6 +32,7 @@ jobs:
       - name: Build images | Tag Images
         run: |
           IMAGE_TAG=${{ github.sha }}
+          IMAGE_TAG=$(echo ${IMAGE_TAG} | cut -c 1-8)
           docker build ./mongo-bundle/monstache --tag indamutsa/monstache:$IMAGE_TAG
           docker build ./mongo-bundle/sharded --tag indamutsa/mongo:$IMAGE_TAG
           docker build ./setup --tag indamutsa/setup:$IMAGE_TAG
@@ -45,6 +46,7 @@ jobs:
       - name: Push images
         run: |
           IMAGE_TAG=${{ github.sha }}
+          IMAGE_TAG=$(echo ${IMAGE_TAG} | cut -c 1-8)
           docker push indamutsa/mongo:$IMAGE_TAG
           docker push indamutsa/setup:$IMAGE_TAG
           docker push indamutsa/monstache:$IMAGE_TAG
