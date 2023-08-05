@@ -27,7 +27,7 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:a561f9929afc57d2c4a324e9dda1d7faffc0942d
+          image: indamutsa/mongo:5b18ed7d
           name: mongors2n1
           resources:
             limits:
@@ -105,7 +105,7 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:a561f9929afc57d2c4a324e9dda1d7faffc0942d
+          image: indamutsa/mongo:5b18ed7d
           name: mongors2n2
           resources:
             limits:
@@ -183,7 +183,7 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:a561f9929afc57d2c4a324e9dda1d7faffc0942d
+          image: indamutsa/mongo:5b18ed7d
           name: mongors2n3
           resources:
             limits:
