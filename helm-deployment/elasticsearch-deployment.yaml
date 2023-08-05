@@ -24,7 +24,7 @@ spec:
               value: -Xmx256m -Xms256m
             - name: discovery.type
               value: single-node
-          image: indamutsa/elasticsearch:3f451bf4eead3caf13ae31e693717535e864a732
+          image: indamutsa/elasticsearch:a561f9929afc57d2c4a324e9dda1d7faffc0942d
           livenessProbe:
             exec:
               command:
@@ -52,7 +52,9 @@ spec:
           persistentVolumeClaim:
             claimName: elasticsearch
 
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -71,8 +73,9 @@ spec:
     app: elasticsearch
 status:
   loadBalancer: {}
-
+  
 ---
+
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
