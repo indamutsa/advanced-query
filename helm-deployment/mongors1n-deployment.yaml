@@ -30,7 +30,7 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:9f6b4724
+          image: indamutsa/mongo:50632bc4
           name: mongors1n1
           resources:
             limits:
@@ -111,7 +111,7 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:9f6b4724
+          image: indamutsa/mongo:50632bc4
           name: mongors1n2
           ports:
             - containerPort: 27017
@@ -191,7 +191,7 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:9f6b4724
+          image: indamutsa/mongo:50632bc4
           name: mongors1n3
           ports:
             - containerPort: 27017

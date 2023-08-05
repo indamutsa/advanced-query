@@ -24,7 +24,7 @@ spec:
               value: -Xmx256m -Xms256m
             - name: discovery.type
               value: single-node
-          image: indamutsa/elasticsearch:9f6b4724
+          image: indamutsa/elasticsearch:50632bc4
           livenessProbe:
             exec:
               command:

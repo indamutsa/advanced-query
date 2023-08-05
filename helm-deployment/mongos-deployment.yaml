@@ -23,7 +23,7 @@ spec:
             - --port
             - "27017"
             - --bind_ip_all
-          image: indamutsa/mongo:9f6b4724
+          image: indamutsa/mongo:50632bc4
           name: mongos1
           ports:
             - containerPort: 27017
@@ -101,7 +101,7 @@ spec:
             - --port
             - "27017"
             - --bind_ip_all
-          image: indamutsa/mongo:9f6b4724
+          image: indamutsa/mongo:50632bc4
           name: mongos2
           ports:
             - containerPort: 27017

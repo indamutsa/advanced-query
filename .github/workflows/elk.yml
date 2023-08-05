@@ -32,10 +32,10 @@ jobs:
         run: |
           IMAGE_TAG=${{ github.sha }}
           IMAGE_TAG=$(echo ${IMAGE_TAG} | cut -c 1-8)
-          # docker build ./elastic-bundle/elasticsearch --tag indamutsa/elasticsearch:$IMAGE_TAG
-          # docker build ./elastic-bundle/logstash --tag indamutsa/logstash:$IMAGE_TAG
-          # docker build ./elastic-bundle/kibana --tag indamutsa/kibana:$IMAGE_TAG
-          # docker build ./elastic-bundle/filebeat --tag indamutsa/filebeat:$IMAGE_TAG
+          docker build ./elastic-bundle/elasticsearch --tag indamutsa/elasticsearch:$IMAGE_TAG
+          docker build ./elastic-bundle/logstash --tag indamutsa/logstash:$IMAGE_TAG
+          docker build ./elastic-bundle/kibana --tag indamutsa/kibana:$IMAGE_TAG
+          docker build ./elastic-bundle/filebeat --tag indamutsa/filebeat:$IMAGE_TAG
 
       # - name: Run docker-compose
       #   run: |
