@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o ./helm-deployment/
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.network/advanced-query-search-engine: "true"
+    io.kompose.service: query-engine
+  name: query-engine
+spec:
+  containers:
+    - image: indamutsa/query-engine:$IMAGE_TAG
+      name: query-engine
+      ports:
+        - containerPort: 3300
+      resources: {}
+  restartPolicy: OnFailure
+status: {}
