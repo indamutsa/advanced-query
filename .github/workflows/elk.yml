@@ -48,6 +48,14 @@ jobs:
           chmod +x ./.github/workflows/testing-files/elk-test.sh
           ./.github/workflows/testing-files/elk-test.sh || (docker-compose -f .github/workflows/testing-files/elk-compose.yml logs && exit 1)
 
+      - name: Update Kubernetes Deployment
+        run: |
+          IMAGE_TAG=${{ github.sha }}
+          sed -i "s|indamutsa/elasticsearch:[a-f0-9]\{40\}|indamutsa/elasticsearch:$IMAGE_TAG|g" ./helm-deployment/elasticsearch-deployment.yaml
+          sed -i "s|indamutsa/logstash:[a-f0-9]\{40\}|indamutsa/logstash:$IMAGE_TAG|g" ./helm-deployment/logstash-deployment.yaml
+          sed -i "s|indamutsa/kibana:[a-f0-9]\{40\}|indamutsa/kibana:$IMAGE_TAG|g" ./helm-deployment/kibana-deployment.yaml
+          sed -i "s|indamutsa/filebeat:[a-f0-9]\{40\}|indamutsa/filebeat:$IMAGE_TAG|g" ./helm-deployment/filebeat-deployment.yaml
+
       - name: Log into Docker Hub
         uses: docker/login-action@v1
         with:
