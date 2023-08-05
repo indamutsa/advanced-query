@@ -16,7 +16,7 @@ spec:
         - args:
             - -f
             - monstache.config.toml
-          image: indamutsa/monstache:30ac4763
+          image: indamutsa/monstache:9abda9fa
           livenessProbe:
             exec:
               command:
