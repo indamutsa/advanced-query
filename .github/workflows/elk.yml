@@ -51,8 +51,15 @@ jobs:
       - name: Update Kubernetes Deployment
         run: |
           IMAGE_TAG=${{ github.sha }}
-          echo $IMAGE_TAG
+          echo "IMAGE_TAG: $IMAGE_TAG"
+          echo "Listing files in current directory:"
+          ls -al
+          echo "Current working directory:"
+          pwd
           sed -i "s|indamutsa/elasticsearch:[a-f0-9]\{40\}|indamutsa/elasticsearch:$IMAGE_TAG|g" ./helm-deployment/elasticsearch-deployment.yaml
+          echo "Updated file content:"
+          cat ./helm-deployment/elasticsearch-deployment.yaml
+
           sed -i "s|indamutsa/logstash:[a-f0-9]\{40\}|indamutsa/logstash:$IMAGE_TAG|g" ./helm-deployment/logstash-deployment.yaml
           sed -i "s|indamutsa/kibana:[a-f0-9]\{40\}|indamutsa/kibana:$IMAGE_TAG|g" ./helm-deployment/kibana-deployment.yaml
           sed -i "s|indamutsa/filebeat:[a-f0-9]\{40\}|indamutsa/filebeat:$IMAGE_TAG|g" ./helm-deployment/filebeat-deployment.yaml
