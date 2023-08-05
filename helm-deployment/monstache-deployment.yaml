@@ -16,7 +16,7 @@ spec:
         - args:
             - -f
             - monstache.config.toml
-          image: indamutsa/monstache:$IMAGE_TAG
+          image: indamutsa/monstache:3f451bf4eead3caf13ae31e693717535e864a732
           livenessProbe:
             exec:
               command:
@@ -38,7 +38,6 @@ spec:
       restartPolicy: OnFailure
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -52,4 +51,3 @@ spec:
     service: monstache
 status:
   loadBalancer: {}
-

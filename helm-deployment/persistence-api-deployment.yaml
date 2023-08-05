@@ -1,5 +1,4 @@
 ---
-
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -14,7 +13,6 @@ spec:
       storage: 100Mi
 
 ---
-
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -29,7 +27,6 @@ spec:
       storage: 100Mi
 
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,7 +46,7 @@ spec:
             - bash
             - -c
             - sleep 130 && npm run server
-          image: indamutsa/persistence-api:$IMAGE_TAG
+          image: indamutsa/persistence-api:3f451bf4eead3caf13ae31e693717535e864a732
           name: persistence
           ports:
             - containerPort: 3200
@@ -75,7 +72,6 @@ spec:
             claimName: persistence-api-claim1
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:

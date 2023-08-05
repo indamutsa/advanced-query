@@ -14,13 +14,13 @@ spec:
         service: setup-rs
     spec:
       containers:
-        - image: indamutsa/setup:$IMAGE_TAG
+        - image: indamutsa/setup:3f451bf4eead3caf13ae31e693717535e864a732
           name: setup-rs
-          resources: 
+          resources:
             limits:
               cpu: "1"
               memory: 512Mi
             requests:
               cpu: 500m
-              memory: 256Mi            
+              memory: 256Mi
       restartPolicy: Always

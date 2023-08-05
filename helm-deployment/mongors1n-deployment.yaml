@@ -29,7 +29,7 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:$IMAGE_TAG
+          image: indamutsa/mongo:3f451bf4eead3caf13ae31e693717535e864a732
           name: mongors1n1
           resources:
             limits:
@@ -79,7 +79,6 @@ spec:
 
 # Repeat similar blocks for mongors1n2 and mongors1n3
 ---
-
 # Mongors1n2
 apiVersion: apps/v1
 kind: Deployment
@@ -111,7 +110,7 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:$IMAGE_TAG
+          image: indamutsa/mongo:3f451bf4eead3caf13ae31e693717535e864a732
           name: mongors1n2
           ports:
             - containerPort: 27017
@@ -191,7 +190,7 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:$IMAGE_TAG
+          image: indamutsa/mongo:3f451bf4eead3caf13ae31e693717535e864a732
           name: mongors1n3
           ports:
             - containerPort: 27017

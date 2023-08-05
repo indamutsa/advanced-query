@@ -15,11 +15,11 @@ spec:
         app: kibana
     spec:
       containers:
-        - image: indamutsa/kibana:$IMAGE_TAG
+        - image: indamutsa/kibana:3f451bf4eead3caf13ae31e693717535e864a732
           name: kibana
           ports:
             - containerPort: 5601
-          resources: 
+          resources:
             limits:
               cpu: "1"
               memory: 512Mi
@@ -29,7 +29,6 @@ spec:
       restartPolicy: OnFailure
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:

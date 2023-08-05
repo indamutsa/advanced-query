@@ -18,7 +18,7 @@ spec:
         - env:
             - name: HOST
               value: 0.0.0.0
-          image: indamutsa/frontend-search:$IMAGE_TAG
+          image: indamutsa/frontend-search:3f451bf4eead3caf13ae31e693717535e864a732
           name: frontend-search
           ports:
             - containerPort: 3500
@@ -32,7 +32,6 @@ spec:
       restartPolicy: OnFailure
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:

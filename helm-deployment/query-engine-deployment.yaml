@@ -13,7 +13,7 @@ spec:
         service: query-engine
     spec:
       containers:
-        - image: indamutsa/query-engine:$IMAGE_TAG
+        - image: indamutsa/query-engine:3f451bf4eead3caf13ae31e693717535e864a732
           name: query-engine
           ports:
             - containerPort: 3300
@@ -27,7 +27,6 @@ spec:
       restartPolicy: OnFailure
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -41,4 +40,3 @@ spec:
     service: query-engine
 status:
   loadBalancer: {}
-

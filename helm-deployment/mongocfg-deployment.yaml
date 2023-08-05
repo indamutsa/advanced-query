@@ -28,11 +28,11 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:$IMAGE_TAG
+          image: indamutsa/mongo:3f451bf4eead3caf13ae31e693717535e864a732
           name: mongocfg1
           ports:
             - containerPort: 27017
-          resources: 
+          resources:
             limits:
               cpu: "1"
               memory: 512Mi
@@ -48,7 +48,6 @@ spec:
           persistentVolumeClaim:
             claimName: mongocfg1-claim0
 ---
-
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -62,7 +61,6 @@ spec:
 status: {}
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -80,7 +78,6 @@ status:
   loadBalancer: {}
 
 ---
-
 # Mongocfg2
 apiVersion: apps/v1
 kind: Deployment
@@ -112,11 +109,11 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:$IMAGE_TAG
+          image: indamutsa/mongo:3f451bf4eead3caf13ae31e693717535e864a732
           name: mongocfg2
           ports:
             - containerPort: 27017
-          resources: 
+          resources:
             limits:
               cpu: "1"
               memory: 512Mi
@@ -133,7 +130,6 @@ spec:
             claimName: mongocfg2-claim0
 
 ---
-
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -146,7 +142,6 @@ spec:
       storage: 100Mi
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -164,7 +159,6 @@ status:
   loadBalancer: {}
 
 ---
-
 # Mongocfg3
 apiVersion: apps/v1
 kind: Deployment
@@ -196,11 +190,11 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:$IMAGE_TAG
+          image: indamutsa/mongo:3f451bf4eead3caf13ae31e693717535e864a732
           name: mongocfg3
           ports:
             - containerPort: 27017
-          resources: 
+          resources:
             limits:
               cpu: "1"
               memory: 512Mi
@@ -217,7 +211,6 @@ spec:
             claimName: mongocfg3-claim0
 
 ---
-
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -230,7 +223,6 @@ spec:
       storage: 100Mi
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -246,11 +238,6 @@ spec:
     app: mongocfg3
 status:
   loadBalancer: {}
-
-
-
-
-
 # apiVersion: v1
 # kind: Pod
 # metadata:
@@ -277,7 +264,7 @@ status:
 #       env:
 #         - name: TERM
 #           value: xterm
-#       image: indamutsa/mongo:$IMAGE_TAG
+#       image: indamutsa/mongo:3f451bf4eead3caf13ae31e693717535e864a732
 #       name: mongocfg1
 #       ports:
 #         - containerPort: 27017
@@ -292,7 +279,6 @@ status:
 #         claimName: mongocfg1-claim0
 # status: {}
 
-
 # apiVersion: v1
 # kind: Pod
 # metadata:
@@ -319,7 +305,7 @@ status:
 #       env:
 #         - name: TERM
 #           value: xterm
-#       image: indamutsa/mongo:$IMAGE_TAG
+#       image: indamutsa/mongo:3f451bf4eead3caf13ae31e693717535e864a732
 #       name: mongocfg1
 #       ports:
 #         - containerPort: 27017
