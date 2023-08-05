@@ -18,7 +18,7 @@ spec:
         - env:
             - name: LS_JAVA_OPTS
               value: -Xmx256m -Xms256m
-          image: indamutsa/logstash:4d320407
+          image: indamutsa/logstash:9f6b4724
           name: logstash
           ports:
             - containerPort: 5044

@@ -14,7 +14,7 @@ spec:
         service: setup-rs
     spec:
       containers:
-        - image: indamutsa/setup:4d320407
+        - image: indamutsa/setup:9f6b4724
           name: setup-rs
           resources:
             limits:
