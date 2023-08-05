@@ -31,7 +31,7 @@ for file in $DIR*.yaml; do
   sed -i "s|indamutsa/\(.*\):[a-f0-9]\{40\}|indamutsa/\1:$IMAGE_TAG|g" $file
 done
 
-sleep 5
+sleep 2
 echo "Update complete."
 # ---------------------------------------------------------
 

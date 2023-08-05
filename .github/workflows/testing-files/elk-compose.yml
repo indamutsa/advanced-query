@@ -1,6 +1,12 @@
 # Docker compose for MDEForge-Search platform
-
 version: "3.4"
+
+volumes:
+  elasticsearch:
+
+networks:
+  search-engine:
+    external: false
 
 services:
   # ELASTIC SEARCH STACK: ELASTICSEARCH / LOGSTASH/ FILEBEAT/ KIBANA
@@ -81,16 +87,15 @@ services:
     networks:
       - search-engine
     restart: on-failure
-
-# Defining the network
-######################################################
-networks:
-  search-engine:
-    external: false
-
+# # Defining the network
+# ######################################################
 # networks:
-#   elk:
-#     driver: bridge
+#   search-engine:
+#     external: false
 
-volumes:
-  elasticsearch:
+# # networks:
+# #   elk:
+# #     driver: bridge
+
+# volumes:
+#   elasticsearch:
