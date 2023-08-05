@@ -7,7 +7,7 @@ services:
   ################################################################################
   elasticsearch:
     container_name: elasticsearch
-    image: indamutsa/elasticsearch:${IMAGE_TAG}
+    image: indamutsa/elasticsearch:be946e4e
     volumes:
       - type: volume
         source: elasticsearch
@@ -37,7 +37,7 @@ services:
 
   logstash:
     container_name: logstash
-    image: indamutsa/logstash:${IMAGE_TAG}
+    image: indamutsa/logstash:be946e4e
     links:
       - elasticsearch:elasticsearch
 
@@ -56,7 +56,7 @@ services:
 
   kibana:
     container_name: kibana
-    image: indamutsa/kibana:${IMAGE_TAG}
+    image: indamutsa/kibana:be946e4e
     links:
       - elasticsearch:elasticsearch
     ports:
@@ -69,7 +69,7 @@ services:
 
   filebeat:
     container_name: filebeat
-    image: indamutsa/filebeat:${IMAGE_TAG}
+    image: indamutsa/filebeat:be946e4e
     volumes:
       - "/var/lib/docker/containers:/usr/share/filebeat/dockerlogs:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
