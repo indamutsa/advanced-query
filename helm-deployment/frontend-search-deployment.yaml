@@ -18,7 +18,7 @@ spec:
         - env:
             - name: HOST
               value: 0.0.0.0
-          image: indamutsa/frontend-search:be946e4e
+          image: indamutsa/frontend-search:4d320407
           name: frontend-search
           ports:
             - containerPort: 3500

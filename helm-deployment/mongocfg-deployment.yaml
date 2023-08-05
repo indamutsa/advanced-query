@@ -28,7 +28,7 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:be946e4e
+          image: indamutsa/mongo:4d320407
           name: mongocfg1
           ports:
             - containerPort: 27017
@@ -109,7 +109,7 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:be946e4e
+          image: indamutsa/mongo:4d320407
           name: mongocfg2
           ports:
             - containerPort: 27017
@@ -190,7 +190,7 @@ spec:
           env:
             - name: TERM
               value: xterm
-          image: indamutsa/mongo:be946e4e
+          image: indamutsa/mongo:4d320407
           name: mongocfg3
           ports:
             - containerPort: 27017
@@ -264,7 +264,7 @@ status:
 #       env:
 #         - name: TERM
 #           value: xterm
-#       image: indamutsa/mongo:be946e4e
+#       image: indamutsa/mongo:4d320407
 #       name: mongocfg1
 #       ports:
 #         - containerPort: 27017
@@ -305,7 +305,7 @@ status:
 #       env:
 #         - name: TERM
 #           value: xterm
-#       image: indamutsa/mongo:be946e4e
+#       image: indamutsa/mongo:4d320407
 #       name: mongocfg1
 #       ports:
 #         - containerPort: 27017

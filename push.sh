@@ -23,9 +23,6 @@ fi
 # Directory containing the YAML files
 DIR="./helm-deployment/"
 
-# Update the image tag for any image within the indamutsa/ namespace
-sed -i "s|indamutsa/\(.*\):[a-f0-9]\{8\}|indamutsa/\1:$IMAGE_TAG|g" .github/workflows/testing-files/elk-compose.yml
-
 # Iterate through each YAML file in the directory
 for file in $DIR*.yaml; do
   echo "Updating $file with tag $IMAGE_TAG..."
