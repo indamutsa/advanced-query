@@ -51,6 +51,7 @@ jobs:
       - name: Update Kubernetes Deployment
         run: |
           IMAGE_TAG=${{ github.sha }}
+          echo $IMAGE_TAG
           sed -i "s|indamutsa/elasticsearch:[a-f0-9]\{40\}|indamutsa/elasticsearch:$IMAGE_TAG|g" ./helm-deployment/elasticsearch-deployment.yaml
           sed -i "s|indamutsa/logstash:[a-f0-9]\{40\}|indamutsa/logstash:$IMAGE_TAG|g" ./helm-deployment/logstash-deployment.yaml
           sed -i "s|indamutsa/kibana:[a-f0-9]\{40\}|indamutsa/kibana:$IMAGE_TAG|g" ./helm-deployment/kibana-deployment.yaml
