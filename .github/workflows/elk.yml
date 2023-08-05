@@ -31,10 +31,10 @@ jobs:
       - name: Build images
         run: |
           IMAGE_TAG=${{ github.sha }}
-          docker build ./elastic-bundle/elasticsearch --tag indamutsa/elasticsearch:$IMAGE_TAG
-          docker build ./elastic-bundle/logstash --tag indamutsa/logstash:$IMAGE_TAG
-          docker build ./elastic-bundle/kibana --tag indamutsa/kibana:$IMAGE_TAG
-          docker build ./elastic-bundle/filebeat --tag indamutsa/filebeat:$IMAGE_TAG
+          # docker build ./elastic-bundle/elasticsearch --tag indamutsa/elasticsearch:$IMAGE_TAG
+          # docker build ./elastic-bundle/logstash --tag indamutsa/logstash:$IMAGE_TAG
+          # docker build ./elastic-bundle/kibana --tag indamutsa/kibana:$IMAGE_TAG
+          # docker build ./elastic-bundle/filebeat --tag indamutsa/filebeat:$IMAGE_TAG
 
       # - name: Run docker-compose
       #   run: |
@@ -65,10 +65,10 @@ jobs:
       - name: Push images
         run: |
           IMAGE_TAG=${{ github.sha }}
-          docker push indamutsa/elasticsearch:$IMAGE_TAG
-          docker push indamutsa/logstash:$IMAGE_TAG
-          docker push indamutsa/kibana:$IMAGE_TAG
-          docker push indamutsa/filebeat:$IMAGE_TAG
+          # docker push indamutsa/elasticsearch:$IMAGE_TAG
+          # docker push indamutsa/logstash:$IMAGE_TAG
+          # docker push indamutsa/kibana:$IMAGE_TAG
+          # docker push indamutsa/filebeat:$IMAGE_TAG
 
 # --------------------------------------------------------------------------------
 # # Build, Test, and Push Docker Images | Running in parallel
