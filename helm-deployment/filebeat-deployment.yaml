@@ -19,7 +19,7 @@ spec:
             - filebeat
             - -e
             - --strict.perms=false
-          image: indamutsa/filebeat:1d31fc56
+          image: indamutsa/filebeat:30ac4763
           name: filebeat
           resources:
             limits:

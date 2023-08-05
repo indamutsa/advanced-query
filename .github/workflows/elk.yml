@@ -39,6 +39,7 @@ jobs:
 
       - name: Run docker-compose
         run: |
+          IMAGE_TAG=${{ github.sha }}
           export IMAGE_TAG=$(echo ${IMAGE_TAG} | cut -c 1-8)
           docker-compose -f .github/workflows/testing-files/elk-compose.yml up -d --build
 
