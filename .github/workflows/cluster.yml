@@ -6,7 +6,7 @@ on:
     branches:
       - main
 env:
-  SKIP_CI: "false"
+  SKIP_CI: "true"
 
 jobs:
   check-skip:

@@ -8,7 +8,7 @@ mongo-config-url = "mongodb://mongocfg1:27017,mongocfg2:27017,mongocfg3:27017?re
 
 
 # connect to the Elasticsearch REST API at the following node URLs
-elasticsearch-urls = ["http://elasticsearch:9200"]
+elasticsearch-urls = ["http://es-master:9200"]
 
 # frequently required settings
 
