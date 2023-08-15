@@ -1,0 +1,66 @@
+# prettier-ignore
+
+{{- range $cfg := .Values.mongodb.configServers }}
+# Config server replica set
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $cfg.name }}
+  labels:
+    app: {{ $cfg.name }}
+spec:
+  ports:
+  - port: {{ $cfg.port }}
+    targetPort: {{ $cfg.port }}
+  selector:
+    app: {{ $cfg.name }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ $cfg.name }}
+spec:
+  serviceName: {{ $cfg.name }}
+  replicas: {{ $cfg.replicas }}
+  selector:
+    matchLabels:
+      app: {{ $cfg.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $cfg.name }}
+    spec:
+      containers:
+      - name: {{ $cfg.name }}
+        image: {{ $cfg.image }}
+        command:
+        {{- range $command := $cfg.command }}
+        - {{ $command | quote}}
+        {{- end }}
+        ports:
+        - containerPort: {{ $cfg.port }}
+        env:
+        - name: TERM
+          value: {{ $cfg.env.TERM }}
+        volumeMounts:
+        - name: {{ $cfg.volumeName }}
+          mountPath: {{ $cfg.mountPath }}
+        # resources:
+        #   requests:
+        #     cpu: {{ $cfg.resources.requests.cpu | quote}}
+        #     memory: {{ $cfg.resources.requests.memory }}
+        #   limits:
+        #     cpu: {{ $cfg.resources.limits.cpu | quote }}
+        #     memory: {{ $cfg.resources.limits.memory }} 
+
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ $cfg.volumeName }}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{ $cfg.storageSize }}
+---
+{{- end }}
+

@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: es-worker2
+spec:
+  serviceName: es-worker2
+  replicas: { .Values.elasticsearch.es-worker2.replicas }
+  selector:
+    matchLabels:
+      app: es-worker2
+  template:
+    metadata:
+      labels:
+        app: es-worker2
+    spec:
+      containers:
+        - name: { .Values.elasticsearch.es-worker2.name }
+          image: { .Values.elasticsearch.es-worker2.image }
+
+          env:
+            - name: node.name
+              value: { .Values.elasticsearch.es-worker2.name }
+            - name: node.master
+              value: { .Values.elasticsearch.es-worker2.env.master }
+            - name: node.data
+              value: { .Values.elasticsearch.es-worker2.env.data }
+            - name: discovery.seed_hosts
+              value: { .Values.elasticsearch.es-worker2.env.seed_hosts }
+            - name: node.ingest
+              value: { .Values.elasticsearch.es-worker2.env.ingest }
+            - name: ES_JAVA_OPTS
+              value: { .Values.elasticsearch.es-worker2.env.java_opts }
+            - name: ELASTICSEARCH_URL
+              value: { .Values.elasticsearch.es-worker2.env.es_url }
+            - name: ELASTIC_USERNAME
+              value: { .Values.elasticsearch.es-worker2.env.es_username }
+            - name: ELASTIC_PASSWORD
+              value: { .Values.elasticsearch.es-worker2.env.es_password }
+          ports:
+            - containerPort: { .Values.elasticsearch.es-worker2.env.port_1 }
+            - containerPort: { .Values.elasticsearch.es-worker2.env.port_2 }
+          volumeMounts:
+            - name: es-worker2-data
+              mountPath: /data/db
+  volumeClaimTemplates:
+    - metadata:
+        name: es-worker2-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: { .Values.elasticsearch.es-worker2.size }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: es-worker2
+spec:
+  selector:
+    app: es-worker2
+  ports:
+    - protocol: TCP
+      port: { .Values.elasticsearch.es-worker2.env.port_1 }
+      targetPort: { .Values.elasticsearch.es-worker2.env.port_1 }
+      name: http-port
+    - protocol: TCP
+      port: { .Values.elasticsearch.es-worker2.env.port_2 }
+      targetPort: { .Values.elasticsearch.es-worker2.env.port_2 }
+      name: transport-port
+  type: ClusterIP

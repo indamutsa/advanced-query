@@ -1,0 +1,69 @@
+# prettier-ignore
+
+{{- range .Values.mongos.routers }}
+# Deployment for {{ .name }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .name }}
+spec:
+  replicas: {{ $.Values.mongos.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .name }}
+    spec:
+      containers:
+      - name: {{ .name }}
+        image: {{ $.Values.mongos.image }}
+        command: 
+        - mongos
+        - --configdb
+        - mongors1conf/mongocfg1:27017,mongocfg2:27017,mongocfg3:27017
+        - --port
+        - "27017" 
+        - --bind_ip_all
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: config
+          mountPath: /home/app
+        # resources:
+        #   requests:
+        #     memory: {{ $.Values.mongos.resources.requests.memory }}
+        #     cpu: {{ $.Values.mongos.resources.requests.cpu | quote }}
+        #   limits:
+        #     memory: {{ $.Values.mongos.resources.limits.memory }}
+        #     cpu: {{ $.Values.mongos.resources.limits.cpu | quote }}
+      volumes:
+      - name: config
+        configMap:
+          name: {{ .name }}-config
+---
+# Service for {{ .name }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 27017
+    targetPort: 27017
+  selector:
+    app: {{ .name }}
+---
+# ConfigMap for {{ .name }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .name }}-config
+data:
+  addShards.js: |
+    {{ $.Values.mongos.configData | nindent 4 }}
+---
+{{- end }}
+

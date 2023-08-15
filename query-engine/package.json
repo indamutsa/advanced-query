@@ -12,6 +12,7 @@
   "author": "Arsene Indamutsa",
   "license": "ISC",
   "dependencies": {
+    "@elastic/elasticsearch": "^8.9.0",
     "apollo-server-core": "^3.6.4",
     "apollo-server-express": "^3.6.4",
     "axios": "^1.4.0",

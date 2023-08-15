@@ -1,0 +1,23 @@
+# prettier-ignore
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.setupRs.name }}
+spec:
+  template:
+    metadata:
+      labels:
+        job-name: {{ .Values.setupRs.label }}
+    spec:
+      containers:
+      - name: {{ .Values.setupRs.name }}
+        image: {{ .Values.setupRs.image }}
+        resources:
+          # requests:
+          #   memory: {{ .Values.setupRs.resources.requests.memory }}
+          #   cpu: {{ .Values.setupRs.resources.requests.cpu | quote}}
+          # limits:
+          #   memory: {{ .Values.setupRs.resources.limits.memory }}
+          #   cpu: {{ .Values.setupRs.resources.limits.cpu | quote }}
+      restartPolicy: {{ .Values.setupRs.restartPolicy }}

@@ -1,0 +1,47 @@
+# prettier-ignore
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.kibana.name }}
+spec:
+  replicas: {{ .Values.kibana.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.kibana.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.kibana.name }}
+    spec:
+      containers:
+      - name: {{ .Values.kibana.name }}
+        image: {{ .Values.kibana.image }}
+        ports:
+        - containerPort: {{ .Values.kibana.port }}
+        env:
+        - name: ELASTICSEARCH_URL
+          value: {{ .Values.kibana.elasticsearchUrl }}
+        resources:
+          requests:
+            cpu: {{ .Values.kibana.resources.requests.cpu }}
+            memory: {{ .Values.kibana.resources.requests.memory }}
+          limits:
+            cpu: {{ .Values.kibana.resources.limits.cpu }}
+            memory: {{ .Values.kibana.resources.limits.memory }}
+      restartPolicy: Always
+
+---
+# prettier-ignore
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.kibana.name }}
+spec:
+  selector:
+    app: {{ .Values.kibana.name }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.kibana.port }}
+      targetPort: {{ .Values.kibana.port }}
+  type: ClusterIP

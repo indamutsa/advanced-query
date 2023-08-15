@@ -1,0 +1,56 @@
+# prettier-ignore
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.queryEngine.name }}
+spec:
+  replicas: {{ .Values.queryEngine.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.queryEngine.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.queryEngine.label }}
+    spec:
+      initContainers:
+      - name: wait-for-es
+        image: busybox
+        command: 
+        - "/bin/sh"
+        - "-c"
+        - |
+          sleep 120; echo "Waiting for es-master:9200 to become available... | 120 sleep" 
+          until nc -z es-master 9200; do
+            echo "Waiting for es-master:9200 to become available..."
+            sleep 5
+          done
+      containers:
+      - name: {{ .Values.queryEngine.containerName }}
+        image: {{ .Values.queryEngine.image }}
+        ports:
+        - containerPort: {{ .Values.queryEngine.containerPort }}
+        # resources:
+        #   requests:
+        #     memory: {{ .Values.queryEngine.resources.requests.memory }}
+        #     cpu: {{ .Values.queryEngine.resources.requests.cpu | quote}}
+        #   limits:
+        #     memory: {{ .Values.queryEngine.resources.limits.memory }}
+        #     cpu: {{ .Values.queryEngine.resources.limits.cpu | quote }}
+
+---
+# prettier-ignore
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.queryEngine.name }}
+spec:
+  selector:
+    app: {{ .Values.queryEngine.label }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.queryEngine.servicePort }}
+      targetPort: {{ .Values.queryEngine.containerPort }}
+  type: {{ .Values.queryEngine.serviceType }}
+
+

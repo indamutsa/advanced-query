@@ -1,0 +1,93 @@
+# prettier-ignore
+
+{{- range $node, $data := .Values.elasticsearch }}
+# StatefulSet
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ $data.name }}
+spec:
+  serviceName: {{ $data.name }}
+  replicas: {{ $data.replicas }}
+  selector:
+    matchLabels:
+      app: {{ $data.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $data.name }}
+    spec:
+      containers:
+        - name: {{ $data.name }}
+          image: {{ $data.image }}
+          env:
+            - name: node.name
+              value: {{ $data.name }}
+            - name: node.master
+              value: {{ $data.env.master | quote }}
+            - name: node.data
+              value: {{ $data.env.data  | quote }}
+            {{- if eq $node "es-master" }}
+            - name: cluster.initial_master_nodes
+              value: {{ $data.env.nodes  | quote }}
+            {{- else }}
+            - name: discovery.seed_hosts
+              value: {{ $data.env.seed_hosts  | quote }}
+            {{- end }}
+            {{- if $data.env.ingest }}
+            - name: node.ingest
+              value: {{ $data.env.ingest | quote  }}
+            {{- end }}
+            - name: ES_JAVA_OPTS
+              value: {{ $data.env.java_opts  | quote }}
+            - name: ELASTICSEARCH_URL
+              value: {{ $data.env.es_url  | quote }}
+            - name: ELASTIC_USERNAME
+              value: {{ $data.env.es_username  | quote }}
+            - name: ELASTIC_PASSWORD
+              value: {{ $data.env.es_password  | quote }}
+          ports:
+            - containerPort: {{ $data.env.port_1 }}
+            - containerPort: {{ $data.env.port_2 }}
+          volumeMounts:
+            - name: {{ $data.name }}-data
+              mountPath: /data/db
+          # resources:
+          #   requests:
+          #     cpu: {{ $data.resources.requests.cpu | quote }}
+          #     memory: {{ $data.resources.requests.memory }}
+          #   limits:
+          #     cpu: {{ $data.resources.limits.cpu | quote }}
+          #     memory: {{ $data.resources.limits.memory }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ $data.name }}-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: {{ $data.size }}
+---
+# Service
+# prettier-ignore
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $data.name }}
+spec:
+  selector:
+    app: {{ $data.name }}
+  ports:
+    - protocol: TCP
+      port: {{ $data.env.port_1 }}
+      targetPort: {{ $data.env.port_1 }}
+      name: http-port
+    - protocol: TCP
+      port: {{ $data.env.port_2 }}
+      targetPort: {{ $data.env.port_2 }}
+      name: transport-port
+  type: ClusterIP
+---
+{{- end }}
+
+

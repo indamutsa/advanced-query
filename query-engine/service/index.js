@@ -12,6 +12,21 @@ const {
 } = require("../utils");
 
 module.exports = {
+  async test() {
+    // GET testdb.kittens/_search
+
+    const requestBody = esb
+      .requestBodySearch() //the builder
+      .query(esb.matchAllQuery());
+
+    const data = await client.search({
+      index: `testdb.kittens`,
+      body: requestBody.toJSON(),
+    });
+
+    return { name: "Hello World", data: data.hits.hits };
+  },
+
   async search(body) {
     const requestBody = mainQueryGenerator(body);
 
