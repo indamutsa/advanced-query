@@ -186,7 +186,14 @@ You can skip this part if you already have `kubectl` and `helm` on your machine.
 #### Run a working container
 
 ```bash
-docker run -it --rm --net host -v ${HOME}/.kube/:/root/.kube/ -v ${PWD}:/work -w /work alpine sh
+docker run -it --rm --net host --name working-container -v /var/run/docker.sock:/var/run/docker.sock -v ${HOME}/.kube/:/root/.kube/ -v ${PWD}:/work -w /work alpine sh
+```
+
+Install some utilities:
+
+```bash
+apk update
+apk add --no-cache docker curl py-pip python3-dev libffi-dev openssl-dev gcc libc-dev make  zip bash openssl git
 ```
 
 #### Install `kubectl`
@@ -262,6 +269,12 @@ helm template mdeforge . -f values.yaml > mdeforge.yaml
 
 --- ############################################################### ---
 
+Let us change the directory to argocd folder:
+
+```bash
+cd argocd
+```
+
 Get ArgoCD helm chart repository
 
 ```bash
@@ -278,13 +291,18 @@ helm search repo argocd
 To overwrite the default values, we can get the values file from the repo and edit it
 
 ```bash
+mkdir -p terraform-deploy/values
+cd terraform-deploy/values
 helm show values argo/argo-cd --version 3.35.4 > argocd-values.yaml
 ```
 
-Change the folder to argocd and initialize terraform to run argocd
+Let us use terraform to install argocd.
+Change the folder to argocd and initialize terraform-deploy to run argocd
 
 ```bash
+cd terraform-deploy
 terraform init
+terraform plan
 ```
 
 Apply it to run argocd
@@ -333,143 +351,142 @@ We will add some configuration and build agent to automate the build process.
 ❯ tree -L 2
 
 .
+├── argocd
+│   ├── application.yaml
+│   └── terraform-deploy
 ├── cluster-deployment.sh
 ├── cluster-helm-deployment
-│   ├── charts
-│   ├── Chart.yaml
-│   ├── hello
-│   ├── templates
-│   └── values.yaml
+│   ├── charts
+│   ├── Chart.yaml
+│   ├── hello
+│   ├── templates
+│   └── values.yaml
 ├── cluster-manifest-gen.sh
 ├── docker-compose.yml
 ├── elastic-bundle
-│   ├── elasticsearch
-│   ├── extensions
-│   ├── filebeat
-│   ├── kibana
-│   └── logstash
+│   ├── elasticsearch
+│   ├── extensions
+│   ├── filebeat
+│   ├── kibana
+│   └── logstash
 ├── elk.md
 ├── figures
-│   └── querydia.jpg
+│   └── querydia.jpg
 ├── files
-│   ├── import.sh
-│   ├── new
-│   └── new-folder
+│   ├── import.sh
+│   ├── new
+│   └── new-folder
 ├── frontend-search
-│   ├── adhoc
-│   ├── components
-│   ├── context
-│   ├── data
-│   ├── Dockerfile
-│   ├── next.config.js
-│   ├── node_modules
-│   ├── package.json
-│   ├── pages
-│   ├── public
-│   ├── README.md
-│   ├── services
-│   ├── styles
-│   ├── test
-│   ├── yarn-error.log
-│   └── yarn.lock
+│   ├── adhoc
+│   ├── components
+│   ├── context
+│   ├── data
+│   ├── Dockerfile
+│   ├── next.config.js
+│   ├── node_modules
+│   ├── package.json
+│   ├── pages
+│   ├── public
+│   ├── README.md
+│   ├── services
+│   ├── styles
+│   ├── test
+│   ├── yarn-error.log
+│   └── yarn.lock
 ├── kind-config.yml
 ├── manifest-legacy
-│   ├── main-depl
-│   ├── merger.sh
-│   ├── mongocfg
-│   ├── mongors1
-│   ├── mongors2
-│   └── mongos
+│   ├── main-depl
+│   ├── merger.sh
+│   ├── mongocfg
+│   ├── mongors1
+│   ├── mongors2
+│   └── mongos
+├── mongo-bundle
+│   └── monstache
 ├── persistence-api
-│   ├── ad-hoc
-│   ├── config
-│   ├── Dockerfile
-│   ├── index.js
-│   ├── localStorage
-│   ├── logs
-│   ├── lowcomote-storage.json
-│   ├── middleware
-│   ├── MIT License.txt
-│   ├── models
-│   ├── node_modules
-│   ├── note.txt
-│   ├── package.json
-│   ├── public
-│   ├── route
-│   ├── services
-│   ├── startup
-│   ├── test.http
-│   └── yarn.lock
+│   ├── ad-hoc
+│   ├── config
+│   ├── Dockerfile
+│   ├── index.js
+│   ├── localStorage
+│   ├── logs
+│   ├── lowcomote-storage.json
+│   ├── middleware
+│   ├── MIT License.txt
+│   ├── models
+│   ├── node_modules
+│   ├── note.txt
+│   ├── package.json
+│   ├── public
+│   ├── route
+│   ├── services
+│   ├── startup
+│   ├── test.http
+│   └── yarn.lock
 ├── push.sh
 ├── query-engine
-│   ├── config
-│   ├── controller
-│   ├── data
-│   ├── Dockerfile
-│   ├── graphql
-│   ├── microsyntax
-│   ├── node_modules
-│   ├── package.json
-│   ├── package-lock.json
-│   ├── README.md
-│   ├── router
-│   ├── server.js
-│   ├── service
-│   ├── test.json
-│   ├── utils
-│   └── yarn.lock
+│   ├── config
+│   ├── controller
+│   ├── data
+│   ├── Dockerfile
+│   ├── graphql
+│   ├── microsyntax
+│   ├── node_modules
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── README.md
+│   ├── router
+│   ├── server.js
+│   ├── service
+│   ├── test.json
+│   ├── utils
+│   └── yarn.lock
 ├── README.md
 ├── run.sh
 ├── scripts
-│   ├── cluster-deployment.sh
-│   ├── cluster-manifest-gen.sh
-│   ├── import.sh
-│   ├── merger.sh
-│   ├── mongo-cluster-spin.sh
-│   ├── push.sh
-│   ├── runit.sh
-│   ├── run.sh
-│   ├── setup.sh
-│   ├── spin-cluster-.sh
-│   ├── spin-cluster.sh
-│   ├── spin-elk-mongo.sh
-│   ├── spinner.sh
-│   ├── spin-templates.sh
-│   ├── start-dc.sh
-│   └── update-image.sh
+│   ├── cluster-deployment.sh
+│   ├── cluster-manifest-gen.sh
+│   ├── import.sh
+│   ├── merger.sh
+│   ├── mongo-cluster-spin.sh
+│   ├── push.sh
+│   ├── runit.sh
+│   ├── run.sh
+│   ├── setup.sh
+│   ├── spin-cluster-.sh
+│   ├── spin-cluster.sh
+│   ├── spin-elk-mongo.sh
+│   ├── spinner.sh
+│   ├── spin-templates.sh
+│   ├── start-dc.sh
+│   └── update-image.sh
 ├── setup
-│   ├── addShards.js
-│   ├── Dockerfile
-│   ├── initConfig.js
-│   ├── initShard1.js
-│   ├── initShard2.js
-│   ├── runit.sh
-│   └── setup.sh
+│   ├── addShards.js
+│   ├── Dockerfile
+│   ├── initConfig.js
+│   ├── initShard1.js
+│   ├── initShard2.js
+│   ├── runit.sh
+│   └── setup.sh
 ├── start-dc.sh
 ├── test
-│   ├── auto-copy
-│   ├── docker-compose.yml
-│   ├── setup
-│   ├── update-image.sh
-│   └── update-img
+│   ├── auto-copy
+│   ├── docker-compose.yml
+│   ├── setup
+│   ├── update-image.sh
+│   └── update-img
 └── yarn.lock
 
-59 directories, 61 files
+63 directories, 62 files
 
 <!-- prettier-ignore-end -->
 
-Create a repo to track with argocd
-
-```bash
-gh repo create
-```
-
-The first example is made of a simple application that will be deployed in the argo namespace. We have a folder at the root called app which contains the namespace and the deployment yaml files. And we have folder called example 1. This folder contains the application.yaml file. The application.yaml file is the one that will be used by argocd to deploy the application.
-
+The folder `argocd` contains the application.yaml file that instructs argocd to track our repo and deploy the application.
 First apply the application.yaml file to argocd
 
 ```bash
-kubectl apply -f 1-example/application.yaml
+cd argocd
+kubectl apply -f application.yaml
 ```
 
 Now change the tag and push the image to the registry using the build-agent.sh script. The build-agent.sh script will build the image and push it to the registry, and push the changes to the repo after updating 1-deployment.yaml file with the new tag using the `sed` command.
