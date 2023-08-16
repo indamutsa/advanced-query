@@ -14,11 +14,12 @@ spec:
     helm:
       valueFiles:
         - values.yaml
-      version: v2  # Replace with your desired Helm chart version
-      values: |
-        # Additional Helm values if needed.
+      version: v3  # Replace with your desired Helm chart version
+      releaseName: mdeforge # The name of the release
+      passCredentials: false # Whether to pass credentials
   destination:
     server: https://kubernetes.default.svc
+    namespace: default # The namespace of the destination
   syncPolicy:
     automated:
       prune: true
