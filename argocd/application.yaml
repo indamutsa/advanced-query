@@ -8,13 +8,13 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:indamutsa/advanced-query.git
+    repoURL: https://github.com/indamutsa/advanced-query.git
     targetRevision: HEAD
-    path: ../cluster-helm-deployment
+    path: cluster-helm-deployment
     helm:
       valueFiles:
         - values.yaml
-      version: v1.0.0  # Replace with your desired Helm chart version
+      version: v2  # Replace with your desired Helm chart version
       values: |
         # Additional Helm values if needed.
   destination:

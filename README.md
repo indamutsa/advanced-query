@@ -348,6 +348,7 @@ After that we can add application yaml to instruct argocd to track our repo
 We will add some configuration and build agent to automate the build process.
 
 <!-- prettier-ignore-start -->
+```md
 ❯ tree -L 2
 
 .
@@ -478,7 +479,7 @@ We will add some configuration and build agent to automate the build process.
 └── yarn.lock
 
 63 directories, 62 files
-
+```
 <!-- prettier-ignore-end -->
 
 The folder `argocd` contains the application.yaml file that instructs argocd to track our repo and deploy the application.
