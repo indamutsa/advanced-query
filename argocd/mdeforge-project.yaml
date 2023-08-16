@@ -1,0 +1,12 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: mdeforge
+  namespace: argocd
+spec:
+  description: MDEForge Project
+  sourceRepos:
+    - https://github.com/indamutsa/advanced-query.git
+  destinations:
+    - namespace: '*'
+      server: 'https://kubernetes.default.svc'

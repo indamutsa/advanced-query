@@ -238,7 +238,9 @@ chmod +x terraform && mv terraform /usr/local/bin/
 terraform
 ```
 
-## RUN THE CLUSTER
+## RUN THE CLUSTER using HELM
+
+---
 
 I like editing the yaml using the script and generate the yaml using the script, this way I can keep track of the changes I made to the yaml file in one single source of truth.
 The script I am using is the hello folder and it is called `spin-templates.sh`
@@ -267,7 +269,9 @@ helm template mdeforge . -f values.yaml
 helm template mdeforge . -f values.yaml > mdeforge.yaml
 ```
 
---- ############################################################### ---
+---
+
+## RUN THE CLUSTER USING ARGOCD - GITOPS
 
 Let us change the directory to argocd folder:
 
@@ -291,16 +295,16 @@ helm search repo argocd
 To overwrite the default values, we can get the values file from the repo and edit it
 
 ```bash
-mkdir -p terraform-deploy/values
-cd terraform-deploy/values
+mkdir -p argocd/terraform-deploy/values
+cd argocd/terraform-deploy/values
 helm show values argo/argo-cd --version 3.35.4 > argocd-values.yaml
 ```
 
 Let us use terraform to install argocd.
-Change the folder to argocd and initialize terraform-deploy to run argocd
+Change the folder to argocd and initialize argocd/terraform-deploy to run argocd
 
 ```bash
-cd terraform-deploy
+cd argocd/terraform-deploy
 terraform init
 terraform plan
 ```
@@ -487,13 +491,7 @@ First apply the application.yaml file to argocd
 
 ```bash
 cd argocd
-kubectl apply -f application.yaml
-```
-
-Now change the tag and push the image to the registry using the build-agent.sh script. The build-agent.sh script will build the image and push it to the registry, and push the changes to the repo after updating 1-deployment.yaml file with the new tag using the `sed` command.
-
-```bash
-./build-agent.sh v1.0.6
+kubectl apply -f .
 ```
 
 We shall see that the application is deployed in the argo namespace inside the dashboard of argocd `http://localhost:8080`.
@@ -502,6 +500,7 @@ All the resoureces including argocd deployment can be deleted by running
 
 ```bash
 ❯ kubectl delete all,secrets,configmaps,pv,pvc --all --all-namespaces
+kind delete cluster --name mdeforge
 ```
 
 <br />

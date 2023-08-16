@@ -657,7 +657,7 @@ spec:
       containers:
       - name: {{ .Values.setupRs.name }}
         image: {{ .Values.setupRs.image }}
-        resources:
+        # resources:
           # requests:
           #   memory: {{ .Values.setupRs.resources.requests.memory }}
           #   cpu: {{ .Values.setupRs.resources.requests.cpu | quote}}

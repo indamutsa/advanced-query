@@ -6,7 +6,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  project: mdeforge
   source:
     repoURL: https://github.com/indamutsa/advanced-query.git
     targetRevision: HEAD
@@ -14,12 +14,13 @@ spec:
     helm:
       valueFiles:
         - values.yaml
-      version: v3  # Replace with your desired Helm chart version
-      releaseName: mdeforge # The name of the release
-      passCredentials: false # Whether to pass credentials
+      version: v3
+      releaseName: mdeforge
+      passCredentials: false
+
   destination:
     server: https://kubernetes.default.svc
-    namespace: default # The namespace of the destination
+    namespace: default
   syncPolicy:
     automated:
       prune: true
