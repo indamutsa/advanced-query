@@ -1,0 +1,46 @@
+
+```bash
+docker run -it --rm --net host --name working-container -v /var/run/docker.sock:/var/run/docker.sock -v ${HOME}/.kube/:/root/.kube/ -v ${PWD}:/work -w /work alpine sh
+```
+
+
+apk update
+apk add --no-cache docker curl py-pip python3-dev libffi-dev openssl-dev gcc libc-dev make  zip bash openssl git
+
+apk add --no-cache curl
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+mv ./kubectl /usr/local/bin/kubectl
+
+curl -LO https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz
+tar -C /tmp/ -zxvf helm-v3.7.2-linux-amd64.tar.gz
+rm helm-v3.7.2-linux-amd64.tar.gz
+mv /tmp/linux-amd64/helm /usr/local/bin/helm
+chmod +x /usr/local/bin/helm
+
+kubectl get nodes
+
+curl -o /tmp/terraform.zip -LO https://releases.hashicorp.com/terraform/1.5.5/terraform_1.5.5_linux_amd64.zip
+unzip /tmp/terraform.zip
+chmod +x terraform && mv terraform /usr/local/bin/
+
+cd argocd
+
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+
+helm search repo argocd
+
+mkdir -p terraform-deploy/values
+cd terraform-deploy/values
+helm show values argo/argo-cd --version 3.35.4 > argocd-values.yaml
+
+cd ..
+terraform init
+terraform plan
+
+terraform apply --auto-approve
+
+kubectl get secrets argocd-initial-admin-secret -o yaml -n argocd
+
+kubectl port-forward svc/argocd-server -n argocd 8080:443
