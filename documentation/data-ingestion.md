@@ -1,3 +1,48 @@
+# Installation of data ingestion tools
+
+To import data, we need to install MongoDB tools in an Alpine Linux container, you can use the official MongoDB packages. Here are the steps:
+
+1. Start by adding the official MongoDB repository to your `/etc/apk/repositories` file in the container:
+
+```bash
+# Add the official MongoDB repository
+echo "http://dl-cdn.alpinelinux.org/alpine/v3.14/community" >> /etc/apk/repositories
+```
+
+2. Update your package lists:
+
+```bash
+# Update your package lists
+apk update
+```
+
+3. Then, install the MongoDB tools:
+
+```bash
+# Install MongoDB tools to import data
+apk add mongodb-tools=100.7.0-r2
+```
+
+This will install the MongoDB shell (`mongo`), import (`mongoimport`), export (`mongoexport`), and other tools.
+After installation, you can confirm that the tools are installed by running:
+
+```bash
+# Check if mongoimport and mongoexport are installed
+mongoimport --version
+mongoexport --version
+```
+
+Each of these commands should return the version of the respective MongoDB tool.
+
+Run the following command to start the system:
+
+check if you can access the docker daemon from the container
+
+```bash
+# Check if you can access the docker daemon from the container
+docker images
+```
+
 #### Importing data
 
 Let us import the data into the MongoDB cluster. This data will be synchronized into Elasticsearch by Monstache, a synchronization tool designed to continuously move data from MongoDB to Elasticsearch.

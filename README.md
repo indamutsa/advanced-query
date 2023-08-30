@@ -28,10 +28,15 @@ docker run -it --rm --net host --name working-container \
 -v /var/run/docker.sock:/var/run/docker.sock \
 -v ${HOME}/.kube/:/root/.kube/ \
 -v ${PWD}:/work \
--w /work alpine sh
+-w /work alpine sh -c 'chown -R 1000:1000 /work && sh'
 ```
 
 - [1. Install Utilities](documentation/1.install-utilities.md)
-- [2. Spin the cluster using _docker-compose_](chapter3.md)
-- [3. Data Ingestion](documentation/3.data-ingestion.md)
-- [4. Install the cluster using kubectl](documentation/4.installation-kubectl.md)
+- [2. Spin the cluster using _docker-compose_](documentation/2.installation-docker-compose.md)
+- [3. Install the cluster using kubectl](documentation/3.installation-kubectl.md)
+- [4. Install the cluster using helm](documentation/4.installation-helm.md)
+- [5. Install the cluster using ArgoCD and helm](documentation/5.installation-argocd.md)
+- [6. RBAC](documentation/6.rbac.md)
+- [7. Service Mesh](documentation/7.mesh-istio.md)
+- [8. Monitoring](documentation/8.monitoring.md)
+- [Data Ingestion](documentation/data-ingestion.md)
