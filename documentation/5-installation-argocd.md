@@ -243,6 +243,6 @@ All the resoureces including argocd deployment can be deleted by running
 kind delete cluster --name mdeforge
 ```
 
-For more information about `argocd cli`, please refer to the essentials of helm [here](5.1.argocd-guide.md)
+For more information about `argocd cli`, please refer to the essentials of helm [here](5-1-argocd-guide.md)
 
 ---

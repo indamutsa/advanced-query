@@ -27,4 +27,4 @@ cd ../hello
 kubectl apply -f mdeforge.yaml
 ```
 
-For more information about `kubectl`, please refer to the essentials of helm [here](3.1.kubectl-guide.md)
+For more information about `kubectl`, please refer to the essentials of helm [here](3-1-kubectl-guide.md)

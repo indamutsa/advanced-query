@@ -31,12 +31,12 @@ docker run -it --rm --net host --name working-container \
 -w /work alpine sh -c 'chown -R 1000:1000 /work && sh'
 ```
 
-- [1. Install Utilities](documentation/1.install-utilities.md)
-- [2. Spin the cluster using _docker-compose_](documentation/2.installation-docker-compose.md)
-- [3. Install the cluster using kubectl](documentation/3.installation-kubectl.md)
-- [4. Install the cluster using helm](documentation/4.installation-helm.md)
-- [5. Install the cluster using ArgoCD and helm](documentation/5.installation-argocd.md)
-- [6. RBAC](documentation/6.rbac.md)
-- [7. Service Mesh](documentation/7.mesh-istio.md)
-- [8. Monitoring](documentation/8.monitoring.md)
+- [1. Install Utilities](documentation/1-install-utilities.md)
+- [2. Spin the cluster using _docker-compose_](documentation/2-installation-docker-compose.md)
+- [3. Install the cluster using kubectl](documentation/3-installation-kubectl.md)
+- [4. Install the cluster using helm](documentation/4-installation-helm.md)
+- [5. Install the cluster using ArgoCD and helm](documentation/5-installation-argocd.md)
+- [6. RBAC](documentation/6-rbac.md)
+- [7. Logging](documentation/7-logging.md)
+- [8. Monitoring / Service Mesh](documentation/8-monitor-mesh.md)
 - [Data Ingestion](documentation/data-ingestion.md)

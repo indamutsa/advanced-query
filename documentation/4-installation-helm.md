@@ -66,4 +66,4 @@ helm template mdeforge . -f values.yaml > mdeforge.yaml
 
 ---
 
-For more information about `helm`, please refer to the essentials of helm [here](4.1.terraform-guide.md)
+For more information about `helm`, please refer to the essentials of helm [here](4-1-terraform-guide.md)
