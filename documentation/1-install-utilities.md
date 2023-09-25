@@ -64,7 +64,7 @@ kubectl get nodes
 # vault-control-plane Ready control-plane,master 37s v1.21.1
 ```
 
-Deleting in linux is a dangerous operation, let us create a script to confirm before deleting
+Deleting in Linux distros might prove dangerous, hence let us create a script to confirm before deleting:
 
 ```bash
 cat << 'EOF' > /cmd/confirm_rm_rf.sh
