@@ -13,7 +13,7 @@ Make sure docker is installed on your machine and you have a basic knowledge of 
 git clone https://github.com/indamutsa/advanced-query.git
 ```
 
-2. Let us spin a kubernetes cluster using kind. Kind is a tool for running local Kubernetes clusters using Docker container “nodes”. kind was primarily designed for testing Kubernetes itself, but may be used for local development or CI. Install it in your host machine by following the instructions in the (official documentation)[https://kind.sigs.k8s.io/]. Once installed, run the following commands to create a cluster.
+2. Let us spin a kubernetes cluster using kind. Kind is a tool for running local Kubernetes clusters using Docker container “nodes”. kind was primarily designed for testing Kubernetes itself, but may be used for local development or CI. Install it in your host machine by following the instructions in the [official documentation](https://kind.sigs.k8s.io/). Once installed, run the following commands to create a cluster.
 
 ```bash
 # Create a kind cluster
