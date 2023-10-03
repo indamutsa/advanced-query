@@ -1,4 +1,4 @@
-# Introduction to Istio
+# Integration with Istio
 
 ## We need a Kubernetes cluster
 
