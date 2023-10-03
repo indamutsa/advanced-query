@@ -1,0 +1,57 @@
+# prettier-ignore
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.monstache.name }}
+spec:
+  replicas: {{ .Values.monstache.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.monstache.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.monstache.label }}
+    spec:
+      containers:
+      - name: {{ .Values.monstache.containerName }}
+        image: {{ .Values.monstache.image }}
+        args:
+        {{- range .Values.monstache.args }}
+        - "{{ . }}"
+        {{- end }}
+
+        ports:
+        - containerPort: {{ .Values.monstache.containerPort }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.monstache.livenessProbe.path }}
+            port: {{ .Values.monstache.livenessProbe.port }}
+          initialDelaySeconds: {{ .Values.monstache.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.monstache.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.monstache.livenessProbe.timeoutSeconds }}
+          failureThreshold: {{ .Values.monstache.livenessProbe.failureThreshold }}
+        # resources:
+        #   requests:
+        #     memory: {{ .Values.monstache.resources.requests.memory }}
+        #     cpu: {{ .Values.monstache.resources.requests.cpu | quote}}
+        #   limits:
+        #     memory: {{ .Values.monstache.resources.limits.memory }}
+        #     cpu: {{ .Values.monstache.resources.limits.cpu | quote }}
+      restartPolicy: {{ .Values.monstache.restartPolicy }}
+
+---
+# prettier-ignore
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.monstache.name }}
+spec:
+  selector:
+    app: {{ .Values.monstache.label }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.monstache.servicePort }}
+      targetPort: {{ .Values.monstache.containerPort }}
+  type: {{ .Values.monstache.serviceType }}
+

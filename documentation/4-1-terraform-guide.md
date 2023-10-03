@@ -1,0 +1,106 @@
+## Essential terraform commands
+
+Terraform is a popular Infrastructure as Code (IaC) tool that allows users to define and provide data center infrastructure using a declarative configuration language. The `--yes` flag you mentioned doesn't exist directly in Terraform as of my last training cut-off in September 2021. However, Terraform does have a `-auto-approve` flag which skips the interactive approval of plan executions.
+
+Here are some common Terraform commands:
+
+1. **Initialization**: Sets up the backend and downloads required providers.
+
+```bash
+
+terraform init
+
+```
+
+2. **Validating the Configuration**: Checks if the configuration files in the directory are syntactically valid and internally consistent.
+
+```bash
+
+terraform validate
+
+```
+
+3. **Generating an Execution Plan**: Shows you what will happen when you apply your configuration.
+
+```bash
+
+terraform plan
+
+```
+
+4. **Applying the Configuration**: Applies the changes required to achieve the desired state of the configuration.
+
+```bash
+
+terraform apply
+
+```
+
+If you want to automatically approve the apply without seeing the plan (not recommended for production use):
+
+```bash
+
+terraform apply -auto-approve
+
+```
+
+5. **Destroy**: Destroys all the resources that have been created.
+
+```bash
+
+terraform destroy
+
+```
+
+To automatically approve the destruction:
+
+```bash
+
+terraform destroy -auto-approve
+
+```
+
+6. **Refreshing the State**: Updates the local state file with the current state of the infrastructure.
+
+```bash
+
+terraform refresh
+
+```
+
+7. **Outputting**: Shows the outputs from your configuration.
+
+```bash
+
+terraform output
+
+```
+
+8. **Formatting**: Rewrites Terraform configuration files in the standard format.
+
+```bash
+
+terraform fmt
+
+```
+
+9. **Importing Existing Infrastructure**: Takes already running infrastructure and brings it under Terraform management.
+
+```bash
+
+terraform import [arguments] ADDRESS ID
+
+```
+
+10. **Workspace Management**: Manages workspaces, which allow for multiple distinct sets of infrastructure resources.
+
+```bash
+
+terraform workspace list
+terraform workspace select NAME
+terraform workspace new NAME
+terraform workspace delete NAME
+
+```
+
+Remember, Terraform can be a very powerful tool, and with the `-auto-approve` flag, you can potentially make large changes without confirmation. Always be sure you understand the implications of your commands, especially when working with real-world infrastructure.

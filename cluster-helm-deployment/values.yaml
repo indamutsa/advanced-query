@@ -1,0 +1,327 @@
+# Default values for cluster-helm-deployment.
+# Declare variables to be passed into your templates.
+
+elasticsearch:
+  es-master:
+    replicas: 1
+    image: indamutsa/elasticsearch:v1.0.0
+    name: "es-master"
+    env:
+      master: "true"
+      data: "false"
+      nodes: "es-master,es-worker1,es-worker2"
+      java_opts: "-Xmx256m -Xms256m"
+      es_url: "http://es-master:9200"
+      es_username: "elastic"
+      es_password: "changeme"
+      port_1: 9200
+      port_2: 9300
+    size: 1Gi
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "250m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m" 
+          
+  es-worker1:
+    replicas: 1
+    image: indamutsa/elasticsearch:v1.0.0
+    name: "es-worker1"
+    env:
+      master: "true"
+      data: "true"
+      seed_hosts: "es-master,es-worker1,es-worker2"
+      java_opts: "-Xmx256m -Xms256m"
+      es_url: "http://es-worker1:9200"
+      es_username: "elastic"
+      es_password: "changeme"
+      port_1: 9200
+      port_2: 9300
+    size: 1Gi
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "250m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"    
+
+  es-worker2:
+    replicas: 1
+    image: indamutsa/elasticsearch:v1.0.0
+    name: "es-worker2"
+    env:
+      master: "true"
+      data: "true"
+      seed_hosts: "es-master,es-worker1,es-worker2"
+      ingest: "true"
+      java_opts: "-Xmx256m -Xms256m"
+      es_url: "http://es-worker2:9200"
+      es_username: "elastic"
+      es_password: "changeme"
+      port_1: 9200
+      port_2: 9300
+    size: 1Gi
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "250m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m" 
+
+mongodb:
+  image: indamutsa/mongo:v1.0.0
+  replicas: 1
+  storageSize: 1Gi
+
+  shards:
+    - name: mongors1
+      nodes:
+        - mongors1n1
+        - mongors1n2
+        - mongors1n3
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+      
+    - name: mongors2
+      nodes:
+        - mongors2n1
+        - mongors2n2
+        - mongors2n3
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+
+  configServers:
+    - name: "mongocfg1"
+      replicas: 1
+      image: "indamutsa/mongo:v1.0.0"
+      port: 27017
+      command:
+        - "mongod"
+        - "--configsvr"
+        - "--replSet"
+        - "mongors1conf"
+        - "--dbpath"
+        - "/data/db"
+        - "--port"
+        - "27017"
+        - "--bind_ip_all"
+      env:
+        TERM: "xterm"
+      volumeName: "mongodb-config-data"
+      mountPath: "/data/db"
+      storageSize: "1Gi"
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+
+    - name: "mongocfg2"
+      replicas: 1
+      image: "indamutsa/mongo:v1.0.0"
+      port: 27017
+      command:
+        - "mongod"
+        - "--configsvr"
+        - "--replSet"
+        - "mongors1conf"
+        - "--dbpath"
+        - "/data/db"
+        - "--port"
+        - "27017"
+        - "--bind_ip_all"
+      env:
+        TERM: "xterm"
+      volumeName: "mongodb-config-data"
+      mountPath: "/data/db"
+      storageSize: "1Gi"
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+
+    - name: "mongocfg3"
+      replicas: 1
+      image: "indamutsa/mongo:v1.0.0"
+      port: 27017
+      command:
+        - "mongod"
+        - "--configsvr"
+        - "--replSet"
+        - "mongors1conf"
+        - "--dbpath"
+        - "/data/db"
+        - "--port"
+        - "27017"
+        - "--bind_ip_all"
+      env:
+        TERM: "xterm"
+      volumeName: "mongodb-config-data"
+      mountPath: "/data/db"
+      storageSize: "1Gi"
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+mongos:
+  image: indamutsa/mongo:v1.0.0
+  replicas: 1
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "250m"
+    limits:
+      memory: "128Mi"
+      cpu: "500m"
+  routers:
+    - name: mongos1
+    - name: mongos2
+  configData: |
+    sh.addShard("mongors1/mongors1n1:27017,mongors1n2:27017,mongors1n3:27017");
+    sh.addShard("mongors2/mongors2n1:27017,mongors2n2:27017,mongors2n3:27017");
+    sh.enableSharding("testDb");
+    db.createCollection("kittens");
+    db.kittens.createIndex({ name: "hashed" });
+    sh.shardCollection("testDb.kittens", { name: "hashed" });
+    sh.enableSharding("mdeforge");
+    db.createCollection("artifacts");
+    db.mdeforge.createIndex({ storageUrl: "hashed" });
+    sh.shardCollection("mdeforge.artifacts", { storageUrl: "hashed" });
+
+kibana:
+  name: kibana
+  replicas: 1
+  image: indamutsa/kibana:v1.0.0
+  port: 5601
+  elasticsearchUrl: "http://es-master:9200"
+  resources:
+    requests:
+      memory:  "1Gi"
+      cpu: "750m"
+    limits:
+      memory: "2Gi"
+      cpu: "1.5"
+setupRs:
+  name: setup-rs
+  label: setup-rs
+  image: indamutsa/setup-rs:v1.0.5
+  restartPolicy: OnFailure
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "250m"
+    limits:
+      memory: "128Mi"
+      cpu: "500m"
+
+filebeat:
+  name: filebeat
+  label: filebeat
+  image: indamutsa/filebeat:v1.0.0
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "250m"
+    limits:
+      memory: "128Mi"
+      cpu: "500m"
+persistenceApi:
+  name: persistence-api
+  label: persistence-api
+  image: indamutsa/persistence-api:v1.0.1
+  replicas: 1
+  port: 3200
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "250m"
+    limits:
+      memory: "128Mi"
+      cpu: "500m"
+
+queryEngine:
+  name: query-engine
+  label: query-engine
+  replicas: 1
+  containerName: query-engine
+  image: indamutsa/query-engine:v1.0.2
+  containerPort: 3300
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "250m"
+    limits:
+      memory: "128Mi"
+      cpu: "500m"
+  servicePort: 3300
+  serviceType: ClusterIP
+
+
+frontendSearch:
+  name: frontend-search
+  label: frontend-search
+  replicas: 1
+  containerName: frontend-search
+  image: indamutsa/frontend-search:v1.0.0
+  containerPort: 3500
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "250m"
+    limits:
+      memory: "128Mi"
+      cpu: "500m"
+  servicePort: 3500
+  serviceType: ClusterIP
+
+
+monstache:
+  name: monstache-deployment
+  label: monstache
+  replicas: 1
+  containerName: monstache
+  image: indamutsa/monstache:v1.0.0
+  args:
+    - "-f"
+    - "/app/monstache.config.toml"
+  containerPort: 8080
+  livenessProbe:
+    path: /healthz
+    port: 8080
+    initialDelaySeconds: 1
+    periodSeconds: 1
+    timeoutSeconds: 30
+    failureThreshold: 300
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  restartPolicy: Always
+  servicePort: 8080
+  serviceType: ClusterIP
+

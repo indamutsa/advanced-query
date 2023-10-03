@@ -5,9 +5,28 @@ const index = config.es_index;
 const type = config.es_type;
 
 const esb = require("elastic-builder"); //the builder
-const { generateDroidQueryDsl, mainQueryGenerator, advancedQueryGenerator } = require("../utils");
+const {
+  generateDroidQueryDsl,
+  mainQueryGenerator,
+  advancedQueryGenerator,
+} = require("../utils");
 
 module.exports = {
+  async test() {
+    // GET testdb.kittens/_search
+
+    const requestBody = esb
+      .requestBodySearch() //the builder
+      .query(esb.matchAllQuery());
+
+    const data = await client.search({
+      index: `testdb.kittens`,
+      body: requestBody.toJSON(),
+    });
+
+    return { name: "Hello World", data: data.hits.hits };
+  },
+
   async search(body) {
     const requestBody = mainQueryGenerator(body);
 
@@ -37,14 +56,12 @@ module.exports = {
 
     let index = `mdeforge.dsls,mdeforge.metamodels,mdeforge.models`;
     const requestBody = {
-      "from": idx1,
-      "size": idx2,
-      "query": {
-        "match_all": {
-
-        }
-      }
-    }
+      from: idx1,
+      size: idx2,
+      query: {
+        match_all: {},
+      },
+    };
 
     let data = await client.search({
       index: index,

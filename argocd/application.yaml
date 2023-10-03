@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mdeforge
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: mdeforge
+  source:
+    repoURL: https://github.com/indamutsa/advanced-query.git
+    targetRevision: HEAD
+    path: cluster-helm-deployment
+    helm:
+      valueFiles:
+        - values.yaml
+      version: v3
+      releaseName: mdeforge
+      passCredentials: false
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - Validate=true
+      - CreateNamespace=false
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true

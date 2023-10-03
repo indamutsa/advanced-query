@@ -2,8 +2,9 @@ const Services = require("../service");
 
 module.exports = {
   async test(req, res) {
-    // console.log(req.body);
-    res.json({ hello: "Hello, world! " });
+    const result = await Services.test();
+
+    res.json({ hello: "Hello, world! ", result });
   },
 
   // Here we need to return this data:
@@ -48,11 +49,10 @@ module.exports = {
 
   async getAllData(req, res) {
     try {
-      let params = req.body
+      let params = req.body;
       console.log(params);
 
       let result = await Services.searchAll(params);
-
 
       const data = result.hits.hits.map((response) => {
         let dataRes = JSON.parse(JSON.stringify(response._source));

@@ -19,7 +19,7 @@ const esconfig = require("./config/esConfig");
 const client = esconfig.esClient;
 const router = require("./router");
 
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use("/", router);

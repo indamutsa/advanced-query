@@ -3,7 +3,7 @@ const controller = require("../controller");
 const router = express.Router();
 
 router.route("/droid").post(controller.getArtifactsDroid);
-router.route("/test").post(controller.test);
+router.route("/test").get(controller.test);
 
 router.route("/search-all").post(controller.getAllData);
 

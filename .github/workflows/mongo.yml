@@ -1,0 +1,52 @@
+# Build, Test, and Push Docker Images | Running in parallel
+name: Continuous Integration | MONGO CLUSTER | MDEForge-Search
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  SKIP_CI: "true"
+
+jobs:
+  check-skip:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.set-skip.outputs.skip }}
+    steps:
+      - name: Check if CI should be skipped
+        id: set-skip
+        run: echo "::set-output name=skip::${{ env.SKIP_CI }}"
+
+  build-and-test-mongo-cluster:
+    needs: check-skip
+    runs-on: ubuntu-latest
+    if: ${{ needs.check-skip.outputs.skip != 'true' }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build images | Tag Images
+        run: |
+          IMAGE_TAG=${{ github.sha }}
+          IMAGE_TAG=$(echo ${IMAGE_TAG} | cut -c 1-8)
+          docker build ./mongo-bundle/monstache --tag indamutsa/monstache:$IMAGE_TAG
+          docker build ./mongo-bundle/sharded --tag indamutsa/mongo:$IMAGE_TAG
+          docker build ./setup --tag indamutsa/setup:$IMAGE_TAG
+
+      - name: Log into Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Push images
+        run: |
+          IMAGE_TAG=${{ github.sha }}
+          IMAGE_TAG=$(echo ${IMAGE_TAG} | cut -c 1-8)
+          docker push indamutsa/mongo:$IMAGE_TAG
+          docker push indamutsa/setup:$IMAGE_TAG
+          docker push indamutsa/monstache:$IMAGE_TAG

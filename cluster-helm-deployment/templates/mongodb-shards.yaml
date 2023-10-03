@@ -1,0 +1,75 @@
+# prettier-ignore
+{{- range $shard := .Values.mongodb.shards }}
+{{- range $node := $shard.nodes }}
+
+# Service for {{ $node }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $node }}
+  labels:
+    app: {{ $node }}
+spec:
+  ports:
+  - port: 27017
+    targetPort: 27017
+  selector:
+    app: {{ $node }}
+---
+
+# StatefulSet for {{ $node }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ $node }}
+spec:
+  serviceName: {{ $node | quote }}
+  replicas: {{ $.Values.mongodb.replicas }}
+  selector:
+    matchLabels:
+      app: {{ $node }}
+  template:
+    metadata:
+      labels:
+        app: {{ $node }}
+    spec:
+      containers:
+      - name: {{ $node }}
+        image: {{ $.Values.mongodb.image }}
+        command:
+        - mongod
+        - --shardsvr
+        - --replSet
+        - {{ $shard.name }}
+        - --dbpath
+        - /data/db
+        - --port
+        - "27017"
+        - --bind_ip_all
+        ports:
+        - containerPort: 27017
+        env:
+        - name: TERM
+          value: xterm
+        volumeMounts:
+        - name: mongodb-data
+          mountPath: /data/db
+        # resources:
+        #   requests:
+        #     memory: {{ $shard.resources.requests.memory }}
+        #     cpu: {{ $shard.resources.requests.cpu | quote }}
+        #   limits:
+        #     memory: {{ $shard.resources.limits.memory }}
+        #     cpu: {{ $shard.resources.limits.cpu | quote }}
+  volumeClaimTemplates:
+  - metadata:
+      name: mongodb-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{ $.Values.mongodb.storageSize | quote }}
+---
+{{- end }}
+{{- end }}
+

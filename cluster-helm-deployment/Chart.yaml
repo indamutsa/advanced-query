@@ -1,0 +1,29 @@
+apiVersion: v2
+name: cluster-helm-deployment
+description: A Helm chart for Kubernetes MDEForge-Search cluster deployment
+
+# A chart can be either an 'application' or a 'library' chart.
+#
+# Application charts are a collection of templates that can be packaged into versioned archives to be deployed.
+
+type: application
+
+# This is the chart version. Or Cluster deployment version as changes are made to the cluster
+version: 1.0.0
+
+# The version of the application that this contains. Changing the deployment version will not change the application version.
+appVersion: "1.0.0"
+
+keywords:
+  - search
+  - scalability
+  - elasticsearch
+  - mongodb
+  - extensible
+home: https://github.com/indamutsa/advanced-query.git
+sources:
+  - https://github.com/indamutsa/advanced-query.git
+maintainers:
+  - name: Arsene Indamutsa
+    email: aindamut@gmail.com
+icon: https://avatars.githubusercontent.com/u/32111854?v=4

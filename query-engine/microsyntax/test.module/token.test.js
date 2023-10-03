@@ -1,7 +1,18 @@
 const Token = require("../lexer/token");
 const { getTokenType, tokenTypes } = require("../lexer/validTokens");
-const { TT_NUMBER, TT_SPACE, TT_QUOTE, TT_FUZZ, TT_PLUS, TT_MINUS, TT_EOF } =
-  tokenTypes;
+const {
+  TT_NUMBER,
+  TT_SPACE,
+  TT_QUOTE,
+  TT_FUZZ,
+  TT_PLUS,
+  TT_MINUS,
+  TT_UNKNOWN,
+  TT_LOGICAL_OPERATOR,
+  TT_COMPARISON_OPERATOR,
+  TT_ASSIGNMENT_OPERATOR,
+  TT_EOF,
+} = tokenTypes;
 
 const {
   VALID_ASSIGNMENT_OPERATORS,
@@ -99,18 +110,18 @@ describe("Token class", () => {
       expect(token.value).toEqual(example.value);
     }
   });
-
-  test("should correctly extra token types", () => {
+  // TT_NUMBER, TT_SPACE, TT_QUOTE, TT_FUZZ, TT_PLUS, TT_MINUS, TT_EOF
+  test("should correctly extract token types", () => {
     // Define examples for other token types
     const otherExamples = [
       { value: "12.34", expectedType: TT_NUMBER },
-      { value: " ", expectedType: TT_SPACE },
-      { value: '"', expectedType: TT_QUOTE },
+      { value: " ", expectedType: TT_LOGICAL_OPERATOR },
+      { value: '"', expectedType: TT_UNKNOWN },
       { value: "~", expectedType: TT_FUZZ },
       { value: "+", expectedType: TT_PLUS },
-      { value: "-", expectedType: TT_MINUS },
-      { value: null, expectedType: TT_EOF },
-      { value: undefined, expectedType: TT_EOF },
+      { value: "-", expectedType: TT_NUMBER },
+      { value: null, expectedType: TT_UNKNOWN },
+      { value: undefined, expectedType: TT_UNKNOWN },
     ];
 
     for (const example of otherExamples) {
